@@ -1,0 +1,55 @@
+﻿<Window x:Class="MetocraftWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MetocraftWpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/windows_10.jpg" Stretch="UniformToFill"/>
+    </Window.Background>
+    <Grid>
+        <Grid x:Name="girdMain" Margin="0" HorizontalAlignment="Left" Width="792">
+            <WrapPanel HorizontalAlignment="Center" Height="469" VerticalAlignment="Center" Width="792">
+                <WrapPanel x:Name="group1" Height="350" Width="300" Margin="48,50,48,0">
+                    <Grid Height="50" Width="300">
+                        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Foreground="White"/>
+                    </Grid>
+                    <Button x:Name="butPlay" Content="Play" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="0,0,3,3" Template="{DynamicResource ButtonControlTemplate}" Click="butPlay_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/WMP.png" Stretch="UniformToFill"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="butNews" Content="News" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="3,0,3,3" Template="{DynamicResource ButtonControlTemplate}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/Tumblr.png" Stretch="UniformToFill"/>
+                        </Button.Background>
+                    </Button>
+                </WrapPanel>
+                <WrapPanel x:Name="group2" Height="350" Width="300" Margin="48,50,48,0">
+                    <Grid Height="50" Width="300">
+                        <Label x:Name="label1" Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="280" Foreground="White"/>
+                    </Grid>
+                    <Button x:Name="butDLLib" Content="Download" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="0,0,3,3" Template="{DynamicResource ButtonControlTemplate}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/DLLib.png" Stretch="UniformToFill"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="butConfig" Content="Settings" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="3,0,3,3" Template="{DynamicResource ButtonControlTemplate}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/Configure.png" Stretch="UniformToFill"/>
+                        </Button.Background>
+                    </Button>
+                </WrapPanel>
+            </WrapPanel>
+        </Grid>
+        <Grid x:Name="girdMenu" HorizontalAlignment="Left" Width="150" Margin="-150,0,0,0">
+            <Grid.Background>
+                <SolidColorBrush Color="#FF8AA4FF" Opacity="0.5"/>
+            </Grid.Background>
+        </Grid>
+        <Button x:Name="butMenu" Content="≡" HorizontalAlignment="Left" Margin="0
+                ,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" FontSize="18.667" Click="butMenu_Click"/>
+    </Grid>
+</Window>
