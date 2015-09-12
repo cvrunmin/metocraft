@@ -1,0 +1,24 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MetoSet"
+        x:Class="MetoSet.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="800" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350">
+    <Grid>
+        <Grid x:Name="gridBar" Height="50" VerticalAlignment="Top" d:LayoutOverrides="Height, TopMargin, BottomMargin">
+            <Button x:Name="butHP" Content="" HorizontalAlignment="Left" Width="50" VerticalAlignment="Top" Height="50" d:LayoutOverrides="Height" BorderBrush="White" Background="White" Click="butHP_Click"/>
+            <Label x:Name="lblTitle" Content="Metocraft" Margin="55,11.5,0,11.5" FontSize="13.333" HorizontalAlignment="Left"/>
+        </Grid>
+        <Grid x:Name="gridMain" Height="Auto" Margin="0,50,0,0" VerticalAlignment="Stretch" Width="Auto">
+            <WrapPanel Margin="96,0">
+                <local:ButtonMenu x:Name="butPlay"  MenuImage="Resources/ImagePlay.png"  Content="Play"     Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" Click="butPlay_Click"/>
+                <local:ButtonMenu x:Name="butConfig"                                     Content="Settings" Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333"/>
+                <local:ButtonMenu x:Name="butAbout" MenuImage="Resources/ImageAbout.png" Content="About"    Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" Click="butAbout_Click"/>
+            </WrapPanel>
+            <local:About x:Name="gridAbout" VerticalAlignment="Top" Height="0"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,22 @@
+﻿<Grid x:Class="MetoSet.About"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MetoSet"
+             mc:Ignorable="d" 
+             d:DesignHeight="719" d:DesignWidth="792" Loaded="PGrid_Loaded">
+    <Grid>
+        <Grid Background="Black" HorizontalAlignment="Left" Width="200"/>
+        <Grid Margin="200,0,0,0" Background="White">
+            <Label x:Name="lblCOM" Content="Computer" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" FontSize="16"/>
+            <Label x:Name="lblCVer" Content="Verison" HorizontalAlignment="Left" Margin="30,60,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblCVer1" Content="Label" HorizontalAlignment="Left" Margin="100,60,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblBit" Content="System Type" HorizontalAlignment="Left" Margin="30,90,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblBit1" Content="Label" HorizontalAlignment="Left" Margin="128,90,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblJava" Content="Installed Java" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblJava1" Content="Label" HorizontalAlignment="Left" Margin="132,120,0,0" VerticalAlignment="Top"/>
+        </Grid>
+
+    </Grid>
+</Grid>

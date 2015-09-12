@@ -4,12 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetocraftWpf.PlayWin"
+        xmlns:tab="clr-namespace:MetocraftWpf.PlayWin"
         mc:Ignorable="d"
         Title="PlayWin" Height="500" Width="800">
     <Grid>
-        <Grid HorizontalAlignment="Left" Height="469" VerticalAlignment="Top" Width="200">
-            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" BorderBrush="{x:Null}" BorderThickness="0" Height="50" HorizontalContentAlignment="Left" Padding="10,1,1,1" FontSize="16"/>
+        <Grid HorizontalAlignment="Left" Height="469" VerticalAlignment="Top" Width="200" Background="#FFF0F0F0">
         </Grid>
+        <TabControl x:Name="tabControl" Height="469" VerticalAlignment="Top" TabStripPlacement="Left" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,0,0,0">
+            <TabItem Header="Environment" Width="200" Height="40" Margin="0" Padding="0" Background="#FFF0F0F0" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Style="{DynamicResource TabItemStyle1}">
+                <!--tab:Envir x:Name="Envir"/-->
+            </TabItem>
+            <TabItem Header="Version" Height="40" Margin="0" Background="#FFF0F0F0" BorderBrush="{x:Null}" Style="{DynamicResource TabItemStyle1}">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Play" HorizontalAlignment="Left" Height="40" Background="#FFF0F0F0" VerticalAlignment="Top" Width="200" Margin="0" Padding="0" BorderBrush="{x:Null}" Style="{DynamicResource TabItemStyle1}">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>

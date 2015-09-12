@@ -57,7 +57,8 @@ namespace MetocraftWpf
 
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
-            new PlayWin.PlayWin().Show();
+            PlayWin.PlayWin win = new PlayWin.PlayWin();
+            ((Window)win).Show();
         }
     }
 }
