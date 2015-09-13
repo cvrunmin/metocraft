@@ -18,7 +18,7 @@ namespace MetoSet
 //        static readonly FrmLog frmLog = new FrmLog();
         static public void start()
         {
-            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\bmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\metocraft.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
             fs.Close();
             if (debug)
             {
@@ -38,19 +38,19 @@ namespace MetoSet
             switch (type)
             {
                 case LogType.Error:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "ERROR:");
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[ERROR]");
                 case LogType.Info:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "INFO:");
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[INFO]");
                 case LogType.Crash:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "CRASH:");
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[CRASH]");
                 case LogType.Exception:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "WARN:");
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[WARN]");
                 case LogType.Game:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "GAME:");
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[GAME]");
                 case LogType.Fml:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "FML :");
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[FML]");
                 default:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "INFO:");
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[INFO]");
             }
         }
         static private void write(string str, LogType type = LogType.Info)

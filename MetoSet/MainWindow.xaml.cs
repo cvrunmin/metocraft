@@ -21,7 +21,10 @@ namespace MetoSet
     {
         public MainWindow()
         {
+            MeCore.NIcon.MainWindow = this;
+            MeCore.MainWindow = this;
             InitializeComponent();
+            this.Title = "Metocraft Va1 Ver." + MeCore.version;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -31,7 +34,8 @@ namespace MetoSet
 
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
-            butPlay.IsCancel = false;
+            gridPlay.Height = gridMain.ActualHeight;
+            butHP.IsEnabled = true;
         }
 
         private void butAbout_Click(object sender, RoutedEventArgs e)
@@ -42,8 +46,28 @@ namespace MetoSet
 
         private void butHP_Click(object sender, RoutedEventArgs e)
         {
+            gridPlay.Height = 0;
+            gridSettings.Height = 0;
             gridAbout.Height = 0;
             butHP.IsEnabled = false;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MeCore.NIcon.Hide();
+        }
+
+        private void butConfig_Click(object sender, RoutedEventArgs e)
+        {
+            gridSettings.Height = gridMain.ActualHeight;
+            butHP.IsEnabled = true;
+        }
+        public void ChangeLanguage()
+        {
+//            GridConfig.listDownSource.Items[1] = LangManager.GetLangFromResource("listOfficalSource");
+//            GridConfig.listDownSource.Items[0] = LangManager.GetLangFromResource("listAuthorSource");
+//            BmclCore.LoadPlugin(LangManager.GetLangFromResource("LangName"));
+            gridAbout.loadOSData();
         }
     }
 }

@@ -28,9 +28,7 @@ namespace MetoSet
 
         private void PGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            lblCVer1.Content = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
-            lblBit1.Content = (Environment.Is64BitOperatingSystem ? "64-bit Operating System" : "32-bit Operating System") + "," + (Environment.Is64BitProcess ? "64-bit Processor" : "32-bit Processor");
-            lblJava1.Content = (Directory.Exists(@"C:\Program Files\Java") && Directory.GetDirectories(@"C:\Program Files\Java") != null ? (Environment.Is64BitOperatingSystem ? "x64": "x86"):"") + (Directory.Exists(@"C:\Program Files (x86)\Java") && Directory.GetDirectories(@"C:\Program Files\Java") != null ? " & x86" : "");
+            loadOSData();
         }
         public string HKLM_GetString(string path, string key)
         {
@@ -41,6 +39,17 @@ namespace MetoSet
                 return (string)rk.GetValue(key);
             }
             catch { return ""; }
+        }
+        public void loadOSData() {
+            string oss = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
+            int ins = 0;
+            if ((ins = oss.IndexOf("Pro")) != -1)
+            {
+                oss = oss.Substring(0, oss.Length - ins) + Lang.LangManager.GetLangFromResource("Pro");
+            }
+            lblCVer1.Content = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
+            lblBit1.Content = (Environment.Is64BitOperatingSystem ? Lang.LangManager.GetLangFromResource("COMx64") : Lang.LangManager.GetLangFromResource("COMx86")) + "," + (Environment.Is64BitProcess ? Lang.LangManager.GetLangFromResource("PCSx64") : Lang.LangManager.GetLangFromResource("PCSx86"));
+            lblJava1.Content = (Directory.Exists(@"C:\Program Files\Java") && Directory.GetDirectories(@"C:\Program Files\Java") != null ? (Environment.Is64BitOperatingSystem ? "x64" : "x86") : "") + (Directory.Exists(@"C:\Program Files (x86)\Java") && Directory.GetDirectories(@"C:\Program Files\Java") != null ? " & x86" : "");
         }
     }
 }

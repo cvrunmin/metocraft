@@ -4,4 +4,17 @@
 
     <s:String x:Key="DisplayName">English</s:String>
     <s:String x:Key="LangName">en</s:String>
+    <s:String x:Key="Play">Play</s:String>
+    <s:String x:Key="Setting">Settings</s:String>
+    <s:String x:Key="About">About</s:String>
+    <s:String x:Key="COM">Computer</s:String>
+    <s:String x:Key="COMVer">OS Version</s:String>
+    <s:String x:Key="COMType">System Type</s:String>
+    <s:String x:Key="COMJava">Installed Java</s:String>
+    
+    <s:String x:Key="Pro">Pro</s:String>
+    <s:String x:Key="COMx64">64-bit Operaing System</s:String>
+    <s:String x:Key="COMx86">32-bit Operaing System</s:String>
+    <s:String x:Key="PCSx64">64-bit Processor</s:String>
+    <s:String x:Key="PCSx86">32-bit Processor</s:String>
 </ResourceDictionary>

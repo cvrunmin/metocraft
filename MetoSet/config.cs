@@ -51,7 +51,7 @@ namespace MetoSet
             WindowTransparency = 1;
             Report = true;
             DownloadSource = 0;
-            Lang = "zh-cn";
+            Lang = "en";
             CheckUpdate = true;
             PluginConfig = null;
             GUID = GetGuid();

@@ -9,12 +9,12 @@
     <Grid>
         <Grid Background="Black" HorizontalAlignment="Left" Width="200"/>
         <Grid Margin="200,0,0,0" Background="White">
-            <Label x:Name="lblCOM" Content="Computer" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <Label x:Name="lblCVer" Content="Verison" HorizontalAlignment="Left" Margin="30,60,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblCOM" Content="{DynamicResource COM}" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" FontSize="16"/>
+            <Label x:Name="lblCVer" Content="{DynamicResource COMVer}" HorizontalAlignment="Left" Margin="30,60,0,0" VerticalAlignment="Top"/>
             <Label x:Name="lblCVer1" Content="Label" HorizontalAlignment="Left" Margin="100,60,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblBit" Content="System Type" HorizontalAlignment="Left" Margin="30,90,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblBit" Content="{DynamicResource COMType}" HorizontalAlignment="Left" Margin="30,90,0,0" VerticalAlignment="Top"/>
             <Label x:Name="lblBit1" Content="Label" HorizontalAlignment="Left" Margin="128,90,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblJava" Content="Installed Java" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblJava" Content="{DynamicResource COMJava}" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top"/>
             <Label x:Name="lblJava1" Content="Label" HorizontalAlignment="Left" Margin="132,120,0,0" VerticalAlignment="Top"/>
         </Grid>
 

@@ -9,7 +9,7 @@ namespace MetoSet.Lang
     {
         private static readonly Dictionary<string, LangType> Languages = new Dictionary<string, LangType>();
         private static readonly Dictionary<string, string> DisplayToName = new Dictionary<string, string>(); 
-        static private readonly ResourceDictionary DefaultLanguage = LoadLangFromResource("pack://application:,,,/Lang/zh-cn.xaml");
+        static private readonly ResourceDictionary DefaultLanguage = LoadLangFromResource("pack://application:,,,/Lang/en.xaml");
         static public void Add(string languageName,string languageUrl)
         {
             if (Languages.ContainsKey(languageName))

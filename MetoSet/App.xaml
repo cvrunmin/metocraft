@@ -4,13 +4,7 @@
              xmlns:local="clr-namespace:MetoSet"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="WindowStyle.xaml"/>
-                <ResourceDictionary Source="ButtonStyle.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Lang\en.xaml">
         </ResourceDictionary>
-
     </Application.Resources>
-</Application>
+</Application>		 

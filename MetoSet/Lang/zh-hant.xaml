@@ -4,4 +4,17 @@
 
     <s:String x:Key="DisplayName">繁體中文</s:String>
     <s:String x:Key="LangName">zh-hant</s:String>
+    <s:String x:Key="Play">遊玩</s:String>
+    <s:String x:Key="Setting">設定</s:String>
+    <s:String x:Key="About">關於</s:String>
+    <s:String x:Key="COM">電腦</s:String>
+    <s:String x:Key="COMVer">版本</s:String>
+    <s:String x:Key="COMType">系統類型</s:String>
+    <s:String x:Key="COMJava">安裝的Java</s:String>
+
+    <s:String x:Key="Pro">專業版</s:String>
+    <s:String x:Key="COMx64">64位元作業系統</s:String>
+    <s:String x:Key="COMx32">32位元作業系統</s:String>
+    <s:String x:Key="PCSx64">x64型處理器</s:String>
+    <s:String x:Key="PCSx32">x32型處理器</s:String>
 </ResourceDictionary>

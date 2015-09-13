@@ -1,0 +1,21 @@
+﻿<Grid x:Class="MetoSet.Play.PlayEnvir"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MetoSet.Play"
+             mc:Ignorable="d" 
+             d:DesignHeight="719" d:DesignWidth="592" Background="White">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MetoSet;component/ControlStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Label x:Name="lblTitleE" Content="Environment" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
+    <Label x:Name="label" Content="Max Memory" HorizontalAlignment="Left" Margin="30,55,0,0" VerticalAlignment="Top"/>
+    <Slider x:Name="slider" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top" Width="400" Foreground="Black" Style="{DynamicResource SliderStyle}" Value="5"/>
+    <TextBox x:Name="textBox" HorizontalAlignment="Right" Margin="0,80,97,0" TextWrapping="Wrap" Text="1024" VerticalAlignment="Top" Width="60" Height="18" BorderThickness="2"/>
+
+</Grid>
