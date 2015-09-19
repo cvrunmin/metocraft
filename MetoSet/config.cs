@@ -15,19 +15,15 @@ namespace MetoSet
         [DataMember]
         public string Javaw;
         [DataMember]
-        public string Username;
+        public string MCPath;
         [DataMember]
         public string Javaxmx;
-        [DataMember]
-        public string Login;
         [DataMember]
         public string LastPlayVer;
         [DataMember]
         public string ExtraJvmArg;
         [DataMember]
         public string Lang;
-        [DataMember]
-        public byte[] Passwd;
         [DataMember]
         public bool Autostart, Report,CheckUpdate;
         [DataMember]
@@ -42,10 +38,8 @@ namespace MetoSet
         public Config()
         {
             Javaw = GetJavaDir() ?? "javaw.exe";
-            Username = "!!!";
+            MCPath = MeCore.BaseDirectory + ".minecraft";
             Javaxmx = (GetMemory() / 4).ToString(CultureInfo.InvariantCulture);
-            Passwd = new byte[0];
-            Login = "啥都没有";
             Autostart = false;
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
             WindowTransparency = 1;

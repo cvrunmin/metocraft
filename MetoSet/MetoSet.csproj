@@ -38,6 +38,11 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KMCCC.Pro">
+      <HintPath>..\KMCCC.Pro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Controls, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -63,7 +68,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ACLogin.xaml.cs">
+      <DependentUpon>ACLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DL\DLLib.xaml.cs">
+      <DependentUpon>DLLib.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorReport.xaml.cs">
+      <DependentUpon>ErrorReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Play\PlayPlay.xaml.cs">
+      <DependentUpon>PlayPlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Url.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Url.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Versions\RawVersionListType.cs" />
+    <Compile Include="Versions\RemoteVerType.cs" />
+    <Compile Include="Versions\VersionHelper.cs" />
+    <Page Include="ACLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DL\DLLib.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DL\DLMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DL\DLMC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ErrorReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -74,6 +119,14 @@
     <Page Include="Play\PlayMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Play\PlayPlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Play\PlayVer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -107,11 +160,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="DL\DLMain.xaml.cs">
+      <DependentUpon>DLMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DL\DLMC.xaml.cs">
+      <DependentUpon>DLMC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Play\PlayEnvir.xaml.cs">
       <DependentUpon>PlayEnvir.xaml</DependentUpon>
     </Compile>
     <Compile Include="Play\PlayMain.xaml.cs">
       <DependentUpon>PlayMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Play\PlayVer.xaml.cs">
+      <DependentUpon>PlayVer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -169,6 +231,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="Resources\Url.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Url.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ImagePlay.png" />
@@ -181,6 +247,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ImageSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ImageDL.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

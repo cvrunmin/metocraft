@@ -1,0 +1,31 @@
+﻿<Grid x:Class="MetoSet.DL.DLMC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MetoSet.DL"
+             mc:Ignorable="d" 
+             d:DesignHeight="719" d:DesignWidth="592" Background="White">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MetoSet;component/ControlStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Label x:Name="lblTitle" Content="Vanilla Client" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" FontSize="16"/>
+    <ListView x:Name="listRemoteVer" HorizontalAlignment="Left" Height="394" VerticalAlignment="Top" Width="572" Background="#A0FFFFFF" ItemsSource="{Binding}" SelectionMode="Single" Margin="10,55,0,0" ItemsPanel="{DynamicResource ItemsPanelTemplate1}">
+        <ListView.View>
+            <GridView AllowsColumnReorder="True">
+                <GridViewColumn DisplayMemberBinding="{Binding Ver}" Header="Version" Width="80"/>
+                <GridViewColumn DisplayMemberBinding="{Binding RelTime}" Header="Release Time" Width="250"/>
+                <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="Type" Width="70"/>
+            </GridView>
+        </ListView.View>
+    </ListView>
+    <Button x:Name="butRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="10,454,0,0" VerticalAlignment="Top" Width="75" Click="butRefresh_Click"/>
+    <Button x:Name="butDL" Content="Download" HorizontalAlignment="Left" Margin="90,454,0,0" VerticalAlignment="Top" Width="75" Click="butDL_Click"/>
+    <ProgressBar x:Name="prsDown" HorizontalAlignment="Left" Height="20" Margin="10,478,0,0" VerticalAlignment="Top" Width="200" Background="White" Foreground="#FF0625B0"/>
+    <Label x:Name="labDownInfo" Content="" HorizontalAlignment="Left" Margin="215,478,0,0" VerticalAlignment="Top" Height="20" Padding="2"/>
+
+</Grid>

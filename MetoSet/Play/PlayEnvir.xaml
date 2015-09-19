@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MetoSet.Play"
              mc:Ignorable="d" 
-             d:DesignHeight="719" d:DesignWidth="592" Background="White">
+             d:DesignHeight="719" d:DesignWidth="592" Background="White" Loaded="Window_Loaded">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,8 +14,15 @@
         </ResourceDictionary>
     </Grid.Resources>
     <Label x:Name="lblTitleE" Content="Environment" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
-    <Label x:Name="label" Content="Max Memory" HorizontalAlignment="Left" Margin="30,55,0,0" VerticalAlignment="Top"/>
-    <Slider x:Name="slider" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top" Width="400" Foreground="Black" Style="{DynamicResource SliderStyle}" Value="5"/>
-    <TextBox x:Name="textBox" HorizontalAlignment="Right" Margin="0,80,97,0" TextWrapping="Wrap" Text="1024" VerticalAlignment="Top" Width="60" Height="18" BorderThickness="2"/>
+    <Label x:Name="lblMM" Content="Max Memory" HorizontalAlignment="Left" Margin="30,55,0,0" VerticalAlignment="Top"/>
+    <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top" Width="400" Foreground="Black" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True"/>
+    <Label x:Name="lblMP" Content="Minecraft Path" HorizontalAlignment="Left" Margin="30,103,0,0" VerticalAlignment="Top"/>
+    <TextBox x:Name="txtBoxP" HorizontalAlignment="Left" Height="23" Margin="30,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400"/>
+    <Button x:Name="butBrowse" Content="Browse" HorizontalAlignment="Left" Margin="435,128,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butBrowse_Click"/>
+    <Label x:Name="lblUJava" Content="Using Java" HorizontalAlignment="Left" Margin="30,156,0,0" VerticalAlignment="Top"/>
+    <ComboBox x:Name="comboJava" HorizontalAlignment="Left" Margin="30,181,0,0" VerticalAlignment="Top" Width="250" BorderThickness="2" Template="{DynamicResource ComboBoxControlTemplate1}"/>
+    <Button x:Name="butSave" Content="Save" HorizontalAlignment="Left" Margin="30,266,0,0" VerticalAlignment="Top" Width="75" Click="butSave_Click"/>
+    <Label x:Name="lblArg" Content="Extra Jvm Argument" HorizontalAlignment="Left" Margin="30,213,0,0" VerticalAlignment="Top"/>
+    <TextBox x:Name="txtBoxArg" HorizontalAlignment="Left" Height="23" Margin="30,238,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="397"/>
 
 </Grid>

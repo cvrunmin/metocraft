@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using KMCCC.Launcher;
 
 namespace MetoSet
 {
@@ -19,6 +20,7 @@ namespace MetoSet
     public partial class App : Application
     {
         private static FileStream _appLock;
+        [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
             if (e.Args.Length == 0)   // 判断debug模式
@@ -74,8 +76,8 @@ namespace MetoSet
         void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             e.SetObserved();
-//            var crash = new CrashHandle(e.Exception);
-//            crash.Show();
+            var crash = new ErrorReport(e.Exception);
+            crash.Show();
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -83,8 +85,8 @@ namespace MetoSet
         private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-//            var crash = new CrashHandle(e.Exception);
-//            crash.Show();
+            var crash = new ErrorReport(e.Exception);
+            crash.Show();
         }
         protected override void OnExit(ExitEventArgs e)
         {

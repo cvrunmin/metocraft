@@ -20,6 +20,10 @@ namespace MetoSet
         public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
+        public static string UrlDownloadBase = MetoSet.Resources.Url.URL_DOWNLOAD_BASE;
+        public static string UrlResourceBase = MetoSet.Resources.Url.URL_RESOURCE_BASE;
+        public static string UrlLibrariesBase = MetoSet.Resources.Url.URL_LIBRARIES_BASE;
+
         static MeCore()
         {
             version = Application.ResourceAssembly.FullName.Split('=')[1];
@@ -28,10 +32,6 @@ namespace MetoSet
             if (File.Exists(Cfgfile))
             {
                 Config = Config.Load(Cfgfile);
-                if (Config.Passwd == null)
-                {
-                    Config.Passwd = new byte[0];   //V2的密码存储兼容
-                }
                 Logger.log(String.Format("加载{0}文件", Cfgfile));
                 Logger.log(Config);
                 LoadLanguage();

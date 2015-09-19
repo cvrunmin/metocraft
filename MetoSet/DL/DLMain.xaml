@@ -1,0 +1,28 @@
+﻿<Grid x:Class="MetoSet.DL.DLMain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MetoSet.DL"
+             mc:Ignorable="d" 
+             d:DesignHeight="719" d:DesignWidth="792">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MetoSet;component/ControlStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Grid Width="200" HorizontalAlignment="Left" Background="Gray"/>
+    <TabControl x:Name="tabControl" TabStripPlacement="Left" BorderThickness="0" Background="White" BorderBrush="White" Margin="-2,-2,0,0">
+        <TabItem Header="Vanilla" Background="Gray" BorderBrush="Gray" Width="200" Height="50" Foreground="White" Style="{DynamicResource TabItemStyle}">
+            <local:DLMC x:Name="gridMC"/>
+        </TabItem>
+        <TabItem Header="Forge" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
+
+        </TabItem>
+        <TabItem Header="Library" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
+            <local:DLLib x:Name="gridLib"/>
+        </TabItem>
+    </TabControl>
+</Grid>

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MetoSet.Lang;
+using MetoSet.Resources;
 
 namespace MetoSet
 {
@@ -30,7 +31,9 @@ namespace MetoSet
 
         private void PGrid_Loaded(object sender, RoutedEventArgs e)
         {
-
+            RefreshLangList();
+            if (comboDLSrc.SelectedIndex == -1) { comboDLSrc.SelectedIndex = 0; }
+            comboDLSrc.SelectedIndex = MeCore.Config.DownloadSource;
         }
         public string HKLM_GetString(string path, string key)
         {
@@ -62,6 +65,25 @@ namespace MetoSet
                 listLang.Items.Add(lang);
             }
             listLang.SelectedItem = LangManager.GetLangFromResource("LangName");
+        }
+
+        private void comboDLSrc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (comboDLSrc.SelectedIndex)
+            {
+                case 0:
+                    MeCore.UrlDownloadBase = Url.URL_DOWNLOAD_BASE;
+                    MeCore.UrlResourceBase = Url.URL_RESOURCE_BASE;
+                    MeCore.UrlLibrariesBase = Url.URL_LIBRARIES_BASE;
+                    break;
+                case 1:
+                    MeCore.UrlDownloadBase = Url.URL_DOWNLOAD_bangbang93;
+                    MeCore.UrlResourceBase = Url.URL_RESOURCE_bangbang93;
+                    MeCore.UrlLibrariesBase = Url.URL_LIBRARIES_bangbang93;
+                    break;
+                default:
+                    goto case 0;
+            }
         }
     }
 }

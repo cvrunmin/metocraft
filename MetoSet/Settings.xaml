@@ -1,18 +1,32 @@
-﻿<Grid x:Class="MetoSet.Settings"
+﻿<Grid
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MetoSet"
+             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MetoSet.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="719" d:DesignWidth="792" Loaded="PGrid_Loaded">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MetoSet;component/ControlStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+
     <Grid>
         <Grid Background="Black" HorizontalAlignment="Left" Width="200"/>
         <Grid Margin="200,0,0,0" Background="White">
             <Label x:Name="lblLangTitle" Content="Language" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label x:Name="lblOLang" Content="Override for Display Language" HorizontalAlignment="Left" Margin="30,60,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblOLangDesc" Content="If you want to use a display language that's different than the one determined by the &#13;setting of OS override language, choose it here" Margin="50,85,30,0" VerticalAlignment="Top" Height="42" TextOptions.TextHintingMode="Fixed"/>
-            <ComboBox x:Name="listLang" HorizontalAlignment="Left" Margin="50,127,0,0" VerticalAlignment="Top" Width="250" Background="White" BorderBrush="Black" SelectionChanged="listLang_SelectionChanged"/>
+            <Label x:Name="lblOLangDesc" Content="If you want to use a display language that's different than the one determined by the &#xA;setting of OS override language, choose it here" Margin="50,85,30,0" VerticalAlignment="Top" Height="42" TextOptions.TextHintingMode="Fixed"/>
+            <ComboBox x:Name="listLang" HorizontalAlignment="Left" Margin="50,127,0,0" VerticalAlignment="Top" Width="300" Background="White" BorderBrush="Black" SelectionChanged="listLang_SelectionChanged" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemContainerStyle="{DynamicResource ComboBoxItemStyle1}" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25.488" BorderThickness="2"/>
+            <Label x:Name="lblDLUrl" Content="Download Source" HorizontalAlignment="Left" Margin="30,157,0,0" VerticalAlignment="Top"/>
+            <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="50,182,0,0" VerticalAlignment="Top" Width="300" Template="{DynamicResource ComboBoxControlTemplate1}" SelectionChanged="comboDLSrc_SelectionChanged">
+                <ComboBoxItem Content="Offical"/>
+                <ComboBoxItem Content="BMCLAPI"/>
+            </ComboBox>
         </Grid>
 
     </Grid>

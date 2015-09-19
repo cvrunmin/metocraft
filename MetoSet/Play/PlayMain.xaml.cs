@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KMCCC.Launcher;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,19 @@ namespace MetoSet.Play
     /// </summary>
     public partial class PlayMain : Grid
     {
+        public static LauncherCore launcher;
         public PlayMain()
         {
             InitializeComponent();
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var javas = KMCCC.Tools.SystemTools.FindJava().ToList();
+            foreach (var java in javas)
+            {
+                gridEn.comboJava.Items.Add(java);
+            }
         }
     }
 }

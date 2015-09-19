@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MetoSet.Properties {
+namespace MetoSet.Resources {
     using System;
-    
-    
+
+
     /// <summary>
     ///   用於查詢當地語系化字串等的強類型資源類別。
     /// </summary>
@@ -22,81 +22,115 @@ namespace MetoSet.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
-        
+    internal class Url
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Url()
+        {
         }
-        
+
         /// <summary>
         ///   傳回這個類別使用的快取的 ResourceManager 執行個體。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MetoSet.Properties.Resources", typeof(Resources).Assembly);
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MetoSet.Resources.Url", typeof(Url).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   覆寫目前執行緒的 CurrentUICulture 屬性，對象是所有
         ///   使用這個強類型資源類別的資源查閱。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
+        internal static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        ///   查詢類似 http://bmclapi.bangbang93.com/ 的當地語系化字串。
         /// </summary>
-        internal static System.Drawing.Bitmap ImageAbout {
-            get {
-                object obj = ResourceManager.GetObject("ImageAbout", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+        internal static string URL_DOWNLOAD_bangbang93
+        {
+            get
+            {
+                return ResourceManager.GetString("URL_DOWNLOAD_bangbang93", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        ///   查詢類似 https://s3.amazonaws.com/Minecraft.Download/ 的當地語系化字串。
         /// </summary>
-        internal static System.Drawing.Bitmap ImageDL {
-            get {
-                object obj = ResourceManager.GetObject("ImageDL", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+        internal static string URL_DOWNLOAD_BASE
+        {
+            get
+            {
+                return ResourceManager.GetString("URL_DOWNLOAD_BASE", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        ///   查詢類似 http://bmclapi.bangbang93.com/libraries/ 的當地語系化字串。
         /// </summary>
-        internal static System.Drawing.Bitmap ImagePlay {
-            get {
-                object obj = ResourceManager.GetObject("ImagePlay", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+        internal static string URL_LIBRARIES_bangbang93
+        {
+            get
+            {
+                return ResourceManager.GetString("URL_LIBRARIES_bangbang93", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        ///   查詢類似 https://libraries.minecraft.net/ 的當地語系化字串。
         /// </summary>
-        internal static System.Drawing.Bitmap ImageSet {
-            get {
-                object obj = ResourceManager.GetObject("ImageSet", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+        internal static string URL_LIBRARIES_BASE
+        {
+            get
+            {
+                return ResourceManager.GetString("URL_LIBRARIES_BASE", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查詢類似 http://bmclapi.bangbang93.com/assets/ 的當地語系化字串。
+        /// </summary>
+        internal static string URL_RESOURCE_bangbang93
+        {
+            get
+            {
+                return ResourceManager.GetString("URL_RESOURCE_bangbang93", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查詢類似 http://resources.download.minecraft.net/ 的當地語系化字串。
+        /// </summary>
+        internal static string URL_RESOURCE_BASE
+        {
+            get
+            {
+                return ResourceManager.GetString("URL_RESOURCE_BASE", resourceCulture);
             }
         }
     }
