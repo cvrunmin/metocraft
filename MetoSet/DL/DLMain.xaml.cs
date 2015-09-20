@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MetoSet.DL
+namespace MetoCraft.DL
 {
     /// <summary>
     /// DLMain.xaml 的互動邏輯

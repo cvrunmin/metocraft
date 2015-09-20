@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Windows;
 
-namespace MetoSet
+namespace MetoCraft
 {
     [DataContract]
     public class Config : ICloneable

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Collections;
 
-namespace MetoSet.Lang
+namespace MetoCraft.Lang
 {
     static class LangManager
     {

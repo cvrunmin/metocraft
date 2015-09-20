@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MetoSet"
-        xmlns:localplay="clr-namespace:MetoSet.Play"
-        xmlns:localdl="clr-namespace:MetoSet.DL"
-        x:Class="MetoSet.MainWindow"
+        xmlns:local="clr-namespace:MetoCraft"
+        xmlns:localplay="clr-namespace:MetoCraft.Play"
+        xmlns:localdl="clr-namespace:MetoCraft.DL"
+        x:Class="MetoCraft.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="MainWindow" Height="800" Width="800" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,15 +23,15 @@
         </Grid>
         <Grid x:Name="gridMain" Height="Auto" Margin="0,50,0,0" VerticalAlignment="Stretch" Width="Auto">
             <WrapPanel Margin="96,0" Background="White">
-                <local:ButtonMenu x:Name="butPlay"   MenuImage="Resources/ImagePlay.png"  Content="Play"     Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butPlay_Click"   Width="200" Height="200"/>
-                <local:ButtonMenu x:Name="butDL"     MenuImage="Resources/ImageDL.png"    Content="Download" Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butDL_Click"     Width="200" Height="200"/>
-                <local:ButtonMenu x:Name="butConfig" MenuImage="Resources/ImageSet.png"   Content="Settings" Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butConfig_Click" Width="200" Height="200"/>
-                <local:ButtonMenu x:Name="butAbout"  MenuImage="Resources/ImageAbout.png" Content="About"    Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butAbout_Click"  Width="200" Height="200"/>
+                <local:ButtonMenu x:Name="butPlay"   MenuImage="Resources/ImagePlay.png"  Content="{DynamicResource Play}"     Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butPlay_Click"   Width="200" Height="200"/>
+                <local:ButtonMenu x:Name="butDL"     MenuImage="Resources/ImageDL.png"    Content="{DynamicResource Download}" Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butDL_Click"     Width="200" Height="200"/>
+                <local:ButtonMenu x:Name="butConfig" MenuImage="Resources/ImageSet.png"   Content="{DynamicResource Setting}" Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butConfig_Click" Width="200" Height="200"/>
+                <local:ButtonMenu x:Name="butAbout"  MenuImage="Resources/ImageAbout.png" Content="{DynamicResource About}"    Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butAbout_Click"  Width="200" Height="200"/>
             </WrapPanel>
-            <localplay:PlayMain x:Name="gridPlay" VerticalAlignment="Top" Height="0"/>
-            <localdl:DLMain x:Name="gridDL" VerticalAlignment="Top" Height="0"/>
-            <local:Settings x:Name="gridSettings" VerticalAlignment="Top" Height="0"/>
-            <local:About x:Name="gridAbout" VerticalAlignment="Top" Height="0"/>
+            <localplay:PlayMain x:Name="gridPlay" Margin="0, 0, 0, 719"/>
+            <localdl:DLMain x:Name="gridDL" Margin="0, 0, 0, 719"/>
+            <local:Settings x:Name="gridSettings" Margin="0, 0, 0, 719"/>
+            <local:About x:Name="gridAbout" Margin="0, 0, 0, 719"/>
         </Grid>
     </Grid>
 </Window>

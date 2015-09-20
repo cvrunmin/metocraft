@@ -1,29 +1,29 @@
-﻿<Grid x:Class="MetoSet.Play.PlayVer"
+﻿<Grid x:Class="MetoCraft.Play.PlayVer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MetoSet.Play"
+             xmlns:local="clr-namespace:MetoCraft.Play"
              mc:Ignorable="d" 
              d:DesignHeight="719" d:DesignWidth="592" Background="White">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/MetoSet;component/ControlStyle.xaml"/>
+                <ResourceDictionary Source="/MetoCraft;component/ControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-    <Label x:Name="lblTtileVer" Content="Version" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
+    <Label x:Name="lblTtileVer" Content="{DynamicResource PlayVer}" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
     <ListBox x:Name="listBoxVer" HorizontalAlignment="Left" Height="300" Margin="30,55,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="listBoxVer_SelectionChanged"/>
-    <Button x:Name="butLoad" Content="Reload" HorizontalAlignment="Left" Margin="30,360,0,0" VerticalAlignment="Top" Width="75" Click="butLoad_Click"/>
-    <GroupBox x:Name="groupVerIF" Header="Version Info" HorizontalAlignment="Left" Margin="285,55,0,0" VerticalAlignment="Top" Width="297" Height="150">
+    <Button x:Name="butLoad" Content="{DynamicResource Reload}" HorizontalAlignment="Left" Margin="30,360,0,0" VerticalAlignment="Top" Width="75" Click="butLoad_Click"/>
+    <GroupBox x:Name="groupVerIF" Header="{DynamicResource VerInfo}" HorizontalAlignment="Left" Margin="285,55,0,0" VerticalAlignment="Top" Width="297" Height="150">
         <Grid>
-            <Label x:Name="lblVerId" Content="Version" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label x:Name="lblVerId1" Content="Label" HorizontalAlignment="Left" Margin="58,0,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblType" Content="Type" HorizontalAlignment="Left" Margin="0,25,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblType1" Content="Label" HorizontalAlignment="Left" Margin="42,25,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblRTime" Content="Release Time" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblRTime1" Content="Label" HorizontalAlignment="Left" Margin="89,50,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblVerId" Content="{DynamicResource Version}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label x:Name="lblVerId1" Content="" HorizontalAlignment="Left" Margin="58,0,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblType" Content="{DynamicResource Type}" HorizontalAlignment="Left" Margin="0,25,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblType1" Content="" HorizontalAlignment="Left" Margin="42,25,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblRTime" Content="{DynamicResource RTime}" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblRTime1" Content="" HorizontalAlignment="Left" Margin="89,50,0,0" VerticalAlignment="Top"/>
         </Grid>
     </GroupBox>
 

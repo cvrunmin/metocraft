@@ -1,10 +1,10 @@
-﻿using MetoSet.Lang;
+﻿using MetoCraft.Lang;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace MetoSet
+namespace MetoCraft
 {
     public class NotiIcon
     {

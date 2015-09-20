@@ -1,4 +1,4 @@
-﻿using MetoSet.Lang;
+﻿using MetoCraft.Lang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MetoSet
+namespace MetoCraft
 {
     /// <summary>
     /// MainWindow.xaml 的互動邏輯
@@ -25,35 +25,54 @@ namespace MetoSet
             MeCore.NIcon.MainWindow = this;
             MeCore.MainWindow = this;
             InitializeComponent();
-            this.Title = "Metocraft Va1 Ver." + MeCore.version;
+            this.Title = "Metocraft V1 Ver." + MeCore.version;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (e.NewSize.Width < 800) { }
+            if (gridPlay.Margin != new Thickness(0))
+            {
+                gridPlay.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            }
+            if (gridDL.Margin != new Thickness(0))
+            {
+                gridDL.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            }
+            if (gridSettings.Margin != new Thickness(0))
+            {
+                gridSettings.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            }
+            if (gridAbout.Margin != new Thickness(0))
+            {
+                gridAbout.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            }
         }
 
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
-            gridPlay.Height = gridMain.ActualHeight;
+            gridPlay.Margin = new Thickness(0);
             butHP.IsEnabled = true;
         }
 
         private void butAbout_Click(object sender, RoutedEventArgs e)
         {
-            gridAbout.Height = gridMain.ActualHeight;
+            gridAbout.Margin = new Thickness(0);
             butHP.IsEnabled = true;
         }
 
         private void butHP_Click(object sender, RoutedEventArgs e)
         {
-            gridPlay.Height = 0;
-            gridDL.Height = 0;
-            gridSettings.Height = 0;
-            gridAbout.Height = 0;
+            gridPlay.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            gridDL.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            gridSettings.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            gridAbout.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
             butHP.IsEnabled = false;
         }
+        private void Window_Closed(object sender, EventArgs e)
+        {
 
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             MeCore.NIcon.Hide();
@@ -61,7 +80,7 @@ namespace MetoSet
 
         private void butConfig_Click(object sender, RoutedEventArgs e)
         {
-            gridSettings.Height = gridMain.ActualHeight;
+            gridSettings.Margin = new Thickness(0);
             butHP.IsEnabled = true;
         }
         public void ChangeLanguage()
@@ -81,7 +100,7 @@ namespace MetoSet
 
         private void butDL_Click(object sender, RoutedEventArgs e)
         {
-            gridDL.Height = gridMain.ActualHeight;
+            gridDL.Margin = new Thickness(0);
             butHP.IsEnabled = true;
         }
     }

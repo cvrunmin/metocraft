@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 
-namespace MetoSet.Play
+namespace MetoCraft.Play
 {
     /// <summary>
     /// PlayEnvir.xaml 的互動邏輯

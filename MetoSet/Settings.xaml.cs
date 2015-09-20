@@ -13,10 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MetoSet.Lang;
-using MetoSet.Resources;
+using MetoCraft.Lang;
+using MetoCraft.Resources;
 
-namespace MetoSet
+namespace MetoCraft
 {
     /// <summary>
     /// About.xaml 的互動邏輯
@@ -59,6 +59,7 @@ namespace MetoSet
         }
         public void RefreshLangList()
         {
+            listLang.Items.Clear();
             var langs = LangManager.ListLanuage();
             foreach (var lang in langs)
             {
@@ -81,9 +82,16 @@ namespace MetoSet
                     MeCore.UrlResourceBase = Url.URL_RESOURCE_bangbang93;
                     MeCore.UrlLibrariesBase = Url.URL_LIBRARIES_bangbang93;
                     break;
+                case 2:
+                    MeCore.UrlDownloadBase = Url.URL_DOWNLOAD_rapiddata;
+                    MeCore.UrlResourceBase = Url.URL_RESOURCE_rapiddata;
+                    MeCore.UrlLibrariesBase = Url.URL_LIBRARIES_rapiddata;
+                    break;
                 default:
                     goto case 0;
             }
+            MeCore.Config.DownloadSource = comboDLSrc.SelectedIndex;
+            MeCore.Config.Save(null);
         }
     }
 }

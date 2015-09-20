@@ -1,4 +1,4 @@
-﻿using MetoSet.Lang;
+﻿using MetoCraft.Lang;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MetoSet
+namespace MetoCraft
 {
     public static class MeCore
     {
@@ -20,9 +20,9 @@ namespace MetoSet
         public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
-        public static string UrlDownloadBase = MetoSet.Resources.Url.URL_DOWNLOAD_BASE;
-        public static string UrlResourceBase = MetoSet.Resources.Url.URL_RESOURCE_BASE;
-        public static string UrlLibrariesBase = MetoSet.Resources.Url.URL_LIBRARIES_BASE;
+        public static string UrlDownloadBase = MetoCraft.Resources.Url.URL_DOWNLOAD_BASE;
+        public static string UrlResourceBase = MetoCraft.Resources.Url.URL_RESOURCE_BASE;
+        public static string UrlLibrariesBase = MetoCraft.Resources.Url.URL_LIBRARIES_BASE;
 
         static MeCore()
         {
@@ -58,7 +58,7 @@ namespace MetoSet
             }*/
 #if DEBUG
 #else
-            ReleaseCheck();
+//            ReleaseCheck();
 #endif
         }
         public static void Invoke(Delegate invoke, object[] argObjects = null)

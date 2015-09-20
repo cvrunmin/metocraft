@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MetoSet
+namespace MetoCraft
 {
     /// <summary>
     /// ACLogin.xaml 的互動邏輯
@@ -69,8 +69,13 @@ namespace MetoSet
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            gridOff.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
-            gridMojang.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            if (gridOff.Margin != new Thickness(0)) {
+                gridOff.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            }
+            if (gridMojang.Margin != new Thickness(0))
+            {
+                gridMojang.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            }
         }
     }
 }

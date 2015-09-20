@@ -1,27 +1,27 @@
-﻿<Grid x:Class="MetoSet.Play.PlayMain"
+﻿<Grid x:Class="MetoCraft.Play.PlayMain"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MetoSet.Play"
+             xmlns:local="clr-namespace:MetoCraft.Play"
              mc:Ignorable="d" 
              d:DesignHeight="719" d:DesignWidth="792" Loaded="Grid_Loaded">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/MetoSet;component/ControlStyle.xaml"/>
+                <ResourceDictionary Source="/MetoCraft;component/ControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
     <Grid Width="200" HorizontalAlignment="Left" Background="Gray"/>
         <TabControl x:Name="tabControl" TabStripPlacement="Left" BorderThickness="0" Background="White" BorderBrush="White" Margin="-2,-2,0,0">
-        <TabItem Header="Environment" Background="Gray" BorderBrush="Gray" Width="200" Height="50" Foreground="White" Style="{DynamicResource TabItemStyle}">
+        <TabItem Header="{DynamicResource PlayEnvir}" Background="Gray" BorderBrush="Gray" Width="200" Height="50" Foreground="White" Style="{DynamicResource TabItemStyle}">
             <local:PlayEnvir x:Name="gridEn"/>
         </TabItem>
-        <TabItem Header="Version" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
+        <TabItem Header="{DynamicResource PlayVer}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
             <local:PlayVer x:Name="gridVer"/>
         </TabItem>
-        <TabItem Header="Play" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
+        <TabItem Header="{DynamicResource PlayPlay}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
             <local:PlayPlay x:Name="gridPlay"/>
         </TabItem>
     </TabControl>

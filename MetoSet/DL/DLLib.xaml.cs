@@ -1,4 +1,4 @@
-﻿using MetoSet.Play;
+﻿using MetoCraft.Play;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MetoSet.DL
+namespace MetoCraft.DL
 {
     /// <summary>
     /// DLLib.xaml 的互動邏輯
@@ -96,7 +96,7 @@ namespace MetoSet.DL
                         Logger.log("原地址下载失败，尝试BMCL源" + libfile);
                         try
                         {
-                            _downer.DownloadFile(MetoSet.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                            _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
                         }
                         catch (WebException exception)
                         {
@@ -134,7 +134,7 @@ namespace MetoSet.DL
                         Logger.log("原地址下载失败，尝试BMCL源" + libfile);
                         try
                         {
-                            _downer.DownloadFile(MetoSet.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                            _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
                         }
                         catch (WebException exception)
                         {

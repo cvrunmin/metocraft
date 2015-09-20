@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MetoSet.Play
+namespace MetoCraft.Play
 {
     /// <summary>
     /// PlayPlay.xaml 的互動邏輯
@@ -32,6 +32,7 @@ namespace MetoSet.Play
                 login.ShowDialog();
             }));
             if (login.auth != null) {
+                new Assets.Assets(MeCore.MainWindow.gridPlay.gridVer.versions[MeCore.MainWindow.gridPlay.gridVer.listBoxVer.SelectedIndex]);
                 var result = PlayMain.launcher.Launch(new KMCCC.Launcher.LaunchOptions {
                     Version = MeCore.MainWindow.gridPlay.gridVer.versions[MeCore.MainWindow.gridPlay.gridVer.listBoxVer.SelectedIndex],
                     MaxMemory = (int)MeCore.MainWindow.gridPlay.gridEn.sliderRAM.Value,

@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Runtime.Serialization;
 
-namespace MetoSet.Versions
+namespace MetoCraft.Versions
 {
     [DataContract]
     class RawVersionListType

@@ -3,10 +3,10 @@ using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading;
-using MetoSet.Lang;
-using MetoSet;
+using MetoCraft.Lang;
+using MetoCraft;
 
-namespace MetoSet.Versions
+namespace MetoCraft.Versions
 {
     static class VersionHelper
     {

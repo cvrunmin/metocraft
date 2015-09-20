@@ -1,4 +1,4 @@
-﻿using MetoSet.Lang;
+﻿using MetoCraft.Lang;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using KMCCC.Launcher;
 
-namespace MetoSet
+namespace MetoCraft
 {
     /// <summary>
     /// App.xaml 的互動邏輯

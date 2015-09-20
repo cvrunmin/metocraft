@@ -1,5 +1,5 @@
-﻿using MetoSet.Versions;
-using MetoSet.Lang;
+﻿using MetoCraft.Versions;
+using MetoCraft.Lang;
 using System;
 using System.Data;
 using System.Globalization;
@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 
-namespace MetoSet.DL
+namespace MetoCraft.DL
 {
     /// <summary>
     /// DLMC.xaml 的互動邏輯
@@ -52,7 +52,7 @@ namespace MetoSet.DL
                         }
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        butRefresh.Content = LangManager.GetLangFromResource("btnRefreshRemoteVer");
+                        butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                         listRemoteVer.DataContext = dt;
                         listRemoteVer.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("RelTime", System.ComponentModel.ListSortDirection.Descending));
@@ -69,7 +69,7 @@ namespace MetoSet.DL
                     }
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        butRefresh.Content = LangManager.GetLangFromResource("btnRefreshRemoteVer");
+                        butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
                 }
@@ -85,7 +85,7 @@ namespace MetoSet.DL
                     }
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        butRefresh.Content = LangManager.GetLangFromResource("btnRefreshRemoteVer");
+                        butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
                 }
@@ -101,7 +101,7 @@ namespace MetoSet.DL
         {
             if (listRemoteVer.SelectedItems == null)
             {
-                MessageBox.Show("Please select a version first");
+                MessageBox.Show(LangManager.GetLangFromResource("RemoteVerErrorNoVersionSelect"));
                 return;
             }
             var selectVer = listRemoteVer.SelectedItem as DataRowView;
@@ -120,7 +120,7 @@ namespace MetoSet.DL
 #if DEBUG
                 MessageBox.Show(downpath + "\n" + downurl);
 #endif
-                butDL.Content = LangManager.GetLangFromResource("DLCont");
+                butDL.Content = LangManager.GetLangFromResource("RemoteVerDownloading");
                 butDL.IsEnabled = false;
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (!Directory.Exists(System.IO.Path.GetDirectoryName(downpath.ToString())))
@@ -135,9 +135,9 @@ namespace MetoSet.DL
                 {
                     downer.DownloadFileCompleted += downer_DownloadClientFileCompleted;
                     downer.DownloadProgressChanged += downer_DownloadProgressChanged;
-                    MetoSet.Logger.log("download:" + downjsonfile);
+                    MetoCraft.Logger.log("download:" + downjsonfile);
                     downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                    MetoSet.Logger.log("download:" + downurl);
+                    MetoCraft.Logger.log("download:" + downurl);
                     downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
                     _downedtime = Environment.TickCount - 1;
                     _downed = 0;
@@ -146,7 +146,7 @@ namespace MetoSet.DL
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + "\n");
-                    butDL.Content = LangManager.GetLangFromResource("DL");
+                    butDL.Content = LangManager.GetLangFromResource("Download");
                     butDL.IsEnabled = true;
                 }
             }
@@ -157,7 +157,7 @@ namespace MetoSet.DL
         {
             ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
             //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-            var info = new StringBuilder("Speed:");
+            var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
             try
             {
                 info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
@@ -168,9 +168,9 @@ namespace MetoSet.DL
         }
         void downer_DownloadClientFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            MetoSet.Logger.log("Success to download client file.");
-            MessageBox.Show("Download Success");
-            butDL.Content = LangManager.GetLangFromResource("DL");
+            MetoCraft.Logger.log("Success to download client file.");
+            MessageBox.Show(LangManager.GetLangFromResource("RemoteVerDownloadSuccess"));
+            butDL.Content = LangManager.GetLangFromResource("Download");
             butDL.IsEnabled = true;
             MeCore.MainWindow.gridPlay.gridVer.LoadVersionList();
         }

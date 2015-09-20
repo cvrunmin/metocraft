@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Collections;
 
-namespace MetoSet
+namespace MetoCraft
 {
     static public class Logger
     {

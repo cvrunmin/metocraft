@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MetoSet.Play
+namespace MetoCraft.Play
 {
     /// <summary>
     /// PlayVer.xaml 的互動邏輯
@@ -40,12 +40,24 @@ namespace MetoSet.Play
         public void LoadVersionList() {
             listBoxVer.Items.Clear();
             MeCore.MainWindow.gridDL.gridLib.listVer.Items.Clear();
-            PlayMain.launcher = KMCCC.Launcher.LauncherCore.Create(new KMCCC.Launcher.LauncherCoreCreationOption(MeCore.MainWindow.gridPlay.gridEn.txtBoxP.Text, MeCore.MainWindow.gridPlay.gridEn.comboJava.SelectedItem as string));
-            versions = PlayMain.launcher.GetVersions().ToArray();
-            for (int i = 0; i < versions.Length; i++)
+            MeCore.MainWindow.gridDL.gridAsset.listVer.Items.Clear();
+            try
             {
-                listBoxVer.Items.Add(versions[i].Id);
-                MeCore.MainWindow.gridDL.gridLib.listVer.Items.Add(versions[i].Id);
+                PlayMain.launcher = KMCCC.Launcher.LauncherCore.Create(new KMCCC.Launcher.LauncherCoreCreationOption(MeCore.MainWindow.gridPlay.gridEn.txtBoxP.Text, MeCore.MainWindow.gridPlay.gridEn.comboJava.SelectedItem as string));
+                versions = PlayMain.launcher.GetVersions().ToArray();
+                for (int i = 0; i < versions.Length; i++)
+                {
+                    listBoxVer.Items.Add(versions[i].Id);
+                    MeCore.MainWindow.gridDL.gridLib.listVer.Items.Add(versions[i].Id);
+                    MeCore.MainWindow.gridDL.gridAsset.listVer.Items.Add(versions[i].Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                {
+                    new ErrorReport(ex).Show();
+                }));
             }
         }
 

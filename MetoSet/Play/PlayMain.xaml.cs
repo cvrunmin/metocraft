@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MetoSet.Play
+namespace MetoCraft.Play
 {
     /// <summary>
     /// PlayMain.xaml 的互動邏輯
