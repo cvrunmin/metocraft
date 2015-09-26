@@ -13,11 +13,11 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-    <Label x:Name="lblTitle" Content="{DynamicResource DLAsset}" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
+    <Label x:Name="lblTitle" Content="{DynamicResource DLAssets}" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
     <Label x:Name="lblVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="30,55,0,0" VerticalAlignment="Top"/>
     <ListBox x:Name="listVer" Height="100" Margin="30,80,10,0" VerticalAlignment="Top" SelectionChanged="listVer_SelectionChanged"/>
     <Label x:Name="lblLibs" Content="{DynamicResource Assets}" HorizontalAlignment="Left" Margin="30,185,0,0" VerticalAlignment="Top"/>
-    <ListView x:Name="listLib" Height="450" Margin="30,210,12,0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionMode="Single">
+    <ListView x:Name="listLib" Height="440" Margin="30,210,12,0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionMode="Single">
         <ListView.View>
             <GridView AllowsColumnReorder="True">
                 <GridViewColumn DisplayMemberBinding="{Binding Assets}" Header="{DynamicResource Assets}" Width="350"/>
@@ -27,7 +27,7 @@
             </GridView>
         </ListView.View>
     </ListView>
-    <Button x:Name="butDL" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="30,665,0,0" VerticalAlignment="Top" Width="75" Click="butDL_Click"/>
-    <Button x:Name="butReload" Content="{DynamicResource Reload}" HorizontalAlignment="Left" Margin="110,665,0,0" VerticalAlignment="Top" Width="75" Click="butReload_Click"/>
-    <Label x:Name="lblDr" Content="Label" HorizontalAlignment="Left" Margin="30,689,0,0" VerticalAlignment="Top"/>
+    <Button x:Name="butDL" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="30,655,0,0" VerticalAlignment="Top" Width="75" Click="butDL_Click"/>
+    <Button x:Name="butReload" Content="{DynamicResource Reload}" HorizontalAlignment="Left" Margin="110,655,0,0" VerticalAlignment="Top" Width="75" Click="butReload_Click"/>
+    <Label x:Name="lblDr" Content="" HorizontalAlignment="Left" Margin="30,679,0,0" VerticalAlignment="Top"/>
 </Grid>

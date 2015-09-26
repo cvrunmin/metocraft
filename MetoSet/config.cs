@@ -45,12 +45,18 @@ namespace MetoCraft
             WindowTransparency = 1;
             Report = true;
             DownloadSource = 0;
-            Lang = "en";
+            Lang = GetValidLang();
             CheckUpdate = true;
             PluginConfig = null;
             GUID = GetGuid();
         }
-
+        public string GetValidLang() {
+            if (CultureInfo.CurrentUICulture.Parent.Name != "zh-CHT" && CultureInfo.CurrentUICulture.Parent.Name != "zh-CHS"
+                && CultureInfo.CurrentUICulture.Parent.Name != "en") {
+                return "en";
+            }
+            return CultureInfo.CurrentUICulture.Parent.Name;
+        }
         public object GetPluginConfig(string key)
         {
             if (PluginConfig.ContainsKey(key))

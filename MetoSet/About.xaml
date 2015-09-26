@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="719" d:DesignWidth="792" Loaded="PGrid_Loaded" Unloaded="Grid_Unloaded">
     <Grid>
-        <Grid Background="Black" HorizontalAlignment="Left" Width="200"/>
+        <Grid Background="Gray" HorizontalAlignment="Left" Width="200"/>
         <Grid Margin="200,0,0,0" Background="White">
             <Label x:Name="lblCOM" Content="{DynamicResource COM}" HorizontalAlignment="Left" Margin="15,12.5,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label x:Name="lblCVer" Content="{DynamicResource COMVer}" HorizontalAlignment="Left" Margin="30,48,0,0" VerticalAlignment="Top"/>
@@ -24,6 +24,8 @@
             <Label x:Name="lblLauncher" Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" Margin="15,233,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label x:Name="lblLaVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="30,268,0,0" VerticalAlignment="Top"/>
             <Label x:Name="lblLaVer1" Content="" HorizontalAlignment="Left" Margin="88,268,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="butBBTry" Content="Try" HorizontalAlignment="Left" Margin="330,176,0,0" VerticalAlignment="Top" Width="75" Click="butBBTry_Click"/>
+            <Button x:Name="butRTry" Content="Try" HorizontalAlignment="Left" Margin="330,209,0,0" VerticalAlignment="Top" Width="75" Click="butRTry_Click"/>
         </Grid>
 
     </Grid>

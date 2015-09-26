@@ -32,7 +32,7 @@ namespace MetoCraft.DL
             var getJson = (HttpWebRequest)WebRequest.Create(MeCore.UrlDownloadBase + "versions/versions.json");
             getJson.Timeout = 10000;
             getJson.ReadWriteTimeout = 10000;
-            getJson.UserAgent = "Metocraft" + MeCore.version;
+            getJson.UserAgent = "MetoCraft" + MeCore.version;
             var thGet = new Thread(new ThreadStart(delegate
             {
                 try
@@ -112,7 +112,7 @@ namespace MetoCraft.DL
                 downpath.Append(selectver).Append("\\");
                 downpath.Append(selectver).Append(".jar");
                 var downer = new WebClient();
-                downer.Headers.Add("User-Agent", "Metocraft" + MeCore.version);
+                downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
                 var downurl = new StringBuilder(MeCore.UrlDownloadBase);
                 downurl.Append(@"versions\");
                 downurl.Append(selectver).Append("\\");

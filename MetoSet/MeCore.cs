@@ -28,7 +28,7 @@ namespace MetoCraft
         {
             version = Application.ResourceAssembly.FullName.Split('=')[1];
             version = version.Substring(0, version.IndexOf(','));
-            Logger.log("Metocraft Ver." + version + "正在启动");
+            Logger.log("MetoCraft Ver." + version + "正在启动");
             if (File.Exists(Cfgfile))
             {
                 Config = Config.Load(Cfgfile);
@@ -75,13 +75,13 @@ namespace MetoCraft
             MeCore.Language.Add((string)lang["DisplayName"], lang["LangName"]);
             LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/en.xaml");
 
-            lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/zh-hans.xaml");
+            lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/zh-CHS.xaml");
             MeCore.Language.Add((string)lang["DisplayName"], lang["LangName"]);
-            LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/zh-hans.xaml");
+            LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/zh-CHS.xaml");
 
-            lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/zh-hant.xaml");
+            lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/zh-CHT.xaml");
             MeCore.Language.Add((string)lang["DisplayName"], lang["LangName"]);
-            LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/zh-hant.xaml");
+            LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/zh-CHT.xaml");
             if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\Lang"))
             {
                 foreach (string langFile in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\Lang", "*.xaml", SearchOption.TopDirectoryOnly))

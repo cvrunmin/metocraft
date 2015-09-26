@@ -38,6 +38,9 @@ namespace MetoCraft.Play
             LoadVersionList();
         }
         public void LoadVersionList() {
+            listBoxVer.SelectedIndex = -1;
+            MeCore.MainWindow.gridDL.gridLib.listVer.SelectedIndex = -1;
+            MeCore.MainWindow.gridDL.gridAsset.listVer.SelectedIndex = -1;
             listBoxVer.Items.Clear();
             MeCore.MainWindow.gridDL.gridLib.listVer.Items.Clear();
             MeCore.MainWindow.gridDL.gridAsset.listVer.Items.Clear();
@@ -63,6 +66,7 @@ namespace MetoCraft.Play
 
         private void listBoxVer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(listBoxVer.SelectedIndex != -1)
             try
             {
                 KMCCC.Modules.JVersion.JVersion jsonv = new KMCCC.Modules.JVersion.JVersionLocator().LoadVersion(KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetVersionJsonPath(PlayMain.launcher, versions[listBoxVer.SelectedIndex]));

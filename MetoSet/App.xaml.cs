@@ -11,6 +11,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using KMCCC.Launcher;
+using System.Threading;
 
 namespace MetoCraft
 {
@@ -92,12 +93,18 @@ namespace MetoCraft
         {
             base.OnExit(e);
             Logger.stop();
+            Thread.Sleep(1);
+            MeCore.MainWindow.gridAbout.bbGet.Abort();
+            MeCore.MainWindow.gridAbout.rGet.Abort();
         }
 
         public static void AboutToExit()
         {
             _appLock.Close();
             Logger.stop();
+            Thread.Sleep(1);
+            MeCore.MainWindow.gridAbout.bbGet.Abort();
+            MeCore.MainWindow.gridAbout.rGet.Abort();
         }
     }
 }

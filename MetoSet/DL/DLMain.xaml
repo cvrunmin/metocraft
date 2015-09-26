@@ -15,16 +15,16 @@
     </Grid.Resources>
     <Grid Width="200" HorizontalAlignment="Left" Background="Gray"/>
     <TabControl x:Name="tabControl" TabStripPlacement="Left" BorderThickness="0" Background="White" BorderBrush="White" Margin="-2,-2,0,0">
-        <TabItem Header="Vanilla" Background="Gray" BorderBrush="Gray" Width="200" Height="50" Foreground="White" Style="{DynamicResource TabItemStyle}">
+        <TabItem Header="{DynamicResource DLMC}" Background="Gray" BorderBrush="Gray" Width="200" Height="50" Foreground="White" Style="{DynamicResource TabItemStyle}">
             <local:DLMC x:Name="gridMC"/>
         </TabItem>
         <TabItem Header="Forge" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}" IsEnabled="False">
 
         </TabItem>
-        <TabItem Header="Library" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
+        <TabItem Header="{DynamicResource DLLib}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
             <local:DLLib x:Name="gridLib"/>
         </TabItem>
-        <TabItem Header="Assets" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
+        <TabItem Header="{DynamicResource DLAssets}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
             <local:DLAsset x:Name="gridAsset"/>
         </TabItem>
     </TabControl>

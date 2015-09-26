@@ -76,10 +76,8 @@ namespace MetoCraft.Assets
                 var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
                 obj = assetsObject["objects"];
                 Logger.log("共", obj.Count.ToString(CultureInfo.InvariantCulture), "项assets");
-                int i = 0;
                 foreach (KeyValuePair<string, AssetsEntity> entity in obj)
                 {
-                    i++;
                     string url = _urlResourceBase + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
                     FileHelper.CreateDirectoryForFile(file);
@@ -90,14 +88,6 @@ namespace MetoCraft.Assets
                         {
                             MeCore.NIcon.ShowBalloonTip(3000, Lang.LangManager.GetLangFromResource("FoundAssetsModify"));
                             _init = false;
-                        }
-                        //Downloader.DownloadFileAsync(new Uri(Url), File,Url);
-                        _downloader.DownloadFile(new Uri(url), file);
-                        Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", obj.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
-                        if (i == obj.Count)
-                        {
-                            Logger.log("assets下载完毕");
-                            MeCore.NIcon.ShowBalloonTip(3000, Lang.LangManager.GetLangFromResource("SyncAssetsFinish"));
                         }
                     }
                     catch (WebException ex)

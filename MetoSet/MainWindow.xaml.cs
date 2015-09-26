@@ -1,6 +1,7 @@
 ﻿using MetoCraft.Lang;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -25,7 +26,7 @@ namespace MetoCraft
             MeCore.NIcon.MainWindow = this;
             MeCore.MainWindow = this;
             InitializeComponent();
-            this.Title = "Metocraft V1 Ver." + MeCore.version;
+            this.Title = "MetoCraft V1 Ver." + MeCore.version;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)

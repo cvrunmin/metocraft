@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </Grid.Resources>
     <Label x:Name="lblTitle" Content="{DynamicResource PlayPlay}" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
-    <GroupBox x:Name="groupLVer" Header="{DynamicResource LaVer}" HorizontalAlignment="Left" Margin="30,55,0,0" VerticalAlignment="Top" Width="300" Height="150">
+    <GroupBox x:Name="groupLVer" Header="{DynamicResource LaVer}" HorizontalAlignment="Left" Margin="30,55,0,0" VerticalAlignment="Top" Width="300" Height="150" Foreground="Black">
         <Grid>
             <Label x:Name="lblLVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label x:Name="lblLVer1" Content="" HorizontalAlignment="Left" Margin="58,0,0,0" VerticalAlignment="Top"/>

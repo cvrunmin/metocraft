@@ -41,32 +41,35 @@ namespace MetoCraft.DL
 
         private void listVer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            listLib.DataContext = null;
-            try
+            if (listVer.SelectedIndex != -1)
             {
-                _ver = MeCore.MainWindow.gridPlay.gridVer.versions[listVer.SelectedIndex];
-            }
-            catch (Exception ex)
-            {
-                new ErrorReport(ex).Show();
-            }
-            var thGet = new Thread(new ThreadStart(delegate
-            {
-                string gameVersion = _ver.Assets;
+                listLib.DataContext = null;
                 try
                 {
-                    _downer.DownloadStringAsync(new Uri(_urlDownload + "indexes/" + gameVersion + ".json"));
-                    Logger.info(_urlDownload + "indexes/" + gameVersion + ".json");
+                    _ver = MeCore.MainWindow.gridPlay.gridVer.versions[listVer.SelectedIndex];
+                    var thGet = new Thread(new ThreadStart(delegate
+                    {
+                        string gameVersion = _ver.Assets;
+                        try
+                        {
+                            _downer.DownloadStringAsync(new Uri(_urlDownload + "indexes/" + gameVersion + ".json"));
+                            Logger.info(_urlDownload + "indexes/" + gameVersion + ".json");
+                        }
+                        catch (WebException ex)
+                        {
+                            Logger.info("游戏版本" + gameVersion);
+                            Logger.error(ex);
+                        }
+                        _downer.DownloadStringCompleted += Downloader_DownloadStringCompleted;
+                        _downer.DownloadFileCompleted += Downloader_DownloadFileCompleted;
+                    }));
+                    thGet.Start();
                 }
-                catch (WebException ex)
+                catch (Exception ex)
                 {
-                    Logger.info("游戏版本" + gameVersion);
-                    Logger.error(ex);
+                    new ErrorReport(ex).Show();
                 }
-                _downer.DownloadStringCompleted += Downloader_DownloadStringCompleted;
-                _downer.DownloadFileCompleted += Downloader_DownloadFileCompleted;
-            }));
-            thGet.Start();
+            }
         }
 
         private void butDL_Click(object sender, RoutedEventArgs e)
@@ -171,31 +174,41 @@ namespace MetoCraft.DL
             }
             else
             {
-                string gameVersion = _ver.Assets;
-                FileHelper.CreateDirectoryForFile(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
-                var sw = new StreamWriter(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
-                sw.Write(e.Result);
-                sw.Close();
-                var jsSerializer = new JavaScriptSerializer();
-                var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
-                asset = assetsObject["objects"];
-                Logger.log("共", asset.Count.ToString(CultureInfo.InvariantCulture), "项assets");
                 try
                 {
-                    var dt = new DataTable();
-                    dt.Columns.Add("Assets");
-                    dt.Columns.Add("Size");
-                    dt.Columns.Add("Hash");
-                    dt.Columns.Add("Exist");
-                    foreach (KeyValuePair<string, AssetsEntity> entity in asset)
+                    string gameVersion = _ver.Assets;
+                    FileHelper.CreateDirectoryForFile(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
+                    var sw = new StreamWriter(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
+                    sw.Write(e.Result);
+                    sw.Close();
+                    var jsSerializer = new JavaScriptSerializer();
+                    var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
+                    asset = assetsObject["objects"];
+                    Logger.log("共", asset.Count.ToString(CultureInfo.InvariantCulture), "项assets");
+                    try
                     {
-                        dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(entity.Key) });
+                        var dt = new DataTable();
+                        dt.Columns.Add("Assets");
+                        dt.Columns.Add("Size");
+                        dt.Columns.Add("Hash");
+                        dt.Columns.Add("Exist");
+                        foreach (KeyValuePair<string, AssetsEntity> entity in asset)
+                        {
+                            dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(entity.Key) });
+                        }
+                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        {
+                            listLib.DataContext = dt;
+                            listLib.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                        }));
                     }
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    catch (Exception ex)
                     {
-                        listLib.DataContext = dt;
-                        listLib.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
-                    }));
+                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        {
+                            new ErrorReport(ex).Show();
+                        }));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -204,7 +217,6 @@ namespace MetoCraft.DL
                         new ErrorReport(ex).Show();
                     }));
                 }
-
             }
         }
         }

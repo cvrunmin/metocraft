@@ -28,7 +28,7 @@ namespace MetoCraft
         {
             InitializeComponent();
             var message = new StringBuilder();
-            message.AppendLine("Metocraft," + MeCore.version);
+            message.AppendLine("MetoCraft," + MeCore.version);
             message.AppendLine(ex.Source);
             message.AppendLine(ex.ToString());
             message.AppendLine(ex.Message);
@@ -57,7 +57,7 @@ namespace MetoCraft
         {
             InitializeComponent();
             var message = new StringBuilder();
-            message.AppendLine("Metocraft," + MeCore.version);
+            message.AppendLine("MetoCraft," + MeCore.version);
             message.AppendLine(s);
             message.AppendLine("\n\n-----------------ERROR REPORT----------------------\n");
             message.AppendLine(ex.Source);
@@ -88,7 +88,7 @@ namespace MetoCraft
         {
             InitializeComponent();
             var message = new StringBuilder();
-            message.AppendLine("Metocraft," + MeCore.version);
+            message.AppendLine("MetoCraft," + MeCore.version);
             message.AppendLine(s);
             message.AppendLine("\n\n-----------------ERROR REPORT----------------------\n");
             message.AppendLine(ex);

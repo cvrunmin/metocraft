@@ -3,7 +3,7 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib"> 
   
     <s:String x:Key="DisplayName">简体中文</s:String>
-    <s:String x:Key="LangName">zh-hans</s:String>
+    <s:String x:Key="LangName">zh-CHS</s:String>
     <s:String x:Key="Play">游玩</s:String>
     <s:String x:Key="Download">下载</s:String>
     <s:String x:Key="Setting">设定</s:String>
@@ -43,13 +43,13 @@
     <s:String x:Key="VerInfo">版本信息</s:String>
     <s:String x:Key="Type">类型</s:String>
     <s:String x:Key="RTime">发布时间</s:String>
-    <s:String x:Key="LaVer">启用版本</s:String>
+    <s:String x:Key="LaVer">启动版本</s:String>
     <!-- /Play -->
     <!-- DL -->
     <s:String x:Key="DLMC">原版</s:String>
     <s:String x:Key="DLMCC">原版客户端</s:String>
     <s:String x:Key="DLLib">库</s:String>
-    <s:String x:Key="DLAsset">资源</s:String>
+    <s:String x:Key="DLAssets">资源</s:String>
     <s:String x:Key="DownLoad">下载</s:String>
     <s:String x:Key="Refresh">刷新</s:String>
     <s:String x:Key="Libs">库</s:String>

@@ -88,10 +88,12 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KMCCC.Pro">
+    <Reference Include="KMCCC.Pro, Version=0.9.5.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\KMCCC.Pro.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.Expression.Controls, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -136,9 +138,15 @@
     <Compile Include="ErrorReport.xaml.cs">
       <DependentUpon>ErrorReport.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forge\ForgeListNotReadyException.cs" />
+    <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="JsonClass\ForgeVersion.cs" />
+    <Compile Include="JsonClass\soundsJson.cs" />
     <Compile Include="Play\PlayPlay.xaml.cs">
       <DependentUpon>PlayPlay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Profile\Profile.cs" />
+    <Compile Include="Profile\ProfileInXML.cs" />
     <Compile Include="Resources\Url.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -216,11 +224,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Lang\zh-hans.xaml">
+    <Page Include="Lang\zh-CHS.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Lang\zh-hant.xaml">
+    <Page Include="Lang\zh-CHT.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

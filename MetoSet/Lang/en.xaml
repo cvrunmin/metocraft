@@ -49,7 +49,7 @@
     <s:String x:Key="DLMC">Vanilla</s:String>
     <s:String x:Key="DLMCC">Vanilla Client</s:String>
     <s:String x:Key="DLLib">Library</s:String>
-    <s:String x:Key="DLAsset">Asset</s:String>
+    <s:String x:Key="DLAssets">Assets</s:String>
     <s:String x:Key="DownLoad">Download</s:String>
     <s:String x:Key="Refresh">Refresh</s:String>
     <s:String x:Key="Libs">Libraries</s:String>

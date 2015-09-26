@@ -26,4 +26,5 @@
         </ListView.View>
     </ListView>
     <Button x:Name="butDL" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="30,665,0,0" VerticalAlignment="Top" Width="75" Click="butDL_Click"/>
+    <Label x:Name="lblDLI" Content="" HorizontalAlignment="Left" Margin="110,665,0,0" VerticalAlignment="Top"/>
 </Grid>

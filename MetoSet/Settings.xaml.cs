@@ -31,7 +31,6 @@ namespace MetoCraft
 
         private void PGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            RefreshLangList();
             if (comboDLSrc.SelectedIndex == -1) { comboDLSrc.SelectedIndex = 0; }
             comboDLSrc.SelectedIndex = MeCore.Config.DownloadSource;
         }

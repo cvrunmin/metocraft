@@ -16,7 +16,7 @@
     <Label x:Name="lblTtileVer" Content="{DynamicResource PlayVer}" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
     <ListBox x:Name="listBoxVer" HorizontalAlignment="Left" Height="300" Margin="30,55,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="listBoxVer_SelectionChanged"/>
     <Button x:Name="butLoad" Content="{DynamicResource Reload}" HorizontalAlignment="Left" Margin="30,360,0,0" VerticalAlignment="Top" Width="75" Click="butLoad_Click"/>
-    <GroupBox x:Name="groupVerIF" Header="{DynamicResource VerInfo}" HorizontalAlignment="Left" Margin="285,55,0,0" VerticalAlignment="Top" Width="297" Height="150">
+    <GroupBox x:Name="groupVerIF" Header="{DynamicResource VerInfo}" HorizontalAlignment="Left" Margin="285,55,0,0" VerticalAlignment="Top" Width="297" Height="150" Foreground="Black">
         <Grid>
             <Label x:Name="lblVerId" Content="{DynamicResource Version}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label x:Name="lblVerId1" Content="" HorizontalAlignment="Left" Margin="58,0,0,0" VerticalAlignment="Top"/>

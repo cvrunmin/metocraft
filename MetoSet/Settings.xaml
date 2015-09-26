@@ -16,7 +16,7 @@
     </Grid.Resources>
 
     <Grid>
-        <Grid Background="Black" HorizontalAlignment="Left" Width="200"/>
+        <Grid Background="Gray" HorizontalAlignment="Left" Width="200"/>
         <Grid Margin="200,0,0,0" Background="White">
             <Label x:Name="lblLangTitle" Content="{DynamicResource Language}" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label x:Name="lblOLang" Content="{DynamicResource OfDL}" HorizontalAlignment="Left" Margin="30,60,0,0" VerticalAlignment="Top"/>

@@ -35,27 +35,29 @@ namespace MetoCraft.DL
 
         private void listVer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            listLib.DataContext = null;
+            if (listVer.SelectedIndex != -1)
+            {
+                listLib.DataContext = null;
                 try
                 {
                     var dt = new DataTable();
                     dt.Columns.Add("Lib");
                     dt.Columns.Add("Exist");
-                libs = MeCore.MainWindow.gridPlay.gridVer.versions[listVer.SelectedIndex].Libraries.Select(lib => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetLibPath(PlayMain.launcher, lib));
+                    libs = MeCore.MainWindow.gridPlay.gridVer.versions[listVer.SelectedIndex].Libraries.Select(lib => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetLibPath(PlayMain.launcher, lib));
                     foreach (string libfile in libs)
                     {
                         dt.Rows.Add(new object[] { libfile.Substring(libfile.IndexOf("libraries")), File.Exists(libfile) });
                     }
-                natives = MeCore.MainWindow.gridPlay.gridVer.versions[listVer.SelectedIndex].Natives.Select(native => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetNativePath(PlayMain.launcher, native));
-                foreach (string nafile in natives)
-                {
-                    dt.Rows.Add(new object[] { nafile.Substring(nafile.IndexOf("libraries")), File.Exists(nafile) });
-                }
-                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    natives = MeCore.MainWindow.gridPlay.gridVer.versions[listVer.SelectedIndex].Natives.Select(native => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetNativePath(PlayMain.launcher, native));
+                    foreach (string nafile in natives)
                     {
-                        listLib.DataContext = dt;
-                        listLib.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
-                    }));
+                        dt.Rows.Add(new object[] { nafile.Substring(nafile.IndexOf("libraries")), File.Exists(nafile) });
+                    }
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        {
+                            listLib.DataContext = dt;
+                            listLib.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                        }));
                 }
                 catch (Exception ex)
                 {
@@ -64,86 +66,96 @@ namespace MetoCraft.DL
                         new ErrorReport(ex).Show();
                     }));
                 }
+            }
         }
 
         private void butDL_Click(object sender, RoutedEventArgs e)
         {
-            foreach (string libfile in libs)
+            var thDL = new Thread(new ThreadStart(delegate
             {
-                if (!File.Exists(libfile))
+                int i = 0;
+                foreach (string libfile in libs)
                 {
-                    Logger.log("开始下载" + libfile, Logger.LogType.Info);
-                    try
+                    i++;
+                    MeCore.Invoke(new Action(() => lblDLI.Content = i + "/" + libs.Count()));
+                    if (!File.Exists(libfile))
                     {
-                        //                    OnStateChangeEvent(LangManager.GetLangFromResource("LauncherDownloadLib") + lib.name);
-                        //                    Downloading++;
-                        if (!Directory.Exists(System.IO.Path.GetDirectoryName(libfile)))
-                        {
-                            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
-                        }
-#if DEBUG
-                        //                        System.Windows.MessageBox.Show(_urlLib + libp.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
-#endif
-                        Logger.log(_urlLib + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-                        //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
-                        _downer.DownloadFile(
-                            _urlLib +
-                            libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                    }
-                    catch (WebException ex)
-                    {
-                        Logger.log(ex);
-                        Logger.log("原地址下载失败，尝试BMCL源" + libfile);
+                        Logger.log("开始下载" + libfile, Logger.LogType.Info);
                         try
                         {
-                            _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                            //                    OnStateChangeEvent(LangManager.GetLangFromResource("LauncherDownloadLib") + lib.name);
+                            //                    Downloading++;
+                            if (!Directory.Exists(System.IO.Path.GetDirectoryName(libfile)))
+                            {
+                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
+                            }
+#if DEBUG
+                            //                        System.Windows.MessageBox.Show(_urlLib + libp.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
+#endif
+                            Logger.log(_urlLib + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                            //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
+                            _downer.DownloadFile(
+                                _urlLib +
+                                libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
                         }
-                        catch (WebException exception)
+                        catch (WebException ex)
                         {
-                            MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
-                            return;
+                            Logger.log(ex);
+                            Logger.log("原地址下载失败，尝试BMCL源" + libfile);
+                            try
+                            {
+                                _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                            }
+                            catch (WebException exception)
+                            {
+                                MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
+                                return;
+                            }
                         }
                     }
                 }
-            }
-            foreach (string libfile in natives)
-            {
-                if (!File.Exists(libfile))
+                i = 0;
+                foreach (string libfile in natives)
                 {
-                    Logger.log("开始下载" + libfile, Logger.LogType.Info);
-                    try
+                    MeCore.Invoke(new Action(() => lblDLI.Content = i + "/" + natives.Count()));
+                    if (!File.Exists(libfile))
                     {
-                        //                    OnStateChangeEvent(LangManager.GetLangFromResource("LauncherDownloadLib") + lib.name);
-                        //                    Downloading++;
-                        if (!Directory.Exists(System.IO.Path.GetDirectoryName(libfile)))
-                        {
-                            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
-                        }
-#if DEBUG
-                        //                        System.Windows.MessageBox.Show(_urlLib + libp.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
-#endif
-                        Logger.log(_urlLib + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-                        //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
-                        _downer.DownloadFile(
-                            _urlLib +
-                            libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                    }
-                    catch (WebException ex)
-                    {
-                        Logger.log(ex);
-                        Logger.log("原地址下载失败，尝试BMCL源" + libfile);
+                        Logger.log("开始下载" + libfile, Logger.LogType.Info);
                         try
                         {
-                            _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                            //                    OnStateChangeEvent(LangManager.GetLangFromResource("LauncherDownloadLib") + lib.name);
+                            //                    Downloading++;
+                            if (!Directory.Exists(System.IO.Path.GetDirectoryName(libfile)))
+                            {
+                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
+                            }
+#if DEBUG
+                            //                        System.Windows.MessageBox.Show(_urlLib + libp.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
+#endif
+                            Logger.log(_urlLib + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                            //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
+                            _downer.DownloadFile(
+                                _urlLib +
+                                libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
                         }
-                        catch (WebException exception)
+                        catch (WebException ex)
                         {
-                            MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
-                            return;
+                            Logger.log(ex);
+                            Logger.log("原地址下载失败，尝试BMCL源" + libfile);
+                            try
+                            {
+                                _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                            }
+                            catch (WebException exception)
+                            {
+                                MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
+                                return;
+                            }
                         }
                     }
                 }
-            }
+            }));
+            thDL.Start();
         }
     }
 }
