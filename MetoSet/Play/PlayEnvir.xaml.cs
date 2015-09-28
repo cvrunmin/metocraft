@@ -22,6 +22,12 @@ namespace MetoCraft.Play
             txtBoxArg.Text = MeCore.Config.ExtraJvmArg;
         }
 
+        public void loadConfig() {
+            txtBoxP.Text = MeCore.Config.MCPath;
+            comboJava.SelectedItem = MeCore.Config.Javaw;
+            txtBoxArg.Text = MeCore.Config.ExtraJvmArg;
+        }
+
         private void butBrowse_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();

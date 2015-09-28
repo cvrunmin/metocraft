@@ -24,5 +24,8 @@
         <TabItem Header="{DynamicResource PlayPlay}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
             <local:PlayPlay x:Name="gridPlay"/>
         </TabItem>
+        <TabItem Header="Adv" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
+            <local:PlayAdv x:Name="gridAdv"/>
+        </TabItem>
     </TabControl>
 </Grid>

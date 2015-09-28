@@ -98,9 +98,49 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="util\FileHelper.cs" />
+    <Compile Include="Versions\RawVersionListType.cs" />
+    <Compile Include="Versions\RemoteVerType.cs" />
+    <Compile Include="Versions\VersionHelper.cs" />
     <Page Include="ButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DL\DLAsset.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DL\DLForge.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DL\DLLib.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DL\DLMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DL\DLMC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Lang\en.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Lang\zh-CHS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Lang\zh-CHT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -110,6 +150,30 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="assets\assets.cs" />
+    <Compile Include="assets\AssetsEntity.cs" />
+    <Compile Include="ButtonMetroTab.cs" />
+    <Compile Include="DL\DLAsset.xaml.cs">
+      <DependentUpon>DLAsset.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DL\DLForge.xaml.cs">
+      <DependentUpon>DLForge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DL\DLLib.xaml.cs">
+      <DependentUpon>DLLib.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DL\DLMain.xaml.cs">
+      <DependentUpon>DLMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DL\DLMC.xaml.cs">
+      <DependentUpon>DLMC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forge\ForgeListNotReadyException.cs" />
+    <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="JsonClass\ForgeVersion.cs" />
+    <Compile Include="JsonClass\soundsJson.cs" />
+    <Compile Include="Lang\LangManager.cs" />
+    <Compile Include="Lang\LangType.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -122,6 +186,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Profile\ProfileEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayWin\Envir.xaml.cs">
@@ -130,6 +202,11 @@
     <Compile Include="PlayWin\PlayWin.xaml.cs">
       <DependentUpon>PlayWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Profile\Profile.cs" />
+    <Compile Include="Profile\ProfileEditor.xaml.cs">
+      <DependentUpon>ProfileEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\ProfileInXML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -184,6 +261,18 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ImageSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ImageAbout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ImageDL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ImagePlay.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

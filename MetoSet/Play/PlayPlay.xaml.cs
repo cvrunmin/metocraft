@@ -32,7 +32,7 @@ namespace MetoCraft.Play
                 login.ShowDialog();
             }));
             if (login.auth != null) {
-                new Assets.Assets(MeCore.MainWindow.gridPlay.gridVer.versions[MeCore.MainWindow.gridPlay.gridVer.listBoxVer.SelectedIndex]);
+//                new Assets.Assets(MeCore.MainWindow.gridPlay.gridVer.versions[MeCore.MainWindow.gridPlay.gridVer.listBoxVer.SelectedIndex]);
                 var result = PlayMain.launcher.Launch(new KMCCC.Launcher.LaunchOptions {
                     Version = MeCore.MainWindow.gridPlay.gridVer.versions[MeCore.MainWindow.gridPlay.gridVer.listBoxVer.SelectedIndex],
                     MaxMemory = (int)MeCore.MainWindow.gridPlay.gridEn.sliderRAM.Value,
@@ -71,6 +71,10 @@ namespace MetoCraft.Play
                             }));
                             break;
                     }
+                }
+                else
+                {
+                    MeCore.NIcon.ShowBalloonTip(3000, "Susceesful to launch " + MeCore.MainWindow.gridPlay.gridVer.versions[MeCore.MainWindow.gridPlay.gridVer.listBoxVer.SelectedIndex].Id);
                 }
             }
             

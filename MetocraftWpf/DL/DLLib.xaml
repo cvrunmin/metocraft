@@ -1,0 +1,30 @@
+﻿<Grid x:Class="MetoCraft.DL.DLLib"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MetoCraft.DL"
+             mc:Ignorable="d" 
+             d:DesignHeight="719" d:DesignWidth="592" Background="White">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MetoCraft;component/ControlStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Label x:Name="lblTitle" Content="{DynamicResource DLLib}" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontSize="16"/>
+    <Label x:Name="lblVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="30,55,0,0" VerticalAlignment="Top"/>
+    <ListBox x:Name="listVer" HorizontalAlignment="Left" Height="100" Margin="30,80,0,0" VerticalAlignment="Top" Width="552" SelectionChanged="listVer_SelectionChanged"/>
+    <Label x:Name="lblLibs" Content="{DynamicResource Libs}" HorizontalAlignment="Left" Margin="30,185,0,0" VerticalAlignment="Top"/>
+    <ListView x:Name="listLib" HorizontalAlignment="Left" Height="450" Margin="30,210,0,0" VerticalAlignment="Top" Width="550" ItemsSource="{Binding}" SelectionMode="Single">
+        <ListView.View>
+            <GridView AllowsColumnReorder="True">
+                <GridViewColumn DisplayMemberBinding="{Binding Lib}" Header="{DynamicResource DLLib}" Width="450"/>
+                <GridViewColumn DisplayMemberBinding="{Binding Exist}" Header="{DynamicResource Exist}" Width="50"/>
+            </GridView>
+        </ListView.View>
+    </ListView>
+    <Button x:Name="butDL" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="30,665,0,0" VerticalAlignment="Top" Width="75" Click="butDL_Click"/>
+    <Label x:Name="lblDLI" Content="" HorizontalAlignment="Left" Margin="110,665,0,0" VerticalAlignment="Top"/>
+</Grid>

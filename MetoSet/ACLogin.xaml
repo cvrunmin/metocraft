@@ -6,11 +6,18 @@
         xmlns:local="clr-namespace:MetoCraft"
         mc:Ignorable="d"
         Title="ACLogin" Height="400" Width="400" SizeChanged="Window_SizeChanged">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid x:Name="gridMain" Background="White">
         <Label x:Name="lblTitle" Content="Select Account" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Button x:Name="butClose" Content="Close" Margin="0,0,10,10" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="butClose_Click"/>
-        <Button x:Name="butOffline" Content="Offline" Margin="0,45,0,0" VerticalAlignment="Top" Height="40" Click="butOffline_Click"/>
-        <Button x:Name="butMojang" Content="Mojang" Margin="0,85,0,0" VerticalAlignment="Top" Height="40" Click="butMojang_Click"/>
+        <local:ButtonMenu x:Name="butOffline" Content="Offline" Margin="0,45,0,0" VerticalAlignment="Top" Height="40" Click="butOffline_Click" Style="{DynamicResource ButtonMe}" ListType="True"/>
+        <local:ButtonMenu x:Name="butMojang" Content="Mojang" Margin="0,85,0,0" VerticalAlignment="Top" Height="40" Click="butMojang_Click" Style="{DynamicResource ButtonMe}" ListType="True"/>
         <Grid x:Name="gridOff" Background="White" Margin="0,0,0,369">
             <Label x:Name="lblTitleOff" Content="Login" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label x:Name="lblUN" Content="Username" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"/>

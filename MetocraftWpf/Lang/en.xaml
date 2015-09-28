@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="DisplayName">English</s:String>
+    <s:String x:Key="LangName">en</s:String>
+    <s:String x:Key="Play">Play</s:String>
+    <s:String x:Key="Download">Download</s:String>
+    <s:String x:Key="Setting">Settings</s:String>
+    <s:String x:Key="About">About</s:String>
+    <s:String x:Key="Browse">Browse</s:String>
+    <s:String x:Key="Save">Save</s:String>
+    <s:String x:Key="Reload">Reload</s:String>
+    <!-- About.xaml -->
+    <s:String x:Key="COM">Computer</s:String>
+    <s:String x:Key="COMVer">OS Version</s:String>
+    <s:String x:Key="COMType">System Type</s:String>
+    <s:String x:Key="COMJava">Installed Java</s:String>
+
+    <s:String x:Key="Pro">Pro</s:String>
+    <s:String x:Key="COMx64">64-bit Operaing System</s:String>
+    <s:String x:Key="COMx86">32-bit Operaing System</s:String>
+    <s:String x:Key="PCSx64">64-bit Processor</s:String>
+    <s:String x:Key="PCSx86">32-bit Processor</s:String>
+    <s:String x:Key="Network">Network</s:String>
+    <s:String x:Key="LauncherT">Launcher</s:String>
+    <s:String x:Key="Version">Version</s:String>
+    <!-- /About.xaml -->
+    <!-- Settings.xaml -->
+    <s:String x:Key="Language">Language</s:String>
+    <s:String x:Key="OfDL">Override for Display Language</s:String>
+    <s:String x:Key="OfDLDesc">If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>
+    <s:String x:Key="DLSrc">Download Source</s:String>
+    <!-- /Settings.xaml -->
+    <!-- Play -->
+    <s:String x:Key="PlayEnvir">Environment</s:String>
+    <s:String x:Key="PlayVer">Version</s:String>
+    <s:String x:Key="PlayPlay">Play</s:String>
+    <s:String x:Key="Xmx">Max Memory</s:String>
+    <s:String x:Key="MCPath">Minecraft Path</s:String>
+    <s:String x:Key="UseJ">Using Java</s:String>
+    <s:String x:Key="ExArg">Extra Jvm Argument</s:String>
+    <s:String x:Key="VerInfo">Version Info</s:String>
+    <s:String x:Key="Type">Type</s:String>
+    <s:String x:Key="RTime">Release Time</s:String>
+    <s:String x:Key="LaVer">Launch Version</s:String>
+    <!-- /Play -->
+    <!-- DL -->
+    <s:String x:Key="DLMC">Vanilla</s:String>
+    <s:String x:Key="DLMCC">Vanilla Client</s:String>
+    <s:String x:Key="DLLib">Library</s:String>
+    <s:String x:Key="DLAssets">Assets</s:String>
+    <s:String x:Key="DownLoad">Download</s:String>
+    <s:String x:Key="Refresh">Refresh</s:String>
+    <s:String x:Key="Libs">Libraries</s:String>
+    <s:String x:Key="Assets">Assets</s:String>
+    <s:String x:Key="Exist">Existed</s:String>
+    <s:String x:Key="Size">Size</s:String>
+    <s:String x:Key="Hash">Hash</s:String>
+    <!-- /DL -->
+    <!-- Other -->
+    <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
+    <s:String x:Key="SyncAssetsFinish">Assets synced. Please restart the client if they are not working</s:String>
+    <s:String x:Key="RemoteVerGetting">Getting, please wait</s:String>
+    <s:String x:Key="RemoteVerFailedTimeout">Connection timed out when refreshing version</s:String>
+    <s:String x:Key="RemoteVerDownloading">Downloading, please wait</s:String>
+    <s:String x:Key="RemoteVerErrorNoVersionSelect">Please select a version first</s:String>
+    <s:String x:Key="RemoteVerDownloadSuccess">Download sucessful</s:String>
+    <s:String x:Key="DownloadSpeedInfo">Speed:</s:String>
+</ResourceDictionary>

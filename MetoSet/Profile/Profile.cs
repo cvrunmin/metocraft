@@ -7,6 +7,7 @@ namespace MetoCraft.Profile
 {
     public sealed class Profile
     {
+        public string oldName { get; set; }
         public string name { get; set; }
 
         public string version { get; set; }

@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="DisplayName">繁體中文</s:String>
+    <s:String x:Key="LangName">zh-CHT</s:String>
+    <s:String x:Key="Play">遊玩</s:String>
+    <s:String x:Key="Download">下載</s:String>
+    <s:String x:Key="Setting">設定</s:String>
+    <s:String x:Key="About">關於</s:String>
+    <s:String x:Key="Browse">瀏覽</s:String>
+    <s:String x:Key="Save">儲存</s:String>
+    <s:String x:Key="Reload">重載</s:String>
+    <!-- About.xaml -->
+    <s:String x:Key="COM">電腦</s:String>
+    <s:String x:Key="COMVer">版本</s:String>
+    <s:String x:Key="COMType">系統類型</s:String>
+    <s:String x:Key="COMJava">安裝的Java</s:String>
+
+    <s:String x:Key="Pro">專業版</s:String>
+    <s:String x:Key="COMx64">64位元作業系統</s:String>
+    <s:String x:Key="COMx86">32位元作業系統</s:String>
+    <s:String x:Key="PCSx64">x64型處理器</s:String>
+    <s:String x:Key="PCSx86">x32型處理器</s:String>
+    <s:String x:Key="Network">網絡</s:String>
+    <s:String x:Key="LauncherT">啟動器</s:String>
+    <s:String x:Key="Version">版本</s:String>
+    <!-- /About.xaml -->
+    <!-- Settings.xaml -->
+    <s:String x:Key="Language">語言</s:String>
+    <s:String x:Key="OfDL">覆寫語言</s:String>
+    <s:String x:Key="OfDLDesc">如果您想使用的顯示語言與Windows語言不同，請在這裡選擇</s:String>
+    <s:String x:Key="DLSrc">下載源</s:String>
+    <!-- /Settings.xaml -->
+    <!-- Play -->
+    <s:String x:Key="PlayEnvir">環境</s:String>
+    <s:String x:Key="PlayVer">版本</s:String>
+    <s:String x:Key="PlayPlay">遊玩</s:String>
+    <s:String x:Key="Xmx">可用最大記憶體</s:String>
+    <s:String x:Key="MCPath">Minecraft 路徑</s:String>
+    <s:String x:Key="UseJ">使用的Java</s:String>
+    <s:String x:Key="ExArg">額外Jvm參數</s:String>
+    <s:String x:Key="VerInfo">版本資訊</s:String>
+    <s:String x:Key="Type">類型</s:String>
+    <s:String x:Key="RTime">發布時間</s:String>
+    <s:String x:Key="LaVer">啟動版本</s:String>
+    <!-- /Play -->
+    <!-- DL -->
+    <s:String x:Key="DLMC">原版</s:String>
+    <s:String x:Key="DLMCC">原版客戶端</s:String>
+    <s:String x:Key="DLLib">庫</s:String>
+    <s:String x:Key="DLAssets">資源</s:String>
+    <s:String x:Key="DownLoad">下載</s:String>
+    <s:String x:Key="Refresh">刷新</s:String>
+    <s:String x:Key="Libs">庫</s:String>
+    <s:String x:Key="Assets">資源</s:String>
+    <s:String x:Key="Exist">存在</s:String>
+    <s:String x:Key="Size">大小</s:String>
+    <s:String x:Key="Hash">Hash</s:String>
+    <!-- /DL -->
+    <!-- Other -->
+    <s:String x:Key="FoundAssetsModify">發現資源文件修改，正在同步</s:String>
+    <s:String x:Key="SyncAssetsFinish">同步資源文件完畢，若未生效，請重啟客戶端</s:String>
+    <s:String x:Key="RemoteVerGetting">正在獲取，請稍候</s:String>
+    <s:String x:Key="RemoteVerFailedTimeout">刷新版本時與服務器通信超時</s:String>
+    <s:String x:Key="RemoteVerDownloading">下載中請稍候</s:String>
+    <s:String x:Key="RemoteVerErrorNoVersionSelect">請先選擇一個版本</s:String>
+    <s:String x:Key="RemoteVerDownloadSuccess">下載成功</s:String>
+    <s:String x:Key="DownloadSpeedInfo">速度：</s:String>
+</ResourceDictionary>

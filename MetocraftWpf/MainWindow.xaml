@@ -16,31 +16,15 @@
                     <Grid Height="50" Width="300">
                         <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Foreground="White"/>
                     </Grid>
-                    <Button x:Name="butPlay" Content="Play" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="0,0,3,3" Template="{DynamicResource ButtonControlTemplate}" Click="butPlay_Click">
-                        <Button.Background>
-                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/WMP.png" Stretch="UniformToFill"/>
-                        </Button.Background>
-                    </Button>
-                    <Button x:Name="butNews" Content="News" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="3,0,3,3" Template="{DynamicResource ButtonControlTemplate}">
-                        <Button.Background>
-                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/Tumblr.png" Stretch="UniformToFill"/>
-                        </Button.Background>
-                    </Button>
+                    <local:ButtonMetroTab x:Name="butPlay" Content="Play" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="0,0,3,3" Template="{DynamicResource ButtonTemplate}" Click="butPlay_Click" MenuImage="Resources/ImagePlay.png" Background="#FF8AA4FF"/>
+                        <local:ButtonMetroTab x:Name="butNews" Content="News" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="3,0,3,3" Template="{DynamicResource ButtonTemplate}" MenuImage="Resources/ImageAbout.png" Background="#FF8AA4FF"/>
                 </WrapPanel>
                 <WrapPanel x:Name="group2" Height="350" Width="300" Margin="48,50,48,0">
                     <Grid Height="50" Width="300">
                         <Label x:Name="label1" Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="280" Foreground="White"/>
                     </Grid>
-                    <Button x:Name="butDLLib" Content="Download" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="0,0,3,3" Template="{DynamicResource ButtonControlTemplate}">
-                        <Button.Background>
-                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/DLLib.png" Stretch="UniformToFill"/>
-                        </Button.Background>
-                    </Button>
-                    <Button x:Name="butConfig" Content="Settings" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="3,0,3,3" Template="{DynamicResource ButtonControlTemplate}">
-                        <Button.Background>
-                            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/Configure.png" Stretch="UniformToFill"/>
-                        </Button.Background>
-                    </Button>
+                    <local:ButtonMetroTab x:Name="butDLLib" Content="Download" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="0,0,3,3" Template="{DynamicResource ButtonTemplate}" MenuImage="Resources/ImageDL.png" Background="#FF8AA4FF"/>
+                    <local:ButtonMetroTab x:Name="butConfig" Content="Settings" Width="96" BorderBrush="{x:Null}" BorderThickness="0" Height="96" Foreground="White" UseLayoutRounding="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="6" Margin="3,0,3,3" Template="{DynamicResource ButtonTemplate}" MenuImage="Resources/ImageSet.png" Background="#FF8AA4FF"/>
                 </WrapPanel>
             </WrapPanel>
         </Grid>

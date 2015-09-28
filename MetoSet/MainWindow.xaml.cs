@@ -31,7 +31,35 @@ namespace MetoCraft
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width < 800) { }
+            if (e.NewSize.Width < 800) {
+                butAbout.ListType = true;
+                butPlay.ListType = true;
+                butConfig.ListType = true;
+                butDL.ListType = true;
+                butAbout.Width = wrap.ActualWidth;
+                butPlay.Width = wrap.ActualWidth;
+                butConfig.Width = wrap.ActualWidth;
+                butDL.Width = wrap.ActualWidth;
+                butAbout.Height = 50;
+                butPlay.Height = 50;
+                butConfig.Height = 50;
+                butDL.Height = 50;
+            }
+            if (e.NewSize.Width >= 800)
+            {
+                butAbout.ListType = false;
+                butPlay.ListType = false;
+                butConfig.ListType = false;
+                butDL.ListType = false;
+                butAbout.Width = 200;
+                butPlay.Width = 200;
+                butConfig.Width = 200;
+                butDL.Width = 200;
+                butAbout.Height = 200;
+                butPlay.Height = 200;
+                butConfig.Height = 200;
+                butDL.Height = 200;
+            }
             if (gridPlay.Margin != new Thickness(0))
             {
                 gridPlay.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
@@ -95,7 +123,12 @@ namespace MetoCraft
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             gridSettings.listLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
+            gridPlay.gridEn.loadConfig();
             this.gridPlay.gridEn.sliderRAM.Maximum = Config.GetMemory();
+            if (gridPlay.gridEn.txtBoxP.Text != "")
+            {
+                gridPlay.gridVer.LoadVersionList();
+            }
             FinishLoad = true;
         }
 

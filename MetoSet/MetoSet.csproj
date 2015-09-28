@@ -88,12 +88,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KMCCC.Pro, Version=0.9.5.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\KMCCC.Pro.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -126,6 +121,11 @@
     </Compile>
     <Compile Include="assets\assets.cs" />
     <Compile Include="assets\AssetsEntity.cs" />
+    <Compile Include="Authentication\AuthenticationInfo.cs" />
+    <Compile Include="Authentication\IAuthenticator.cs" />
+    <Compile Include="Authentication\OfflineAuthenticator.cs" />
+    <Compile Include="Authentication\WarpedAuhenticator.cs" />
+    <Compile Include="Authentication\Yggdrasil.cs" />
     <Compile Include="DL\DLForge.xaml.cs">
       <DependentUpon>DLForge.xaml</DependentUpon>
     </Compile>
@@ -142,16 +142,46 @@
     <Compile Include="Forge\ForgeVersionList.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
     <Compile Include="JsonClass\soundsJson.cs" />
+    <Compile Include="Launcher\LaunchArguments.cs" />
+    <Compile Include="Launcher\LauncherCore.cs" />
+    <Compile Include="Launcher\LauncherCoreInternal.cs" />
+    <Compile Include="Launcher\LaunchHandle.cs" />
+    <Compile Include="Launcher\LaunchHandleExtensions.cs" />
+    <Compile Include="Launcher\LaunchMode.cs" />
+    <Compile Include="Launcher\Reporter.cs" />
+    <Compile Include="Launcher\Version.cs" />
+    <Compile Include="LitJson\IJsonWrapper.cs" />
+    <Compile Include="LitJson\JsonData.cs" />
+    <Compile Include="LitJson\JsonException.cs" />
+    <Compile Include="LitJson\JsonMapper.cs" />
+    <Compile Include="LitJson\JsonMockWrapper.cs" />
+    <Compile Include="LitJson\JsonPropertyName.cs" />
+    <Compile Include="LitJson\JsonReader.cs" />
+    <Compile Include="LitJson\JsonWriter.cs" />
+    <Compile Include="LitJson\Lexer.cs" />
+    <Compile Include="LitJson\ParserToken.cs" />
+    <Compile Include="Modules\JVersion\JVersion.cs" />
+    <Compile Include="Modules\JVersion\JVersionLocator.cs" />
+    <Compile Include="Modules\Yggdrasil\YggdrasilClient.cs" />
+    <Compile Include="Play\PlayAdv.xaml.cs">
+      <DependentUpon>PlayAdv.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Play\PlayPlay.xaml.cs">
       <DependentUpon>PlayPlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profile\Profile.cs" />
+    <Compile Include="Profile\ProfileEditor.xaml.cs">
+      <DependentUpon>ProfileEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Profile\ProfileInXML.cs" />
     <Compile Include="Resources\Url.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Url.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools\SystemTools.cs" />
+    <Compile Include="Tools\UsefulTools.cs" />
+    <Compile Include="Tools\ZipTools.cs" />
     <Compile Include="util\FileHelper.cs" />
     <Compile Include="Versions\RawVersionListType.cs" />
     <Compile Include="Versions\RemoteVerType.cs" />
@@ -188,6 +218,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Play\PlayAdv.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Play\PlayEnvir.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -201,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Play\PlayVer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Profile\ProfileEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -330,6 +368,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="metocraft.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="SplashScreen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

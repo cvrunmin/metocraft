@@ -29,7 +29,7 @@ namespace MetoCraft
         {
             NIcon.Visible = false;
             NIcon = new NotifyIcon { Visible = true };
-            var s = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/screenLaunch.png"));
+            var s = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/metocraft.ico"));
             if (s != null) this.NIcon.Icon = System.Drawing.Icon.FromHandle(new System.Drawing.Bitmap(s.Stream).GetHicon());
             MenuItem menuItem = _nMenu.MenuItems.Add(LangManager.GetLangFromResource("MenuShowMainWindow"));
             menuItem.Name = "ShowMainWindow";

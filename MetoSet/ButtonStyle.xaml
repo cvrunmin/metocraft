@@ -30,9 +30,61 @@
                             <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
                         </Trigger>
+                        <Trigger Property="ListType" Value="True">
+                            <Setter Property="Width" TargetName="icon" Value="40"/>
+                            <Setter Property="Height" TargetName="icon" Value="40"/>
+                            <Setter Property="Margin" TargetName="icon" Value="10,0,0,0"/>
+                            <Setter Property="HorizontalAlignment" TargetName="icon" Value="Left"/>
+                            <Setter Property="Margin" TargetName="contentPresenter" Value="55,12.38,0,12.38"/>
+                            <Setter Property="HorizontalAlignment" TargetName="contentPresenter" Value="Left"/>
+                            <Setter Property="VerticalAlignment" TargetName="contentPresenter" Value="Stretch"/>
+                        </Trigger>
+                        <Trigger Property="ListType" Value="False">
+                            <Setter Property="Width" TargetName="icon" Value="48"/>
+                            <Setter Property="Height" TargetName="icon" Value="48"/>
+                            <Setter Property="Margin" TargetName="icon" Value="74,54,74,94"/>
+                            <Setter Property="HorizontalAlignment" TargetName="icon" Value="Stretch"/>
+                            <Setter Property="Margin" TargetName="contentPresenter" Value="0,0,0,70.38"/>
+                            <Setter Property="HorizontalAlignment" TargetName="contentPresenter" Value="Center"/>
+                            <Setter Property="VerticalAlignment" TargetName="contentPresenter" Value="Bottom"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="ButtonMeList" TargetType="{x:Type local:ButtonMenu}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ButtonMenu}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <Grid>
+                            <Image x:Name="icon" Source="{TemplateBinding MenuImage}" Stretch="UniformToFill" Width="40" Height="40" Margin="10,0,0,0" OpacityMask="{x:Null}" HorizontalAlignment="Left" d:LayoutOverrides="VerticalAlignment, Width, LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="Left" Margin="55,12.38,0,12.38" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch" d:LayoutOverrides="Height"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF808080"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF5E5E5E"/>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
