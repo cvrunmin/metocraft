@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MetoCraft"
         xmlns:localplay="clr-namespace:MetoCraft.Play"
         xmlns:localdl="clr-namespace:MetoCraft.DL"
+        xmlns:localsett="clr-namespace:MetoCraft.Sett"
         x:Class="MetoCraft.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="800" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed">
@@ -30,7 +31,7 @@
             </WrapPanel>
             <localplay:PlayMain x:Name="gridPlay" Margin="0, 0, 0, 719"/>
             <localdl:DLMain x:Name="gridDL" Margin="0, 0, 0, 719"/>
-            <local:Settings x:Name="gridSettings" Margin="0, 0, 0, 719"/>
+            <localsett:Settings x:Name="gridSettings" Margin="0, 0, 0, 719"/>
             <local:About x:Name="gridAbout" Margin="0, 0, 0, 719"/>
         </Grid>
     </Grid>

@@ -16,8 +16,8 @@
     <Grid x:Name="gridMain" Background="White">
         <Label x:Name="lblTitle" Content="Select Account" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Button x:Name="butClose" Content="Close" Margin="0,0,10,10" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="butClose_Click"/>
-        <local:ButtonMenu x:Name="butOffline" Content="Offline" Margin="0,45,0,0" VerticalAlignment="Top" Height="40" Click="butOffline_Click" Style="{DynamicResource ButtonMe}" ListType="True"/>
-        <local:ButtonMenu x:Name="butMojang" Content="Mojang" Margin="0,85,0,0" VerticalAlignment="Top" Height="40" Click="butMojang_Click" Style="{DynamicResource ButtonMe}" ListType="True"/>
+        <local:ButtonMenu x:Name="butOffline" Content="Offline" Margin="0,45,0,0" VerticalAlignment="Top" Height="40" Click="butOffline_Click" Style="{DynamicResource ButtonMe}" ListType="True" Background="White" MenuImage="Resources/offline.png"/>
+        <local:ButtonMenu x:Name="butMojang" Content="Mojang" Margin="0,85,0,0" VerticalAlignment="Top" Height="40" Click="butMojang_Click" Style="{DynamicResource ButtonMe}" ListType="True" Background="White" MenuImage="Resources/mojang.png"/>
         <Grid x:Name="gridOff" Background="White" Margin="0,0,0,369">
             <Label x:Name="lblTitleOff" Content="Login" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label x:Name="lblUN" Content="Username" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"/>

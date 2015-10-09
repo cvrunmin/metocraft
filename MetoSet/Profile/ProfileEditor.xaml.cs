@@ -89,18 +89,21 @@ namespace MetoCraft.Profile
             txtBoxXmx.Text = file.Xmx.ToString();
         }
         private Profile outText() {
-            int x = 0, y = 0;
-            Profile file = new Profile
-            {
-                oldName = profiles[listFile.SelectedIndex].name,
-                name = txtBoxName.Text,
-                version = combeVer.SelectedItem.ToString(),
-                winSizeX = int.TryParse(txtBoxX.Text, out x) ? x : 854,
-                winSizeY = int.TryParse(txtBoxY.Text, out y) ? y : 480,
-                Xmx = int.Parse(txtBoxXmx.Text)
-            };
-//            profiles[listFile.SelectedIndex] = file;
-            return file;
+            if (listFile.SelectedIndex != -1) {
+                int x = 0, y = 0;
+                Profile file = new Profile
+                {
+                    oldName = profiles[listFile.SelectedIndex].name,
+                    name = txtBoxName.Text,
+                    version = combeVer.SelectedItem.ToString(),
+                    winSizeX = int.TryParse(txtBoxX.Text, out x) ? x : 854,
+                    winSizeY = int.TryParse(txtBoxY.Text, out y) ? y : 480,
+                    Xmx = int.Parse(txtBoxXmx.Text)
+                };
+                //            profiles[listFile.SelectedIndex] = file;
+                return file;
+            }
+            return null;
         }
         private Profile outNewText()
         {
@@ -118,8 +121,11 @@ namespace MetoCraft.Profile
         }
         private void butSave_Click(object sender, RoutedEventArgs e)
         {
-            xmlLoader.rewriteProfile(_path, outText());
-            loadProfile(_path);
+            Profile txt;
+            if ((txt = outText()) != null) {
+                xmlLoader.rewriteProfile(_path, txt);
+                loadProfile(_path);
+            }
         }
 
         private void butNew_Click(object sender, RoutedEventArgs e)

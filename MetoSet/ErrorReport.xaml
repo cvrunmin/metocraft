@@ -8,7 +8,8 @@
         Title="ErrorReport" Height="500" Width="400">
     <Grid>
         <TextBox x:Name="txtMes" TextWrapping="Wrap" Text="TextBox" Margin="0,0,0,69"/>
-        <Button x:Name="but" Content="Button" HorizontalAlignment="Left" Width="75" Height="19" VerticalAlignment="Bottom"/>
+        <Button x:Name="butEmail" Content="Email" HorizontalAlignment="Left" Width="75" Height="19" VerticalAlignment="Bottom" Click="butEmail_Click"/>
+        <Label x:Name="lblDesc1" Content="An unexpected exception has been occurred. Please contact the author." Margin="0,405,0,0" VerticalAlignment="Top" Height="24" FontSize="11.333"/>
 
     </Grid>
 </Window>

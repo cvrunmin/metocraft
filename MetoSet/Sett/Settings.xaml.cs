@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using MetoCraft.Lang;
 using MetoCraft.Resources;
 
-namespace MetoCraft
+namespace MetoCraft.Sett
 {
     /// <summary>
     /// About.xaml 的互動邏輯

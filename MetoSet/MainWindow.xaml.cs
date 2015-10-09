@@ -31,7 +31,7 @@ namespace MetoCraft
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width < 800) {
+            if (e.NewSize.Width < 700) {
                 butAbout.ListType = true;
                 butPlay.ListType = true;
                 butConfig.ListType = true;
@@ -45,7 +45,7 @@ namespace MetoCraft
                 butConfig.Height = 50;
                 butDL.Height = 50;
             }
-            if (e.NewSize.Width >= 800)
+            if (e.NewSize.Width >= 700)
             {
                 butAbout.ListType = false;
                 butPlay.ListType = false;

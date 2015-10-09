@@ -34,6 +34,7 @@ namespace MetoCraft
             loadOSData();
             loadUrlStatus();
             lblLaVer1.Content = MeCore.version;
+            lblKM1.Content = KMCCC.Launcher.Reporter.KMCCC_TYPE + " " + KMCCC.Launcher.Reporter.Version;
         }
         public string HKLM_GetString(string path, string key)
         {

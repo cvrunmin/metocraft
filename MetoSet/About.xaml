@@ -26,6 +26,8 @@
             <Label x:Name="lblLaVer1" Content="" HorizontalAlignment="Left" Margin="88,268,0,0" VerticalAlignment="Top"/>
             <Button x:Name="butBBTry" Content="Try" HorizontalAlignment="Left" Margin="330,176,0,0" VerticalAlignment="Top" Width="75" Click="butBBTry_Click"/>
             <Button x:Name="butRTry" Content="Try" HorizontalAlignment="Left" Margin="330,209,0,0" VerticalAlignment="Top" Width="75" Click="butRTry_Click"/>
+            <Label x:Name="lblKM" Content="KMCCC" HorizontalAlignment="Left" Margin="30,298,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblKM1" Content="Label" HorizontalAlignment="Left" Margin="88,298,0,0" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>
