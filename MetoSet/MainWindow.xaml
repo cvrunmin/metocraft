@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:MetoCraft"
         xmlns:localplay="clr-namespace:MetoCraft.Play"
         xmlns:localdl="clr-namespace:MetoCraft.DL"
-        xmlns:localsett="clr-namespace:MetoCraft.Sett"
+        xmlns:localset="clr-namespace:MetoCraft.Sett"
         x:Class="MetoCraft.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="MainWindow" Height="400" Width="600" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,21 +18,21 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Grid x:Name="gridBar" Height="50" VerticalAlignment="Top" d:LayoutOverrides="Height, TopMargin, BottomMargin">
-            <Button x:Name="butHP" Content="" HorizontalAlignment="Left" Width="50" VerticalAlignment="Top" Height="50" d:LayoutOverrides="Height" BorderBrush="White" Background="White" Click="butHP_Click"/>
-            <Label x:Name="lblTitle" Content="Metocraft" Margin="55,11.5,0,11.5" FontSize="13.333" HorizontalAlignment="Left"/>
+        <Grid.Background>
+            <ImageBrush ImageSource="SplashScreen.png" TileMode="Tile" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <Grid x:Name="gridMenu" HorizontalAlignment="Left" Width="55" Background="#7F000000">
+            <local:ButtonMenu x:Name="butPlay"  Content="{DynamicResource Play}"     HorizontalAlignment="Left" Height="44" Margin="0"         VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImagePlay.png"  BorderThickness="2" Click="butPlay_Click"/>
+            <local:ButtonMenu x:Name="butDL"    Content="{DynamicResource Download}" HorizontalAlignment="Left" Height="44" Margin="0,44,0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageDL.png"    BorderThickness="2" Click="butDL_Click"/>
+            <local:ButtonMenu x:Name="butSet"   Content="{DynamicResource Setting}"  HorizontalAlignment="Left" Height="44" Margin="0,88,-0,0" VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageSet.png"   BorderThickness="2" Click="butConfig_Click"/>
+            <local:ButtonMenu x:Name="butAbout" Content="{DynamicResource About}"    HorizontalAlignment="Left" Height="44" Margin="0,132,-0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageAbout.png" BorderThickness="2" Click="butAbout_Click"/>
         </Grid>
-        <Grid x:Name="gridMain" Height="Auto" Margin="0,50,0,0" VerticalAlignment="Stretch" Width="Auto">
-            <WrapPanel x:Name="wrap" Margin="0" Background="White">
-                <local:ButtonMenu x:Name="butPlay"   MenuImage="/MetoCraft;component/Resources/ImagePlay.png"  Content="{DynamicResource Play}"     Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butPlay_Click" Width="200" Height="200"/>
-                <local:ButtonMenu x:Name="butDL"     MenuImage="/MetoCraft;component/Resources/ImageDL.png"    Content="{DynamicResource Download}" Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butDL_Click"     Width="200" Height="200"/>
-                <local:ButtonMenu x:Name="butConfig" MenuImage="/MetoCraft;component/Resources/ImageSet.png"   Content="{DynamicResource Setting}" Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butConfig_Click" Width="200" Height="200"/>
-                <local:ButtonMenu x:Name="butAbout"  MenuImage="/MetoCraft;component/Resources/ImageAbout.png" Content="{DynamicResource About}"    Style="{DynamicResource ButtonMe}" BorderThickness="2" BorderBrush="White" Background="White" FontSize="13.333" ListType="False" Click="butAbout_Click"  Width="200" Height="200"/>
-            </WrapPanel>
-            <localplay:PlayMain x:Name="gridPlay" Margin="0, 0, 0, 719"/>
-            <localdl:DLMain x:Name="gridDL" Margin="0, 0, 0, 719"/>
-            <localsett:Settings x:Name="gridSettings" Margin="0, 0, 0, 719"/>
-            <local:About x:Name="gridAbout" Margin="0, 0, 0, 719"/>
+        <Grid x:Name="gridMain" Margin="55,0,0,0">
+            <localplay:PlayMain x:Name="gridPlay" Margin="0,0,0,0"/>
+            <localdl:DLMain x:Name="gridDL" Margin="0,0,0,369"/>
+            <localset:Settings x:Name="gridSet" Margin="0,0,0,369"/>
+            <local:About x:Name="gridAbout" Margin="0,0,0,369"/>
         </Grid>
+        <Button x:Name="butMenu" Content="≡" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="40" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" FontSize="18.667" Click="butMenu_Click"/>
     </Grid>
 </Window>

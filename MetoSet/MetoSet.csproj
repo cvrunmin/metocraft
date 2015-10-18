@@ -127,15 +127,14 @@
     <Compile Include="Authentication\OfflineAuthenticator.cs" />
     <Compile Include="Authentication\WarpedAuhenticator.cs" />
     <Compile Include="Authentication\Yggdrasil.cs" />
-    <Compile Include="DL\DLForge.xaml.cs">
-      <DependentUpon>DLForge.xaml</DependentUpon>
+    <Compile Include="DL\DLMain.xaml.cs">
+      <DependentUpon>DLMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DL\DLAsset.xaml.cs">
-      <DependentUpon>DLAsset.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DL\DLLib.xaml.cs">
-      <DependentUpon>DLLib.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DL\lib\extract.cs" />
+    <Compile Include="DL\lib\libraryies.cs" />
+    <Compile Include="DL\lib\OS.cs" />
+    <Compile Include="DL\lib\ros.cs" />
+    <Compile Include="DL\lib\rules.cs" />
     <Compile Include="ErrorReport.xaml.cs">
       <DependentUpon>ErrorReport.xaml</DependentUpon>
     </Compile>
@@ -143,7 +142,11 @@
     <Compile Include="Forge\ForgeVersionList.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
     <Compile Include="JsonClass\soundsJson.cs" />
+    <Compile Include="Launcher\BMCL\gameinfo.cs" />
+    <Compile Include="Launcher\BMCL\NoJavaException.cs" />
+    <Compile Include="Launcher\BMCL\UnSupportVersionException.cs" />
     <Compile Include="Launcher\LaunchArguments.cs" />
+    <Compile Include="Launcher\BMCL\launcher.cs" />
     <Compile Include="Launcher\LauncherCore.cs" />
     <Compile Include="Launcher\LauncherCoreInternal.cs" />
     <Compile Include="Launcher\LaunchHandle.cs" />
@@ -161,14 +164,13 @@
     <Compile Include="LitJson\JsonWriter.cs" />
     <Compile Include="LitJson\Lexer.cs" />
     <Compile Include="LitJson\ParserToken.cs" />
+    <Compile Include="Login\LoginInfo.cs" />
+    <Compile Include="Login\LoginThread.cs" />
     <Compile Include="Modules\JVersion\JVersion.cs" />
     <Compile Include="Modules\JVersion\JVersionLocator.cs" />
     <Compile Include="Modules\Yggdrasil\YggdrasilClient.cs" />
-    <Compile Include="Play\PlayAdv.xaml.cs">
-      <DependentUpon>PlayAdv.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Play\PlayPlay.xaml.cs">
-      <DependentUpon>PlayPlay.xaml</DependentUpon>
+    <Compile Include="NewGui\TaskGui.xaml.cs">
+      <DependentUpon>TaskGui.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profile\Profile.cs" />
     <Compile Include="Profile\ProfileEditor.xaml.cs">
@@ -187,6 +189,47 @@
     <Compile Include="Versions\RawVersionListType.cs" />
     <Compile Include="Versions\RemoteVerType.cs" />
     <Compile Include="Versions\VersionHelper.cs" />
+    <Compile Include="zip\Checksums\Adler32.cs" />
+    <Compile Include="zip\Checksums\CRC32.cs" />
+    <Compile Include="zip\Checksums\IChecksum.cs" />
+    <Compile Include="zip\Checksums\StrangeCRC.cs" />
+    <Compile Include="zip\Compression\Deflater.cs" />
+    <Compile Include="zip\Compression\DeflaterConstants.cs" />
+    <Compile Include="zip\Compression\DeflaterEngine.cs" />
+    <Compile Include="zip\Compression\DeflaterHuffman.cs" />
+    <Compile Include="zip\Compression\DeflaterPending.cs" />
+    <Compile Include="zip\Compression\Inflater.cs" />
+    <Compile Include="zip\Compression\InflaterDynHeader.cs" />
+    <Compile Include="zip\Compression\InflaterHuffmanTree.cs" />
+    <Compile Include="zip\Compression\PendingBuffer.cs" />
+    <Compile Include="zip\Compression\Streams\DeflaterOutputStream.cs" />
+    <Compile Include="zip\Compression\Streams\InflaterInputStream.cs" />
+    <Compile Include="zip\Compression\Streams\OutputWindow.cs" />
+    <Compile Include="zip\Compression\Streams\StreamManipulator.cs" />
+    <Compile Include="zip\Core\FileSystemScanner.cs" />
+    <Compile Include="zip\Core\INameTransform.cs" />
+    <Compile Include="zip\Core\IScanFilter.cs" />
+    <Compile Include="zip\Core\NameFilter.cs" />
+    <Compile Include="zip\Core\PathFilter.cs" />
+    <Compile Include="zip\Core\StreamUtils.cs" />
+    <Compile Include="zip\Core\WindowsPathUtils.cs" />
+    <Compile Include="zip\Encryption\PkzipClassic.cs" />
+    <Compile Include="zip\Encryption\ZipAESStream.cs" />
+    <Compile Include="zip\Encryption\ZipAESTransform.cs" />
+    <Compile Include="zip\FastZip.cs" />
+    <Compile Include="zip\IEntryFactory.cs" />
+    <Compile Include="zip\SharpZipBaseException.cs" />
+    <Compile Include="zip\WindowsNameTransform.cs" />
+    <Compile Include="zip\ZipConstants.cs" />
+    <Compile Include="zip\ZipEntry.cs" />
+    <Compile Include="zip\ZipEntryFactory.cs" />
+    <Compile Include="zip\ZipException.cs" />
+    <Compile Include="zip\ZipExtraData.cs" />
+    <Compile Include="zip\ZipFile.cs" />
+    <Compile Include="zip\ZipHelperStream.cs" />
+    <Compile Include="zip\ZipInputStream.cs" />
+    <Compile Include="zip\ZipNameTransform.cs" />
+    <Compile Include="zip\ZipOutputStream.cs" />
     <Page Include="ACLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -195,23 +238,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DL\DLForge.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DL\DLAsset.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DL\DLLib.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DL\DLMain.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DL\DLMC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,25 +246,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Play\PlayAdv.xaml">
+    <Page Include="NewGui\TaskGui.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Play\PlayEnvir.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Play\PlayMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Play\PlayPlay.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Play\PlayVer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Profile\ProfileEditor.xaml">
       <SubType>Designer</SubType>
@@ -275,20 +290,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="DL\DLMain.xaml.cs">
-      <DependentUpon>DLMain.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DL\DLMC.xaml.cs">
-      <DependentUpon>DLMC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Play\PlayEnvir.xaml.cs">
-      <DependentUpon>PlayEnvir.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Play\PlayMain.xaml.cs">
       <DependentUpon>PlayMain.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Play\PlayVer.xaml.cs">
-      <DependentUpon>PlayVer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sett\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>

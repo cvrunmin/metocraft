@@ -1,11 +1,12 @@
-﻿<Grid x:Class="MetoCraft.Play.PlayMain"
+﻿<Grid
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MetoCraft.Play"
+             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="MetoCraft.Play.PlayMain"
              mc:Ignorable="d" 
-             d:DesignHeight="719" d:DesignWidth="792" Loaded="Grid_Loaded">
+             d:DesignHeight="369" d:DesignWidth="537" Loaded="Grid_Loaded">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,19 +14,30 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-    <Grid Width="200" HorizontalAlignment="Left" Background="Gray"/>
-        <TabControl x:Name="tabControl" TabStripPlacement="Left" BorderThickness="0" Background="White" BorderBrush="White" Margin="-2,-2,0,0">
-        <TabItem Header="{DynamicResource PlayEnvir}" Background="Gray" BorderBrush="Gray" Width="200" Height="50" Foreground="White" Style="{DynamicResource TabItemStyle}">
-            <local:PlayEnvir x:Name="gridEn"/>
-        </TabItem>
-        <TabItem Header="{DynamicResource PlayVer}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
-            <local:PlayVer x:Name="gridVer"/>
-        </TabItem>
-        <TabItem Header="{DynamicResource PlayPlay}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
-            <local:PlayPlay x:Name="gridPlay"/>
-        </TabItem>
-        <TabItem Header="Adv" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
-            <local:PlayAdv x:Name="gridAdv"/>
-        </TabItem>
-    </TabControl>
+    <Grid x:Name="gridBasic" Margin="0,0,0,0">
+        <Button x:Name="butPlay" Content="{DynamicResource PlayPlay}" Margin="0,0,10,10" Click="butPlay_Click" Height="55" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="120" Background="#7FDDDDDD" BorderBrush="#7F707070" Foreground="#7F000000"/>
+        <ComboBox x:Name="comboVer" Margin="0,0,135,10" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Foreground="#7F000000" BorderBrush="#7FACACAC" Background="#7FFFFFFF"/>
+        <Button x:Name="butF5Ver" Content="{DynamicResource Refresh}" Margin="0,0,285,10" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Background="#7FDDDDDD" Foreground="#7F000000" BorderBrush="#7F707070" Click="butF5Ver_Click"/>
+        <ComboBox x:Name="comboJava" Margin="0,0,135,40" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Background="#7FFFFFFF" BorderBrush="#7FACACAC" Foreground="#7F000000"/>
+        <Label x:Name="lblJava" Content="{DynamicResource UseJ}" Margin="0,0,285,42" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="69" Background="#7FFFFFFF" Foreground="#7F000000"/>
+        <Label x:Name="lblVer" Content="{DynamicResource Version}" Margin="0,0,360,10" HorizontalAlignment="Right" Width="53" Height="25" VerticalAlignment="Bottom" Foreground="#7F000000" Background="#7FFFFFFF"/>
+        <Label x:Name="lblMP" Content="{DynamicResource MCPath}" Margin="0,0,365,68" Foreground="#7F000000" Background="#7FFFFFFF" HorizontalAlignment="Right" Width="93" Height="25" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="txtBoxP" Margin="0,0,10,70" TextWrapping="Wrap" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="275" Background="#7FFFFFFF" BorderBrush="#7FABADB3" Foreground="#7F000000" SelectionBrush="#7F3399FF"/>
+        <Button x:Name="butBrowse" Content="{DynamicResource Browse}" Margin="0,0,285,70" Click="butBrowse_Click" Background="#7FDDDDDD" BorderBrush="#7F707070" Foreground="#7F000000" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+        <Label x:Name="lblMM" Content="{DynamicResource Xmx}" Margin="0,0,410,98" Background="#7FFFFFFF" Foreground="#7F000000" HorizontalAlignment="Right" Width="85" Height="25" VerticalAlignment="Bottom"/>
+        <Slider x:Name="sliderRAM" Margin="0,0,10,98" Foreground="#7F000000" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="400"/>
+        <Button x:Name="butDown" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown_Click"/>
+        <Label x:Name="lblArg" Content="{DynamicResource ExArg}" Margin="0,0,407,119" Foreground="#7F000000" Background="#7FFFFFFF" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="123"/>
+        <TextBox x:Name="txtBoxArg" Margin="0,0,10,121" TextWrapping="Wrap" Background="#7FFFFFFF" BorderBrush="#7FABADB3" Foreground="#7F000000" SelectionBrush="#7F3399FF" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="397"/>
+    </Grid>
+    <Grid x:Name="gridPro" Margin="0,369,0,-369">
+        <Button x:Name="butPlayPro" Width="120" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="55" HorizontalAlignment="Right" Foreground="#7F000000" Content="{DynamicResource PlayPlay}" Click="butPlayPro_Click" Background="#7FDDDDDD" BorderBrush="#7F707070"/>
+        <ComboBox x:Name="comboProfile" Width="150" VerticalAlignment="Bottom" Template="{DynamicResource ComboBoxControlTemplate1}" Margin="0,0,135,10" Height="25" HorizontalAlignment="Right" Foreground="#7F000000" Background="#7FFFFFFF" BorderBrush="#7FACACAC"/>
+        <Button x:Name="butF5Profile" Width="75" VerticalAlignment="Bottom" Margin="0,0,285,10" Height="25" HorizontalAlignment="Right" Foreground="#7F000000" Content="{DynamicResource Refresh}" Background="#7FDDDDDD" BorderBrush="#7F707070"/>
+        <Label x:Name="lblProfile" VerticalAlignment="Bottom" Margin="0,0,435,10" Height="25" HorizontalAlignment="Right" Foreground="#7F000000" Content="Profile" Background="#7FFFFFFF"/>
+        <Label x:Name="lblMM_Copy" Content="{DynamicResource Xmx}" Margin="0,0,410,70" Background="#7FFFFFFF" Foreground="#7F000000" HorizontalAlignment="Right" Width="85" Height="25" VerticalAlignment="Bottom"/>
+        <Slider x:Name="sliderRAMPro" Margin="0,0,10,70" Foreground="#7F000000" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="400"/>
+        <Button x:Name="butUp" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp_Click"/>
+        <Button x:Name="butEdit" Content="Edit" Margin="0,0,360,10" Click="butEdit_Click" Background="#7FDDDDDD" BorderBrush="#7F707070" Foreground="#7F000000" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+    </Grid>
 </Grid>

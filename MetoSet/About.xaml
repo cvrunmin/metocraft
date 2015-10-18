@@ -5,29 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MetoCraft"
              mc:Ignorable="d" 
-             d:DesignHeight="719" d:DesignWidth="792" Loaded="PGrid_Loaded" Unloaded="Grid_Unloaded">
+             d:DesignHeight="369" d:DesignWidth="537" Loaded="PGrid_Loaded" Unloaded="Grid_Unloaded">
     <Grid>
-        <Grid Background="Gray" HorizontalAlignment="Left" Width="200"/>
-        <Grid Margin="200,0,0,0" Background="White">
-            <Label x:Name="lblCOM" Content="{DynamicResource COM}" HorizontalAlignment="Left" Margin="15,12.5,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <Label x:Name="lblCVer" Content="{DynamicResource COMVer}" HorizontalAlignment="Left" Margin="30,48,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblCVer1" Content="" HorizontalAlignment="Left" Margin="100,48,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblBit" Content="{DynamicResource COMType}" HorizontalAlignment="Left" Margin="30,78,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblBit1" Content="" HorizontalAlignment="Left" Margin="128,78,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblJava" Content="{DynamicResource COMJava}" HorizontalAlignment="Left" Margin="30,108,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblJava1" Content="" HorizontalAlignment="Left" Margin="132,108,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblNet" Content="{DynamicResource Network}" HorizontalAlignment="Left" Margin="15,138,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <Label x:Name="lblBB" Content="bangbang93" HorizontalAlignment="Left" Margin="30,173,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblrapid" Content="rapiddata" HorizontalAlignment="Left" Margin="30,203,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblBBS" Content="Connecting" HorizontalAlignment="Left" Margin="200,173,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblrapidS" Content="Connecting" HorizontalAlignment="Left" Margin="200,203,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblLauncher" Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" Margin="15,233,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <Label x:Name="lblLaVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="30,268,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblLaVer1" Content="" HorizontalAlignment="Left" Margin="88,268,0,0" VerticalAlignment="Top"/>
-            <Button x:Name="butBBTry" Content="Try" HorizontalAlignment="Left" Margin="330,176,0,0" VerticalAlignment="Top" Width="75" Click="butBBTry_Click"/>
-            <Button x:Name="butRTry" Content="Try" HorizontalAlignment="Left" Margin="330,209,0,0" VerticalAlignment="Top" Width="75" Click="butRTry_Click"/>
-            <Label x:Name="lblKM" Content="KMCCC" HorizontalAlignment="Left" Margin="30,298,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblKM1" Content="Label" HorizontalAlignment="Left" Margin="88,298,0,0" VerticalAlignment="Top"/>
+        <Grid Background="#7FFFFFFF">
+            <Label x:Name="lblCOM" Content="{DynamicResource COM}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+            <Label x:Name="lblCVer" Content="{DynamicResource COMVer}" HorizontalAlignment="Left" Margin="15,36,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblCVer1" Content="" HorizontalAlignment="Left" Margin="85,36,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblBit" Content="{DynamicResource COMType}" HorizontalAlignment="Left" Margin="15,66,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblBit1" Content="" HorizontalAlignment="Left" Margin="113,66,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblJava" Content="{DynamicResource COMJava}" HorizontalAlignment="Left" Margin="15,96,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblJava1" Content="" HorizontalAlignment="Left" Margin="117,96,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblNet" Content="{DynamicResource Network}" HorizontalAlignment="Left" Margin="0,126,0,0" VerticalAlignment="Top" FontSize="16"/>
+            <Label x:Name="lblBB" Content="bangbang93" HorizontalAlignment="Left" Margin="15,160,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblrapid" Content="rapiddata" HorizontalAlignment="Left" Margin="15,190,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblBBS" Content="Connecting" HorizontalAlignment="Left" Margin="185,160,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblrapidS" Content="Connecting" HorizontalAlignment="Left" Margin="185,190,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblLauncher" Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" Margin="0,220,0,0" VerticalAlignment="Top" FontSize="16"/>
+            <Label x:Name="lblLaVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="15,256,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblLaVer1" Content="" HorizontalAlignment="Left" Margin="73,256,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="butBBTry" Content="Try" HorizontalAlignment="Left" Margin="315,164,0,0" VerticalAlignment="Top" Width="75" Click="butBBTry_Click"/>
+            <Button x:Name="butRTry" Content="Try" HorizontalAlignment="Left" Margin="315,196,0,0" VerticalAlignment="Top" Width="75" Click="butRTry_Click"/>
+            <Label x:Name="lblKM" Content="KMCCC" HorizontalAlignment="Left" Margin="15,286,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblKM1" Content="Label" HorizontalAlignment="Left" Margin="73,286,0,0" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>

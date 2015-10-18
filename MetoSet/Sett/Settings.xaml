@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MetoCraft.Sett"
              xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MetoCraft.Sett.Settings"
              mc:Ignorable="d" 
-             d:DesignHeight="719" d:DesignWidth="792" Loaded="PGrid_Loaded">
+             d:DesignHeight="369" d:DesignWidth="537" Loaded="PGrid_Loaded">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,30 +14,14 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-
-    <Grid>
-        <Grid Background="Gray" HorizontalAlignment="Left" Width="200"/>
-        <TabControl x:Name="tabControl" TabStripPlacement="Left" BorderThickness="0" Background="White" BorderBrush="White" Margin="-2,-2,0,0">
-            <TabItem Header="{DynamicResource Setting}" Background="Gray" BorderBrush="Gray" Width="200" Height="50" Foreground="White" Style="{DynamicResource TabItemStyle}">
-                <Grid Margin="0" Background="White">
-                    <Label x:Name="lblLangTitle" Content="{DynamicResource Language}" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" FontSize="16"/>
-                    <Label x:Name="lblOLang" Content="{DynamicResource OfDL}" HorizontalAlignment="Left" Margin="30,60,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="lblOLangDesc" HorizontalAlignment="Left" Height="37" Margin="50,85,0,0" TextWrapping="Wrap" Text="{DynamicResource OfDLDesc}" VerticalAlignment="Top" Width="512" IsEnabled="False" BorderBrush="{x:Null}" Background="{x:Null}" SelectionBrush="{x:Null}" Foreground="Black" Padding="2,4,0,0" VerticalScrollBarVisibility="Disabled" Template="{DynamicResource TextBoxControlTemplate}"/>
-                    <ComboBox x:Name="listLang" HorizontalAlignment="Left" Margin="50,127,0,0" VerticalAlignment="Top" Width="300" Background="White" BorderBrush="Black" SelectionChanged="listLang_SelectionChanged" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemContainerStyle="{DynamicResource ComboBoxItemStyle1}" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25.488" BorderThickness="2"/>
-                    <Label x:Name="lblDLUrl" Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" Margin="30,157,0,0" VerticalAlignment="Top"/>
-                    <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="50,182,0,0" VerticalAlignment="Top" Width="300" Template="{DynamicResource ComboBoxControlTemplate1}" SelectionChanged="comboDLSrc_SelectionChanged">
-                        <ComboBoxItem Content="Offical"/>
-                        <ComboBoxItem Content="BMCLAPI"/>
-                        <ComboBoxItem Content="RapidData"/>
-                    </ComboBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="{DynamicResource PlayVer}" Background="Gray" BorderBrush="Gray" Foreground="White" Width="200" Height="50" Style="{DynamicResource TabItemStyle}">
-                <Grid>
-                    
-                </Grid>
-            </TabItem>
-        </TabControl>
-
+    <Grid Margin="0" Background="#7FFFFFFF">
+        <Label x:Name="lblLangTitle" Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+        <ComboBox x:Name="listLang" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="300" Background="White" BorderBrush="Black" SelectionChanged="listLang_SelectionChanged" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemContainerStyle="{DynamicResource ComboBoxItemStyle1}" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25" BorderThickness="2"/>
+        <Label x:Name="lblDLUrl" Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" Margin="0,55,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" Width="300" Template="{DynamicResource ComboBoxControlTemplate1}" SelectionChanged="comboDLSrc_SelectionChanged">
+            <ComboBoxItem Content="Offical"/>
+            <ComboBoxItem Content="BMCLAPI"/>
+            <ComboBoxItem Content="RapidData"/>
+        </ComboBox>
     </Grid>
 </Grid>

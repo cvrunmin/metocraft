@@ -37,7 +37,7 @@ namespace MetoCraft.Profile
         {
             try
             {
-                foreach (var items in MeCore.MainWindow.gridPlay.gridVer.versions)
+                foreach (var items in MeCore.MainWindow.gridPlay.versions)
                 {
                     combeVer.Items.Add(items.Id);
                 }
