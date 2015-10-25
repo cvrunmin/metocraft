@@ -66,7 +66,6 @@ namespace MetoCraft
             catch (IOException)
             {
                 MessageBox.Show(LangManager.GetLangFromResource("StartupDuplicate"));
-                MessageBox.Show(LangManager.GetLangFromResource("StartupDuplicate"));
                 Environment.Exit(3);
             }
             WebRequest.DefaultWebProxy = null;  //禁用默认代理

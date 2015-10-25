@@ -15,6 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MetoCraft.Lang;
 using MetoCraft.Resources;
+using System.Windows.Forms;
+using System.Windows.Media.Animation;
+using System.Threading;
 
 namespace MetoCraft.Sett
 {
@@ -91,6 +94,106 @@ namespace MetoCraft.Sett
             }
             MeCore.Config.DownloadSource = comboDLSrc.SelectedIndex;
             MeCore.Config.Save(null);
+        }
+        private void butBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
+            dialog.Filter = "PNG(*.png)|*.png|JPG(*.jpg)|*.jpg|Bitmap(*.bmp)|*.bmp|All Files(*.*)|*.*";
+            dialog.ShowDialog();
+            txtBoxP.Text = dialog.FileName;
+        }
+
+        private void butSave_Click(object sender, RoutedEventArgs e)
+        {
+            saveAndRender();
+        }
+
+        private void butReset_Click(object sender, RoutedEventArgs e)
+        {
+            txtBoxP.Text = "default";
+            saveAndRender();
+        }
+
+        private void saveAndRender() {
+            MeCore.Config.BackGround = txtBoxP.Text;
+            MeCore.Config.Save(null);
+            try
+            {
+                if (MeCore.Config.BackGround.Equals("default", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
+                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
+                    MeCore.MainWindow.gridParent.Background = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg.png")),
+                        Stretch = Stretch.UniformToFill
+                    };
+                    da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
+                }
+                else
+                {
+                    var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
+                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
+                    MeCore.MainWindow.gridParent.Background = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(MeCore.Config.BackGround)),
+                        Stretch = Stretch.Fill
+                    };
+                    da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorReport(ex).ShowDialog();
+                MeCore.MainWindow.Close();
+                System.Windows.Forms.Application.Restart();
+
+            }
+        }
+
+        private void butColor_Click(object sender, RoutedEventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog();
+            dialog.ShowDialog();
+            txtBoxColor.Text = (dialog.Color.ToArgb() & 0xFFFFFFFF).ToString();
+        }
+
+        private void butCSave_Click(object sender, RoutedEventArgs e)
+        {
+            MeCore.Config.color = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF));
+            MeCore.Config.Save(null);
+            try
+            {
+                {
+                    var da = new ColorAnimation(Color.FromArgb(MeCore.Config.color.A, MeCore.Config.color.R, MeCore.Config.color.G, MeCore.Config.color.B) , TimeSpan.FromSeconds(0.25));
+                    MeCore.MainWindow.gridMenu.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+                    MeCore.MainWindow.gridAbout.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+                    MeCore.MainWindow.gridDL.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+//                    MeCore.MainWindow.gridPlay.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+                    gridParent.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+                    var col = System.Drawing.Color.FromArgb((int)(~((uint)MeCore.Config.color.ToArgb())));
+                    MeCore.MainWindow.gridAbout.setLblColor(Color.FromRgb(col.R, col.G, col.B));
+                    MeCore.MainWindow.gridDL.setLblColor(Color.FromRgb(col.R, col.G, col.B));
+                    MeCore.MainWindow.gridPlay.setLblColor(Color.FromRgb(col.R, col.G, col.B));
+                    setLblColor(Color.FromRgb(col.R, col.G, col.B));
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorReport(ex).ShowDialog();
+                MeCore.MainWindow.Close();
+                System.Windows.Forms.Application.Restart();
+
+            }
+        }
+        public void setLblColor(Color color)
+        {
+            lblBG.Foreground = new SolidColorBrush(color);
+            lblColor.Foreground = new SolidColorBrush(color);
+            lblDLUrl.Foreground = new SolidColorBrush(color);
+            lblLangTitle.Foreground = new SolidColorBrush(color);
         }
     }
 }

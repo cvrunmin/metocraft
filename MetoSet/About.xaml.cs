@@ -9,12 +9,12 @@ using System.IO;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net;
 using System.Threading;
+using System.Windows.Media;
 
 namespace MetoCraft
 {
@@ -143,6 +143,27 @@ namespace MetoCraft
 /*            thGet.Join();
             thGet.Interrupt();
             thGet.Abort(0);*/
+        }
+        public void setLblColor(Color color)
+        {
+            lblBB.Foreground = new SolidColorBrush(color);
+            lblBBS.Foreground = new SolidColorBrush(color);
+            lblBit.Foreground = new SolidColorBrush(color);
+            lblBit1.Foreground = new SolidColorBrush(color);
+            lblCOM.Foreground = new SolidColorBrush(color);
+            lblCVer.Foreground = new SolidColorBrush(color);
+            lblCVer1.Foreground = new SolidColorBrush(color);
+            lblJava.Foreground = new SolidColorBrush(color);
+            lblJava1.Foreground = new SolidColorBrush(color);
+            lblKM.Foreground = new SolidColorBrush(color);
+            lblKM1.Foreground = new SolidColorBrush(color);
+            lblLauncher.Foreground = new SolidColorBrush(color);
+            lblLaVer.Foreground = new SolidColorBrush(color);
+            lblLaVer1.Foreground = new SolidColorBrush(color);
+            lblNet.Foreground = new SolidColorBrush(color);
+            lblrapid.Foreground = new SolidColorBrush(color);
+            lblrapidS.Foreground = new SolidColorBrush(color);
+            
         }
     }
 }

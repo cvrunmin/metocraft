@@ -31,6 +31,8 @@
     <s:String x:Key="OfDL">覆写语言</s:String>
     <s:String x:Key="OfDLDesc">如果您想使用的显示语言与Windows语言不同，请在这里选择</s:String>
     <s:String x:Key="DLSrc">下载源</s:String>
+    <s:String x:Key="BG">启动器背景</s:String>
+    <s:String x:Key="Color">启动器颜色</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">环境</s:String>
@@ -44,6 +46,7 @@
     <s:String x:Key="Type">类型</s:String>
     <s:String x:Key="RTime">发布时间</s:String>
     <s:String x:Key="LaVer">启动版本</s:String>
+    <s:String x:Key="Profile">总则</s:String>
     <!-- /Play -->
     <!-- DL -->
     <s:String x:Key="DLMC">原版</s:String>
@@ -56,7 +59,7 @@
     <s:String x:Key="Assets">资源</s:String>
     <s:String x:Key="Exist">存在</s:String>
     <s:String x:Key="Size">大小</s:String>
-    <s:String x:Key="Hash">Hash</s:String>
+    <s:String x:Key="Hash">哈尔值</s:String>
     <!-- /DL -->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">发现资源文件修改，正在同步</s:String>
@@ -67,4 +70,7 @@
     <s:String x:Key="RemoteVerErrorNoVersionSelect">请先选择一个版本</s:String>
     <s:String x:Key="RemoteVerDownloadSuccess">下载成功</s:String>
     <s:String x:Key="DownloadSpeed​​Info">速度：</s:String>
+    <s:String x:Key="Edit">编辑</s:String>
+    <s:String x:Key="Reset">重设</s:String>
+    <s:String x:Key="Select">选择</s:String>
 </ResourceDictionary>

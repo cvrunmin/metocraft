@@ -30,7 +30,7 @@
         <Label x:Name="labDownInfo" Content="" HorizontalAlignment="Left" Margin="410,285,0,0" VerticalAlignment="Top" Height="20" Padding="2"/>
         <Button x:Name="butDown1" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown1_Click"/>
     </Grid>
-    <Grid x:Name="gridLib" Margin="0,369,0,-369" Background="#7FFFFFFF">
+    <Grid x:Name="gridLib" Margin="0,369,0,-369">
         <Button x:Name="butUp1" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp1_Click"/>
         <Label x:Name="lblTitle_Copy" Content="{DynamicResource DLLib}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lblVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
@@ -43,15 +43,15 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="butDLLib" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="260,131,0,0" VerticalAlignment="Top" Width="75" Click="butDLLib_Click"/>
+        <Button x:Name="butDLLib" Content="{DynamicResource Download}" Margin="260,131,0,0" VerticalAlignment="Top" Click="butDLLib_Click" HorizontalAlignment="Left" Width="75"/>
         <Label x:Name="lblDLI" Content="" HorizontalAlignment="Left" Margin="340,125,0,0" VerticalAlignment="Top"/>
         <Button x:Name="butDown2" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown2_Click"/>
     </Grid>
-    <Grid x:Name="gridAssets" Margin="0,738,0,-738" Background="#7FFFFFFF">
+    <Grid x:Name="gridAssets" Margin="0,738,0,-738">
         <Button x:Name="butUp2" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp2_Click"/>
         <Label x:Name="lblTitle_Copy1" Content="{DynamicResource DLAssets}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lblVer_Copy" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="listVerFAsset" Height="100" Margin="0,55,282,0" VerticalAlignment="Top" SelectionChanged="listVerFAsset_SelectionChanged"/>
+        <ListBox x:Name="listVerFAsset" Height="100" Margin="0,55,0,0" VerticalAlignment="Top" SelectionChanged="listVerFAsset_SelectionChanged" HorizontalAlignment="Left" Width="255"/>
         <ListView x:Name="listAsset" Height="178" Margin="0,155,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionMode="Single">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">

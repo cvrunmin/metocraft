@@ -31,6 +31,8 @@
     <s:String x:Key="OfDL">Override for Display Language</s:String>
     <s:String x:Key="OfDLDesc">If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>
     <s:String x:Key="DLSrc">Download Source</s:String>
+    <s:String x:Key="BG">Background</s:String>
+    <s:String x:Key="Color">Color</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>
@@ -44,6 +46,7 @@
     <s:String x:Key="Type">Type</s:String>
     <s:String x:Key="RTime">Release Time</s:String>
     <s:String x:Key="LaVer">Launch Version</s:String>
+    <s:String x:Key="Profile">Profile</s:String>
     <!-- /Play -->
     <!-- DL -->
     <s:String x:Key="DLMC">Vanilla</s:String>
@@ -67,4 +70,7 @@
     <s:String x:Key="RemoteVerErrorNoVersionSelect">Please select a version first</s:String>
     <s:String x:Key="RemoteVerDownloadSuccess">Download sucessful</s:String>
     <s:String x:Key="DownloadSpeedInfo">Speed:</s:String>
+    <s:String x:Key="Edit">Edit</s:String>
+    <s:String x:Key="Reset">Reset</s:String>
+    <s:String x:Key="Select">Select</s:String>
 </ResourceDictionary>

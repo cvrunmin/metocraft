@@ -586,5 +586,16 @@ namespace MetoCraft.DL
             gridLib.BeginAnimation(MarginProperty, mover1);
             gridAssets.BeginAnimation(MarginProperty, mover2);
         }
+        public void setLblColor(Color color)
+        {
+            labDownInfo.Foreground = new SolidColorBrush(color);
+            lblDLI.Foreground = new SolidColorBrush(color);
+            lblDr.Foreground = new SolidColorBrush(color);
+            lblTitle.Foreground = new SolidColorBrush(color);
+            lblTitle_Copy.Foreground = new SolidColorBrush(color);
+            lblTitle_Copy1.Foreground = new SolidColorBrush(color);
+            lblVer.Foreground = new SolidColorBrush(color);
+            lblVer_Copy.Foreground = new SolidColorBrush(color);
+        }
     }
 }

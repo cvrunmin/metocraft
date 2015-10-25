@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using System.Runtime.Serialization;
 using System.IO;
 using System.Windows;
+using System.Drawing;
 
 namespace MetoCraft
 {
@@ -29,6 +30,10 @@ namespace MetoCraft
         [DataMember]
         public double WindowTransparency;
         [DataMember]
+        public string BackGround;
+        [DataMember]
+        public Color color;
+        [DataMember]
         public int DownloadSource;
         [DataMember]
         public Dictionary<string, object> PluginConfig = new Dictionary<string, object>();
@@ -43,6 +48,8 @@ namespace MetoCraft
             Autostart = false;
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
             WindowTransparency = 1;
+            BackGround = "default";
+            color = Color.FromArgb(255,255,255);
             Report = true;
             DownloadSource = 0;
             Lang = GetValidLang();

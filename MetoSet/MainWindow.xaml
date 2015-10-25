@@ -17,11 +17,11 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="gridParent">
         <Grid.Background>
-            <ImageBrush ImageSource="SplashScreen.png" TileMode="Tile" Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
         </Grid.Background>
-        <Grid x:Name="gridMenu" HorizontalAlignment="Left" Width="55" Background="#7F000000">
+        <Grid x:Name="gridMenu" HorizontalAlignment="Left" Width="55" Background="#7FFFFFFF">
             <local:ButtonMenu x:Name="butPlay"  Content="{DynamicResource Play}"     HorizontalAlignment="Left" Height="44" Margin="0"         VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImagePlay.png"  BorderThickness="2" Click="butPlay_Click"/>
             <local:ButtonMenu x:Name="butDL"    Content="{DynamicResource Download}" HorizontalAlignment="Left" Height="44" Margin="0,44,0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageDL.png"    BorderThickness="2" Click="butDL_Click"/>
             <local:ButtonMenu x:Name="butSet"   Content="{DynamicResource Setting}"  HorizontalAlignment="Left" Height="44" Margin="0,88,-0,0" VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageSet.png"   BorderThickness="2" Click="butConfig_Click"/>

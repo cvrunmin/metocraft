@@ -99,6 +99,7 @@ namespace MetoCraft.Play
                         else
                         {
                             gui.setTaskStatus("");
+                                gui.setSubProcess(result.Handle.Process);
                             gui.countTime();
                             MeCore.NIcon.ShowBalloonTip(3000, "Susceesful to launch " + versions[comboVer.SelectedIndex].Id);
                         }
@@ -266,6 +267,15 @@ namespace MetoCraft.Play
         private void butEdit_Click(object sender, RoutedEventArgs e)
         {
             new ProfileEditor(Environment.CurrentDirectory + "\\profiles.xml").Show();
+        }
+        public void setLblColor(Color color) {
+            lblArg.Foreground = new SolidColorBrush(color);
+            lblJava.Foreground = new SolidColorBrush(color);
+            lblMM.Foreground = new SolidColorBrush(color);
+            lblMM_Copy.Foreground = new SolidColorBrush(color);
+            lblMP.Foreground = new SolidColorBrush(color);
+            lblProfile.Foreground = new SolidColorBrush(color);
+            lblVer.Foreground = new SolidColorBrush(color);
         }
     }
 }
