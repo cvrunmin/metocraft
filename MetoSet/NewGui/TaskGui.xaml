@@ -11,8 +11,8 @@
             <Label x:Name="lblTime" Content="16:53" Margin="0,6,7,5" Foreground="White" HorizontalAlignment="Right" Width="42"/>
         </Grid>
         <Grid Height="35" VerticalAlignment="Bottom">
-            <Label x:Name="lblTaskName" Content="TaskName" Margin="0,6,0,5" HorizontalAlignment="Left" Width="197"/>
-            <Label x:Name="lblTaskStatus" Content="TaskStatus" Margin="0,6,0,5" HorizontalAlignment="Right" Width="197" HorizontalContentAlignment="Right"/>
+            <Label x:Name="lblTaskName" Content="" Margin="0,6,0,5" HorizontalAlignment="Left" Width="197"/>
+            <Label x:Name="lblTaskStatus" Content="" Margin="0,6,0,5" HorizontalAlignment="Right" Width="197" HorizontalContentAlignment="Right"/>
         </Grid>
         <Grid Margin="0,35">
             <Label x:Name="label" Content="請勿關閉或拔除電腦的電源" Margin="0,61,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>

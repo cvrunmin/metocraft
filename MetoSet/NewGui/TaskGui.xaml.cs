@@ -30,6 +30,7 @@ namespace MetoCraft.NewGui
             InitializeComponent();
         }
         public TaskGui(Thread task) {
+            InitializeComponent();
             _task = task;
             _task.Start();
         }
@@ -53,22 +54,23 @@ namespace MetoCraft.NewGui
             lblTaskStatus.Content = status;
             return this;
         }
-        public void countTime() {
+        public TaskGui countTime() {
             startCount = true;
+            return this;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             timer = new System.Windows.Forms.Timer();
             timer.Enabled = true;
             timer.Interval = 1000;
-            timer.Tick += new System.EventHandler(this.timer_Tick);
+            timer.Tick += new EventHandler(this.timer_Tick);
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             lblTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
             if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited))) {
-                this.Close();
+                Close();
             }
             if (startCount) {
                 ++sec;
@@ -80,8 +82,8 @@ namespace MetoCraft.NewGui
                         min -= 60;
                     }
                 }
+                setTaskStatus(hr + ":" + toGoodString(min) + ":" + toGoodString(sec));
             }
-            setTaskStatus(hr+":"+toGoodString(min)+":"+toGoodString(sec));
         }
         private string toGoodString(int i) {
             string s = i.ToString();

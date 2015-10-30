@@ -130,9 +130,7 @@
     <Compile Include="DL\DLMain.xaml.cs">
       <DependentUpon>DLMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ErrorReport.xaml.cs">
-      <DependentUpon>ErrorReport.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DL\DLMCThread.cs" />
     <Compile Include="Forge\ForgeListNotReadyException.cs" />
     <Compile Include="Forge\ForgeVersionList.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
@@ -166,6 +164,12 @@
       <DependentUpon>ProfileEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profile\ProfileInXML.cs" />
+    <Compile Include="Report\ErrorReport.xaml.cs">
+      <DependentUpon>ErrorReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\KnownErrorReport.xaml.cs">
+      <DependentUpon>KnownErrorReport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Url.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -190,10 +194,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ErrorReport.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="NewGui\TaskGui.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -203,6 +203,19 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Profile\ProfileEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Properties\DesignTimeResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+    <Page Include="Report\ErrorReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\KnownErrorReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,6 +281,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="WindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

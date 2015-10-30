@@ -11,6 +11,8 @@
     <s:String x:Key="Browse">Browse</s:String>
     <s:String x:Key="Save">Save</s:String>
     <s:String x:Key="Reload">Reload</s:String>
+    <s:String x:Key="Close">Close</s:String>
+    <s:String x:Key="Back">Back</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">Computer</s:String>
     <s:String x:Key="COMVer">OS Version</s:String>
@@ -61,6 +63,16 @@
     <s:String x:Key="Size">Size</s:String>
     <s:String x:Key="Hash">Hash</s:String>
     <!-- /DL -->
+    <!-- ACLogin -->
+    <s:String x:Key="ACTitle">Select Account</s:String>
+    <s:String x:Key="Login">Login</s:String>
+    <s:String x:Key="Off">Offline</s:String>
+    <s:String x:Key="Mojang">Online (Mojang)</s:String>
+    <s:String x:Key="UName">Username</s:String>
+    <s:String x:Key="UNEM">Username / Email</s:String>
+    <s:String x:Key="PW">Password</s:String>
+    <s:String x:Key="ETwitch">Enable Twitch</s:String>
+    <!-- /ACLogin -->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
     <s:String x:Key="SyncAssetsFinish">Assets synced. Please restart the client if they are not working</s:String>

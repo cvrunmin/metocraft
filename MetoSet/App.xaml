@@ -5,6 +5,9 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary Source="Lang\en.xaml">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="WStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>		 

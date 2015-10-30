@@ -105,18 +105,24 @@ namespace MetoCraft.Sett
 
         private void butSave_Click(object sender, RoutedEventArgs e)
         {
-            saveAndRender();
+            Save();
+            Render();
         }
 
         private void butReset_Click(object sender, RoutedEventArgs e)
         {
             txtBoxP.Text = "default";
-            saveAndRender();
+            Save();
+            Render();
         }
 
-        private void saveAndRender() {
+        private void Save() {
             MeCore.Config.BackGround = txtBoxP.Text;
             MeCore.Config.Save(null);
+        }
+
+        private void Render()
+        {
             try
             {
                 if (MeCore.Config.BackGround.Equals("default", StringComparison.InvariantCultureIgnoreCase))
@@ -160,18 +166,29 @@ namespace MetoCraft.Sett
             txtBoxColor.Text = (dialog.Color.ToArgb() & 0xFFFFFFFF).ToString();
         }
 
+        public void loadConfig()
+        {
+            txtBoxP.Text = MeCore.Config.BackGround;
+            txtBoxColor.Text = (((uint)MeCore.Config.color.ToArgb()) & 0xFFFFFFFF).ToString();
+            Render();
+            RenderColor();
+        }
+
         private void butCSave_Click(object sender, RoutedEventArgs e)
         {
             MeCore.Config.color = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF));
             MeCore.Config.Save(null);
+            RenderColor();
+        }
+        private void RenderColor() {
             try
             {
                 {
-                    var da = new ColorAnimation(Color.FromArgb(MeCore.Config.color.A, MeCore.Config.color.R, MeCore.Config.color.G, MeCore.Config.color.B) , TimeSpan.FromSeconds(0.25));
+                    var da = new ColorAnimation(Color.FromArgb(MeCore.Config.color.A, MeCore.Config.color.R, MeCore.Config.color.G, MeCore.Config.color.B), TimeSpan.FromSeconds(0.25));
                     MeCore.MainWindow.gridMenu.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridAbout.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridDL.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
-//                    MeCore.MainWindow.gridPlay.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+                    //                    MeCore.MainWindow.gridPlay.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     gridParent.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     var col = System.Drawing.Color.FromArgb((int)(~((uint)MeCore.Config.color.ToArgb())));
                     MeCore.MainWindow.gridAbout.setLblColor(Color.FromRgb(col.R, col.G, col.B));

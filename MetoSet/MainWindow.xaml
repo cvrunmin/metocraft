@@ -9,15 +9,16 @@
         xmlns:localset="clr-namespace:MetoCraft.Sett"
         x:Class="MetoCraft.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="MainWindow" Height="400" Width="600" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="CanResize" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ButtonStyle.xaml"/>
+                <ResourceDictionary Source="WindowStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid x:Name="gridParent">
+    <Grid x:Name="gridParent" Margin="0">
         <Grid.Background>
             <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
         </Grid.Background>
@@ -29,10 +30,12 @@
         </Grid>
         <Grid x:Name="gridMain" Margin="55,0,0,0">
             <localplay:PlayMain x:Name="gridPlay" Margin="0,0,0,0"/>
-            <localdl:DLMain x:Name="gridDL" Margin="0,0,0,369"/>
-            <localset:Settings x:Name="gridSet" Margin="0,0,0,369"/>
-            <local:About x:Name="gridAbout" Margin="0,0,0,369"/>
+            <localdl:DLMain x:Name="gridDL" Margin="0,0,0,0" Visibility="Hidden"/>
+            <localset:Settings x:Name="gridSet" Margin="0,0,0,0" Visibility="Hidden"/>
+            <local:About x:Name="gridAbout" Margin="0,0,0,0" Visibility="Hidden"/>
         </Grid>
         <Button x:Name="butMenu" Content="≡" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="40" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" FontSize="18.667" Click="butMenu_Click"/>
+    <!--        <Button x:Name="butClose" Content="X" HorizontalAlignment="Right" Height="24" Margin="0,0,-1,0" VerticalAlignment="Top" Width="24" BorderThickness="0" Background="White" Style="{DynamicResource ThreeButtonStyleClose}" Click="butClose_Click" Visibility="Hidden"/>
+        <Button x:Name="butMin" Content="-" HorizontalAlignment="Right" Height="24" Margin="0,0,23,0" VerticalAlignment="Top" Width="24" BorderThickness="0" Background="White" Style="{DynamicResource ThreeButtonStyle}" Click="butMin_Click" Visibility="Hidden"/>-->
     </Grid>
 </Window>

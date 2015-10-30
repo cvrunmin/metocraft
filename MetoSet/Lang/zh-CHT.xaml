@@ -11,6 +11,8 @@
     <s:String x:Key="Browse">瀏覽</s:String>
     <s:String x:Key="Save">儲存</s:String>
     <s:String x:Key="Reload">重載</s:String>
+    <s:String x:Key="Close">關閉</s:String>
+    <s:String x:Key="Back">返回</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">電腦</s:String>
     <s:String x:Key="COMVer">版本</s:String>
@@ -61,6 +63,16 @@
     <s:String x:Key="Size">大小</s:String>
     <s:String x:Key="Hash">哈爾值</s:String>
     <!-- /DL -->
+    <!-- ACLogin -->
+    <s:String x:Key="ACTitle">選擇帳戶</s:String>
+    <s:String x:Key="Login">登入</s:String>
+    <s:String x:Key="Off">離線</s:String>
+    <s:String x:Key="Mojang">在線 (Mojang)</s:String>
+    <s:String x:Key="UName">用戶名</s:String>
+    <s:String x:Key="UNEM">用戶名 / 電郵</s:String>
+    <s:String x:Key="PW">密碼</s:String>
+    <s:String x:Key="ETwitch">開啟直播 (Twitch)</s:String>
+    <!-- /ACLogin -->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">發現資源文件修改，正在同步</s:String>
     <s:String x:Key="SyncAssetsFinish">同步資源文件完畢，若未生效，請重啟客戶端</s:String>

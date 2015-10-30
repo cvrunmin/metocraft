@@ -1,0 +1,15 @@
+﻿<Window x:Class="MetoCraft.KnownErrorReport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MetoCraft"
+        mc:Ignorable="d"
+        Title="KnownErrorReport" Height="200" Width="400">
+    <Grid>
+        <Canvas HorizontalAlignment="Left" Width="69" Margin="0,0,0,100"/>
+        <Label x:Name="lblTitle" Content="Oops!" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="lblDesc" Content="Label" HorizontalAlignment="Left" Margin="75,30,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="lblHelp" Margin="76,57,0,25" TextWrapping="Wrap" Text="TextBlock"/>
+    </Grid>
+</Window>

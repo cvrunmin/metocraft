@@ -28,20 +28,20 @@ namespace MetoCraft
 
         private void butOffline_Click(object sender, RoutedEventArgs e)
         {
-//            gridOff.Height = gridMain.ActualHeight;
-            gridOff.Margin = new Thickness(0);
+            gridMenu.Visibility = Visibility.Hidden;
+            gridOff.Visibility = Visibility.Visible;
         }
 
         private void butMojang_Click(object sender, RoutedEventArgs e)
         {
-//            gridMojang.Height = gridMain.ActualHeight;
-            gridMojang.Margin = new Thickness(0);
+            gridMenu.Visibility = Visibility.Hidden;
+            gridMojang.Visibility = Visibility.Visible;
         }
 
         private void butBackOff_Click(object sender, RoutedEventArgs e)
         {
-//            gridOff.Height = 0;
-            gridOff.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            gridOff.Visibility = Visibility.Hidden;
+            gridMenu.Visibility = Visibility.Visible;
         }
 
         private void butLoginOff_Click(object sender, RoutedEventArgs e)
@@ -52,13 +52,13 @@ namespace MetoCraft
 
         private void butBackM_Click(object sender, RoutedEventArgs e)
         {
-//            gridMojang.Height = 0;
-            gridMojang.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
+            gridMojang.Visibility = Visibility.Hidden;
+            gridMenu.Visibility = Visibility.Visible;
         }
 
         private void butLoginM_Click(object sender, RoutedEventArgs e)
         {
-            auth = new KMCCC.Authentication.YggdrasilLogin(txtBoxUNE.Text, pwbox.Password, false);
+            auth = new KMCCC.Authentication.YggdrasilLogin(txtBoxUNE.Text, pwbox.Password, (bool)checkTwitch.IsChecked);
             Close();
         }
 
@@ -67,7 +67,7 @@ namespace MetoCraft
             Close();
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+/*        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (gridOff.Margin != new Thickness(0)) {
                 gridOff.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
@@ -76,6 +76,6 @@ namespace MetoCraft
             {
                 gridMojang.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
             }
-        }
+        }*/
     }
 }

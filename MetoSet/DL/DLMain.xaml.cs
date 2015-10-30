@@ -33,6 +33,7 @@ namespace MetoCraft.DL
     public partial class DLMain : Grid
     {
         private readonly WebClient _downer = new WebClient();
+        private NewGui.TaskGui task;
         public DLMain()
         {
             InitializeComponent();
@@ -119,74 +120,93 @@ namespace MetoCraft.DL
                 MessageBox.Show(LangManager.GetLangFromResource("RemoteVerErrorNoVersionSelect"));
                 return;
             }
-            var selectVer = listRemoteVer.SelectedItem as DataRowView;
-            if (selectVer != null)
-            {
-                var selectver = selectVer[0] as string;
-                var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
-                downpath.Append(selectver).Append("\\");
-                downpath.Append(selectver).Append(".jar");
-                var downer = new WebClient();
-                downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                var downurl = new StringBuilder(MeCore.UrlDownloadBase);
-                downurl.Append(@"versions\");
-                downurl.Append(selectver).Append("\\");
-                downurl.Append(selectver).Append(".jar");
+            task = new NewGui.TaskGui();
+            var thread = new Thread(new ThreadStart(delegate {
+                DataRowView selectVer = null;
+                Dispatcher.Invoke(new Action(() => selectVer = listRemoteVer.SelectedItem as DataRowView));
+//                var selectVer = listRemoteVer.SelectedItem as DataRowView;
+                if (selectVer != null)
+                {
+                    var selectver = selectVer[0] as string;
+                    var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
+                    downpath.Append(selectver).Append("\\");
+                    downpath.Append(selectver).Append(".jar");
+                    var downer = new WebClient();
+                    downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
+                    var downurl = new StringBuilder(MeCore.UrlDownloadBase);
+                    downurl.Append(@"versions\");
+                    downurl.Append(selectver).Append("\\");
+                    downurl.Append(selectver).Append(".jar");
 #if DEBUG
-                MessageBox.Show(downpath + "\n" + downurl);
+                    MessageBox.Show(downpath + "\n" + downurl);
 #endif
-                butDLMC.Content = LangManager.GetLangFromResource("RemoteVerDownloading");
-                butDLMC.IsEnabled = false;
-                // ReSharper disable once AssignNullToNotNullAttribute
-                if (!Directory.Exists(System.IO.Path.GetDirectoryName(downpath.ToString())))
-                {
-                    // ReSharper disable AssignNullToNotNullAttribute
-                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(downpath.ToString()));
-                    // ReSharper restore AssignNullToNotNullAttribute
+
+                    // ReSharper disable once AssignNullToNotNullAttribute
+                    if (!Directory.Exists(System.IO.Path.GetDirectoryName(downpath.ToString())))
+                    {
+                        // ReSharper disable AssignNullToNotNullAttribute
+                        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(downpath.ToString()));
+                        // ReSharper restore AssignNullToNotNullAttribute
+                    }
+                    string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
+                    string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
+                    try
+                    {
+                        downer.DownloadFileCompleted += downer_DownloadClientFileCompleted;
+                        downer.DownloadProgressChanged += downer_DownloadProgressChanged;
+                        downer.DownloadProgressChanged += delegate(object sender, DownloadProgressChangedEventArgs e) {
+//                            ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
+                            //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
+                            var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
+                            try
+                            {
+                                info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
+                            }
+                            catch (DivideByZeroException) { info.Append("0B/s,"); }
+                            info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
+                            //                            SetDownloadInfo(info.ToString());
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(info.ToString())));
+//                            task.setTaskStatus(info.ToString());
+                        };
+                        Logger.log("download:" + downjsonfile);
+                        downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
+                        Logger.log("download:" + downurl);
+                        downer.DownloadFile(new Uri(downurl.ToString()), downpath.ToString());
+                        _downedtime = Environment.TickCount - 1;
+                        _downed = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + "\n");
+                    }
                 }
-                string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
-                string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
-                try
-                {
-                    downer.DownloadFileCompleted += downer_DownloadClientFileCompleted;
-                    downer.DownloadProgressChanged += downer_DownloadProgressChanged;
-                    MetoCraft.Logger.log("download:" + downjsonfile);
-                    downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                    MetoCraft.Logger.log("download:" + downurl);
-                    downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
-                    _downedtime = Environment.TickCount - 1;
-                    _downed = 0;
-                    //                    BmclCore.MainWindow.SwitchDownloadGrid(Visibility.Visible);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + "\n");
-                    butDLMC.Content = LangManager.GetLangFromResource("Download");
-                    butDLMC.IsEnabled = true;
-                }
-            }
+            }));
+            task.setThread(thread).setTask("下載遊戲文件").countTime().Show();
         }
         int _downedtime;
         int _downed;
         void downer_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-            //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-            var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
-            try
-            {
-                info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
-            }
-            catch (DivideByZeroException) { info.Append("0B/s,"); }
-            info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
-            SetDownloadInfo(info.ToString());
+            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate {
+                ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
+                //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
+                var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
+                try
+                {
+                    info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
+                }
+                catch (DivideByZeroException) { info.Append("0B/s,"); }
+                info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
+                SetDownloadInfo(info.ToString());
+                task.setTaskStatus(info.ToString());
+            }));
         }
         void downer_DownloadClientFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             MetoCraft.Logger.log("Success to download client file.");
             MessageBox.Show(LangManager.GetLangFromResource("RemoteVerDownloadSuccess"));
-            butDLMC.Content = LangManager.GetLangFromResource("Download");
-            butDLMC.IsEnabled = true;
+//            butDLMC.Content = LangManager.GetLangFromResource("Download");
+//            butDLMC.IsEnabled = true;
             MeCore.MainWindow.gridPlay.LoadVersionList();
         }
         public void ChangeDownloadProgress(int value, int maxValue)
@@ -249,13 +269,15 @@ namespace MetoCraft.DL
 
         private void butDLLib_Click(object sender, RoutedEventArgs e)
         {
+            NewGui.TaskGui task = new NewGui.TaskGui();
             var thDL = new Thread(new ThreadStart(delegate
             {
+                WebClient _downer = new WebClient();
                 int i = 0;
                 foreach (string libfile in libs)
                 {
                     i++;
-                    MeCore.Invoke(new Action(() => lblDLI.Content = i + "/" + libs.Count()));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Library " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
                     if (!File.Exists(libfile))
                     {
                         Logger.log("开始下载" + libfile, Logger.LogType.Info);
@@ -295,7 +317,7 @@ namespace MetoCraft.DL
                 i = 0;
                 foreach (string libfile in natives)
                 {
-                    MeCore.Invoke(new Action(() => lblDLI.Content = i + "/" + natives.Count()));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Native " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
                     if (!File.Exists(libfile))
                     {
                         Logger.log("开始下载" + libfile, Logger.LogType.Info);
@@ -333,7 +355,8 @@ namespace MetoCraft.DL
                     }
                 }
             }));
-            thDL.Start();
+            task.setThread(thDL).setTask("下載必要文件").Show();
+//            thDL.Start();
         }
 
         #endregion
@@ -347,7 +370,7 @@ namespace MetoCraft.DL
         {
             if (listVerFAsset.SelectedIndex != -1)
             {
-                listLib.DataContext = null;
+                listAsset.DataContext = null;
                 try
                 {
                     _ver = MeCore.MainWindow.gridPlay.versions[listVerFAsset.SelectedIndex];
@@ -378,6 +401,7 @@ namespace MetoCraft.DL
 
         private void butDLAsset_Click(object sender, RoutedEventArgs e)
         {
+            task = new NewGui.TaskGui();
             var thGet = new Thread(new ThreadStart(delegate
             {
                 int i = 0;
@@ -386,7 +410,8 @@ namespace MetoCraft.DL
                     i++;
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
+                        task.setTaskStatus(((float)i / asset.Count * 100).ToString()+"%");
+//                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
                     }));
                     string url = _urlResource + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
@@ -406,7 +431,7 @@ namespace MetoCraft.DL
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
                                 Logger.log("assets下载完毕");
-                                MeCore.NIcon.ShowBalloonTip(3000, Lang.LangManager.GetLangFromResource("SyncAssetsFinish"));
+                                MeCore.NIcon.ShowBalloonTip(3000, LangManager.GetLangFromResource("SyncAssetsFinish"));
                             }));
                         }
                     }
@@ -425,7 +450,8 @@ namespace MetoCraft.DL
                     Logger.info("无需更新assets");
                 }
             }));
-            thGet.Start();
+            task.setThread(thGet).setTask("下載資源文件").Show();
+//            thGet.Start();
         }
 
         private void butF5Asset_Click(object sender, RoutedEventArgs e)
@@ -439,12 +465,12 @@ namespace MetoCraft.DL
                 dt.Columns.Add("Exist");
                 foreach (KeyValuePair<string, AssetsEntity> entity in asset)
                 {
-                    dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(entity.Key) });
+                    dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(@"assets\objects\" + entity.Value.hash.Substring(0,2) + @"\" + entity.Value.hash).ToString() });
                 }
                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                 {
-                    listLib.DataContext = dt;
-                    listLib.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                    listAsset.DataContext = dt;
+                    listAsset.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
                 }));
             }
             catch (Exception ex)
@@ -498,12 +524,12 @@ namespace MetoCraft.DL
                         dt.Columns.Add("Exist");
                         foreach (KeyValuePair<string, AssetsEntity> entity in asset)
                         {
-                            dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(entity.Key) });
+                            dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash).ToString() });
                         }
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            listLib.DataContext = dt;
-                            listLib.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                            listAsset.DataContext = dt;
+                            listAsset.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
                         }));
                     }
                     catch (Exception ex)
@@ -526,65 +552,73 @@ namespace MetoCraft.DL
         #endregion
         private void butDown1_Click(object sender, RoutedEventArgs e)
         {
-            var mover = new ThicknessAnimationUsingKeyFrames();
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
-            var mover1 = new ThicknessAnimationUsingKeyFrames();
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-            var mover2 = new ThicknessAnimationUsingKeyFrames();
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight) * 2, 0, -(ActualHeight) * 2), TimeSpan.FromSeconds(0)));
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
-            gridMC.BeginAnimation(MarginProperty, mover);
-            gridLib.BeginAnimation(MarginProperty, mover1);
-            gridAssets.BeginAnimation(MarginProperty, mover2);
+            /*            var mover = new ThicknessAnimationUsingKeyFrames();
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
+                        var mover1 = new ThicknessAnimationUsingKeyFrames();
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
+                        var mover2 = new ThicknessAnimationUsingKeyFrames();
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight) * 2, 0, -(ActualHeight) * 2), TimeSpan.FromSeconds(0)));
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
+                        gridMC.BeginAnimation(MarginProperty, mover);
+                        gridLib.BeginAnimation(MarginProperty, mover1);
+                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
+            gridMC.Visibility = Visibility.Hidden;
+            gridLib.Visibility = Visibility.Visible;
         }
 
         private void butUp1_Click(object sender, RoutedEventArgs e)
         {
-            var mover = new ThicknessAnimationUsingKeyFrames();
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-            var mover1 = new ThicknessAnimationUsingKeyFrames();
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
-            var mover2 = new ThicknessAnimationUsingKeyFrames();
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight) * 2, 0, -(ActualHeight) * 2), TimeSpan.FromSeconds(0.2)));
-            gridMC.BeginAnimation(MarginProperty, mover);
-            gridLib.BeginAnimation(MarginProperty, mover1);
-            gridAssets.BeginAnimation(MarginProperty, mover2);
+            /*            var mover = new ThicknessAnimationUsingKeyFrames();
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
+                        var mover1 = new ThicknessAnimationUsingKeyFrames();
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
+                        var mover2 = new ThicknessAnimationUsingKeyFrames();
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight) * 2, 0, -(ActualHeight) * 2), TimeSpan.FromSeconds(0.2)));
+                        gridMC.BeginAnimation(MarginProperty, mover);
+                        gridLib.BeginAnimation(MarginProperty, mover1);
+                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
+            gridLib.Visibility = Visibility.Hidden;
+            gridMC.Visibility = Visibility.Visible;
         }
         private void butDown2_Click(object sender, RoutedEventArgs e)
         {
-            var mover = new ThicknessAnimationUsingKeyFrames();
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight) * 2, 0, (ActualHeight) * 2), TimeSpan.FromSeconds(0.2)));
-            var mover1 = new ThicknessAnimationUsingKeyFrames();
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
-            var mover2 = new ThicknessAnimationUsingKeyFrames();
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-            gridMC.BeginAnimation(MarginProperty, mover);
-            gridLib.BeginAnimation(MarginProperty, mover1);
-            gridAssets.BeginAnimation(MarginProperty, mover2);
+            /*            var mover = new ThicknessAnimationUsingKeyFrames();
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight) * 2, 0, (ActualHeight) * 2), TimeSpan.FromSeconds(0.2)));
+                        var mover1 = new ThicknessAnimationUsingKeyFrames();
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
+                        var mover2 = new ThicknessAnimationUsingKeyFrames();
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
+                        gridMC.BeginAnimation(MarginProperty, mover);
+                        gridLib.BeginAnimation(MarginProperty, mover1);
+                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
+            gridLib.Visibility = Visibility.Hidden;
+            gridAssets.Visibility = Visibility.Visible;
         }
 
         private void butUp2_Click(object sender, RoutedEventArgs e)
         {
-            var mover = new ThicknessAnimationUsingKeyFrames();
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight) * 2, 0, (ActualHeight) * 2), TimeSpan.FromSeconds(0)));
-            mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
-            var mover1 = new ThicknessAnimationUsingKeyFrames();
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
-            mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-            var mover2 = new ThicknessAnimationUsingKeyFrames();
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-            mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
-            gridMC.BeginAnimation(MarginProperty, mover);
-            gridLib.BeginAnimation(MarginProperty, mover1);
-            gridAssets.BeginAnimation(MarginProperty, mover2);
+            /*            var mover = new ThicknessAnimationUsingKeyFrames();
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight) * 2, 0, (ActualHeight) * 2), TimeSpan.FromSeconds(0)));
+                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
+                        var mover1 = new ThicknessAnimationUsingKeyFrames();
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
+                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
+                        var mover2 = new ThicknessAnimationUsingKeyFrames();
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
+                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
+                        gridMC.BeginAnimation(MarginProperty, mover);
+                        gridLib.BeginAnimation(MarginProperty, mover1);
+                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
+            gridAssets.Visibility = Visibility.Hidden;
+            gridLib.Visibility = Visibility.Visible;
         }
         public void setLblColor(Color color)
         {

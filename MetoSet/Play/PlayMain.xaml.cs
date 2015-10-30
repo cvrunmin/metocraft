@@ -112,7 +112,7 @@ namespace MetoCraft.Play
 
         private void butDown_Click(object sender, RoutedEventArgs e)
         {
-            var mover = new ThicknessAnimationUsingKeyFrames();
+/*            var mover = new ThicknessAnimationUsingKeyFrames();
             mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
             mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
             var mover1 = new ThicknessAnimationUsingKeyFrames();
@@ -121,12 +121,14 @@ namespace MetoCraft.Play
             gridBasic.BeginAnimation(MarginProperty, mover);
             gridPro.BeginAnimation(MarginProperty, mover1);
             gridBasic.Margin = new Thickness(0, -(ActualHeight), 0, (ActualHeight));
-            gridPro.Margin = new Thickness(0);
+            gridPro.Margin = new Thickness(0);*/
+            gridBasic.Visibility = Visibility.Hidden;
+            gridPro.Visibility = Visibility.Visible;
         }
 
         private void butUp_Click(object sender, RoutedEventArgs e)
         {
-            var mover = new ThicknessAnimationUsingKeyFrames();
+/*            var mover = new ThicknessAnimationUsingKeyFrames();
             mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
             mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
             var mover1 = new ThicknessAnimationUsingKeyFrames();
@@ -135,25 +137,27 @@ namespace MetoCraft.Play
             gridBasic.BeginAnimation(MarginProperty, mover);
             gridPro.BeginAnimation(MarginProperty, mover1);
             gridBasic.Margin = new Thickness(0);
-            gridPro.Margin = new Thickness(0, (ActualHeight), 0, -(ActualHeight));
+            gridPro.Margin = new Thickness(0, (ActualHeight), 0, -(ActualHeight));*/
+            gridPro.Visibility = Visibility.Hidden;
+            gridBasic.Visibility = Visibility.Visible;
         }
         public void LoadVersionList()
         {
             comboVer.SelectedIndex = -1;
-//            MeCore.MainWindow.gridDL.gridLib.listVer.SelectedIndex = -1;
-//            MeCore.MainWindow.gridDL.gridAsset.listVer.SelectedIndex = -1;
+            MeCore.MainWindow.gridDL.listVerFLib.SelectedIndex = -1;
+            MeCore.MainWindow.gridDL.listVerFAsset.SelectedIndex = -1;
             comboVer.Items.Clear();
-//            MeCore.MainWindow.gridDL.gridLib.listVer.Items.Clear();
-//            MeCore.MainWindow.gridDL.gridAsset.listVer.Items.Clear();
+            MeCore.MainWindow.gridDL.listVerFLib.Items.Clear();
+            MeCore.MainWindow.gridDL.listVerFAsset.Items.Clear();
             try
             {
                 launcher = LauncherCore.Create(new LauncherCoreCreationOption(txtBoxP.Text, comboJava.SelectedItem as string));
-                versions = PlayMain.launcher.GetVersions().ToArray();
+                versions = launcher.GetVersions().ToArray();
                 for (int i = 0; i < versions.Length; i++)
                 {
                     comboVer.Items.Add(versions[i].Id);
-//                    MeCore.MainWindow.gridDL.gridLib.listVer.Items.Add(versions[i].Id);
-//                    MeCore.MainWindow.gridDL.gridAsset.listVer.Items.Add(versions[i].Id);
+                    MeCore.MainWindow.gridDL.listVerFLib.Items.Add(versions[i].Id);
+                    MeCore.MainWindow.gridDL.listVerFAsset.Items.Add(versions[i].Id);
                 }
             }
             catch (Exception ex)
@@ -219,7 +223,7 @@ namespace MetoCraft.Play
                                 new ErrorReport("Cannot login. Please check your email and password are correct or not", result.ErrorMessage).Show();
                             }));
                             break;
-                        case KMCCC.Launcher.ErrorType.OperatorException:
+                        case ErrorType.OperatorException:
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
                                 new ErrorReport("Operator Exception.", result.ErrorMessage).Show();
@@ -231,8 +235,8 @@ namespace MetoCraft.Play
                                 new ErrorReport("Uncompressing failed. Please check your libraries are intect or not", result.ErrorMessage).Show();
                             }));
                             break;
-                        case KMCCC.Launcher.ErrorType.Unknown:
-                            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        case ErrorType.Unknown:
+                            Dispatcher.Invoke(new MethodInvoker(delegate
                             {
                                 new ErrorReport("Unknown Exception", result.ErrorMessage).Show();
                             }));

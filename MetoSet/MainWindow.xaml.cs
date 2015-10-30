@@ -22,6 +22,8 @@ namespace MetoCraft
     /// </summary>
     public partial class MainWindow : Window
     {
+        double nOldWndLeft, nOldWndTop, nClickX, nClickY;
+        bool mdowned = false;
         public MainWindow()
         {
             MeCore.NIcon.MainWindow = this;
@@ -92,18 +94,26 @@ namespace MetoCraft
 
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
-            gridPlay.Margin = new Thickness(0);
+/*            gridPlay.Margin = new Thickness(0);
             gridDL.Margin = new Thickness(0, 0, 0, ActualHeight);
             gridSet.Margin = new Thickness(0,0,0,ActualHeight);
-            gridAbout.Margin = new Thickness(0,0,0,ActualHeight);
+            gridAbout.Margin = new Thickness(0,0,0,ActualHeight);*/
+            gridPlay.Visibility = Visibility.Visible;
+            gridDL.Visibility = Visibility.Hidden;
+            gridSet.Visibility = Visibility.Hidden;
+            gridAbout.Visibility = Visibility.Hidden;
         }
 
         private void butAbout_Click(object sender, RoutedEventArgs e)
         {
-            gridPlay.Margin = new Thickness(0,0,0,ActualHeight);
+/*            gridPlay.Margin = new Thickness(0,0,0,ActualHeight);
             gridDL.Margin = new Thickness(0, 0, 0, ActualHeight);
             gridSet.Margin = new Thickness(0, 0, 0, ActualHeight);
-            gridAbout.Margin = new Thickness(0);
+            gridAbout.Margin = new Thickness(0);*/
+            gridPlay.Visibility = Visibility.Hidden;
+            gridDL.Visibility = Visibility.Hidden;
+            gridSet.Visibility = Visibility.Hidden;
+            gridAbout.Visibility = Visibility.Visible;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -117,24 +127,29 @@ namespace MetoCraft
 
         private void butConfig_Click(object sender, RoutedEventArgs e)
         {
-            gridPlay.Margin = new Thickness(0, 0, 0, ActualHeight);
+/*            gridPlay.Margin = new Thickness(0, 0, 0, ActualHeight);
             gridDL.Margin = new Thickness(0,0,0,ActualHeight);
             gridSet.Margin = new Thickness(0);
-            gridAbout.Margin = new Thickness(0, 0, 0, ActualHeight);
+            gridAbout.Margin = new Thickness(0, 0, 0, ActualHeight);*/
+            gridPlay.Visibility = Visibility.Hidden;
+            gridDL.Visibility = Visibility.Hidden;
+            gridSet.Visibility = Visibility.Visible;
+            gridAbout.Visibility = Visibility.Hidden;
         }
         public void ChangeLanguage()
         {
 //            GridConfig.listDownSource.Items[1] = LangManager.GetLangFromResource("listOfficalSource");
 //            GridConfig.listDownSource.Items[0] = LangManager.GetLangFromResource("listAuthorSource");
 //            BmclCore.LoadPlugin(LangManager.GetLangFromResource("LangName"));
-//            gridAbout.loadOSData();
+            gridAbout.loadOSData();
         }
         public bool FinishLoad = false;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-//            gridSettings.listLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
+            gridSet.listLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
+            gridSet.loadConfig();
             gridPlay.loadConfig();
-            this.gridPlay.sliderRAM.Maximum = Config.GetMemory();
+            gridPlay.sliderRAM.Maximum = Config.GetMemory();
             if (gridPlay.txtBoxP.Text != "")
             {
                 gridPlay.LoadVersionList();
@@ -144,17 +159,99 @@ namespace MetoCraft
 
         private void butDL_Click(object sender, RoutedEventArgs e)
         {
-            gridPlay.Margin = new Thickness(0,0,0,ActualHeight);
+/*            gridPlay.Margin = new Thickness(0,0,0,ActualHeight);
             gridDL.Margin = new Thickness(0);
             gridSet.Margin = new Thickness(0,0,0,ActualHeight);
-            gridAbout.Margin = new Thickness(0, 0, 0, ActualHeight);
+            gridAbout.Margin = new Thickness(0, 0, 0, ActualHeight);*/
+            gridPlay.Visibility = Visibility.Hidden;
+            gridDL.Visibility = Visibility.Visible;
+            gridSet.Visibility = Visibility.Hidden;
+            gridAbout.Visibility = Visibility.Hidden;
         }
 
         private void but_Click(object sender, RoutedEventArgs e)
         {
-            MetoCraft.NewGui.TaskGui task = new NewGui.TaskGui();
+            NewGui.TaskGui task = new NewGui.TaskGui();
             task.Show();
             task.setTask("啟動Corn Him's UHC").setTaskStatus("");
         }
+
+        private void butClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void gridTitle_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mdowned = false;
+        }
+
+        private void gridTitle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+/*            if (gridTitle.IsMouseOver)
+            {
+                DragMove();
+            }*/
+
+        }
+
+        private void gridTitle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
+        private void butMin_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void gridTitle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                DragMove();
+            }
+            nOldWndLeft = Left;
+            nOldWndTop = Top;
+            nClickX = e.GetPosition(this).X;
+            nClickY = e.GetPosition(this).Y;
+            mdowned = true;
+        }
+
+/*        private void gridTitle_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (gridTitle.CaptureMouse() && mdowned)
+            {
+                Top = e.GetPosition(this).Y + nOldWndTop - nClickY;
+                Left = e.GetPosition(this).X + nOldWndLeft - nClickX;
+                nOldWndLeft = Left;
+                nOldWndTop = Top;
+            }
+        }*/
+        public override void OnApplyTemplate()
+        {
+            Button butMin = GetTemplateChild("butMin") as Button;
+            if (butMin != null)
+                butMin.Click += butMin_Click;
+
+            Button butCls = GetTemplateChild("butClose") as Button;
+            if (butCls != null)
+                butCls.Click += butClose_Click;
+
+            Grid gridTitle = GetTemplateChild("gridTitle") as Grid;
+            if (gridTitle != null)
+                gridTitle.MouseLeftButtonDown += gridTitle_MouseLeftButtonDown;
+
+            base.OnApplyTemplate();
+        }
+
     }
 }
