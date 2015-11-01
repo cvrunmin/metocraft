@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MetoCraft.Report
+namespace MetoCraft
 {
     /// <summary>
     /// KnownErrorReport.xaml 的互動邏輯
@@ -21,6 +21,22 @@ namespace MetoCraft.Report
         public KnownErrorReport()
         {
             InitializeComponent();
+        }
+        public KnownErrorReport(string desc)
+        {
+            InitializeComponent();
+            this.lblDesc.Content = desc;
+        }
+        public KnownErrorReport(string desc, string help)
+        {
+            InitializeComponent();
+            this.lblDesc.Content = desc;
+            this.lblHelp.Text = help;
+        }
+
+        private void butOk_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

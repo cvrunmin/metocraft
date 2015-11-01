@@ -7,9 +7,14 @@
         mc:Ignorable="d"
         Title="KnownErrorReport" Height="200" Width="400">
     <Grid>
-        <Canvas HorizontalAlignment="Left" Width="69" Margin="0,0,0,100"/>
+        <Canvas HorizontalAlignment="Left" Width="69" Margin="0,50">
+            <Ellipse Height="69" Stroke="Black" Width="69" StrokeThickness="2.5"/>
+            <Rectangle Height="29" Canvas.Left="30" Stroke="Black" StrokeThickness="2.5" Canvas.Top="30" Width="9" Fill="Black"/>
+            <Rectangle Fill="Black" Height="9" Canvas.Left="30" Stroke="Black" StrokeThickness="2.5" Canvas.Top="16" Width="9"/>
+        </Canvas>
         <Label x:Name="lblTitle" Content="Oops!" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label x:Name="lblDesc" Content="Label" HorizontalAlignment="Left" Margin="75,30,0,0" VerticalAlignment="Top"/>
-        <TextBlock x:Name="lblHelp" Margin="76,57,0,25" TextWrapping="Wrap" Text="TextBlock"/>
+        <Label x:Name="lblDesc" Content="" Margin="76,30,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="lblHelp" Margin="76,57,0,25" TextWrapping="Wrap"/>
+        <Button x:Name="butOk" Content="OK" Margin="317,150,0,0" Click="butOk_Click"/>
     </Grid>
 </Window>

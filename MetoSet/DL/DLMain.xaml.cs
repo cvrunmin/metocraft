@@ -394,7 +394,7 @@ namespace MetoCraft.DL
                 }
                 catch (Exception ex)
                 {
-                    new ErrorReport(ex).Show();
+                    new KnownErrorReport(ex.Message).Show();
                 }
             }
         }
@@ -477,7 +477,7 @@ namespace MetoCraft.DL
             {
                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                 {
-                    new ErrorReport(ex).Show();
+                    new KnownErrorReport(ex.Message).Show();
                 }));
             }
         }
@@ -536,7 +536,7 @@ namespace MetoCraft.DL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            new ErrorReport(ex).Show();
+                            new KnownErrorReport(ex.Message).Show();
                         }));
                     }
                 }
@@ -552,71 +552,23 @@ namespace MetoCraft.DL
         #endregion
         private void butDown1_Click(object sender, RoutedEventArgs e)
         {
-            /*            var mover = new ThicknessAnimationUsingKeyFrames();
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
-                        var mover1 = new ThicknessAnimationUsingKeyFrames();
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-                        var mover2 = new ThicknessAnimationUsingKeyFrames();
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight) * 2, 0, -(ActualHeight) * 2), TimeSpan.FromSeconds(0)));
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
-                        gridMC.BeginAnimation(MarginProperty, mover);
-                        gridLib.BeginAnimation(MarginProperty, mover1);
-                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
             gridMC.Visibility = Visibility.Hidden;
             gridLib.Visibility = Visibility.Visible;
         }
 
         private void butUp1_Click(object sender, RoutedEventArgs e)
         {
-            /*            var mover = new ThicknessAnimationUsingKeyFrames();
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-                        var mover1 = new ThicknessAnimationUsingKeyFrames();
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
-                        var mover2 = new ThicknessAnimationUsingKeyFrames();
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight) * 2, 0, -(ActualHeight) * 2), TimeSpan.FromSeconds(0.2)));
-                        gridMC.BeginAnimation(MarginProperty, mover);
-                        gridLib.BeginAnimation(MarginProperty, mover1);
-                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
             gridLib.Visibility = Visibility.Hidden;
             gridMC.Visibility = Visibility.Visible;
         }
         private void butDown2_Click(object sender, RoutedEventArgs e)
         {
-            /*            var mover = new ThicknessAnimationUsingKeyFrames();
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight) * 2, 0, (ActualHeight) * 2), TimeSpan.FromSeconds(0.2)));
-                        var mover1 = new ThicknessAnimationUsingKeyFrames();
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
-                        var mover2 = new ThicknessAnimationUsingKeyFrames();
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0)));
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-                        gridMC.BeginAnimation(MarginProperty, mover);
-                        gridLib.BeginAnimation(MarginProperty, mover1);
-                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
             gridLib.Visibility = Visibility.Hidden;
             gridAssets.Visibility = Visibility.Visible;
         }
 
         private void butUp2_Click(object sender, RoutedEventArgs e)
         {
-            /*            var mover = new ThicknessAnimationUsingKeyFrames();
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight) * 2, 0, (ActualHeight) * 2), TimeSpan.FromSeconds(0)));
-                        mover.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0.2)));
-                        var mover1 = new ThicknessAnimationUsingKeyFrames();
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, -(ActualHeight), 0, (ActualHeight)), TimeSpan.FromSeconds(0)));
-                        mover1.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.2)));
-                        var mover2 = new ThicknessAnimationUsingKeyFrames();
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0)));
-                        mover2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, (ActualHeight), 0, -(ActualHeight)), TimeSpan.FromSeconds(0.2)));
-                        gridMC.BeginAnimation(MarginProperty, mover);
-                        gridLib.BeginAnimation(MarginProperty, mover1);
-                        gridAssets.BeginAnimation(MarginProperty, mover2);*/
             gridAssets.Visibility = Visibility.Hidden;
             gridLib.Visibility = Visibility.Visible;
         }
