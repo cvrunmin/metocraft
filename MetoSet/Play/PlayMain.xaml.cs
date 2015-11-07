@@ -221,6 +221,8 @@ namespace MetoCraft.Play
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.ShowDialog();
             txtBoxP.Text = dialog.SelectedPath;
+            MeCore.Config.MCPath = dialog.SelectedPath;
+            MeCore.Config.Save(null);
         }
 
         private void butF5Profile_Click(object sender, RoutedEventArgs e)

@@ -120,11 +120,7 @@ namespace MetoCraft.DL
                 MessageBox.Show(LangManager.GetLangFromResource("RemoteVerErrorNoVersionSelect"));
                 return;
             }
-            task = new NewGui.TaskGui();
-            var thread = new Thread(new ThreadStart(delegate {
-                DataRowView selectVer = null;
-                Dispatcher.Invoke(new Action(() => selectVer = listRemoteVer.SelectedItem as DataRowView));
-//                var selectVer = listRemoteVer.SelectedItem as DataRowView;
+                DataRowView selectVer = listRemoteVer.SelectedItem as DataRowView;
                 if (selectVer != null)
                 {
                     var selectver = selectVer[0] as string;
@@ -140,9 +136,10 @@ namespace MetoCraft.DL
 #if DEBUG
                     MessageBox.Show(downpath + "\n" + downurl);
 #endif
-
-                    // ReSharper disable once AssignNullToNotNullAttribute
-                    if (!Directory.Exists(System.IO.Path.GetDirectoryName(downpath.ToString())))
+                butDLMC.Content = LangManager.GetLangFromResource("RemoteVerDownloading");
+                butDLMC.IsEnabled = false;
+                // ReSharper disable once AssignNullToNotNullAttribute
+                if (!Directory.Exists(System.IO.Path.GetDirectoryName(downpath.ToString())))
                     {
                         // ReSharper disable AssignNullToNotNullAttribute
                         Directory.CreateDirectory(System.IO.Path.GetDirectoryName(downpath.ToString()));
@@ -154,24 +151,10 @@ namespace MetoCraft.DL
                     {
                         downer.DownloadFileCompleted += downer_DownloadClientFileCompleted;
                         downer.DownloadProgressChanged += downer_DownloadProgressChanged;
-                        downer.DownloadProgressChanged += delegate(object sender, DownloadProgressChangedEventArgs e) {
-//                            ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-                            //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-                            var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
-                            try
-                            {
-                                info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
-                            }
-                            catch (DivideByZeroException) { info.Append("0B/s,"); }
-                            info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
-                            //                            SetDownloadInfo(info.ToString());
-                            MeCore.Invoke(new Action(() => task.setTaskStatus(info.ToString())));
-//                            task.setTaskStatus(info.ToString());
-                        };
                         Logger.log("download:" + downjsonfile);
                         downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
                         Logger.log("download:" + downurl);
-                        downer.DownloadFile(new Uri(downurl.ToString()), downpath.ToString());
+                        downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
                         _downedtime = Environment.TickCount - 1;
                         _downed = 0;
                     }
@@ -180,14 +163,11 @@ namespace MetoCraft.DL
                         MessageBox.Show(ex.Message + "\n");
                     }
                 }
-            }));
-            task.setThread(thread).setTask("下載遊戲文件").countTime().Show();
         }
         int _downedtime;
         int _downed;
         void downer_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate {
                 ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
                 //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
                 var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
@@ -198,15 +178,13 @@ namespace MetoCraft.DL
                 catch (DivideByZeroException) { info.Append("0B/s,"); }
                 info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
                 SetDownloadInfo(info.ToString());
-                task.setTaskStatus(info.ToString());
-            }));
         }
         void downer_DownloadClientFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            MetoCraft.Logger.log("Success to download client file.");
+            Logger.log("Success to download client file.");
             MessageBox.Show(LangManager.GetLangFromResource("RemoteVerDownloadSuccess"));
-//            butDLMC.Content = LangManager.GetLangFromResource("Download");
-//            butDLMC.IsEnabled = true;
+            butDLMC.Content = LangManager.GetLangFromResource("Download");
+            butDLMC.IsEnabled = true;
             MeCore.MainWindow.gridPlay.LoadVersionList();
         }
         public void ChangeDownloadProgress(int value, int maxValue)

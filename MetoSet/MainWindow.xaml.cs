@@ -150,6 +150,7 @@ namespace MetoCraft
             gridSet.loadConfig();
             gridPlay.loadConfig();
             gridPlay.sliderRAM.Maximum = Config.GetMemory();
+            gridPlay.sliderRAMPro.Maximum = Config.GetMemory();
             if (gridPlay.txtBoxP.Text != "")
             {
                 gridPlay.LoadVersionList();

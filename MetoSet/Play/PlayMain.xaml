@@ -33,7 +33,7 @@
     <Grid x:Name="gridPro" Margin="0,0,0,0" Visibility="Hidden">
         <Button x:Name="butPlayPro" Width="120" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="55" HorizontalAlignment="Right" Content="{DynamicResource PlayPlay}" Click="butPlayPro_Click"/>
         <ComboBox x:Name="comboProfile" Width="150" VerticalAlignment="Bottom" Template="{DynamicResource ComboBoxControlTemplate1}" Margin="0,0,135,10" Height="25" HorizontalAlignment="Right"/>
-        <Button x:Name="butF5Profile" Width="75" VerticalAlignment="Bottom" Margin="0,0,285,10" Height="25" HorizontalAlignment="Right" Content="{DynamicResource Refresh}"/>
+        <Button x:Name="butF5Profile" Width="75" VerticalAlignment="Bottom" Margin="0,0,285,10" Height="25" HorizontalAlignment="Right" Content="{DynamicResource Refresh}" Click="butF5Profile_Click"/>
         <Label x:Name="lblProfile" VerticalAlignment="Bottom" Margin="0,0,435,10" Height="25" HorizontalAlignment="Right" Content="{DynamicResource Profile}" HorizontalContentAlignment="Right"/>
         <Label x:Name="lblMM_Copy" Content="{DynamicResource Xmx}" Margin="0,0,410,70" HorizontalAlignment="Right" Width="117" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right"/>
         <Slider x:Name="sliderRAMPro" Margin="0,0,10,70" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="400"/>
