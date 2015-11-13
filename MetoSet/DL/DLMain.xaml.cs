@@ -4,6 +4,7 @@ using MetoCraft.Play;
 using MetoCraft.util;
 using MetoCraft.Versions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -352,6 +353,17 @@ namespace MetoCraft.DL
                 try
                 {
                     _ver = MeCore.MainWindow.gridPlay.versions[listVerFAsset.SelectedIndex];
+                    MessageBox.Show(_ver.Assets);
+                    if (_ver.Assets == null || _ver.Assets.Equals(""))
+                    {
+                        MessageBox.Show(_ver.Id + " doesn't define a asset version!");
+                        return;
+                    }
+                    if (_ver.Assets.Equals("legacy"))
+                    {
+                        MessageBox.Show(_ver.Id + " doesn't define a supported asset version!");
+                        return;
+                    }
                     var thGet = new Thread(new ThreadStart(delegate
                     {
                         string gameVersion = _ver.Assets;
@@ -491,6 +503,7 @@ namespace MetoCraft.DL
                     sw.Close();
                     var jsSerializer = new JavaScriptSerializer();
                     var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
+//                    var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(new StreamReader(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json").ReadToEnd());
                     asset = assetsObject["objects"];
                     Logger.log("共", asset.Count.ToString(CultureInfo.InvariantCulture), "项assets");
                     try
@@ -560,6 +573,84 @@ namespace MetoCraft.DL
             lblTitle_Copy1.Foreground = new SolidColorBrush(color);
             lblVer.Foreground = new SolidColorBrush(color);
             lblVer_Copy.Foreground = new SolidColorBrush(color);
+        }
+
+        private void butDLMusic_Click(object sender, RoutedEventArgs e)
+        {
+            JavaScriptSerializer SoundsJsonSerizlizer = new JavaScriptSerializer();
+            var sounds = SoundsJsonSerizlizer.Deserialize<Dictionary<string, Dictionary<string, object>>>((new WebClient()).DownloadString("http://www.bangbang93.com/bmcl/resources/sounds.json"));
+            Hashtable DownloadFile = new Hashtable();
+            int FileCount = 0;
+            int DuplicateFileCount = 0;
+            int JsonDuplicateFileCount = 0;
+            foreach (KeyValuePair<string, Dictionary<string, object>> SoundEntity in sounds)
+            {
+                switch (SoundEntity.Value["category"] as string)
+                {
+                    case "ambient":
+                    case "weather":
+                    case "player":
+                    case "neutral":
+                    case "hostile":
+                    case "block":
+                    case "master":
+                        //arraylist
+                        var SoundFile = SoundEntity.Value["sounds"] as ArrayList;
+                        if (SoundFile == null) goto case "music";
+                        foreach (string FileName in SoundFile)
+                        {
+                            FileCount++;
+                            string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + FileName + ".ogg";
+                            string SoundName = MeCore.Config.MCPath + @"assets\sounds\" + FileName + ".ogg";
+                            DataRow[] result = _dt.Select("FileName = " + "'sounds/" + FileName + ".ogg'");
+                            if (result.Count() != 0)
+                            {
+                                DuplicateFileCount++;
+                                continue;
+                            }
+                            if (DownloadFile.ContainsKey(Url))
+                            {
+                                JsonDuplicateFileCount++;
+                                continue;
+                            }
+                            DownloadFile.Add(Url, SoundName);
+                        }
+                        break;
+                    case "music":
+                        var MusicFile = SoundEntity.Value["sounds"] as ArrayList;
+                        foreach (Dictionary<string, object> music in MusicFile)
+                        {
+                            if (!music.ContainsKey("stream")) continue;
+                            if ((bool)music["stream"] == false) continue;
+                            FileCount++;
+                            string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + music["name"] + ".ogg";
+                            string SoundName = MeCore.Config.MCPath + @"\assets\sounds\" + music["name"] + ".ogg";
+                            DataRow[] result = _dt.Select("FileName = " + "'sounds/" + music["name"] as string + ".ogg'");
+                            if (result.Count() != 0)
+                            {
+                                DuplicateFileCount++;
+                                continue;
+                            }
+                            if (DownloadFile.ContainsKey(Url))
+                            {
+                                JsonDuplicateFileCount++;
+                                continue;
+                            }
+                            DownloadFile.Add(Url, SoundName);
+                        }
+                        break;
+                    case "record":
+                        var RecordFile = SoundEntity.Value["sounds"] as ArrayList;
+                        if (RecordFile[0] is string)
+                            goto case "master";
+                        else
+                            goto case "music";
+
+                }
+            }
+            Logger.log(string.Format("共计{0}个文件，{1}个文件重复,{2}个文件json内部重复，{3}个文件待下载", FileCount, DuplicateFileCount, JsonDuplicateFileCount, DownloadFile.Count));
+            FrmDownload frmDownload = new FrmDownload(DownloadFile);
+            frmDownload.Show();
         }
     }
 }

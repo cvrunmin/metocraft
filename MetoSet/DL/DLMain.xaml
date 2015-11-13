@@ -13,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-    <Grid x:Name="gridMC">
+    <Grid x:Name="gridMC" Visibility="Hidden">
         <Label x:Name="lblTitle" Content="{DynamicResource DLMCC}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
         <ListView x:Name="listRemoteVer" HorizontalAlignment="Left" Height="290" VerticalAlignment="Top" Width="405" Background="#A0FFFFFF" ItemsSource="{Binding}" SelectionMode="Single" Margin="0,35,0,0" ItemsPanel="{DynamicResource ItemsPanelTemplate1}">
             <ListView.View>
@@ -47,7 +47,7 @@
         <Label x:Name="lblDLI" Content="" HorizontalAlignment="Left" Margin="340,125,0,0" VerticalAlignment="Top"/>
         <Button x:Name="butDown2" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown2_Click"/>
     </Grid>
-    <Grid x:Name="gridAssets" Visibility="Hidden">
+    <Grid x:Name="gridAssets">
         <Button x:Name="butUp2" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp2_Click"/>
         <Label x:Name="lblTitle_Copy1" Content="{DynamicResource DLAssets}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lblVer_Copy" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
@@ -65,6 +65,7 @@
         <Button x:Name="butDLAsset" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="255,106,0,0" VerticalAlignment="Top" Width="75" Click="butDLAsset_Click"/>
         <Button x:Name="butF5Asset" Content="{DynamicResource Reload}" HorizontalAlignment="Left" Margin="335,106,0,0" VerticalAlignment="Top" Width="75" Click="butF5Asset_Click"/>
         <Label x:Name="lblDr" Content="" HorizontalAlignment="Left" Margin="255,130,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="butDLMusic" Content="DLMusic" HorizontalAlignment="Left" Margin="415,106,0,0" VerticalAlignment="Top" Width="75" Click="butDLMusic_Click"/>
 
     </Grid>
 </Grid>
