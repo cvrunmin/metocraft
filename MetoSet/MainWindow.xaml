@@ -9,33 +9,50 @@
         xmlns:localset="clr-namespace:MetoCraft.Sett"
         x:Class="MetoCraft.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="CanResize" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        Title="MainWindow" Height="400" Width="1015" BorderBrush="Black" Background="White" SizeChanged="Window_SizeChanged" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="CanResize" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ButtonStyle.xaml"/>
+                <ResourceDictionary Source="ControlStyle.xaml"/>
                 <ResourceDictionary Source="WindowStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid x:Name="gridParent" Margin="0">
-        <Grid.Background>
-            <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
-        </Grid.Background>
-        <Grid x:Name="gridMenu" HorizontalAlignment="Left" Width="55" Background="#7FFFFFFF">
-            <local:ButtonMenu x:Name="butPlay"  Content="{DynamicResource Play}"     HorizontalAlignment="Left" Height="44" Margin="0"         VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImagePlay.png"  BorderThickness="2" Click="butPlay_Click"/>
-            <local:ButtonMenu x:Name="butDL"    Content="{DynamicResource Download}" HorizontalAlignment="Left" Height="44" Margin="0,44,0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageDL.png"    BorderThickness="2" Click="butDL_Click"/>
-            <local:ButtonMenu x:Name="butSet"   Content="{DynamicResource Setting}"  HorizontalAlignment="Left" Height="44" Margin="0,88,-0,0" VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageSet.png"   BorderThickness="2" Click="butConfig_Click"/>
-            <local:ButtonMenu x:Name="butAbout" Content="{DynamicResource About}"    HorizontalAlignment="Left" Height="44" Margin="0,132,-0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageAbout.png" BorderThickness="2" Click="butAbout_Click"/>
-        </Grid>
-        <Grid x:Name="gridMain" Margin="55,0,0,0">
-            <localplay:PlayMain x:Name="gridPlay" Margin="0,0,0,0"/>
-            <localdl:DLMain x:Name="gridDL" Margin="0,0,0,0" Visibility="Hidden"/>
-            <localset:Settings x:Name="gridSet" Margin="0,0,0,0" Visibility="Hidden"/>
-            <local:About x:Name="gridAbout" Margin="0,0,0,0" Visibility="Hidden"/>
-        </Grid>
-        <Button x:Name="butMenu" Content="≡" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="40" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" FontSize="18.667" Click="butMenu_Click"/>
-    <!--        <Button x:Name="butClose" Content="X" HorizontalAlignment="Right" Height="24" Margin="0,0,-1,0" VerticalAlignment="Top" Width="24" BorderThickness="0" Background="White" Style="{DynamicResource ThreeButtonStyleClose}" Click="butClose_Click" Visibility="Hidden"/>
+    <Grid>
+        <Grid x:Name="gridParent" Margin="0,0,415,0">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Grid x:Name="gridMenu" HorizontalAlignment="Left" Width="55" Background="#7FFFFFFF">
+                <local:ButtonMenu x:Name="butPlay"  Content="{DynamicResource Play}"     HorizontalAlignment="Left" Height="44" Margin="0"         VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImagePlay.png"  BorderThickness="2" Click="butPlay_Click"/>
+                <local:ButtonMenu x:Name="butDL"    Content="{DynamicResource Download}" HorizontalAlignment="Left" Height="44" Margin="0,44,0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageDL.png"    BorderThickness="2" Click="butDL_Click"/>
+                <local:ButtonMenu x:Name="butSet"   Content="{DynamicResource Setting}"  HorizontalAlignment="Left" Height="44" Margin="0,88,-0,0" VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageSet.png"   BorderThickness="2" Click="butConfig_Click"/>
+                <local:ButtonMenu x:Name="butAbout" Content="{DynamicResource About}"    HorizontalAlignment="Left" Height="44" Margin="0,132,-0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageAbout.png" BorderThickness="2" Click="butAbout_Click"/>
+            </Grid>
+            <Grid x:Name="gridMain" Margin="55,0,0,0">
+                <localplay:PlayMain x:Name="gridPlay" Margin="0,0,0,0"/>
+                <localdl:DLMain x:Name="gridDL" Margin="0,0,0,0" Visibility="Hidden"/>
+                <localset:Settings x:Name="gridSet" Margin="0,0,0,0" Visibility="Hidden"/>
+                <local:About x:Name="gridAbout" Margin="0,0,0,0" Visibility="Hidden"/>
+            </Grid>
+            <Button x:Name="butMenu" Content="≡" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="40" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" FontSize="18.667" Click="butMenu_Click"/>
+
+            <!--        <Button x:Name="butClose" Content="X" HorizontalAlignment="Right" Height="24" Margin="0,0,-1,0" VerticalAlignment="Top" Width="24" BorderThickness="0" Background="White" Style="{DynamicResource ThreeButtonStyleClose}" Click="butClose_Click" Visibility="Hidden"/>
         <Button x:Name="butMin" Content="-" HorizontalAlignment="Right" Height="24" Margin="0,0,23,0" VerticalAlignment="Top" Width="24" BorderThickness="0" Background="White" Style="{DynamicResource ThreeButtonStyle}" Click="butMin_Click" Visibility="Hidden"/>-->
+        </Grid>
+        <Expander x:Name="expanderTask" Header="" Expanded="expanderTask_Expanded" Collapsed="expanderTask_Collapsed" IsExpanded="True" BorderThickness="0" Style="{DynamicResource ExpanderStyle}" ExpandDirection="Right" Background="#7FFFFFFF" HorizontalAlignment="Right" Width="415">
+            <Grid x:Name="TaskGui" Width="394" HorizontalAlignment="Right" Background="White">
+                <Grid Height="35" VerticalAlignment="Top" Background="#FF00234F">
+                    <Label x:Name="lblTime" Content="16:53" Margin="0,6,7,5" Foreground="White" HorizontalAlignment="Right" Width="42"/>
+                </Grid>
+                <Grid Margin="0,35,0,0" Height="201" VerticalAlignment="Top">
+                    <Label x:Name="label" Content="請勿在工作運行時關閉或拔除電腦的電源" Margin="0,61,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+                    <Label x:Name="label1" Content="Please do not power off or unplug your machine &#xA;                         when tasks is working" Margin="0,86,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                </Grid>
+                <WrapPanel x:Name="taskPanal" Margin="0,236,0,0" Background="#FFBBE3F1"/>
+            </Grid>
+
+        </Expander>
     </Grid>
 </Window>

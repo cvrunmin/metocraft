@@ -1,4 +1,5 @@
 ﻿using MetoCraft.Lang;
+using MetoCraft.NewGui;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,6 +25,8 @@ namespace MetoCraft
     {
         double nOldWndLeft, nOldWndTop, nClickX, nClickY;
         bool mdowned = false;
+        System.Windows.Forms.Timer timer;
+        List<TaskBar> tasklist = new List<TaskBar>();
         public MainWindow()
         {
             MeCore.NIcon.MainWindow = this;
@@ -146,6 +149,10 @@ namespace MetoCraft
         public bool FinishLoad = false;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            timer = new System.Windows.Forms.Timer();
+            timer.Enabled = true;
+            timer.Interval = 1000;
+            timer.Tick += new EventHandler(this.timer_Tick);
             gridSet.listLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
             gridSet.loadConfig();
             gridPlay.loadConfig();
@@ -253,6 +260,75 @@ namespace MetoCraft
 
             base.OnApplyTemplate();
         }
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            lblTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
+            if (tasklist.Count != 0)
+            {
+                List<TaskBar> deletable = new List<TaskBar>();
+                foreach (var task in tasklist)
+                {
+                    if (task.isFinished())
+                    {
+                        deletable.Add(task);
+                    }
+                }
+                if (deletable.Count != 0)
+                {
+                    foreach (var task in deletable)
+                    {
+                        removeTask(task);
+                    }
+                }
+            }
+        }
 
+        private void expanderTask_Expanded(object sender, RoutedEventArgs e)
+        {
+            var ani = new DoubleAnimationUsingKeyFrames();
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(ActualWidth, TimeSpan.FromSeconds(0)));
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(1015, TimeSpan.FromSeconds(0.2)));
+            var ani1 = new DoubleAnimationUsingKeyFrames();
+            ani1.KeyFrames.Add(new LinearDoubleKeyFrame(expanderTask.ActualWidth, TimeSpan.FromSeconds(0)));
+            ani1.KeyFrames.Add(new LinearDoubleKeyFrame(415, TimeSpan.FromSeconds(0.2)));
+            var ani2 = new ThicknessAnimationUsingKeyFrames();
+            ani2.KeyFrames.Add(new LinearThicknessKeyFrame(gridParent.Margin, TimeSpan.FromSeconds(0)));
+            ani2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, 0, 415, 0), TimeSpan.FromSeconds(0.2)));
+            BeginAnimation(WidthProperty, ani);
+            expanderTask.BeginAnimation(WidthProperty, ani1);
+            gridParent.BeginAnimation(MarginProperty, ani2);
+        }
+
+        private void expanderTask_Collapsed(object sender, RoutedEventArgs e)
+        {
+            var ani = new DoubleAnimationUsingKeyFrames();
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(ActualWidth, TimeSpan.FromSeconds(0)));
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(621, TimeSpan.FromSeconds(0.2)));
+            var ani1 = new DoubleAnimationUsingKeyFrames();
+            ani1.KeyFrames.Add(new LinearDoubleKeyFrame(expanderTask.ActualWidth, TimeSpan.FromSeconds(0)));
+            ani1.KeyFrames.Add(new LinearDoubleKeyFrame(21, TimeSpan.FromSeconds(0.2)));
+            var ani2 = new ThicknessAnimationUsingKeyFrames();
+            ani2.KeyFrames.Add(new LinearThicknessKeyFrame(gridParent.Margin, TimeSpan.FromSeconds(0)));
+            ani2.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0,0,21,0), TimeSpan.FromSeconds(0.2)));
+            BeginAnimation(WidthProperty, ani);
+            expanderTask.BeginAnimation(WidthProperty, ani1);
+            gridParent.BeginAnimation(MarginProperty, ani2);
+        }
+
+        public void addTask(TaskBar task) {
+            task.Margin = new Thickness(0);
+            tasklist.Add(task);
+            taskPanal.Children.Add(task);
+        }
+        public void removeTask(TaskBar task)
+        {
+            tasklist.Remove(task);
+            taskPanal.Children.Remove(task);
+        }
+        private string toGoodString(int i)
+        {
+            string s = i.ToString();
+            if (s.Length == 1) { return "0" + s; } else return s;
+        }
     }
 }

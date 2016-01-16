@@ -64,7 +64,7 @@ namespace MetoCraft.Play
             if (login.auth != null)
             {
                 new Assets.Assets(versions[comboVer.SelectedIndex]);
-                TaskGui gui = new TaskGui();
+                TaskBar gui = new TaskBar();
                 var task = new Thread(new ThreadStart(delegate {
                         Dispatcher.Invoke(new MethodInvoker(delegate
                         {
@@ -105,7 +105,7 @@ namespace MetoCraft.Play
                         }
                     }));
                 }));
-                gui.setTask("啟動" + versions[comboVer.SelectedIndex].Id).setThread(task).Show();
+                MeCore.MainWindow.addTask(gui.setTask("啟動" + versions[comboVer.SelectedIndex].Id).setThread(task));
             }
 
         }
@@ -118,7 +118,7 @@ namespace MetoCraft.Play
             }));
             if (login.auth != null)
             {
-                TaskGui gui = new TaskGui();
+                TaskBar gui = new TaskBar();
                 var task = new Thread(new ThreadStart(delegate
                 {
                     Dispatcher.Invoke(new MethodInvoker(delegate
@@ -162,7 +162,7 @@ namespace MetoCraft.Play
                         }
                     }));
                 }));
-                gui.setTask("啟動" + profiles[comboProfile.SelectedIndex].version).setThread(task).Show();
+                MeCore.MainWindow.addTask(gui.setTask("啟動" + profiles[comboProfile.SelectedIndex].version).setThread(task));
             }
         }
 
@@ -200,7 +200,7 @@ namespace MetoCraft.Play
             {
                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                 {
-                    new ErrorReport(ex).Show();
+                    new KnownErrorReport(ex.Message).Show();
                 }));
             }
         }

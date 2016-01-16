@@ -34,7 +34,6 @@ namespace MetoCraft.DL
     public partial class DLMain : Grid
     {
         private readonly WebClient _downer = new WebClient();
-        private NewGui.TaskGui task;
         public DLMain()
         {
             InitializeComponent();
@@ -76,32 +75,20 @@ namespace MetoCraft.DL
                 }
                 catch (WebException ex)
                 {
-                    if (MessageBox.Show(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + "\n" + ex.Message, "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            ErrorReport er = new ErrorReport(ex);
+                            KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
                             er.ShowDialog();
-                        }));
-                    }
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                    {
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
                 }
                 catch (TimeoutException ex)
                 {
-                    if (MessageBox.Show(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + "\n" + ex.Message, "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            ErrorReport er = new ErrorReport(ex);
+                            KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
                             er.ShowDialog();
-                        }));
-                    }
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                    {
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
@@ -161,8 +148,14 @@ namespace MetoCraft.DL
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message + "\n");
-                    }
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        KnownErrorReport er = new KnownErrorReport(ex.Message);
+                        er.ShowDialog();
+                        butDLMC.Content = LangManager.GetLangFromResource("Download");
+                        butDLMC.IsEnabled = true;
+                    }));
+                }
                 }
         }
         int _downedtime;
@@ -240,7 +233,7 @@ namespace MetoCraft.DL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        new ErrorReport(ex).Show();
+                        new KnownErrorReport(ex.Message).Show();
                     }));
                 }
             }
@@ -248,7 +241,7 @@ namespace MetoCraft.DL
 
         private void butDLLib_Click(object sender, RoutedEventArgs e)
         {
-            NewGui.TaskGui task = new NewGui.TaskGui();
+            NewGui.TaskBar task = new NewGui.TaskBar();
             var thDL = new Thread(new ThreadStart(delegate
             {
                 WebClient _downer = new WebClient();
@@ -327,22 +320,22 @@ namespace MetoCraft.DL
                             }
                             catch (WebException exception)
                             {
-                                MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
+                                MeCore.Invoke(new Action(() => new KnownErrorReport(exception.Message).Show()));
                                 return;
                             }
                         }
                     }
                 }
             }));
-            task.setThread(thDL).setTask("下載必要文件").Show();
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載必要文件"));
 //            thDL.Start();
         }
 
         #endregion
         #region DLAsset
         Dictionary<string, AssetsEntity> asset;
-        private readonly string _urlDownload = MeCore.UrlDownloadBase;
-        private readonly string _urlResource = MeCore.UrlResourceBase;
+//        private readonly string _urlDownload = MeCore.UrlDownloadBase;
+//        private readonly string _urlResource = MeCore.UrlResourceBase;
         KMCCC.Launcher.Version _ver;
         bool _init = true;
         private void listVerFAsset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -369,8 +362,8 @@ namespace MetoCraft.DL
                         string gameVersion = _ver.Assets;
                         try
                         {
-                            _downer.DownloadStringAsync(new Uri(_urlDownload + "indexes/" + gameVersion + ".json"));
-                            Logger.info(_urlDownload + "indexes/" + gameVersion + ".json");
+                            _downer.DownloadStringAsync(new Uri(MeCore.UrlDownloadBase + "indexes/" + gameVersion + ".json"));
+                            Logger.info(MeCore.UrlDownloadBase + "indexes/" + gameVersion + ".json");
                         }
                         catch (WebException ex)
                         {
@@ -391,7 +384,7 @@ namespace MetoCraft.DL
 
         private void butDLAsset_Click(object sender, RoutedEventArgs e)
         {
-            task = new NewGui.TaskGui();
+            NewGui.TaskBar task = new NewGui.TaskBar();
             var thGet = new Thread(new ThreadStart(delegate
             {
                 int i = 0;
@@ -403,7 +396,7 @@ namespace MetoCraft.DL
                         task.setTaskStatus(((float)i / asset.Count * 100).ToString()+"%");
 //                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
                     }));
-                    string url = _urlResource + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
+                    string url = MeCore.UrlResourceBase + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
                     FileHelper.CreateDirectoryForFile(file);
                     try
@@ -440,7 +433,7 @@ namespace MetoCraft.DL
                     Logger.info("无需更新assets");
                 }
             }));
-            task.setThread(thGet).setTask("下載資源文件").Show();
+            MeCore.MainWindow.addTask(task.setThread(thGet).setTask("下載資源文件"));
 //            thGet.Start();
         }
 
@@ -577,7 +570,7 @@ namespace MetoCraft.DL
 
         private void butDLMusic_Click(object sender, RoutedEventArgs e)
         {
-            JavaScriptSerializer SoundsJsonSerizlizer = new JavaScriptSerializer();
+/*            JavaScriptSerializer SoundsJsonSerizlizer = new JavaScriptSerializer();
             var sounds = SoundsJsonSerizlizer.Deserialize<Dictionary<string, Dictionary<string, object>>>((new WebClient()).DownloadString("http://www.bangbang93.com/bmcl/resources/sounds.json"));
             Hashtable DownloadFile = new Hashtable();
             int FileCount = 0;
@@ -650,7 +643,7 @@ namespace MetoCraft.DL
             }
             Logger.log(string.Format("共计{0}个文件，{1}个文件重复,{2}个文件json内部重复，{3}个文件待下载", FileCount, DuplicateFileCount, JsonDuplicateFileCount, DownloadFile.Count));
             FrmDownload frmDownload = new FrmDownload(DownloadFile);
-            frmDownload.Show();
+            frmDownload.Show();*/
         }
     }
 }

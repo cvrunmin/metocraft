@@ -190,6 +190,7 @@ namespace MetoCraft.Sett
                     MeCore.MainWindow.gridDL.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     //                    MeCore.MainWindow.gridPlay.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     gridParent.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+                    MeCore.MainWindow.expanderTask.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     var col = System.Drawing.Color.FromArgb((int)(~((uint)MeCore.Config.color.ToArgb())));
                     MeCore.MainWindow.gridAbout.setLblColor(Color.FromRgb(col.R, col.G, col.B));
                     MeCore.MainWindow.gridDL.setLblColor(Color.FromRgb(col.R, col.G, col.B));

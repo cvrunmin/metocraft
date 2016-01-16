@@ -31,6 +31,10 @@ namespace MetoCraft.Assets
         private void Run()
         {
             string gameVersion = _ver.Assets;
+            if (String.IsNullOrWhiteSpace(gameVersion) || _ver.Assets.Equals("legacy"))
+            {
+                return;
+            }
             try
             {
                 _downloader.DownloadStringAsync(new Uri(_urlDownloadBase + "indexes/" + gameVersion + ".json"));

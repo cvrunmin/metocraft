@@ -19,11 +19,10 @@
 	/// </summary>
 	public static partial class Reporter
 	{
-        public const string KMCCC_TYPE = "KMCCC Pro";
-        /// <summary>
-        ///     启动报告的详细程度
-        /// </summary>
-        public enum ReportLevel
+		/// <summary>
+		///     启动报告的详细程度
+		/// </summary>
+		public enum ReportLevel
 		{
 			/// <summary>
 			///     完整报告
@@ -51,8 +50,9 @@
 #else
 		private const string SERVICE_ROOT = @"http://api.kmccc.minestudio.org/v1";
 #endif
+        public const string KMCCC_TYPE = "KMCCC Pro";
 
-		public const string Version = "0.9.5.2";
+        public const string Version = "0.9.5.3";
 
 		private const string LAUNCH_REPORT = SERVICE_ROOT + "/launch";
 

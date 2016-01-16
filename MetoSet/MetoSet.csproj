@@ -156,6 +156,9 @@
     <Compile Include="Modules\JVersion\JVersion.cs" />
     <Compile Include="Modules\JVersion\JVersionLocator.cs" />
     <Compile Include="Modules\Yggdrasil\YggdrasilClient.cs" />
+    <Compile Include="NewGui\TaskBar.xaml.cs">
+      <DependentUpon>TaskBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NewGui\TaskGui.xaml.cs">
       <DependentUpon>TaskGui.xaml</DependentUpon>
     </Compile>
@@ -191,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DL\DLMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewGui\TaskBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
