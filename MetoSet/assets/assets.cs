@@ -22,8 +22,8 @@ namespace MetoCraft.Assets
         public Assets(KMCCC.Launcher.Version ver, string urlDownloadBase = null, string urlResourceBase = null)
         {
             _ver = ver;
-            _urlDownloadBase = urlDownloadBase ?? MeCore.UrlDownloadBase;
-            _urlResourceBase = urlResourceBase ?? MeCore.UrlResourceBase;
+            _urlDownloadBase = urlDownloadBase ?? MeCore.UrlDownload;
+            _urlResourceBase = urlResourceBase ?? MeCore.UrlResource;
             var thread = new Thread(Run);
             thread.Start();
         }

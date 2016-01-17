@@ -20,9 +20,10 @@ namespace MetoCraft
         public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
-        public static string UrlDownloadBase = MetoCraft.Resources.Url.URL_DOWNLOAD_BASE;
-        public static string UrlResourceBase = MetoCraft.Resources.Url.URL_RESOURCE_BASE;
-        public static string UrlLibrariesBase = MetoCraft.Resources.Url.URL_LIBRARIES_BASE;
+        public static string UrlDownload = Resources.Url.URL_DOWNLOAD_BASE;
+        public static string UrlResource = Resources.Url.URL_RESOURCE_BASE;
+        public static string UrlLibraries = Resources.Url.URL_LIBRARIES_BASE;
+        public static string UrlForgeList = Resources.Url.URL_FORGELIST_BASE;
 
         static MeCore()
         {

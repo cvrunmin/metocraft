@@ -124,13 +124,13 @@
     <value>https://s3.amazonaws.com/Minecraft.Download/</value>
   </data>
   <data name="URL_LIBRARIES_bangbang93" xml:space="preserve">
-    <value>http://bmclapi.bangbang93.com/libraries/</value>
+    <value>http://bmclapi2.bangbang93.com/libraries/</value>
   </data>
   <data name="URL_LIBRARIES_BASE" xml:space="preserve">
     <value>https://libraries.minecraft.net/</value>
   </data>
   <data name="URL_RESOURCE_bangbang93" xml:space="preserve">
-    <value>http://bmclapi.bangbang93.com/assets/</value>
+    <value>http://bmclapi2.bangbang93.com/assets/</value>
   </data>
   <data name="URL_RESOURCE_BASE" xml:space="preserve">
     <value>http://resources.download.minecraft.net/</value>
@@ -143,5 +143,14 @@
   </data>
   <data name="URL_RESOURCE_rapiddata" xml:space="preserve">
     <value>http://mirrors.rapiddata.org/resources.download.minecraft.net/</value>
+  </data>
+  <data name="URL_FORGELIST_bangbang93" xml:space="preserve">
+    <value>http://bmclapi2.bangbang93.com/maven/net/minecraftforge/forge/json</value>
+  </data>
+  <data name="URL_FORGELIST_BASE" xml:space="preserve">
+    <value>http://files.minecraftforge.net/maven/net/minecraftforge/forge/json</value>
+  </data>
+  <data name="URL_FORGELIST_rapiddata" xml:space="preserve">
+    <value>http://mirrors.rapiddata.org/forge/maven/net/minecraftforge/forge/json</value>
   </data>
 </root>

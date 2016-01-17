@@ -20,7 +20,7 @@ namespace MetoCraft.DL
                 downpath.Append(selectver).Append(".jar");
                 var downer = new WebClient();
                 downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                var downurl = new StringBuilder(MeCore.UrlDownloadBase);
+                var downurl = new StringBuilder(MeCore.UrlDownload);
                 downurl.Append(@"versions\");
                 downurl.Append(selectver).Append("\\");
                 downurl.Append(selectver).Append(".jar");

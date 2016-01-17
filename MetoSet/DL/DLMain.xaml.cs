@@ -1,4 +1,5 @@
 ﻿using MetoCraft.Assets;
+using MetoCraft.Forge;
 using MetoCraft.Lang;
 using MetoCraft.Play;
 using MetoCraft.util;
@@ -44,7 +45,7 @@ namespace MetoCraft.DL
             butRefresh.IsEnabled = false;
             listRemoteVer.DataContext = null;
             var rawJson = new DataContractJsonSerializer(typeof(RawVersionListType));
-            var getJson = (HttpWebRequest)WebRequest.Create(MeCore.UrlDownloadBase + "versions/versions.json");
+            var getJson = (HttpWebRequest)WebRequest.Create(MeCore.UrlDownload + "versions/versions.json");
             getJson.Timeout = 10000;
             getJson.ReadWriteTimeout = 10000;
             getJson.UserAgent = "MetoCraft" + MeCore.version;
@@ -117,7 +118,7 @@ namespace MetoCraft.DL
                     downpath.Append(selectver).Append(".jar");
                     var downer = new WebClient();
                     downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                    var downurl = new StringBuilder(MeCore.UrlDownloadBase);
+                    var downurl = new StringBuilder(MeCore.UrlDownload);
                     downurl.Append(@"versions\");
                     downurl.Append(selectver).Append("\\");
                     downurl.Append(selectver).Append(".jar");
@@ -202,7 +203,7 @@ namespace MetoCraft.DL
         #region DLLib
         IEnumerable<string> libs;
         IEnumerable<string> natives;
-        private readonly string _urlLib = MeCore.UrlLibrariesBase;
+        private readonly string _urlLib = MeCore.UrlLibraries;
         private void listVerFLib_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (listVerFLib.SelectedIndex != -1)
@@ -334,8 +335,8 @@ namespace MetoCraft.DL
         #endregion
         #region DLAsset
         Dictionary<string, AssetsEntity> asset;
-//        private readonly string _urlDownload = MeCore.UrlDownloadBase;
-//        private readonly string _urlResource = MeCore.UrlResourceBase;
+//        private readonly string _urlDownload = MeCore.UrlDownload;
+//        private readonly string _urlResource = MeCore.UrlResource;
         KMCCC.Launcher.Version _ver;
         bool _init = true;
         private void listVerFAsset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -362,8 +363,8 @@ namespace MetoCraft.DL
                         string gameVersion = _ver.Assets;
                         try
                         {
-                            _downer.DownloadStringAsync(new Uri(MeCore.UrlDownloadBase + "indexes/" + gameVersion + ".json"));
-                            Logger.info(MeCore.UrlDownloadBase + "indexes/" + gameVersion + ".json");
+                            _downer.DownloadStringAsync(new Uri(MeCore.UrlDownload + "indexes/" + gameVersion + ".json"));
+                            Logger.info(MeCore.UrlDownload + "indexes/" + gameVersion + ".json");
                         }
                         catch (WebException ex)
                         {
@@ -396,7 +397,7 @@ namespace MetoCraft.DL
                         task.setTaskStatus(((float)i / asset.Count * 100).ToString()+"%");
 //                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
                     }));
-                    string url = MeCore.UrlResourceBase + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
+                    string url = MeCore.UrlResource + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
                     FileHelper.CreateDirectoryForFile(file);
                     try
@@ -533,6 +534,143 @@ namespace MetoCraft.DL
                 }
             }
         }
+        private void butDLMusic_Click(object sender, RoutedEventArgs e)
+        {
+            /*            JavaScriptSerializer SoundsJsonSerizlizer = new JavaScriptSerializer();
+                        var sounds = SoundsJsonSerizlizer.Deserialize<Dictionary<string, Dictionary<string, object>>>((new WebClient()).DownloadString("http://www.bangbang93.com/bmcl/resources/sounds.json"));
+                        Hashtable DownloadFile = new Hashtable();
+                        int FileCount = 0;
+                        int DuplicateFileCount = 0;
+                        int JsonDuplicateFileCount = 0;
+                        foreach (KeyValuePair<string, Dictionary<string, object>> SoundEntity in sounds)
+                        {
+                            switch (SoundEntity.Value["category"] as string)
+                            {
+                                case "ambient":
+                                case "weather":
+                                case "player":
+                                case "neutral":
+                                case "hostile":
+                                case "block":
+                                case "master":
+                                    //arraylist
+                                    var SoundFile = SoundEntity.Value["sounds"] as ArrayList;
+                                    if (SoundFile == null) goto case "music";
+                                    foreach (string FileName in SoundFile)
+                                    {
+                                        FileCount++;
+                                        string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + FileName + ".ogg";
+                                        string SoundName = MeCore.Config.MCPath + @"assets\sounds\" + FileName + ".ogg";
+                                        DataRow[] result = _dt.Select("FileName = " + "'sounds/" + FileName + ".ogg'");
+                                        if (result.Count() != 0)
+                                        {
+                                            DuplicateFileCount++;
+                                            continue;
+                                        }
+                                        if (DownloadFile.ContainsKey(Url))
+                                        {
+                                            JsonDuplicateFileCount++;
+                                            continue;
+                                        }
+                                        DownloadFile.Add(Url, SoundName);
+                                    }
+                                    break;
+                                case "music":
+                                    var MusicFile = SoundEntity.Value["sounds"] as ArrayList;
+                                    foreach (Dictionary<string, object> music in MusicFile)
+                                    {
+                                        if (!music.ContainsKey("stream")) continue;
+                                        if ((bool)music["stream"] == false) continue;
+                                        FileCount++;
+                                        string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + music["name"] + ".ogg";
+                                        string SoundName = MeCore.Config.MCPath + @"\assets\sounds\" + music["name"] + ".ogg";
+                                        DataRow[] result = _dt.Select("FileName = " + "'sounds/" + music["name"] as string + ".ogg'");
+                                        if (result.Count() != 0)
+                                        {
+                                            DuplicateFileCount++;
+                                            continue;
+                                        }
+                                        if (DownloadFile.ContainsKey(Url))
+                                        {
+                                            JsonDuplicateFileCount++;
+                                            continue;
+                                        }
+                                        DownloadFile.Add(Url, SoundName);
+                                    }
+                                    break;
+                                case "record":
+                                    var RecordFile = SoundEntity.Value["sounds"] as ArrayList;
+                                    if (RecordFile[0] is string)
+                                        goto case "master";
+                                    else
+                                        goto case "music";
+
+                            }
+                        }
+                        Logger.log(string.Format("共计{0}个文件，{1}个文件重复,{2}个文件json内部重复，{3}个文件待下载", FileCount, DuplicateFileCount, JsonDuplicateFileCount, DownloadFile.Count));
+                        FrmDownload frmDownload = new FrmDownload(DownloadFile);
+                        frmDownload.Show();*/
+        }
+
+        #endregion
+        #region DLForge
+        readonly ForgeVersionList _forgeVer = new ForgeVersionList();
+        private void butReload_Click(object sender, RoutedEventArgs e)
+        {
+            if (butReload.Content.ToString() == LangManager.GetLangFromResource("btnReForgeGetting"))
+                return;
+            butReload.Content = LangManager.GetLangFromResource("btnReForgeGetting");
+            butReload.IsEnabled = false;
+            RefreshForgeVersionList();
+        }
+        private void RefreshForgeVersionList()
+        {
+            treeForgeVer.Items.Add(LangManager.GetLangFromResource("ForgeListGetting"));
+            _forgeVer.ForgePageReadyEvent += ForgeVer_ForgePageReadyEvent;
+            _forgeVer.GetVersion();
+        }
+        void ForgeVer_ForgePageReadyEvent()
+        {
+            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
+            {
+                treeForgeVer.Items.Clear();
+                foreach (TreeViewItem t in _forgeVer.GetNew())
+                {
+                    treeForgeVer.Items.Add(t);
+                }
+                butReload.Content = LangManager.GetLangFromResource("Refresh");
+                butReload.IsEnabled = true;
+            }));
+        }
+        private void DownloadForge(string ver)
+        {
+            if (!_forgeVer.ForgeDownloadUrl.ContainsKey(ver))
+            {
+                MessageBox.Show(LangManager.GetLangFromResource("ForgeDoNotSupportInstaller"));
+                return;
+            }
+            NewGui.TaskBar task = new NewGui.TaskBar();
+            var thDL = new Thread(new ThreadStart(delegate
+            {
+                var url = new Uri(_forgeVer.ForgeDownloadUrl[ver]);
+                var downer = new WebClient();
+                downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
+                downer.DownloadProgressChanged += delegate(object sender, DownloadProgressChangedEventArgs e) {
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(e.ProgressPercentage + "%")));
+                };
+                downer.DownloadFile(url, "forge.jar");
+            }));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載Forge安裝檔"));
+        }
+        private void treeForgeVer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (this.treeForgeVer.SelectedItem == null)
+                return;
+            if (this.treeForgeVer.SelectedItem is string)
+            {
+                DownloadForge(this.treeForgeVer.SelectedItem as string);
+            }
+        }
         #endregion
         private void butDown1_Click(object sender, RoutedEventArgs e)
         {
@@ -556,6 +694,17 @@ namespace MetoCraft.DL
             gridAssets.Visibility = Visibility.Hidden;
             gridLib.Visibility = Visibility.Visible;
         }
+        private void butDown3_Click(object sender, RoutedEventArgs e)
+        {
+            gridAssets.Visibility = Visibility.Hidden;
+            gridForge.Visibility = Visibility.Visible;
+        }
+
+        private void butUp3_Click(object sender, RoutedEventArgs e)
+        {
+            gridForge.Visibility = Visibility.Hidden;
+            gridAssets.Visibility = Visibility.Visible;
+        }
         public void setLblColor(Color color)
         {
             labDownInfo.Foreground = new SolidColorBrush(color);
@@ -568,82 +717,5 @@ namespace MetoCraft.DL
             lblVer_Copy.Foreground = new SolidColorBrush(color);
         }
 
-        private void butDLMusic_Click(object sender, RoutedEventArgs e)
-        {
-/*            JavaScriptSerializer SoundsJsonSerizlizer = new JavaScriptSerializer();
-            var sounds = SoundsJsonSerizlizer.Deserialize<Dictionary<string, Dictionary<string, object>>>((new WebClient()).DownloadString("http://www.bangbang93.com/bmcl/resources/sounds.json"));
-            Hashtable DownloadFile = new Hashtable();
-            int FileCount = 0;
-            int DuplicateFileCount = 0;
-            int JsonDuplicateFileCount = 0;
-            foreach (KeyValuePair<string, Dictionary<string, object>> SoundEntity in sounds)
-            {
-                switch (SoundEntity.Value["category"] as string)
-                {
-                    case "ambient":
-                    case "weather":
-                    case "player":
-                    case "neutral":
-                    case "hostile":
-                    case "block":
-                    case "master":
-                        //arraylist
-                        var SoundFile = SoundEntity.Value["sounds"] as ArrayList;
-                        if (SoundFile == null) goto case "music";
-                        foreach (string FileName in SoundFile)
-                        {
-                            FileCount++;
-                            string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + FileName + ".ogg";
-                            string SoundName = MeCore.Config.MCPath + @"assets\sounds\" + FileName + ".ogg";
-                            DataRow[] result = _dt.Select("FileName = " + "'sounds/" + FileName + ".ogg'");
-                            if (result.Count() != 0)
-                            {
-                                DuplicateFileCount++;
-                                continue;
-                            }
-                            if (DownloadFile.ContainsKey(Url))
-                            {
-                                JsonDuplicateFileCount++;
-                                continue;
-                            }
-                            DownloadFile.Add(Url, SoundName);
-                        }
-                        break;
-                    case "music":
-                        var MusicFile = SoundEntity.Value["sounds"] as ArrayList;
-                        foreach (Dictionary<string, object> music in MusicFile)
-                        {
-                            if (!music.ContainsKey("stream")) continue;
-                            if ((bool)music["stream"] == false) continue;
-                            FileCount++;
-                            string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + music["name"] + ".ogg";
-                            string SoundName = MeCore.Config.MCPath + @"\assets\sounds\" + music["name"] + ".ogg";
-                            DataRow[] result = _dt.Select("FileName = " + "'sounds/" + music["name"] as string + ".ogg'");
-                            if (result.Count() != 0)
-                            {
-                                DuplicateFileCount++;
-                                continue;
-                            }
-                            if (DownloadFile.ContainsKey(Url))
-                            {
-                                JsonDuplicateFileCount++;
-                                continue;
-                            }
-                            DownloadFile.Add(Url, SoundName);
-                        }
-                        break;
-                    case "record":
-                        var RecordFile = SoundEntity.Value["sounds"] as ArrayList;
-                        if (RecordFile[0] is string)
-                            goto case "master";
-                        else
-                            goto case "music";
-
-                }
-            }
-            Logger.log(string.Format("共计{0}个文件，{1}个文件重复,{2}个文件json内部重复，{3}个文件待下载", FileCount, DuplicateFileCount, JsonDuplicateFileCount, DownloadFile.Count));
-            FrmDownload frmDownload = new FrmDownload(DownloadFile);
-            frmDownload.Show();*/
-        }
     }
 }

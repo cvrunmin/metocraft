@@ -75,19 +75,22 @@ namespace MetoCraft.Sett
             switch (comboDLSrc.SelectedIndex)
             {
                 case 0:
-                    MeCore.UrlDownloadBase = Url.URL_DOWNLOAD_BASE;
-                    MeCore.UrlResourceBase = Url.URL_RESOURCE_BASE;
-                    MeCore.UrlLibrariesBase = Url.URL_LIBRARIES_BASE;
+                    MeCore.UrlDownload = Url.URL_DOWNLOAD_BASE;
+                    MeCore.UrlResource = Url.URL_RESOURCE_BASE;
+                    MeCore.UrlLibraries = Url.URL_LIBRARIES_BASE;
+                    MeCore.UrlForgeList = Url.URL_FORGELIST_BASE;
                     break;
                 case 1:
-                    MeCore.UrlDownloadBase = Url.URL_DOWNLOAD_bangbang93;
-                    MeCore.UrlResourceBase = Url.URL_RESOURCE_bangbang93;
-                    MeCore.UrlLibrariesBase = Url.URL_LIBRARIES_bangbang93;
+                    MeCore.UrlDownload = Url.URL_DOWNLOAD_bangbang93;
+                    MeCore.UrlResource = Url.URL_RESOURCE_bangbang93;
+                    MeCore.UrlLibraries = Url.URL_LIBRARIES_bangbang93;
+                    MeCore.UrlForgeList = Url.URL_FORGELIST_bangbang93;
                     break;
                 case 2:
-                    MeCore.UrlDownloadBase = Url.URL_DOWNLOAD_rapiddata;
-                    MeCore.UrlResourceBase = Url.URL_RESOURCE_rapiddata;
-                    MeCore.UrlLibrariesBase = Url.URL_LIBRARIES_rapiddata;
+                    MeCore.UrlDownload = Url.URL_DOWNLOAD_rapiddata;
+                    MeCore.UrlResource = Url.URL_RESOURCE_rapiddata;
+                    MeCore.UrlLibraries = Url.URL_LIBRARIES_rapiddata;
+                    MeCore.UrlForgeList = Url.URL_DOWNLOAD_rapiddata;
                     break;
                 default:
                     goto case 0;

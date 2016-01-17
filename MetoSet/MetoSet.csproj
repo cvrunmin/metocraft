@@ -131,6 +131,7 @@
       <DependentUpon>DLMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="DL\DLMCThread.cs" />
+    <Compile Include="Forge\ForgeDLThread.cs" />
     <Compile Include="Forge\ForgeListNotReadyException.cs" />
     <Compile Include="Forge\ForgeVersionList.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
@@ -346,7 +347,7 @@
     <Resource Include="metocraft.ico" />
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="SplashScreen.png" />
+    <Resource Include="SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\mojang.png" />

@@ -47,7 +47,7 @@
         <Label x:Name="lblDLI" Content="" HorizontalAlignment="Left" Margin="340,125,0,0" VerticalAlignment="Top"/>
         <Button x:Name="butDown2" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown2_Click"/>
     </Grid>
-    <Grid x:Name="gridAssets">
+    <Grid x:Name="gridAssets" Visibility="Hidden">
         <Button x:Name="butUp2" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp2_Click"/>
         <Label x:Name="lblTitle_Copy1" Content="{DynamicResource DLAssets}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lblVer_Copy" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
@@ -66,6 +66,15 @@
         <Button x:Name="butF5Asset" Content="{DynamicResource Reload}" HorizontalAlignment="Left" Margin="335,106,0,0" VerticalAlignment="Top" Width="75" Click="butF5Asset_Click"/>
         <Label x:Name="lblDr" Content="" HorizontalAlignment="Left" Margin="255,130,0,0" VerticalAlignment="Top"/>
         <Button x:Name="butDLMusic" Content="DLMusic" HorizontalAlignment="Left" Margin="415,106,0,0" VerticalAlignment="Top" Width="75" Click="butDLMusic_Click"/>
-
+        <Button x:Name="butDown3" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown3_Click"/>
+    </Grid>
+    <Grid x:Name="gridForge">
+        <Button x:Name="butback3" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp3_Click"/>
+        <Label x:Name="lblTitle_Copy2" Content="{DynamicResource DLAssets}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TreeView x:Name="treeForgeVer" HorizontalAlignment="Left" Height="319" Margin="10,40,0,0" VerticalAlignment="Top" Width="250" MouseDoubleClick="treeForgeVer_MouseDoubleClick"/>
+        <ScrollViewer HorizontalAlignment="Left" Height="250" Margin="265,40,0,0" VerticalAlignment="Top" Width="262">
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="TextBlock"/>
+        </ScrollViewer>
+        <Button x:Name="butReload" Content="{DynamicResource Refresh}" HorizontalAlignment="Left" Margin="265,295,0,0" VerticalAlignment="Top" Width="75" Click="butReload_Click"/>
     </Grid>
 </Grid>
