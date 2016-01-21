@@ -36,59 +36,43 @@ namespace MetoCraft.Forge
             }
             else
             {
-                _forge =
-                    _forgeVerJsonParse.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(e.Result))) as ForgeVersion;
+                _forge = LitJson.JsonMapper.ToObject<ForgeVersion>(e.Result);
+//                    _forgeVerJsonParse.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(e.Result))) as ForgeVersion;
                 Logger.log("获取Forge列表成功");
             }
             ForgePageReadyEvent?.Invoke();
         }
 
-        public TreeViewItem[] GetNew()
+        public object[] GetNew()
         {
-            ArrayList arrayList = new ArrayList(_forge.number.Count);
-            TreeViewItem treeViewItem = new TreeViewItem();
-            arrayList.Add(treeViewItem);
+            ArrayList arrayList = new ArrayList(_forge.promos.Count);
             ForgeVersion forge = _forge;
-                foreach (var item in forge.number.Values)
-                {
+            foreach (var item in forge.promos) {
+                ForgeVersion.Version ver = null;
+                if (forge.number.TryGetValue(item.Value.ToString(), out ver)) {
                     bool install = false;
-                    for (int i = 0; i < item.files.GetLength(1); i++)
+                    for (int i = 0; i < ver.files.GetLength(0); i++)
                     {
-                        if (item.files[i][2].Equals("changelog"))
+                        if (ver.files[i][1].Equals("changelog"))
                         {
-                            ForgeChangeLogUrl[item.version] = forge.artifact + "-" + item.mcversion + "-" + item.version + "-" + item.files[i][1] + "." + item.files[i][0];
+                            ForgeChangeLogUrl[ver.version] = forge.webpath + "/" + ver.mcversion + "-" + ver.version + "/" + forge.artifact + "-" + ver.mcversion + "-" + ver.version + "-" + ver.files[i][1] + "." + ver.files[i][0];
                         }
-                        if (item.files[i][2].Equals("installer"))
+                        if (ver.files[i][1].Equals("installer"))
                         {
                             install = true;
-                            ForgeDownloadUrl[item.version] = forge.artifact +"-" + item.mcversion + "-" + item.version + "-" + item.files[i][1] + "." + item.files[i][0];
+                            ForgeDownloadUrl[ver.version] = forge.webpath + "/" + ver.mcversion + "-" + ver.version + "/" + forge.artifact + "-" + ver.mcversion + "-" + ver.version + "-" + ver.files[i][1] + "." + ver.files[i][0];
                         }
                     }
                     if (!install)
                     {
-                        Logger.log("MinecraftForge" + item.version, " for ", item.mcversion, "does not have installer");
+                        Logger.log("MinecraftForge " + ver.version, " for ", ver.mcversion, " does not have installer");
                     }
-                    if (treeViewItem.Header == null)
-                    {
-                        treeViewItem.Header = item.mcversion;
-                    }
-                    else
-                    {
-                        if (treeViewItem.Header.ToString() != item.mcversion)
-                        {
-                            treeViewItem = new TreeViewItem();
-                            arrayList.Add(treeViewItem);
-                            treeViewItem.Header = item.mcversion;
-                        }
-                    }
-                    Logger.log(treeViewItem.Header.ToString());
-                    Logger.log(item.mcversion);
-
-                    treeViewItem.Items.Add(item.version);
-                    Logger.log("获取Forge", item.version);
+                    arrayList.Add(new object[] { ver.version, ver.mcversion, item.Key.Contains("latest") ? "latest" : (item.Key.Contains("recommended") ? "recommended" : "") });
+                    Logger.log("获取Forge", ver.version);
                 }
+            }
 
-            return arrayList.ToArray(typeof(TreeViewItem)) as TreeViewItem[];
+            return arrayList.ToArray();
         }
         public TreeViewItem[] Get()
         {

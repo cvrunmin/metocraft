@@ -5,8 +5,8 @@ using MetoCraft.Play;
 using MetoCraft.util;
 using MetoCraft.Versions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -18,14 +18,8 @@ using System.Threading;
 using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MetoCraft.DL
 {
@@ -76,20 +70,20 @@ namespace MetoCraft.DL
                 }
                 catch (WebException ex)
                 {
-                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                        {
-                            KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
-                            er.ShowDialog();
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
+                        er.ShowDialog();
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
                 }
                 catch (TimeoutException ex)
                 {
-                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                        {
-                            KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
-                            er.ShowDialog();
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
+                        er.ShowDialog();
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
@@ -109,46 +103,46 @@ namespace MetoCraft.DL
                 MessageBox.Show(LangManager.GetLangFromResource("RemoteVerErrorNoVersionSelect"));
                 return;
             }
-                DataRowView selectVer = listRemoteVer.SelectedItem as DataRowView;
-                if (selectVer != null)
-                {
-                    var selectver = selectVer[0] as string;
-                    var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
-                    downpath.Append(selectver).Append("\\");
-                    downpath.Append(selectver).Append(".jar");
-                    var downer = new WebClient();
-                    downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                    var downurl = new StringBuilder(MeCore.UrlDownload);
-                    downurl.Append(@"versions\");
-                    downurl.Append(selectver).Append("\\");
-                    downurl.Append(selectver).Append(".jar");
+            DataRowView selectVer = listRemoteVer.SelectedItem as DataRowView;
+            if (selectVer != null)
+            {
+                var selectver = selectVer[0] as string;
+                var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
+                downpath.Append(selectver).Append("\\");
+                downpath.Append(selectver).Append(".jar");
+                var downer = new WebClient();
+                downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
+                var downurl = new StringBuilder(MeCore.UrlDownload);
+                downurl.Append(@"versions\");
+                downurl.Append(selectver).Append("\\");
+                downurl.Append(selectver).Append(".jar");
 #if DEBUG
-                    MessageBox.Show(downpath + "\n" + downurl);
+                MessageBox.Show(downpath + "\n" + downurl);
 #endif
                 butDLMC.Content = LangManager.GetLangFromResource("RemoteVerDownloading");
                 butDLMC.IsEnabled = false;
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (!Directory.Exists(System.IO.Path.GetDirectoryName(downpath.ToString())))
-                    {
-                        // ReSharper disable AssignNullToNotNullAttribute
-                        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(downpath.ToString()));
-                        // ReSharper restore AssignNullToNotNullAttribute
-                    }
-                    string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
-                    string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
-                    try
-                    {
-                        downer.DownloadFileCompleted += downer_DownloadClientFileCompleted;
-                        downer.DownloadProgressChanged += downer_DownloadProgressChanged;
-                        Logger.log("download:" + downjsonfile);
-                        downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                        Logger.log("download:" + downurl);
-                        downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
-                        _downedtime = Environment.TickCount - 1;
-                        _downed = 0;
-                    }
-                    catch (Exception ex)
-                    {
+                {
+                    // ReSharper disable AssignNullToNotNullAttribute
+                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(downpath.ToString()));
+                    // ReSharper restore AssignNullToNotNullAttribute
+                }
+                string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
+                string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
+                try
+                {
+                    downer.DownloadFileCompleted += downer_DownloadClientFileCompleted;
+                    downer.DownloadProgressChanged += downer_DownloadProgressChanged;
+                    Logger.log("download:" + downjsonfile);
+                    downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
+                    Logger.log("download:" + downurl);
+                    downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
+                    _downedtime = Environment.TickCount - 1;
+                    _downed = 0;
+                }
+                catch (Exception ex)
+                {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
                         KnownErrorReport er = new KnownErrorReport(ex.Message);
@@ -157,22 +151,22 @@ namespace MetoCraft.DL
                         butDLMC.IsEnabled = true;
                     }));
                 }
-                }
+            }
         }
         int _downedtime;
         int _downed;
         void downer_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-                ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-                //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-                var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
-                try
-                {
-                    info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
-                }
-                catch (DivideByZeroException) { info.Append("0B/s,"); }
-                info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
-                SetDownloadInfo(info.ToString());
+            ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
+            //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
+            var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
+            try
+            {
+                info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
+            }
+            catch (DivideByZeroException) { info.Append("0B/s,"); }
+            info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
+            SetDownloadInfo(info.ToString());
         }
         void downer_DownloadClientFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
@@ -329,14 +323,14 @@ namespace MetoCraft.DL
                 }
             }));
             MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載必要文件"));
-//            thDL.Start();
+            //            thDL.Start();
         }
 
         #endregion
         #region DLAsset
         Dictionary<string, AssetsEntity> asset;
-//        private readonly string _urlDownload = MeCore.UrlDownload;
-//        private readonly string _urlResource = MeCore.UrlResource;
+        //        private readonly string _urlDownload = MeCore.UrlDownload;
+        //        private readonly string _urlResource = MeCore.UrlResource;
         KMCCC.Launcher.Version _ver;
         bool _init = true;
         private void listVerFAsset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -394,8 +388,8 @@ namespace MetoCraft.DL
                     i++;
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        task.setTaskStatus(((float)i / asset.Count * 100).ToString()+"%");
-//                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
+                        task.setTaskStatus(((float)i / asset.Count * 100).ToString() + "%");
+                        //                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
                     }));
                     string url = MeCore.UrlResource + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
@@ -435,7 +429,7 @@ namespace MetoCraft.DL
                 }
             }));
             MeCore.MainWindow.addTask(task.setThread(thGet).setTask("下載資源文件"));
-//            thGet.Start();
+            //            thGet.Start();
         }
 
         private void butF5Asset_Click(object sender, RoutedEventArgs e)
@@ -449,7 +443,7 @@ namespace MetoCraft.DL
                 dt.Columns.Add("Exist");
                 foreach (KeyValuePair<string, AssetsEntity> entity in asset)
                 {
-                    dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(@"assets\objects\" + entity.Value.hash.Substring(0,2) + @"\" + entity.Value.hash).ToString() });
+                    dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(@"assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash).ToString() });
                 }
                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                 {
@@ -497,7 +491,7 @@ namespace MetoCraft.DL
                     sw.Close();
                     var jsSerializer = new JavaScriptSerializer();
                     var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
-//                    var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(new StreamReader(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json").ReadToEnd());
+                    //                    var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(new StreamReader(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json").ReadToEnd());
                     asset = assetsObject["objects"];
                     Logger.log("共", asset.Count.ToString(CultureInfo.InvariantCulture), "项assets");
                     try
@@ -625,19 +619,23 @@ namespace MetoCraft.DL
         }
         private void RefreshForgeVersionList()
         {
-            treeForgeVer.Items.Add(LangManager.GetLangFromResource("ForgeListGetting"));
             _forgeVer.ForgePageReadyEvent += ForgeVer_ForgePageReadyEvent;
             _forgeVer.GetVersion();
         }
         void ForgeVer_ForgePageReadyEvent()
         {
+            var dt = new DataTable();
+            dt.Columns.Add("Ver");
+            dt.Columns.Add("MCVer");
+            dt.Columns.Add("Tag");
+            if (_forgeVer.GetNew() != null)
+                foreach (object[] t in _forgeVer.GetNew())
+                {
+                    dt.Rows.Add(new object[] { t[0], t[1], t[2] });
+                }
             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
             {
-                treeForgeVer.Items.Clear();
-                foreach (TreeViewItem t in _forgeVer.GetNew())
-                {
-                    treeForgeVer.Items.Add(t);
-                }
+                listForge.DataContext = dt;
                 butReload.Content = LangManager.GetLangFromResource("Refresh");
                 butReload.IsEnabled = true;
             }));
@@ -655,21 +653,34 @@ namespace MetoCraft.DL
                 var url = new Uri(_forgeVer.ForgeDownloadUrl[ver]);
                 var downer = new WebClient();
                 downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                downer.DownloadProgressChanged += delegate(object sender, DownloadProgressChangedEventArgs e) {
+                downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e) {
                     MeCore.Invoke(new Action(() => task.setTaskStatus(e.ProgressPercentage + "%")));
                 };
+                MeCore.Invoke(new Action(() => task.setTaskStatus("下載Forge安裝檔")));
                 downer.DownloadFile(url, "forge.jar");
+                MeCore.Invoke(new Action(() => task.setTaskStatus("嘗試安裝Forge")));
+                new ForgeInstaller().install("forge.jar");
+                MeCore.Invoke(new Action(() => task.setTaskStatus("完成")));
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載Forge安裝檔"));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("安裝Forge"));
         }
-        private void treeForgeVer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+        private void butFDL_Click(object sender, RoutedEventArgs e)
         {
-            if (this.treeForgeVer.SelectedItem == null)
+            if (this.listForge.SelectedItem == null)
                 return;
-            if (this.treeForgeVer.SelectedItem is string)
+            DataRowView selectVer = listForge.SelectedItem as DataRowView;
+            DownloadForge(selectVer[0] as string);
+        }
+
+        private void listForge_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (listForge.SelectedItem == null)
             {
-                DownloadForge(this.treeForgeVer.SelectedItem as string);
+                return;
             }
+            DataRowView selectVer = listForge.SelectedItem as DataRowView;
+            DownloadForge(selectVer[0] as string);
         }
         #endregion
         private void butDown1_Click(object sender, RoutedEventArgs e)
@@ -715,6 +726,7 @@ namespace MetoCraft.DL
             lblTitle_Copy1.Foreground = new SolidColorBrush(color);
             lblVer.Foreground = new SolidColorBrush(color);
             lblVer_Copy.Foreground = new SolidColorBrush(color);
+            lblTitle_Copy2.Foreground = new SolidColorBrush(color);
         }
 
     }

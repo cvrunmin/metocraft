@@ -18,7 +18,7 @@ namespace MetoCraft.JsonClass
         [DataMember(Name = "promos")]
         public Dictionary<string, int> promos;
         [DataMember(Name = "number")]
-        public Dictionary<int, Version> number;
+        public Dictionary<string, Version> number;
         [DataContract]
         public class Version {
             [DataMember(Name = "branch")]

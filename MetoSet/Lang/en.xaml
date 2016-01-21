@@ -55,6 +55,7 @@
     <s:String x:Key="DLMCC">Vanilla Client</s:String>
     <s:String x:Key="DLLib">Library</s:String>
     <s:String x:Key="DLAssets">Assets</s:String>
+    <s:String x:Key="DLForge">Minecraft Forge Client</s:String>
     <s:String x:Key="DownLoad">Download</s:String>
     <s:String x:Key="Refresh">Refresh</s:String>
     <s:String x:Key="Libs">Libraries</s:String>
@@ -62,6 +63,8 @@
     <s:String x:Key="Exist">Existed</s:String>
     <s:String x:Key="Size">Size</s:String>
     <s:String x:Key="Hash">Hash</s:String>
+    <s:String x:Key="MCVer">Minecraft Version</s:String>
+    <s:String x:Key="Tag">Tag</s:String>
     <!-- /DL -->
     <!-- ACLogin -->
     <s:String x:Key="ACTitle">Select Account</s:String>
