@@ -8,8 +8,8 @@
                 <ControlTemplate TargetType="{x:Type local:ButtonMenu}">
                     <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                         <Grid>
-                            <Image x:Name="icon" Source="{TemplateBinding MenuImage}" Stretch="UniformToFill" Width="48" Height="48" Margin="74,54,74,94" OpacityMask="{x:Null}"/>
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="Center" Margin="0,0,0,70.38" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Bottom"/>
+                            <Image x:Name="icon" Source="{TemplateBinding MenuImage}" Stretch="UniformToFill" Height="48" Margin="25,10,25,0" OpacityMask="{x:Null}" Grid.Column="0" VerticalAlignment="Top" Width="48" HorizontalAlignment="Center"/>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="Center" Margin="30,0,30,24" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Bottom" Grid.Column="0" Height="16" Width="Auto"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -87,8 +87,8 @@
                 <ControlTemplate TargetType="{x:Type local:ButtonMenu}">
                     <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                         <Grid>
-                            <Image x:Name="icon" Source="{TemplateBinding MenuImage}" Stretch="UniformToFill" Width="40" Height="40" Margin="10,0,0,0" OpacityMask="{x:Null}" HorizontalAlignment="Left" d:LayoutOverrides="VerticalAlignment, Width, LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="Left" Margin="55,12.38,0,12.38" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch" d:LayoutOverrides="Height"/>
+                            <Image x:Name="icon" Source="{TemplateBinding MenuImage}" Stretch="UniformToFill" Width="40" Height="40" Margin="10,0,0,0" OpacityMask="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="Left" Margin="55,12.38,0,12.38" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" d:LayoutOverrides="Height"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -96,10 +96,12 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF808080"/>
+                            <Setter Property="Background" TargetName="border" Value="#FFE6E6E6"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FFE6E6E6"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF5E5E5E"/>
+                            <Setter Property="Background" TargetName="border" Value="#FFCCCCCC"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#00CCCCCC"/>
                         </Trigger>
                         <Trigger Property="ToggleButton.IsChecked" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
@@ -198,5 +200,84 @@
             </Setter.Value>
         </Setter>
     </Style>
- 
+    <Style x:Key="ButtonMe05" TargetType="{x:Type local:ButtonMenu}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ButtonMenu}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <Grid>
+                            <Image x:Name="icon" Source="{TemplateBinding MenuImage}" Stretch="UniformToFill" Height="Auto" Margin="0" OpacityMask="{x:Null}" Grid.Column="0" VerticalAlignment="Stretch" Width="Auto" HorizontalAlignment="Stretch"/>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="Center" Margin="173,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Top" Grid.Column="0" Height="17" Width="Auto"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                <Condition Binding="{Binding ListType, RelativeSource={RelativeSource Self}}" Value="false"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF808080"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                <Condition Binding="{Binding ListType, RelativeSource={RelativeSource Self}}" Value="true"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" TargetName="border" Value="#FF808080"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                <Condition Binding="{Binding ListType, RelativeSource={RelativeSource Self}}" Value="false"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF5E5E5E"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                <Condition Binding="{Binding ListType, RelativeSource={RelativeSource Self}}" Value="true"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" TargetName="border" Value="#FF5E5E5E"/>
+                        </MultiDataTrigger>
+                        <Trigger Property="IsDefaulted" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF808080"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF5E5E5E"/>
+                        </Trigger>-->
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                        </Trigger>
+                        <Trigger Property="ListType" Value="True">
+                            <Setter Property="Width" TargetName="icon" Value="40"/>
+                            <Setter Property="Height" TargetName="icon" Value="40"/>
+                            <Setter Property="Margin" TargetName="icon" Value="10,0,0,0"/>
+                            <Setter Property="HorizontalAlignment" TargetName="icon" Value="Left"/>
+                            <Setter Property="Margin" TargetName="contentPresenter" Value="55,12.38,0,12.38"/>
+                            <Setter Property="HorizontalAlignment" TargetName="contentPresenter" Value="Left"/>
+                            <Setter Property="VerticalAlignment" TargetName="contentPresenter" Value="Stretch"/>
+                        </Trigger>
+                        <Trigger Property="ListType" Value="False">
+                            <Setter Property="Width" TargetName="icon" Value="48"/>
+                            <Setter Property="Height" TargetName="icon" Value="48"/>
+                            <Setter Property="Margin" TargetName="icon" Value="74,54,74,94"/>
+                            <Setter Property="HorizontalAlignment" TargetName="icon" Value="Stretch"/>
+                            <Setter Property="Margin" TargetName="contentPresenter" Value="0,0,0,70.38"/>
+                            <Setter Property="HorizontalAlignment" TargetName="contentPresenter" Value="Center"/>
+                            <Setter Property="VerticalAlignment" TargetName="contentPresenter" Value="Bottom"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

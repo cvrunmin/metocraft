@@ -3,6 +3,7 @@ using MetoCraft.NewGui;
 using MetoCraft.Profile;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -38,6 +39,7 @@ namespace MetoCraft.Play
                 vers = value;
             }
         }
+        private int _clientCrashReportCount;
         private Profile.Profile[] profiles;
         private string _path = Environment.CurrentDirectory + "\\profiles.xml";
         private ProfileInXML xmlLoader;
@@ -48,7 +50,8 @@ namespace MetoCraft.Play
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            var javas = KMCCC.Tools.SystemTools.FindJava().ToList();
+            comboJava.Items.Clear();
+            var javas = KMCCC.Tools.SystemTools.FindValidJava().ToList();
             foreach (var java in javas)
             {
                 comboJava.Items.Add(java);
@@ -69,7 +72,34 @@ namespace MetoCraft.Play
                         Dispatcher.Invoke(new MethodInvoker(delegate
                         {
                             gui.setTaskStatus("正在啟動");
-                        var result = launcher.Launch(new LaunchOptions
+                            launcher.GameExit += delegate (LaunchHandle l, int i) {
+                                if (i != 0)
+                                {
+                                    if (Directory.Exists(launcher.GameRootPath + @"\crash-reports"))
+                                    {
+                                        if (_clientCrashReportCount != Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count())
+                                        {
+                                            Logger.log("发现新的错误报告");
+                                            var clientCrashReportDir = new DirectoryInfo(launcher.GameRootPath + @"\crash-reports");
+                                            var lastClientCrashReportPath = "";
+                                            var lastClientCrashReportModifyTime = DateTime.MinValue;
+                                            foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
+                                            {
+                                                if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
+                                                {
+                                                    lastClientCrashReportPath = clientCrashReport.FullName;
+                                                }
+                                            }
+                                            var crashReportReader = new StreamReader(lastClientCrashReportPath);
+                                            var s = crashReportReader.ReadToEnd();
+                                            Logger.log(s, Logger.LogType.Crash);
+                                            MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s).Show()));
+                                            crashReportReader.Close();
+                                        }
+                                    }
+                                }
+                            };
+                            var result = launcher.Launch(new LaunchOptions
                         {
                             Version = versions[comboVer.SelectedIndex],
                             MaxMemory = (int)sliderRAM.Value,
@@ -98,8 +128,10 @@ namespace MetoCraft.Play
                         }
                         else
                         {
-                            gui.setTaskStatus("");
-                                gui.setSubProcess(result.Handle.Process);
+                                _clientCrashReportCount = System.IO.Directory.Exists(launcher.GameRootPath + @"\crash-reports") ? System.IO.Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count() : 0;
+                                gui.setTaskStatus("");
+                            gui.setSubProcess(result.Handle.GetType().GetField("Process", System.Reflection.BindingFlags.NonPublic |
+                                System.Reflection.BindingFlags.Instance).GetValue(result.Handle) as System.Diagnostics.Process);
                             gui.countTime();
                             MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + versions[comboVer.SelectedIndex].Id);
                         }
@@ -124,9 +156,15 @@ namespace MetoCraft.Play
                     Dispatcher.Invoke(new MethodInvoker(delegate
                     {
                         gui.setTaskStatus("正在啟動");
-                        var result = PlayMain.launcher.Launch(new LaunchOptions
+                        launcher.GameExit += delegate (LaunchHandle l, int i) {
+                            if (i != 0)
+                            {
+
+                            }
+                        };
+                        var result = launcher.Launch(new LaunchOptions
                         {
-                            Version = PlayMain.launcher.GetVersion(profiles[comboProfile.SelectedIndex].version),
+                            Version = launcher.GetVersion(profiles[comboProfile.SelectedIndex].version),
                             MaxMemory = profiles[comboProfile.SelectedIndex].Xmx,
                             Size = new WindowSize
                             {
@@ -135,6 +173,7 @@ namespace MetoCraft.Play
                             },
                             Authenticator = login.auth
                         });
+
                         if (!result.Success)
                         {
                             switch (result.ErrorType)
@@ -158,14 +197,23 @@ namespace MetoCraft.Play
                         }
                         else
                         {
-                            MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch" + profiles[comboProfile.SelectedIndex].version);
+                            gui.setTaskStatus("");
+                            gui.setSubProcess(result.Handle.GetType().GetField("Process", System.Reflection.BindingFlags.NonPublic |
+                                System.Reflection.BindingFlags.Instance).GetValue(result.Handle) as System.Diagnostics.Process);
+                            gui.countTime();
+                            MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + profiles[comboProfile.SelectedIndex].version);
                         }
                     }));
                 }));
                 MeCore.MainWindow.addTask(gui.setTask("啟動" + profiles[comboProfile.SelectedIndex].version).setThread(task));
             }
         }
+        private void onGameExit(LaunchHandle handle, int code) {
+            if (code != 0)
+            {
 
+            }
+        }
         private void butDown_Click(object sender, RoutedEventArgs e)
         {
             gridBasic.Visibility = Visibility.Hidden;

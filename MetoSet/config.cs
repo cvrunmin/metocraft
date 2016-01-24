@@ -114,18 +114,25 @@ namespace MetoCraft
         }
         public static void Save(Config cfg = null ,string file = null)
         {
-            if (cfg == null)
+            try
             {
-                cfg = MeCore.Config;
+                if (cfg == null)
+                {
+                    cfg = MeCore.Config;
+                }
+                if (file == null)
+                {
+                    file = MeCore.BaseDirectory + "metocraft.xml";
+                }
+                var fs = new FileStream(file, FileMode.Create);
+                var ser = new DataContractSerializer(typeof(Config));
+                ser.WriteObject(fs, cfg);
+                fs.Close();
             }
-            if (file == null)
+            catch (Exception)
             {
-                file = MeCore.BaseDirectory + "metocraft.xml";
+                MessageBox.Show("cannot save config file");
             }
-            var fs = new FileStream(file, FileMode.Create);
-            var ser = new DataContractSerializer(typeof(Config));
-            ser.WriteObject(fs, cfg);
-            fs.Close();
         }
 
         public void Save(string file = null)

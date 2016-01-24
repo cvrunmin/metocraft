@@ -28,19 +28,19 @@ namespace MetoCraft
 
         private void butOffline_Click(object sender, RoutedEventArgs e)
         {
-            gridMenu.Visibility = Visibility.Hidden;
+            gridMenu.Visibility = Visibility.Collapsed;
             gridOff.Visibility = Visibility.Visible;
         }
 
         private void butMojang_Click(object sender, RoutedEventArgs e)
         {
-            gridMenu.Visibility = Visibility.Hidden;
+            gridMenu.Visibility = Visibility.Collapsed;
             gridMojang.Visibility = Visibility.Visible;
         }
 
         private void butBackOff_Click(object sender, RoutedEventArgs e)
         {
-            gridOff.Visibility = Visibility.Hidden;
+            gridOff.Visibility = Visibility.Collapsed;
             gridMenu.Visibility = Visibility.Visible;
         }
 
@@ -52,7 +52,7 @@ namespace MetoCraft
 
         private void butBackM_Click(object sender, RoutedEventArgs e)
         {
-            gridMojang.Visibility = Visibility.Hidden;
+            gridMojang.Visibility = Visibility.Collapsed;
             gridMenu.Visibility = Visibility.Visible;
         }
 

@@ -195,7 +195,9 @@ namespace MetoCraft.DL
         }
         #endregion
         #region DLLib
+        IEnumerable<KMCCC.Launcher.Library> libt;
         IEnumerable<string> libs;
+        IEnumerable<KMCCC.Launcher.Native> nativet;
         IEnumerable<string> natives;
         private readonly string _urlLib = MeCore.UrlLibraries;
         private void listVerFLib_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -208,12 +210,14 @@ namespace MetoCraft.DL
                     var dt = new DataTable();
                     dt.Columns.Add("Lib");
                     dt.Columns.Add("Exist");
-                    libs = MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex].Libraries.Select(lib => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetLibPath(PlayMain.launcher, lib));
+                    libt = MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex].Libraries;
+                    libs = libt.Select(lib => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetLibPath(PlayMain.launcher, lib));
                     foreach (string libfile in libs)
                     {
                         dt.Rows.Add(new object[] { libfile.Substring(libfile.IndexOf("libraries")), File.Exists(libfile) });
                     }
-                    natives = MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex].Natives.Select(native => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetNativePath(PlayMain.launcher, native));
+                    nativet = MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex].Natives;
+                    natives = nativet.Select(native => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetNativePath(PlayMain.launcher, native));
                     foreach (string nafile in natives)
                     {
                         dt.Rows.Add(new object[] { nafile.Substring(nafile.IndexOf("libraries")), File.Exists(nafile) });
@@ -239,30 +243,33 @@ namespace MetoCraft.DL
             NewGui.TaskBar task = new NewGui.TaskBar();
             var thDL = new Thread(new ThreadStart(delegate
             {
-                WebClient _downer = new WebClient();
-                int i = 0;
-                foreach (string libfile in libs)
+            WebClient _downer = new WebClient();
+            int i = 0;
+            foreach (string libfile in libs)
+            {
+                i++;
+                MeCore.Invoke(new Action(() => task.setTaskStatus("下載Library " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
+                if (!File.Exists(libfile))
                 {
-                    i++;
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Library " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
-                    if (!File.Exists(libfile))
-                    {
-                        Logger.log("开始下载" + libfile, Logger.LogType.Info);
+                    Logger.log("开始下载" + libfile, Logger.LogType.Info);
                         try
                         {
-                            //                    OnStateChangeEvent(LangManager.GetLangFromResource("LauncherDownloadLib") + lib.name);
-                            //                    Downloading++;
                             if (!Directory.Exists(System.IO.Path.GetDirectoryName(libfile)))
                             {
                                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
                             }
+                            string url = _urlLib;
+                            if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
+                            {
+                                url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
+                            }
 #if DEBUG
-                            //                        System.Windows.MessageBox.Show(_urlLib + libp.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
+                            System.Windows.MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
 #endif
-                            Logger.log(_urlLib + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                            Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
                             //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
                             _downer.DownloadFile(
-                                _urlLib +
+                                url +
                                 libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
                         }
                         catch (WebException ex)
@@ -683,33 +690,6 @@ namespace MetoCraft.DL
             DownloadForge(selectVer[0] as string);
         }
         #endregion
-        private void butDown1_Click(object sender, RoutedEventArgs e)
-        {
-            gridMC.Visibility = Visibility.Hidden;
-            gridLib.Visibility = Visibility.Visible;
-        }
-
-        private void butUp1_Click(object sender, RoutedEventArgs e)
-        {
-            gridLib.Visibility = Visibility.Hidden;
-            gridMC.Visibility = Visibility.Visible;
-        }
-        private void butDown2_Click(object sender, RoutedEventArgs e)
-        {
-            gridLib.Visibility = Visibility.Hidden;
-            gridAssets.Visibility = Visibility.Visible;
-        }
-
-        private void butUp2_Click(object sender, RoutedEventArgs e)
-        {
-            gridAssets.Visibility = Visibility.Hidden;
-            gridLib.Visibility = Visibility.Visible;
-        }
-        private void butDown3_Click(object sender, RoutedEventArgs e)
-        {
-            gridAssets.Visibility = Visibility.Hidden;
-            gridForge.Visibility = Visibility.Visible;
-        }
 
         private void butUp3_Click(object sender, RoutedEventArgs e)
         {
@@ -729,5 +709,52 @@ namespace MetoCraft.DL
             lblTitle_Copy2.Foreground = new SolidColorBrush(color);
         }
 
+        private void butVanilla_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Collapsed;
+            gridMC.Visibility = Visibility.Visible;
+        }
+
+        private void butLib_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Collapsed;
+            gridLib.Visibility = Visibility.Visible;
+        }
+
+        private void butAsset_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Collapsed;
+            gridAssets.Visibility = Visibility.Visible;
+        }
+
+        private void butForge_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Collapsed;
+            gridForge.Visibility = Visibility.Visible;
+        }
+
+        private void butBack1_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Visible;
+            gridMC.Visibility = Visibility.Collapsed;
+        }
+
+        private void butBack2_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Visible;
+            gridLib.Visibility = Visibility.Collapsed;
+        }
+
+        private void butBack3_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Visible;
+            gridAssets.Visibility = Visibility.Collapsed;
+        }
+
+        private void butBack4_Click(object sender, RoutedEventArgs e)
+        {
+            gridHome.Visibility = Visibility.Visible;
+            gridForge.Visibility = Visibility.Collapsed;
+        }
     }
 }

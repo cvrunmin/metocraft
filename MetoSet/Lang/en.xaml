@@ -51,8 +51,7 @@
     <s:String x:Key="Profile">Profile</s:String>
     <!-- /Play -->
     <!-- DL -->
-    <s:String x:Key="DLMC">Vanilla</s:String>
-    <s:String x:Key="DLMCC">Vanilla Client</s:String>
+    <s:String x:Key="DLMC">Minecraft Vanilla Client</s:String>
     <s:String x:Key="DLLib">Library</s:String>
     <s:String x:Key="DLAssets">Assets</s:String>
     <s:String x:Key="DLForge">Minecraft Forge Client</s:String>

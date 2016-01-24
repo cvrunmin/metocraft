@@ -25,7 +25,7 @@
         </ComboBox>
         <Label x:Name="lblBG" Content="{DynamicResource BG}" HorizontalAlignment="Left" Margin="0,110,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxP" Margin="0,135,0,0" TextWrapping="Wrap" Background="#FFFFFFFF" BorderBrush="#FFABADB3" Foreground="#FF000000" SelectionBrush="#FF3399FF" HorizontalAlignment="Left" Width="300" Height="23" VerticalAlignment="Top"/>
-        <Button x:Name="butBrowse" Content="{DynamicResource Browse}" Margin="300,135,0,0" Click="butBrowse_Click" Background="#FFDDDDDD" BorderBrush="#FF707070" Foreground="#FF000000" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
+        <Button x:Name="butBrowse" Content="{DynamicResource Browse}" Margin="300,135,0,0" Click="butBrowse_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
         <Button x:Name="butSave" Content="{DynamicResource Save}" HorizontalAlignment="Left" Margin="375,135,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butSave_Click"/>
         <Button x:Name="butReset" Content="{DynamicResource Reset}" HorizontalAlignment="Left" Margin="450,135,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butReset_Click"/>
         <Label x:Name="lblColor" Content="{DynamicResource Color}" HorizontalAlignment="Left" Margin="0,163,0,0" VerticalAlignment="Top"/>

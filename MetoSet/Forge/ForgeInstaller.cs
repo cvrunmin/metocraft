@@ -63,7 +63,6 @@ namespace MetoCraft.Forge
                 catch (Exception e)
                 {
                     MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
-//                    throw;
                     return false;
                 }
             }

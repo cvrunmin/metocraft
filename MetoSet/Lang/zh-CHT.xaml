@@ -51,7 +51,7 @@
     <s:String x:Key="Profile">總則</s:String>
     <!-- /Play -->
     <!-- DL -->
-    <s:String x:Key="DLMC">原版</s:String>
+    <s:String x:Key="DLMC">Minecraft原版客戶端</s:String>
     <s:String x:Key="DLMCC">原版客戶端</s:String>
     <s:String x:Key="DLLib">庫</s:String>
     <s:String x:Key="DLAssets">資源</s:String>

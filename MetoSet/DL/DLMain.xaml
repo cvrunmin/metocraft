@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
       xmlns:local="clr-namespace:MetoCraft.DL"
+      xmlns:localroot="clr-namespace:MetoCraft"
       xmlns:util="clr-namespace:Wpf.Util"
       mc:Ignorable="d" 
              d:DesignHeight="369" d:DesignWidth="537" Background="#7FFFFFFF">
@@ -11,17 +12,26 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/MetoCraft;component/ControlStyle.xaml"/>
+                <ResourceDictionary Source="/MetoCraft;component/ButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
+    <Grid x:Name="gridHome" Visibility="Visible">
+        <Label x:Name="lblDLTitle" Content="{DynamicResource Download}" FontSize="16" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <localroot:ButtonMenu x:Name="butVanilla" Content="{DynamicResource DLMC}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="200" Height="44" Style="{DynamicResource ButtonMeList}" MenuImage="/MetoCraft;component/Resources/ImageDLVanilla.png" BorderThickness="1" Background="#00000000" Click="butVanilla_Click"/>
+        <localroot:ButtonMenu x:Name="butLib" Content="{DynamicResource DLLib}" HorizontalAlignment="Left" Height="44" Margin="10,89,0,0" VerticalAlignment="Top" Width="200" Style="{DynamicResource ButtonMeList}" MenuImage="/MetoCraft;component/Resources/ImageDLLib.png" Background="#00000000" BorderThickness="1" Click="butLib_Click"/>
+        <localroot:ButtonMenu x:Name="butAsset" Content="{DynamicResource DLAssets}" HorizontalAlignment="Left" Height="44" Margin="10,133,0,0" VerticalAlignment="Top" Width="200" MenuImage="/MetoCraft;component/Resources/ImageDLAssets.png" Style="{DynamicResource ButtonMeList}" Background="#00000000" BorderThickness="1" Click="butAsset_Click"/>
+        <localroot:ButtonMenu x:Name="butForge" Content="{DynamicResource DLForge}" HorizontalAlignment="Left" Height="44" Margin="10,177,0,0" VerticalAlignment="Top" Width="200" Style="{DynamicResource ButtonMeList}" MenuImage="/MetoCraft;component/Resources/ImageDLForge.png" BorderThickness="1" Background="#00000000" Click="butForge_Click"/>
+
+    </Grid>
     <Grid x:Name="gridMC" Visibility="Collapsed">
-        <Label x:Name="lblTitle" Content="{DynamicResource DLMCC}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
-        <ListView x:Name="listRemoteVer" HorizontalAlignment="Left" Height="290" VerticalAlignment="Top" Width="405" Background="#A0FFFFFF" ItemsSource="{Binding}" SelectionMode="Single" Margin="0,35,0,0" ItemsPanel="{DynamicResource ItemsPanelTemplate1}">
+        <Label x:Name="lblTitle" Content="{DynamicResource DLMC}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="35,0,0,0"/>
+        <ListView x:Name="listRemoteVer" HorizontalAlignment="Left" Height="290" VerticalAlignment="Top" Width="405" Background="#A0FFFFFF" ItemsSource="{Binding}" SelectionMode="Single" Margin="0,35,0,0" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
-                    <GridViewColumn DisplayMemberBinding="{Binding Ver}" Header="{DynamicResource Version}" Width="80"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding RelTime}" Header="{DynamicResource RTime}" Width="250"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="{DynamicResource Type}" Width="70"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Ver}" util:GridViewSort.PropertyName="Ver" Header="{DynamicResource Version}" Width="80"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding RelTime}" util:GridViewSort.PropertyName="RelTime" Header="{DynamicResource RTime}" Width="250"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Type}" util:GridViewSort.PropertyName="Type" Header="{DynamicResource Type}" Width="70"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -29,14 +39,14 @@
         <Button x:Name="butDLMC" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="410,61,0,0" VerticalAlignment="Top" Width="75" Click="butDLMC_Click"/>
         <ProgressBar x:Name="prsDown" HorizontalAlignment="Left" Height="200" Margin="410,85,0,0" VerticalAlignment="Top" Width="20" Background="White" Foreground="#FF0625B0" Orientation="Vertical"/>
         <Label x:Name="labDownInfo" Content="" HorizontalAlignment="Left" Margin="410,285,0,0" VerticalAlignment="Top" Height="20" Padding="2"/>
-        <Button x:Name="butDown1" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown1_Click"/>
+        <Button x:Name="butBack1" Content="←" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butBack1_Click" Margin="0,0,0,334"/>
     </Grid>
     <Grid x:Name="gridLib" Visibility="Collapsed">
-        <Button x:Name="butUp1" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp1_Click"/>
+        <Button x:Name="butBack2" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butBack2_Click"/>
         <Label x:Name="lblTitle_Copy" Content="{DynamicResource DLLib}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lblVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
         <ListBox x:Name="listVerFLib" HorizontalAlignment="Left" Height="100" Margin="0,55,0,0" VerticalAlignment="Top" Width="255" SelectionChanged="listVerFLib_SelectionChanged"/>
-        <ListView x:Name="listLib" HorizontalAlignment="Left" Height="179" Margin="0,155,0,0" VerticalAlignment="Top" Width="505" ItemsSource="{Binding}" SelectionMode="Single">
+        <ListView x:Name="listLib" HorizontalAlignment="Left" Height="204" Margin="0,155,0,0" VerticalAlignment="Top" Width="527" ItemsSource="{Binding}" SelectionMode="Single">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn DisplayMemberBinding="{Binding Lib}" Header="{DynamicResource DLLib}" Width="450"/>
@@ -46,14 +56,13 @@
         </ListView>
         <Button x:Name="butDLLib" Content="{DynamicResource Download}" Margin="260,131,0,0" VerticalAlignment="Top" Click="butDLLib_Click" HorizontalAlignment="Left" Width="75"/>
         <Label x:Name="lblDLI" Content="" HorizontalAlignment="Left" Margin="340,125,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="butDown2" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown2_Click"/>
     </Grid>
     <Grid x:Name="gridAssets" Visibility="Collapsed">
-        <Button x:Name="butUp2" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp2_Click"/>
+        <Button x:Name="butBack3" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butBack3_Click"/>
         <Label x:Name="lblTitle_Copy1" Content="{DynamicResource DLAssets}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lblVer_Copy" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
         <ListBox x:Name="listVerFAsset" Height="100" Margin="0,55,0,0" VerticalAlignment="Top" SelectionChanged="listVerFAsset_SelectionChanged" HorizontalAlignment="Left" Width="255"/>
-        <ListView x:Name="listAsset" Height="178" Margin="0,155,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionMode="Single">
+        <ListView x:Name="listAsset" Height="204" Margin="0,155,0,0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionMode="Single">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn DisplayMemberBinding="{Binding Assets}" Header="{DynamicResource Assets}" Width="337"/>
@@ -66,24 +75,12 @@
         <Button x:Name="butDLAsset" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="255,106,0,0" VerticalAlignment="Top" Width="75" Click="butDLAsset_Click"/>
         <Button x:Name="butF5Asset" Content="{DynamicResource Reload}" HorizontalAlignment="Left" Margin="335,106,0,0" VerticalAlignment="Top" Width="75" Click="butF5Asset_Click"/>
         <Label x:Name="lblDr" Content="" HorizontalAlignment="Left" Margin="255,130,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="butDLMusic" Content="DLMusic" HorizontalAlignment="Left" Margin="415,106,0,0" VerticalAlignment="Top" Width="75" Click="butDLMusic_Click"/>
-        <Button x:Name="butDown3" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown3_Click"/>
+        <Button x:Name="butDLMusic" Content="DLMusic" HorizontalAlignment="Left" Margin="415,106,0,0" VerticalAlignment="Top" Width="75" Click="butDLMusic_Click" IsEnabled="False"/>
     </Grid>
-    <Grid x:Name="gridForge">
-        <Button x:Name="butback3" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp3_Click"/>
+    <Grid x:Name="gridForge" Visibility="Collapsed">
+        <Button x:Name="butBack4" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butBack4_Click"/>
         <Label x:Name="lblTitle_Copy2" Content="{DynamicResource DLForge}" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <!--        <TreeView x:Name="treeForgeVer" HorizontalAlignment="Left" Height="319" Margin="10,40,0,0" VerticalAlignment="Top" Width="250" MouseDoubleClick="treeForgeVer_MouseDoubleClick" MouseDown="treeForgeVer_MouseDown">
-        </TreeView>-->
-
         <Button x:Name="butReload" Content="{DynamicResource Refresh}" HorizontalAlignment="Left" Margin="10,340,0,0" VerticalAlignment="Top" Width="75" Click="butReload_Click"/>
-        <!--        <GroupBox x:Name="groupVerInfo" Header="VersionInfo" HorizontalAlignment="Left" Margin="265,40,0,0" VerticalAlignment="Top" Height="250" Width="262">
-            <Grid>
-                <Label x:Name="lblFVer" Content="Version" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Label x:Name="lblFMCVer" Content="Minecraft Version" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblTag" Content="Tag" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top"/>
-
-            </Grid>
-        </GroupBox>-->
         <Button x:Name="butFDL" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="90,340,0,0" VerticalAlignment="Top" Width="75" Click="butFDL_Click"/>
         <ListView x:Name="listForge" HorizontalAlignment="Left" Height="295" Margin="10,40,0,0" VerticalAlignment="Top" Width="517" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True" MouseDoubleClick="listForge_MouseDoubleClick" ItemsSource="{Binding}" SelectionMode="Single">
             <ListView.View>
