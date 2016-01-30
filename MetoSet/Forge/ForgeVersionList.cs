@@ -23,7 +23,7 @@ namespace MetoCraft.Forge
         public void GetVersion()
         {
             var webClient = new WebClient();
-            webClient.DownloadStringAsync(new Uri(MeCore.UrlForgeList));
+            webClient.DownloadStringAsync(new Uri(Resources.UrlReplacer.getForgeMaven("http://files.minecraftforge.net/maven/net/minecraftforge/forge/json")));
             webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;
         }
 

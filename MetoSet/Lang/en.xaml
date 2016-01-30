@@ -75,6 +75,11 @@
     <s:String x:Key="PW">Password</s:String>
     <s:String x:Key="ETwitch">Enable Twitch</s:String>
     <!-- /ACLogin -->
+    <!--Error-->
+    <s:String x:Key="JavaFault">You can try these methods to solve this problem:\n1.reinstall Java.\n2.check the minecraft jar has been corrupt or not.</s:String>
+    <s:String x:Key="AuthFault">You can try these methods to solve this problem:\n1.check your email and password are correct or not.\n2.contect the provider.</s:String>
+    <s:String x:Key="LibFault">You can try these methods to solve this problem:\n1.check your libraries are intect or not.\n2.check your libraries are opened by other application or not.</s:String>
+    <!--/Error-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
     <s:String x:Key="SyncAssetsFinish">Assets synced. Please restart the client if they are not working</s:String>

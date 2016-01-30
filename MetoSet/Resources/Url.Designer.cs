@@ -88,33 +88,6 @@ namespace MetoCraft.Resources {
         }
         
         /// <summary>
-        ///   查詢類似 http://bmclapi2.bangbang93.com/maven/net/minecraftforge/forge/json 的當地語系化字串。
-        /// </summary>
-        internal static string URL_FORGELIST_bangbang93 {
-            get {
-                return ResourceManager.GetString("URL_FORGELIST_bangbang93", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 http://files.minecraftforge.net/maven/net/minecraftforge/forge/json 的當地語系化字串。
-        /// </summary>
-        internal static string URL_FORGELIST_BASE {
-            get {
-                return ResourceManager.GetString("URL_FORGELIST_BASE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 http://mirrors.rapiddata.org/forge/maven/net/minecraftforge/forge/json 的當地語系化字串。
-        /// </summary>
-        internal static string URL_FORGELIST_rapiddata {
-            get {
-                return ResourceManager.GetString("URL_FORGELIST_rapiddata", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查詢類似 http://bmclapi2.bangbang93.com/libraries/ 的當地語系化字串。
         /// </summary>
         internal static string URL_LIBRARIES_bangbang93 {

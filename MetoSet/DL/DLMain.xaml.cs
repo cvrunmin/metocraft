@@ -39,7 +39,7 @@ namespace MetoCraft.DL
             butRefresh.IsEnabled = false;
             listRemoteVer.DataContext = null;
             var rawJson = new DataContractJsonSerializer(typeof(RawVersionListType));
-            var getJson = (HttpWebRequest)WebRequest.Create(MeCore.UrlDownload + "versions/versions.json");
+            var getJson = (HttpWebRequest)WebRequest.Create(MetoCraft.Resources.UrlReplacer.getDownloadUrl() + "versions/versions.json");
             getJson.Timeout = 10000;
             getJson.ReadWriteTimeout = 10000;
             getJson.UserAgent = "MetoCraft" + MeCore.version;
@@ -112,7 +112,7 @@ namespace MetoCraft.DL
                 downpath.Append(selectver).Append(".jar");
                 var downer = new WebClient();
                 downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                var downurl = new StringBuilder(MeCore.UrlDownload);
+                var downurl = new StringBuilder(MetoCraft.Resources.UrlReplacer.getDownloadUrl());
                 downurl.Append(@"versions\");
                 downurl.Append(selectver).Append("\\");
                 downurl.Append(selectver).Append(".jar");
@@ -199,7 +199,6 @@ namespace MetoCraft.DL
         IEnumerable<string> libs;
         IEnumerable<KMCCC.Launcher.Native> nativet;
         IEnumerable<string> natives;
-        private readonly string _urlLib = MeCore.UrlLibraries;
         private void listVerFLib_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (listVerFLib.SelectedIndex != -1)
@@ -258,7 +257,7 @@ namespace MetoCraft.DL
                             {
                                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
                             }
-                            string url = _urlLib;
+                            string url = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
                             if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
                             {
                                 url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
@@ -303,13 +302,18 @@ namespace MetoCraft.DL
                             {
                                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
                             }
+                            string url = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
+                            if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
+                            {
+                                url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
+                            }
 #if DEBUG
-                            //                        System.Windows.MessageBox.Show(_urlLib + libp.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
+                            System.Windows.MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
 #endif
-                            Logger.log(_urlLib + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                            Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
                             //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
                             _downer.DownloadFile(
-                                _urlLib +
+                                url +
                                 libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
                         }
                         catch (WebException ex)
@@ -336,8 +340,6 @@ namespace MetoCraft.DL
         #endregion
         #region DLAsset
         Dictionary<string, AssetsEntity> asset;
-        //        private readonly string _urlDownload = MeCore.UrlDownload;
-        //        private readonly string _urlResource = MeCore.UrlResource;
         KMCCC.Launcher.Version _ver;
         bool _init = true;
         private void listVerFAsset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -364,8 +366,8 @@ namespace MetoCraft.DL
                         string gameVersion = _ver.Assets;
                         try
                         {
-                            _downer.DownloadStringAsync(new Uri(MeCore.UrlDownload + "indexes/" + gameVersion + ".json"));
-                            Logger.info(MeCore.UrlDownload + "indexes/" + gameVersion + ".json");
+                            _downer.DownloadStringAsync(new Uri(MetoCraft.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + gameVersion + ".json"));
+                            Logger.info(MetoCraft.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + gameVersion + ".json");
                         }
                         catch (WebException ex)
                         {
@@ -398,7 +400,7 @@ namespace MetoCraft.DL
                         task.setTaskStatus(((float)i / asset.Count * 100).ToString() + "%");
                         //                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
                     }));
-                    string url = MeCore.UrlResource + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
+                    string url = MetoCraft.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
                     FileHelper.CreateDirectoryForFile(file);
                     try
@@ -707,6 +709,11 @@ namespace MetoCraft.DL
             lblVer.Foreground = new SolidColorBrush(color);
             lblVer_Copy.Foreground = new SolidColorBrush(color);
             lblTitle_Copy2.Foreground = new SolidColorBrush(color);
+            lblDLTitle.Foreground = new SolidColorBrush(color);
+            butAsset.Foreground = new SolidColorBrush(color);
+            butLib.Foreground = new SolidColorBrush(color);
+            butForge.Foreground = new SolidColorBrush(color);
+            butVanilla.Foreground = new SolidColorBrush(color);
         }
 
         private void butVanilla_Click(object sender, RoutedEventArgs e)

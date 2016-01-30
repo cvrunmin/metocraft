@@ -15,8 +15,8 @@
         <Label x:Name="lblTitle" Content="Oops!" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lblDesc" Content="" Margin="76,30,0,0" VerticalAlignment="Top"/>
         <Button x:Name="butOk" Content="OK" Click="butOk_Click" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom"/>
-        <ScrollViewer Margin="76,57,0,19" VerticalScrollBarVisibility="Auto">
-            <TextBlock x:Name="lblHelp" TextWrapping="Wrap"/>
+        <ScrollViewer Margin="76,57,0,19" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <TextBlock x:Name="lblHelp" TextTrimming="WordEllipsis"/>
         </ScrollViewer>
     </Grid>
 </Window>

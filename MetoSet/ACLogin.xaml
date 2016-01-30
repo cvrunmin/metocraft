@@ -27,7 +27,7 @@
         <Grid x:Name="gridOff" Background="White" Visibility="Collapsed">
             <Label x:Name="lblTitleOff" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Label x:Name="lblUN" Content="{DynamicResource UName}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <TextBox x:Name="txtBoxUN" Height="30" Margin="10,70,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
+            <TextBox x:Name="txtBoxUN" Height="30" Margin="10,70,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>
             <Button x:Name="butBackOff" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackOff_Click" BorderThickness="2" Background="#FFCCCCCC" BorderBrush="#FFCCCCCC" FontSize="16"/>
             <Button x:Name="butLoginOff" Content="{DynamicResource Login}" Margin="0,0,217,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butLoginOff_Click" BorderThickness="2" Background="#FFCCCCCC" BorderBrush="#FFCCCCCC" FontSize="16"/>
 
@@ -35,9 +35,9 @@
         <Grid x:Name="gridMojang" Background="White" Visibility="Collapsed">
             <Label x:Name="lblTitleM" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Label x:Name="lblUNE" Content="{DynamicResource UNEM}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <TextBox x:Name="txtBoxUNE" Height="30" Margin="10,75,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
+            <TextBox x:Name="txtBoxUNE" Height="30" Margin="10,75,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>
             <Label x:Name="lblPW" Content="{DynamicResource PW}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <PasswordBox x:Name="pwbox" Margin="10,135,10,0" VerticalAlignment="Top" Height="30"/>
+            <PasswordBox x:Name="pwbox" Margin="10,135,10,0" VerticalAlignment="Top" Height="30" FontSize="18.667"/>
             <Button x:Name="butBackM" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackM_Click" BorderThickness="2" Background="#FFCCCCCC" BorderBrush="#FFCCCCCC" FontSize="16"/>
             <Button x:Name="butLoginM" Content="{DynamicResource Login}" Margin="0,0,217,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butLoginM_Click" BorderThickness="2" Background="#FFCCCCCC" BorderBrush="#FFCCCCCC" FontSize="16"/>
             <CheckBox x:Name="checkTwitch" Content="{DynamicResource ETwitch}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top"/>

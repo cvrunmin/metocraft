@@ -40,7 +40,7 @@ namespace MetoCraft.Forge
                     {
                         mcjar.Create();
                         requiredelete = true;
-                        string url = MeCore.UrlDownload + "versions/" + info.install.minecraft + "/" + info.install.minecraft + ".jar";
+                        string url = MetoCraft.Resources.UrlReplacer.getDownloadUrl() + "versions/" + info.install.minecraft + "/" + info.install.minecraft + ".jar";
                         if (!downloadFileETag(url, mcjar.FullName))
                         {
                             mcjar.Delete();
@@ -261,7 +261,7 @@ namespace MetoCraft.Forge
                 if (item.clientreq)
                 {
                     FileInfo file = artifact.GetLocalPath(dir);
-                    string liburl = MeCore.UrlLibraries;
+                    string liburl = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
                     if (!string.IsNullOrWhiteSpace(item.url))
                     {
                         liburl = item.url + "/";
@@ -278,7 +278,7 @@ namespace MetoCraft.Forge
                     {
                         if (!downloadFile(artifact.Descriptor, packFile.FullName, liburl, checksums))
                         {
-                            if (!liburl.StartsWith(MeCore.UrlLibraries))
+                            if (!liburl.StartsWith(MetoCraft.Resources.UrlReplacer.getLibraryUrl()))
                             {
                                 bad.Add(artifact);
                             }

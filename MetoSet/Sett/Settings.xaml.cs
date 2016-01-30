@@ -72,29 +72,6 @@ namespace MetoCraft.Sett
 
         private void comboDLSrc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (comboDLSrc.SelectedIndex)
-            {
-                case 0:
-                    MeCore.UrlDownload = Url.URL_DOWNLOAD_BASE;
-                    MeCore.UrlResource = Url.URL_RESOURCE_BASE;
-                    MeCore.UrlLibraries = Url.URL_LIBRARIES_BASE;
-                    MeCore.UrlForgeList = Url.URL_FORGELIST_BASE;
-                    break;
-                case 1:
-                    MeCore.UrlDownload = Url.URL_DOWNLOAD_bangbang93;
-                    MeCore.UrlResource = Url.URL_RESOURCE_bangbang93;
-                    MeCore.UrlLibraries = Url.URL_LIBRARIES_bangbang93;
-                    MeCore.UrlForgeList = Url.URL_FORGELIST_bangbang93;
-                    break;
-                case 2:
-                    MeCore.UrlDownload = Url.URL_DOWNLOAD_rapiddata;
-                    MeCore.UrlResource = Url.URL_RESOURCE_rapiddata;
-                    MeCore.UrlLibraries = Url.URL_LIBRARIES_rapiddata;
-                    MeCore.UrlForgeList = Url.URL_DOWNLOAD_rapiddata;
-                    break;
-                default:
-                    goto case 0;
-            }
             MeCore.Config.DownloadSource = comboDLSrc.SelectedIndex;
             MeCore.Config.Save(null);
         }

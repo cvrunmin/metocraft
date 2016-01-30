@@ -22,8 +22,8 @@ namespace MetoCraft.Assets
         public Assets(KMCCC.Launcher.Version ver, string urlDownloadBase = null, string urlResourceBase = null)
         {
             _ver = ver;
-            _urlDownloadBase = urlDownloadBase ?? MeCore.UrlDownload;
-            _urlResourceBase = urlResourceBase ?? MeCore.UrlResource;
+            _urlDownloadBase = urlDownloadBase ?? Resources.UrlReplacer.getDownloadUrl();
+            _urlResourceBase = urlResourceBase ?? Resources.UrlReplacer.getResourceUrl();
             var thread = new Thread(Run);
             thread.Start();
         }
@@ -90,7 +90,7 @@ namespace MetoCraft.Assets
                         if (FileHelper.IfFileVaild(file, entity.Value.size)) continue;
                         if (_init)
                         {
-                            MeCore.NIcon.ShowBalloonTip(3000, Lang.LangManager.GetLangFromResource("FoundAssetsModify"));
+//                            MeCore.NIcon.ShowBalloonTip(3000, Lang.LangManager.GetLangFromResource("FoundAssetsModify"));
                             _init = false;
                         }
                     }

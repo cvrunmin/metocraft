@@ -39,7 +39,7 @@
         <Button x:Name="butDLMC" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="410,61,0,0" VerticalAlignment="Top" Width="75" Click="butDLMC_Click"/>
         <ProgressBar x:Name="prsDown" HorizontalAlignment="Left" Height="200" Margin="410,85,0,0" VerticalAlignment="Top" Width="20" Background="White" Foreground="#FF0625B0" Orientation="Vertical"/>
         <Label x:Name="labDownInfo" Content="" HorizontalAlignment="Left" Margin="410,285,0,0" VerticalAlignment="Top" Height="20" Padding="2"/>
-        <Button x:Name="butBack1" Content="←" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butBack1_Click" Margin="0,0,0,334"/>
+        <Button x:Name="butBack1" Content="←" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butBack1_Click" Height="35" VerticalAlignment="Top"/>
     </Grid>
     <Grid x:Name="gridLib" Visibility="Collapsed">
         <Button x:Name="butBack2" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butBack2_Click"/>

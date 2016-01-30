@@ -68,38 +68,40 @@ namespace MetoCraft.Play
             {
                 new Assets.Assets(versions[comboVer.SelectedIndex]);
                 TaskBar gui = new TaskBar();
-                var task = new Thread(new ThreadStart(delegate {
-                        Dispatcher.Invoke(new MethodInvoker(delegate
+                var task = new Thread(new ThreadStart(delegate
+                {
+                    Dispatcher.Invoke(new MethodInvoker(delegate
+                    {
+                        gui.setTaskStatus("正在啟動");
+                        launcher.GameExit += delegate (LaunchHandle l, int i)
                         {
-                            gui.setTaskStatus("正在啟動");
-                            launcher.GameExit += delegate (LaunchHandle l, int i) {
-                                if (i != 0)
+                            if (i != 0)
+                            {
+                                if (Directory.Exists(launcher.GameRootPath + @"\crash-reports"))
                                 {
-                                    if (Directory.Exists(launcher.GameRootPath + @"\crash-reports"))
+                                    if (_clientCrashReportCount != Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count())
                                     {
-                                        if (_clientCrashReportCount != Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count())
+                                        Logger.log("发现新的错误报告");
+                                        var clientCrashReportDir = new DirectoryInfo(launcher.GameRootPath + @"\crash-reports");
+                                        var lastClientCrashReportPath = "";
+                                        var lastClientCrashReportModifyTime = DateTime.MinValue;
+                                        foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
                                         {
-                                            Logger.log("发现新的错误报告");
-                                            var clientCrashReportDir = new DirectoryInfo(launcher.GameRootPath + @"\crash-reports");
-                                            var lastClientCrashReportPath = "";
-                                            var lastClientCrashReportModifyTime = DateTime.MinValue;
-                                            foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
+                                            if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
                                             {
-                                                if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
-                                                {
-                                                    lastClientCrashReportPath = clientCrashReport.FullName;
-                                                }
+                                                lastClientCrashReportPath = clientCrashReport.FullName;
                                             }
-                                            var crashReportReader = new StreamReader(lastClientCrashReportPath);
-                                            var s = crashReportReader.ReadToEnd();
-                                            Logger.log(s, Logger.LogType.Crash);
-                                            MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s).Show()));
-                                            crashReportReader.Close();
                                         }
+                                        var crashReportReader = new StreamReader(lastClientCrashReportPath);
+                                        var s = crashReportReader.ReadToEnd();
+                                        Logger.log(s, Logger.LogType.Crash);
+                                        MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s).Show()));
+                                        crashReportReader.Close();
                                     }
                                 }
-                            };
-                            var result = launcher.Launch(new LaunchOptions
+                            }
+                        };
+                        var result = launcher.Launch(new LaunchOptions
                         {
                             Version = versions[comboVer.SelectedIndex],
                             MaxMemory = (int)sliderRAM.Value,
@@ -110,28 +112,28 @@ namespace MetoCraft.Play
                             switch (result.ErrorType)
                             {
                                 case ErrorType.NoJAVA:
-                                        new KnownErrorReport(result.ErrorMessage, "You can try these methods to solve this problem:\n1.reinstall Java.\n2.check the minecraft jar has been corrupt or not.").Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("JavaFault")).Show();
                                     break;
                                 case ErrorType.AuthenticationFailed:
-                                        new KnownErrorReport(result.ErrorMessage, "You can try these methods to solve this problem:\n1.check your email and password are correct or not.\n2.contect the provider.").Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("AuthFault")).Show();
                                     break;
                                 case ErrorType.OperatorException:
-                                        new KnownErrorReport(result.ErrorMessage).Show();
+                                    new KnownErrorReport(result.ErrorMessage).Show();
                                     break;
                                 case ErrorType.UncompressingFailed:
-                                        new KnownErrorReport(result.ErrorMessage, "You can try these methods to solve this problem:\n1.check your libraries are intect or not.\n2.check your libraries are opened by other application or not.").Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("LibFault")).Show();
                                     break;
                                 case ErrorType.Unknown:
-                                        new KnownErrorReport(result.ErrorMessage).Show();
+                                    new KnownErrorReport(result.ErrorMessage).Show();
                                     break;
                             }
                         }
                         else
                         {
-                                _clientCrashReportCount = System.IO.Directory.Exists(launcher.GameRootPath + @"\crash-reports") ? System.IO.Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count() : 0;
-                                gui.setTaskStatus("");
+                            _clientCrashReportCount = System.IO.Directory.Exists(launcher.GameRootPath + @"\crash-reports") ? System.IO.Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count() : 0;
+                            gui.setTaskStatus("");
                             gui.setSubProcess(result.Handle.GetType().GetField("Process", System.Reflection.BindingFlags.NonPublic |
-                                System.Reflection.BindingFlags.Instance).GetValue(result.Handle) as System.Diagnostics.Process);
+                                    System.Reflection.BindingFlags.Instance).GetValue(result.Handle) as System.Diagnostics.Process);
                             gui.countTime();
                             MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + versions[comboVer.SelectedIndex].Id);
                         }
@@ -156,10 +158,32 @@ namespace MetoCraft.Play
                     Dispatcher.Invoke(new MethodInvoker(delegate
                     {
                         gui.setTaskStatus("正在啟動");
-                        launcher.GameExit += delegate (LaunchHandle l, int i) {
+                        launcher.GameExit += delegate (LaunchHandle l, int i)
+                        {
                             if (i != 0)
                             {
-
+                                if (Directory.Exists(launcher.GameRootPath + @"\crash-reports"))
+                                {
+                                    if (_clientCrashReportCount != Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count())
+                                    {
+                                        Logger.log("发现新的错误报告");
+                                        var clientCrashReportDir = new DirectoryInfo(launcher.GameRootPath + @"\crash-reports");
+                                        var lastClientCrashReportPath = "";
+                                        var lastClientCrashReportModifyTime = DateTime.MinValue;
+                                        foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
+                                        {
+                                            if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
+                                            {
+                                                lastClientCrashReportPath = clientCrashReport.FullName;
+                                            }
+                                        }
+                                        var crashReportReader = new StreamReader(lastClientCrashReportPath);
+                                        var s = crashReportReader.ReadToEnd();
+                                        Logger.log(s, Logger.LogType.Crash);
+                                        MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s).Show()));
+                                        crashReportReader.Close();
+                                    }
+                                }
                             }
                         };
                         var result = launcher.Launch(new LaunchOptions
@@ -209,10 +233,31 @@ namespace MetoCraft.Play
             }
         }
         private void onGameExit(LaunchHandle handle, int code) {
-            if (code != 0)
-            {
-
-            }
+                if (code != 0)
+                {
+                    if (Directory.Exists(launcher.GameRootPath + @"\crash-reports"))
+                    {
+                        if (_clientCrashReportCount != Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count())
+                        {
+                            Logger.log("发现新的错误报告");
+                            var clientCrashReportDir = new DirectoryInfo(launcher.GameRootPath + @"\crash-reports");
+                            var lastClientCrashReportPath = "";
+                            var lastClientCrashReportModifyTime = DateTime.MinValue;
+                            foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
+                            {
+                                if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
+                                {
+                                    lastClientCrashReportPath = clientCrashReport.FullName;
+                                }
+                            }
+                            var crashReportReader = new StreamReader(lastClientCrashReportPath);
+                            var s = crashReportReader.ReadToEnd();
+                            Logger.log(s, Logger.LogType.Crash);
+                            MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s).Show()));
+                            crashReportReader.Close();
+                        }
+                    }
+                }
         }
         private void butDown_Click(object sender, RoutedEventArgs e)
         {

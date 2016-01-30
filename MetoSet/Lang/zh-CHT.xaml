@@ -76,6 +76,17 @@
     <s:String x:Key="PW">密碼</s:String>
     <s:String x:Key="ETwitch">開啟直播 (Twitch)</s:String>
     <!-- /ACLogin -->
+    <!--Error-->
+    <s:String x:Key="JavaFault">您可以嘗試以下方法解決此問題：&#13;&#10;
+        1.重新安裝Java&#13;&#10;
+        2.檢查Minecraft Jar是否已經損壞</s:String>
+    <s:String x:Key="AuthFault">您可以嘗試以下方法解決此問題：&#13;&#10;
+        1.檢查您的電郵與密碼是否正確輸入&#13;&#10;
+        .聯絡網絡供應商</s:String>
+    <s:String x:Key="LibFault">您可以嘗試以下方法解決此問題：&#13;&#10;
+        1.檢查庫文件是否完整&#13;&#10;
+        2.檢查庫文件是否已在其他應用程式中開啟</s:String>
+    <!--/Error-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">發現資源文件修改，正在同步</s:String>
     <s:String x:Key="SyncAssetsFinish">同步資源文件完畢，若未生效，請重啟客戶端</s:String>
