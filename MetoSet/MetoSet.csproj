@@ -158,6 +158,7 @@
     <Compile Include="ACLogin.xaml.cs">
       <DependentUpon>ACLogin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="assets\AssetIndex.cs" />
     <Compile Include="assets\assets.cs" />
     <Compile Include="assets\AssetsEntity.cs" />
     <Compile Include="DL\DLMain.xaml.cs">

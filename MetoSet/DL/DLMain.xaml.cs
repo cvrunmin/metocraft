@@ -339,7 +339,7 @@ namespace MetoCraft.DL
 
         #endregion
         #region DLAsset
-        Dictionary<string, AssetsEntity> asset;
+        AssetIndex assets;
         KMCCC.Launcher.Version _ver;
         bool _init = true;
         private void listVerFAsset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -358,8 +358,8 @@ namespace MetoCraft.DL
                     }
                     if (_ver.Assets.Equals("legacy"))
                     {
-                        MessageBox.Show(_ver.Id + " doesn't define a supported asset version!");
-                        return;
+                        //MessageBox.Show(_ver.Id + " doesn't define a supported asset version!");
+                        //return;
                     }
                     var thGet = new Thread(new ThreadStart(delegate
                     {
@@ -392,16 +392,20 @@ namespace MetoCraft.DL
             var thGet = new Thread(new ThreadStart(delegate
             {
                 int i = 0;
-                foreach (KeyValuePair<string, AssetsEntity> entity in asset)
+                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
                 {
                     i++;
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        task.setTaskStatus(((float)i / asset.Count * 100).ToString() + "%");
+                        task.setTaskStatus(((float)i / assets.objects.Count * 100).ToString() + "%");
                         //                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
                     }));
                     string url = MetoCraft.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                    if (assets._virtual)
+                    {
+                        file = MeCore.Config.MCPath + @"\assets\virtual\legacy\" + entity.Key;
+                    }
                     FileHelper.CreateDirectoryForFile(file);
                     try
                     {
@@ -412,8 +416,8 @@ namespace MetoCraft.DL
                         }
                         //Downloader.DownloadFileAsync(new Uri(Url), File,Url);
                         _downer.DownloadFile(new Uri(url), file);
-                        Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", asset.Count.ToString(CultureInfo.InvariantCulture), file.Substring(AppDomain.CurrentDomain.BaseDirectory.Length), "下载完毕");
-                        if (i == asset.Count)
+                        Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
+                        if (i == assets.objects.Count)
                         {
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
@@ -450,9 +454,9 @@ namespace MetoCraft.DL
                 dt.Columns.Add("Size");
                 dt.Columns.Add("Hash");
                 dt.Columns.Add("Exist");
-                foreach (KeyValuePair<string, AssetsEntity> entity in asset)
+                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
                 {
-                    dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(@"assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash).ToString() });
+                    dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, assetExist(entity, assets._virtual).ToString() });
                 }
                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                 {
@@ -498,11 +502,11 @@ namespace MetoCraft.DL
                     var sw = new StreamWriter(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
                     sw.Write(e.Result);
                     sw.Close();
-                    var jsSerializer = new JavaScriptSerializer();
-                    var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
+                    //var jsSerializer = new JavaScriptSerializer();
+                    //var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
+                    assets = LitJson.JsonMapper.ToObject<AssetIndex>(e.Result);
                     //                    var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(new StreamReader(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json").ReadToEnd());
-                    asset = assetsObject["objects"];
-                    Logger.log("共", asset.Count.ToString(CultureInfo.InvariantCulture), "项assets");
+                    Logger.log("共", assets.objects.Count.ToString(CultureInfo.InvariantCulture), "项assets");
                     try
                     {
                         var dt = new DataTable();
@@ -510,9 +514,9 @@ namespace MetoCraft.DL
                         dt.Columns.Add("Size");
                         dt.Columns.Add("Hash");
                         dt.Columns.Add("Exist");
-                        foreach (KeyValuePair<string, AssetsEntity> entity in asset)
+                        foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
                         {
-                            dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, File.Exists(MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash).ToString() });
+                            dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, assetExist(entity, assets._virtual).ToString() });
                         }
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
@@ -535,6 +539,16 @@ namespace MetoCraft.DL
                         new ErrorReport(ex).Show();
                     }));
                 }
+            }
+        }
+        private bool assetExist(KeyValuePair<string, AssetsEntity> entity, bool isVirtual) {
+            if (isVirtual)
+            {
+                return File.Exists(MeCore.Config.MCPath + @"\assets\virtual\legacy\" + entity.Key);
+            }
+            else
+            {
+                return File.Exists(MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash);
             }
         }
         private void butDLMusic_Click(object sender, RoutedEventArgs e)
