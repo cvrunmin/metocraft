@@ -201,7 +201,7 @@
       <DependentUpon>Url.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\UrlReplacer.cs" />
-    <Compile Include="util\FileHelper.cs" />
+    <Compile Include="util\Helper.cs" />
     <Compile Include="util\GridViewSort.cs" />
     <Compile Include="Versions\RawVersionListType.cs" />
     <Compile Include="Versions\RemoteVerType.cs" />

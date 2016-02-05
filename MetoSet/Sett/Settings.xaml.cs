@@ -86,19 +86,26 @@ namespace MetoCraft.Sett
         private void butSave_Click(object sender, RoutedEventArgs e)
         {
             Save();
-            Render();
+            //            Render();
         }
 
         private void butReset_Click(object sender, RoutedEventArgs e)
         {
             txtBoxP.Text = "default";
             Save();
-            Render();
+            //            Render();
         }
 
         private void Save() {
             MeCore.Config.BackGround = txtBoxP.Text;
+            MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).R;
+            MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).G;
+            MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).B;
+            //            MeCore.Config.WindowTransparency = sliderTransparency.Value;
             MeCore.Config.Save(null);
+            Render();
+            RenderColor();
+            //            RenderTransparency();
         }
 
         private void Render()
@@ -149,14 +156,24 @@ namespace MetoCraft.Sett
         public void loadConfig()
         {
             txtBoxP.Text = MeCore.Config.BackGround;
-            txtBoxColor.Text = (((uint)MeCore.Config.color.ToArgb()) & 0xFFFFFFFF).ToString();
+            txtBoxColor.Text = (ByteArrayToArgb() & 0xFFFFFFFF).ToString();
+            //            sliderTransparency.Value = MeCore.Config.WindowTransparency;
             Render();
             RenderColor();
+            //            RenderTransparency();
         }
-
+        private uint ByteArrayToArgb() {
+            uint color = 0;
+            color += MeCore.Config.color[2];
+            color += (uint)(MeCore.Config.color[1] << 8);
+            color += (uint)(MeCore.Config.color[0] << 16);
+            return color;
+        }
         private void butCSave_Click(object sender, RoutedEventArgs e)
         {
-            MeCore.Config.color = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF));
+            MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).R;
+            MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).G;
+            MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).B;
             MeCore.Config.Save(null);
             RenderColor();
         }
@@ -164,14 +181,14 @@ namespace MetoCraft.Sett
             try
             {
                 {
-                    var da = new ColorAnimation(Color.FromArgb(MeCore.Config.color.A, MeCore.Config.color.R, MeCore.Config.color.G, MeCore.Config.color.B), TimeSpan.FromSeconds(0.25));
+                    var da = new ColorAnimation(Color.FromArgb(127, MeCore.Config.color[0], MeCore.Config.color[1], MeCore.Config.color[2]), TimeSpan.FromSeconds(0.25));
                     MeCore.MainWindow.gridMenu.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridAbout.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridDL.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     //                    MeCore.MainWindow.gridPlay.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     gridParent.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.expanderTask.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
-                    var col = System.Drawing.Color.FromArgb((int)(~((uint)MeCore.Config.color.ToArgb())));
+                    var col = System.Drawing.Color.FromArgb((int)(~ByteArrayToArgb()));
                     MeCore.MainWindow.gridAbout.setLblColor(Color.FromRgb(col.R, col.G, col.B));
                     MeCore.MainWindow.gridDL.setLblColor(Color.FromRgb(col.R, col.G, col.B));
                     MeCore.MainWindow.gridPlay.setLblColor(Color.FromRgb(col.R, col.G, col.B));
@@ -186,12 +203,31 @@ namespace MetoCraft.Sett
 
             }
         }
+        /*
+        private void RenderTransparency() {
+            try
+            {
+                {
+                    var ani = new DoubleAnimation(MeCore.Config.WindowTransparency, TimeSpan.FromSeconds(0.5));
+                    MeCore.MainWindow.BeginAnimation(OpacityProperty, ani);
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorReport(ex).ShowDialog();
+                MeCore.MainWindow.Close();
+                System.Windows.Forms.Application.Restart();
+
+            }
+        }*/
         public void setLblColor(Color color)
         {
             lblBG.Foreground = new SolidColorBrush(color);
             lblColor.Foreground = new SolidColorBrush(color);
             lblDLUrl.Foreground = new SolidColorBrush(color);
-            lblLangTitle.Foreground = new SolidColorBrush(color);
+            lblTitle.Foreground = new SolidColorBrush(color);
+            lblLang.Foreground = new SolidColorBrush(color);
+            lblTransTitle.Foreground = new SolidColorBrush(color);
         }
     }
 }

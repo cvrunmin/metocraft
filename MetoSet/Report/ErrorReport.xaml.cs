@@ -41,8 +41,8 @@ namespace MetoCraft
                     message.AppendLine(string.Format("Key:{0}\nValue:{1}", data.Key, data.Value));
                 message.AppendLine(iex.StackTrace);
             }
-            message.AppendLine("\n\n-----------------METOCRAFT LOG----------------------\n");
-            var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "metocraft.log");
+            message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
+            var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
             message.AppendLine(sr.ReadToEnd());
             sr.Close();
             txtMes.Text = message.ToString();
@@ -72,7 +72,7 @@ namespace MetoCraft
                     message.AppendLine(string.Format("Key:{0}\nValue:{1}", data.Key, data.Value));
                 message.AppendLine(iex.StackTrace);
             }
-            message.AppendLine("\n\n-----------------METOCRAFT LOG----------------------\n");
+            message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
             var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "metocraft.log");
             message.AppendLine(sr.ReadToEnd());
             sr.Close();
@@ -86,7 +86,7 @@ namespace MetoCraft
             message.AppendLine(s);
             message.AppendLine("\n\n-----------------ERROR REPORT----------------------\n");
             message.AppendLine(ex);
-            message.AppendLine("\n\n-----------------METOCRAFT LOG----------------------\n");
+            message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
             var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "metocraft.log");
             message.AppendLine(sr.ReadToEnd());
             sr.Close();

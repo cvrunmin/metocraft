@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MetoCraft.util;
 
 namespace MetoCraft
 {
@@ -21,10 +22,19 @@ namespace MetoCraft
         public MCCrash()
         {
             InitializeComponent();
+            txtblktitle.AddContentFromSpecficString(Lang.LangManager.GetLangFromResource("MCCrashTitle"));
         }
         public MCCrash(string content) {
             InitializeComponent();
             txtContent.Text = content;
+            if ((!content.Contains("Is Modded: Probably not")) && (!content.Contains("Is Modded: Unknown")))
+            {
+                txtblktitle.AddContentFromSpecficString(Lang.LangManager.GetLangFromResource("MCCrashTitleModded"));
+            }
+            else
+            {
+                txtblktitle.AddContentFromSpecficString(Lang.LangManager.GetLangFromResource("MCCrashTitle"));
+            }
         }
     }
 }

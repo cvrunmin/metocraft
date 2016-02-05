@@ -24,6 +24,7 @@ namespace MetoCraft.NewGui
         System.Windows.Forms.Timer timer;
         bool startCount = false;
         bool finished = false;
+        bool detectAlive = true;
         Thread _task;
         Process _subTask;
         int hr = 0, min = 0, sec = 0;
@@ -61,6 +62,20 @@ namespace MetoCraft.NewGui
         public bool isFinished() {
             return finished;
         }
+        public bool needDetectAlive() {
+            return detectAlive;
+        }
+        public TaskBar setDetectAlive(bool flag) {
+            detectAlive = flag;
+            return this;
+        }
+        public void noticeFinished() {
+            finished = true;
+        }
+        public void noticeNotFinish()
+        {
+            finished = false;
+        }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             timer = new System.Windows.Forms.Timer();
@@ -76,10 +91,10 @@ namespace MetoCraft.NewGui
         }
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited)))
+            if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited)) && needDetectAlive())
             {
                 setTaskStatus("Finished");
-                finished = true;
+                noticeFinished();
             }
             if (startCount)
             {

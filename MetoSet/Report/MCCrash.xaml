@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetoCraft"
         mc:Ignorable="d"
-        Title="Crash Report" Height="400" Width="500">
+        Title="Crash Report" Height="320" Width="550">
     <Grid>
-        <Grid Height="45" VerticalAlignment="Top">
-            <Label x:Name="lbl1" Content="Uhoh, it looks like the game has crashed! Sorry for the inconvenience :(" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
-            <Button x:Name="button" Content="Open Report" HorizontalAlignment="Left" Margin="0,25,0,0" VerticalAlignment="Top" Width="75"/>
+        <Grid Height="50" VerticalAlignment="Top">
+            <TextBlock x:Name="txtblktitle" Margin="0,0,75,0"/>
+            <Button x:Name="button" Content="Open Report" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
         </Grid>
-        <ScrollViewer Margin="0,45,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="0,50,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <TextBlock x:Name="txtContent" TextWrapping="Wrap" Text=""/>
         </ScrollViewer>
 

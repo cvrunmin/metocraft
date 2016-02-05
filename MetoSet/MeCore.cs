@@ -16,24 +16,20 @@ namespace MetoCraft
         public static Config Config;
         public static Dictionary<string, object> Language = new Dictionary<string, object>();
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
-        private readonly static string Cfgfile = BaseDirectory + "metocraft.xml";
+        private readonly static string Cfgfile = BaseDirectory + "mtmcl_config.json";
         public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
-//        public static string UrlDownload = Resources.Url.URL_DOWNLOAD_BASE;
-//        public static string UrlResource = Resources.Url.URL_RESOURCE_BASE;
-//        public static string UrlLibraries = Resources.Url.URL_LIBRARIES_BASE;
-//        public static string UrlForgeList = Resources.Url.URL_FORGELIST_BASE;
 
         static MeCore()
         {
             version = Application.ResourceAssembly.FullName.Split('=')[1];
             version = version.Substring(0, version.IndexOf(','));
-            Logger.log("MetoCraft Ver." + version + "正在启动");
+            Logger.log("MTMCL Ver." + version + "launching");
             if (File.Exists(Cfgfile))
             {
                 Config = Config.Load(Cfgfile);
-                Logger.log(String.Format("加载{0}文件", Cfgfile));
+                Logger.log(string.Format("loaded {0}", Cfgfile));
                 Logger.log(Config);
                 LoadLanguage();
                 ChangeLanguage(Config.Lang);
@@ -41,16 +37,16 @@ namespace MetoCraft
             else
             {
                 Config = new Config();
-                Logger.log("加载默认配置");
+                Logger.log("loaded default config");
                 LoadLanguage();
             }
             if (Config.Javaw == "autosearch")
             {
-                Config.Javaw = Config.GetJavaDir();
+                Config.Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
             }
             if (Config.Javaxmx == "autosearch")
             {
-                Config.Javaxmx = (Config.GetMemory() / 4).ToString(CultureInfo.InvariantCulture);
+                Config.Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4).ToString(CultureInfo.InvariantCulture);
             }
             LangManager.UseLanguage(Config.Lang);
 /*            if (!App.SkipPlugin)
@@ -64,7 +60,7 @@ namespace MetoCraft
         }
         public static void Invoke(Delegate invoke, object[] argObjects = null)
         {
-            MeCore.Dispatcher.Invoke(invoke, argObjects);
+            Dispatcher.Invoke(invoke, argObjects);
         }
         public static void ChangeLanguage(string lang)
         {
@@ -73,22 +69,22 @@ namespace MetoCraft
         private static void LoadLanguage()
         {
             ResourceDictionary lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/en.xaml");
-            MeCore.Language.Add((string)lang["DisplayName"], lang["LangName"]);
+            Language.Add((string)lang["DisplayName"], lang["LangName"]);
             LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/en.xaml");
 
             lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/zh-CHS.xaml");
-            MeCore.Language.Add((string)lang["DisplayName"], lang["LangName"]);
+            Language.Add((string)lang["DisplayName"], lang["LangName"]);
             LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/zh-CHS.xaml");
 
             lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/zh-CHT.xaml");
-            MeCore.Language.Add((string)lang["DisplayName"], lang["LangName"]);
+            Language.Add((string)lang["DisplayName"], lang["LangName"]);
             LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/zh-CHT.xaml");
             if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\Lang"))
             {
                 foreach (string langFile in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\Lang", "*.xaml", SearchOption.TopDirectoryOnly))
                 {
                     lang = LangManager.LoadLangFromResource(langFile);
-                    MeCore.Language.Add((string)lang["DisplayName"], lang["LangName"]);
+                    Language.Add((string)lang["DisplayName"], lang["LangName"]);
                     LangManager.Add(lang["LangName"] as string, langFile);
                 }
             }

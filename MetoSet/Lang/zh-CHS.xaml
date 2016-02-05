@@ -6,6 +6,8 @@
     <s:String x:Key="LangName">zh-CHS</s:String>
     <s:String x:Key="Play">游玩</s:String>
     <s:String x:Key="Download">下载</s:String>
+    <s:String x:Key="ReDownload">重新下载</s:String>
+    <s:String x:Key="ReDLTooltip">用于修复损坏的文件</s:String>
     <s:String x:Key="Setting">设定</s:String>
     <s:String x:Key="About">关于</s:String>
     <s:String x:Key="Browse">浏览</s:String>
@@ -76,9 +78,9 @@
     <s:String x:Key="ETwitch">开启直播(Twitch)</s:String>
     <!-- /ACLogin -->
     <!--Error-->
-    <s:String x:Key="JavaFault">您可以尝试以下方法解决此问题：\n1.重新安装Java\n2.检查Minecraft Jar是否已经损坏</s:String>
-    <s:String x:Key="AuthFault">您可以尝试以下方法解决此问题：\n1.检查您的电邮与密码是否正确输入\n2.联络网络供应商</s:String>
-    <s:String x:Key="LibFault">您可以尝试以下方法解决此问题：\n1.检查库文件是否完整\n2.检查库文件是否已在其他应用程式中开启</s:String>
+    <s:String x:Key="JavaFault">您可以尝试以下方法解决此问题：/n/1.重新安装Java/n/2.检查Minecraft Jar是否已经损坏</s:String>
+    <s:String x:Key="AuthFault">您可以尝试以下方法解决此问题：/n/1.检查您的电邮与密码是否正确输入/n/2.联络网络供应商</s:String>
+    <s:String x:Key="LibFault">您可以尝试以下方法解决此问题：/n/1.检查库文件是否完整/n/2.检查库文件是否已在其他应用程式中开启</s:String>
     <!--/Error-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">发现资源文件修改，正在同步</s:String>

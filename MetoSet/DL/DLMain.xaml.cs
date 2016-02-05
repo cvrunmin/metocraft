@@ -29,6 +29,7 @@ namespace MetoCraft.DL
     public partial class DLMain : Grid
     {
         private readonly WebClient _downer = new WebClient();
+        private readonly DateTime nulldate = new DateTime();
         public DLMain()
         {
             InitializeComponent();
@@ -42,7 +43,7 @@ namespace MetoCraft.DL
             var getJson = (HttpWebRequest)WebRequest.Create(MetoCraft.Resources.UrlReplacer.getDownloadUrl() + "versions/versions.json");
             getJson.Timeout = 10000;
             getJson.ReadWriteTimeout = 10000;
-            getJson.UserAgent = "MetoCraft" + MeCore.version;
+            getJson.UserAgent = "MTMCL" + MeCore.version;
             var thGet = new Thread(new ThreadStart(delegate
             {
                 try
@@ -53,19 +54,19 @@ namespace MetoCraft.DL
                     var remoteVersion = rawJson.ReadObject(getJsonAns.GetResponseStream()) as RawVersionListType;
                     var dt = new DataTable();
                     dt.Columns.Add("Ver");
-                    dt.Columns.Add("RelTime");
+                    dt.Columns.Add("RelTime", typeof(DateTime));
                     dt.Columns.Add("Type");
                     if (remoteVersion != null)
                         foreach (RemoteVerType rv in remoteVersion.getVersions())
                         {
-                            dt.Rows.Add(new object[] { rv.id, rv.releaseTime, rv.type });
+                            dt.Rows.Add(new object[] { rv.id, DateTime.Parse(rv.releaseTime), rv.type });
                         }
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                         listRemoteVer.DataContext = dt;
-                        listRemoteVer.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("RelTime", System.ComponentModel.ListSortDirection.Descending));
+                        listRemoteVer.Items.SortDescriptions.Add(new SortDescription("RelTime", System.ComponentModel.ListSortDirection.Descending));
                     }));
                 }
                 catch (WebException ex)
@@ -106,93 +107,63 @@ namespace MetoCraft.DL
             DataRowView selectVer = listRemoteVer.SelectedItem as DataRowView;
             if (selectVer != null)
             {
-                var selectver = selectVer[0] as string;
-                var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
-                downpath.Append(selectver).Append("\\");
-                downpath.Append(selectver).Append(".jar");
-                var downer = new WebClient();
-                downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                var downurl = new StringBuilder(MetoCraft.Resources.UrlReplacer.getDownloadUrl());
-                downurl.Append(@"versions\");
-                downurl.Append(selectver).Append("\\");
-                downurl.Append(selectver).Append(".jar");
+                NewGui.TaskBar taskbar = new NewGui.TaskBar();
+                var task = new Thread(new ThreadStart(delegate
+                {
+                    var selectver = selectVer[0] as string;
+                    var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
+                    downpath.Append(selectver).Append("\\");
+                    downpath.Append(selectver).Append(".jar");
+                    var downer = new WebClient();
+                    downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
+                    var downurl = new StringBuilder(MetoCraft.Resources.UrlReplacer.getDownloadUrl());
+                    downurl.Append(@"versions\");
+                    downurl.Append(selectver).Append("\\");
+                    downurl.Append(selectver).Append(".jar");
 #if DEBUG
-                MessageBox.Show(downpath + "\n" + downurl);
+                    MessageBox.Show(downpath + "\n" + downurl);
 #endif
-                butDLMC.Content = LangManager.GetLangFromResource("RemoteVerDownloading");
-                butDLMC.IsEnabled = false;
-                // ReSharper disable once AssignNullToNotNullAttribute
-                if (!Directory.Exists(System.IO.Path.GetDirectoryName(downpath.ToString())))
-                {
-                    // ReSharper disable AssignNullToNotNullAttribute
-                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(downpath.ToString()));
-                    // ReSharper restore AssignNullToNotNullAttribute
-                }
-                string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
-                string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
-                try
-                {
-                    downer.DownloadFileCompleted += downer_DownloadClientFileCompleted;
-                    downer.DownloadProgressChanged += downer_DownloadProgressChanged;
-                    Logger.log("download:" + downjsonfile);
-                    downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                    Logger.log("download:" + downurl);
-                    downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
-                    _downedtime = Environment.TickCount - 1;
-                    _downed = 0;
-                }
-                catch (Exception ex)
-                {
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    if (!Directory.Exists(Path.GetDirectoryName(downpath.ToString())))
                     {
-                        KnownErrorReport er = new KnownErrorReport(ex.Message);
-                        er.ShowDialog();
-                        butDLMC.Content = LangManager.GetLangFromResource("Download");
-                        butDLMC.IsEnabled = true;
-                    }));
-                }
+                        Directory.CreateDirectory(Path.GetDirectoryName(downpath.ToString()));
+                    }
+                    string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
+                    string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
+                    try
+                    {
+                        downer.DownloadFileCompleted += delegate(object sender, AsyncCompletedEventArgs e) {
+                            Logger.log("Success to download client file.");
+                            taskbar.noticeFinished();
+                            Dispatcher.Invoke(new Action(() => MeCore.MainWindow.gridPlay.LoadVersionList()));
+                        };
+                        downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
+                        {
+                            Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
+                        };
+                        Logger.log("download:" + downjsonfile);
+                        downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
+                        Logger.log("download:" + downurl);
+                        downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        {
+                            KnownErrorReport er = new KnownErrorReport(ex.Message);
+                            er.ShowDialog();
+                            butDLMC.Content = LangManager.GetLangFromResource("Download");
+                            butDLMC.IsEnabled = true;
+                        }));
+                    }
+                }));
+                MeCore.MainWindow.addTask(taskbar.setThread(task).setTask("下載核心文件").setDetectAlive(false));
             }
-        }
-        int _downedtime;
-        int _downed;
-        void downer_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            ChangeDownloadProgress((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-            //            TaskbarManager.Instance.SetProgressValue((int)e.BytesReceived, (int)e.TotalBytesToReceive);
-            var info = new StringBuilder(LangManager.GetLangFromResource("DownloadSpeedInfo"));
-            try
-            {
-                info.Append(((e.BytesReceived - _downed) / ((Environment.TickCount - _downedtime) / 1000.0) / 1024.0).ToString("F2")).Append("KB/s,");
-            }
-            catch (DivideByZeroException) { info.Append("0B/s,"); }
-            info.Append(e.ProgressPercentage.ToString(CultureInfo.InvariantCulture)).Append("%");
-            SetDownloadInfo(info.ToString());
-        }
-        void downer_DownloadClientFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            Logger.log("Success to download client file.");
-            MessageBox.Show(LangManager.GetLangFromResource("RemoteVerDownloadSuccess"));
-            butDLMC.Content = LangManager.GetLangFromResource("Download");
-            butDLMC.IsEnabled = true;
-            MeCore.MainWindow.gridPlay.LoadVersionList();
-        }
-        public void ChangeDownloadProgress(int value, int maxValue)
-        {
-            prsDown.Maximum = maxValue;
-            prsDown.Value = value;
-        }
-        public void ChangeDownloadProgress(long value, long maxValue)
-        {
-            this.ChangeDownloadProgress((int)value, (int)maxValue);
         }
         private void listRemoteVer_MouseDoubleClick(object sender, EventArgs e)
         {
             downloadVVer();
         }
-        public void SetDownloadInfo(string info)
-        {
-            labDownInfo.Content = info;
-        }
+
         #endregion
         #region DLLib
         IEnumerable<KMCCC.Launcher.Library> libt;
@@ -224,7 +195,7 @@ namespace MetoCraft.DL
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
                         listLib.DataContext = dt;
-                        listLib.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                        listLib.Items.SortDescriptions.Add(new SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
                     }));
                 }
                 catch (Exception ex)
@@ -253,9 +224,9 @@ namespace MetoCraft.DL
                     Logger.log("开始下载" + libfile, Logger.LogType.Info);
                         try
                         {
-                            if (!Directory.Exists(System.IO.Path.GetDirectoryName(libfile)))
+                            if (!Directory.Exists(Path.GetDirectoryName(libfile)))
                             {
-                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
+                                Directory.CreateDirectory(Path.GetDirectoryName(libfile));
                             }
                             string url = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
                             if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
@@ -263,7 +234,7 @@ namespace MetoCraft.DL
                                 url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
                             }
 #if DEBUG
-                            System.Windows.MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                            MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
 #endif
                             Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
                             //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
@@ -298,17 +269,17 @@ namespace MetoCraft.DL
                         {
                             //                    OnStateChangeEvent(LangManager.GetLangFromResource("LauncherDownloadLib") + lib.name);
                             //                    Downloading++;
-                            if (!Directory.Exists(System.IO.Path.GetDirectoryName(libfile)))
+                            if (!Directory.Exists(Path.GetDirectoryName(libfile)))
                             {
-                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(libfile));
+                                Directory.CreateDirectory(Path.GetDirectoryName(libfile));
                             }
                             string url = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
-                            if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
+                            if (!string.IsNullOrWhiteSpace(nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url))
                             {
-                                url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
+                                url = nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url;
                             }
 #if DEBUG
-                            System.Windows.MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                            MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
 #endif
                             Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
                             //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
@@ -336,6 +307,103 @@ namespace MetoCraft.DL
             MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載必要文件"));
             //            thDL.Start();
         }
+        private void butRDLLib_Click(object sender, RoutedEventArgs e)
+        {
+            NewGui.TaskBar task = new NewGui.TaskBar();
+            var thDL = new Thread(new ThreadStart(delegate
+            {
+                WebClient _downer = new WebClient();
+                int i = 0;
+                foreach (string libfile in libs)
+                {
+                    i++;
+                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Library " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
+                    Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
+                    try
+                    {
+                        if (!Directory.Exists(Path.GetDirectoryName(libfile)))
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(libfile));
+                        }
+                        if (File.Exists(libfile))
+                        {
+                            File.Delete(libfile);
+                        }
+                        string url = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
+                        if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
+                        {
+                            url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
+                        }
+#if DEBUG
+                        MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+#endif
+                        Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                        _downer.DownloadFile(
+                            url +
+                            libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                    }
+                    catch (WebException ex)
+                    {
+                        Logger.log(ex);
+                        Logger.log("原地址下载失败，尝试BMCL源" + libfile);
+                        try
+                        {
+                            _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                        }
+                        catch (WebException exception)
+                        {
+                            MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
+                            return;
+                        }
+                    }
+                }
+                i = 0;
+                foreach (string libfile in natives)
+                {
+                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Native " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
+
+                    Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
+                    try
+                    {
+                        if (!Directory.Exists(Path.GetDirectoryName(libfile)))
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(libfile));
+                        }
+                        if (File.Exists(libfile))
+                        {
+                            File.Delete(libfile);
+                        }
+                        string url = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
+                        if (!string.IsNullOrWhiteSpace(nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url))
+                        {
+                            url = nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url;
+                        }
+#if DEBUG
+                        MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+#endif
+                        Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                        _downer.DownloadFile(
+                            url +
+                            libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                    }
+                    catch (WebException ex)
+                    {
+                        Logger.log(ex);
+                        Logger.log("原地址下载失败，尝试BMCL源" + libfile);
+                        try
+                        {
+                            _downer.DownloadFile(MetoCraft.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                        }
+                        catch (WebException exception)
+                        {
+                            MeCore.Invoke(new Action(() => new KnownErrorReport(exception.Message).Show()));
+                            return;
+                        }
+                    }
+                }
+            }));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("重新下載必要文件"));
+        }
 
         #endregion
         #region DLAsset
@@ -356,11 +424,11 @@ namespace MetoCraft.DL
                         MessageBox.Show(_ver.Id + " doesn't define a asset version!");
                         return;
                     }
-                    if (_ver.Assets.Equals("legacy"))
-                    {
-                        //MessageBox.Show(_ver.Id + " doesn't define a supported asset version!");
-                        //return;
-                    }
+                        if (File.Exists(MeCore.Config.MCPath + "\\assets\\indexes\\" + _ver.Assets + ".json"))
+                        {
+                        Downloader_DownloadStringCompleted(this, null);
+                        return;
+                        }
                     var thGet = new Thread(new ThreadStart(delegate
                     {
                         string gameVersion = _ver.Assets;
@@ -398,13 +466,12 @@ namespace MetoCraft.DL
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
                         task.setTaskStatus(((float)i / assets.objects.Count * 100).ToString() + "%");
-                        //                        lblDr.Content = i + "/" + asset.Count.ToString(CultureInfo.InvariantCulture);
                     }));
                     string url = MetoCraft.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
                     if (assets._virtual)
                     {
-                        file = MeCore.Config.MCPath + @"\assets\virtual\legacy\" + entity.Key;
+                        file = MeCore.Config.MCPath + @"\assets\" + entity.Key;
                     }
                     FileHelper.CreateDirectoryForFile(file);
                     try
@@ -444,6 +511,53 @@ namespace MetoCraft.DL
             MeCore.MainWindow.addTask(task.setThread(thGet).setTask("下載資源文件"));
             //            thGet.Start();
         }
+        private void butRDLAsset_Click(object sender, RoutedEventArgs e)
+        {
+            NewGui.TaskBar task = new NewGui.TaskBar();
+            var thGet = new Thread(new ThreadStart(delegate
+            {
+                int i = 0;
+                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
+                {
+                    i++;
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        task.setTaskStatus(((float)i / assets.objects.Count * 100).ToString() + "%");
+                    }));
+                    string url = MetoCraft.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
+                    string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                    if (assets._virtual)
+                    {
+                        file = MeCore.Config.MCPath + @"\assets\" + entity.Key;
+                    }
+                    FileHelper.CreateDirectoryForFile(file);
+                    try
+                    {
+                        if (FileHelper.IfFileVaild(file, entity.Value.size)) File.Delete(file);
+                        _downer.DownloadFile(new Uri(url), file);
+                        Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
+                        if (i == assets.objects.Count)
+                        {
+                            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                            {
+                                Logger.log("assets重新下载完毕");
+                                //MeCore.NIcon.ShowBalloonTip(3000, LangManager.GetLangFromResource("SyncAssetsFinish"));
+                            }));
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        {
+                            Logger.log(ex.Response.ResponseUri.ToString());
+                            Logger.error(ex);
+                            new ErrorReport(ex).Show();
+                        }));
+                    }
+                }
+            }));
+            MeCore.MainWindow.addTask(task.setThread(thGet).setTask("重新下載資源文件"));
+        }
 
         private void butF5Asset_Click(object sender, RoutedEventArgs e)
         {
@@ -461,7 +575,7 @@ namespace MetoCraft.DL
                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                 {
                     listAsset.DataContext = dt;
-                    listAsset.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                    listAsset.Items.SortDescriptions.Add(new SortDescription("Exist", ListSortDirection.Ascending));
                 }));
             }
             catch (Exception ex)
@@ -472,7 +586,7 @@ namespace MetoCraft.DL
                 }));
             }
         }
-        void Downloader_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -484,14 +598,61 @@ namespace MetoCraft.DL
         void Downloader_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             _downer.DownloadStringCompleted -= Downloader_DownloadStringCompleted;
-            if (e.Error != null)
+            if (e != null)
             {
-                if (e.Error is WebException)
+                if (e.Error != null)
                 {
-                    var ex = e.Error as WebException;
-                    Logger.log(ex.Response.ResponseUri.ToString());
+                    if (e.Error is WebException)
+                    {
+                        var ex = e.Error as WebException;
+                        Logger.log(ex.Response.ResponseUri.ToString());
+                    }
+                    Logger.error(e.Error);
                 }
-                Logger.error(e.Error);
+                else
+                {
+                    try
+                    {
+                        string gameVersion = _ver.Assets;
+                        FileHelper.CreateDirectoryForFile(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
+                        var sw = new StreamWriter(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
+                        sw.Write(e.Result);
+                        sw.Close();
+                        assets = LitJson.JsonMapper.ToObject<AssetIndex>(e.Result);
+                        Logger.log("共", assets.objects.Count.ToString(CultureInfo.InvariantCulture), "项assets");
+                        try
+                        {
+                            var dt = new DataTable();
+                            dt.Columns.Add("Assets");
+                            dt.Columns.Add("Size");
+                            dt.Columns.Add("Hash");
+                            dt.Columns.Add("Exist");
+                            foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
+                            {
+                                dt.Rows.Add(new object[] { entity.Key, entity.Value.size, entity.Value.hash, assetExist(entity, assets._virtual).ToString() });
+                            }
+                            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                            {
+                                listAsset.DataContext = dt;
+                                listAsset.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                            }));
+                        }
+                        catch (Exception ex)
+                        {
+                            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                            {
+                                new KnownErrorReport(ex.Message).Show();
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        {
+                            new ErrorReport(ex).Show();
+                        }));
+                    }
+                }
             }
             else
             {
@@ -499,13 +660,9 @@ namespace MetoCraft.DL
                 {
                     string gameVersion = _ver.Assets;
                     FileHelper.CreateDirectoryForFile(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
-                    var sw = new StreamWriter(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
-                    sw.Write(e.Result);
-                    sw.Close();
-                    //var jsSerializer = new JavaScriptSerializer();
-                    //var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
-                    assets = LitJson.JsonMapper.ToObject<AssetIndex>(e.Result);
-                    //                    var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(new StreamReader(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json").ReadToEnd());
+                    var sr = new StreamReader(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
+                    assets = LitJson.JsonMapper.ToObject<AssetIndex>(sr.ReadToEnd());
+                    sr.Close();
                     Logger.log("共", assets.objects.Count.ToString(CultureInfo.InvariantCulture), "项assets");
                     try
                     {
@@ -540,93 +697,17 @@ namespace MetoCraft.DL
                     }));
                 }
             }
+
         }
         private bool assetExist(KeyValuePair<string, AssetsEntity> entity, bool isVirtual) {
             if (isVirtual)
             {
-                return File.Exists(MeCore.Config.MCPath + @"\assets\virtual\legacy\" + entity.Key);
+                return File.Exists(MeCore.Config.MCPath + @"\assets\" + entity.Key);
             }
             else
             {
                 return File.Exists(MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash);
             }
-        }
-        private void butDLMusic_Click(object sender, RoutedEventArgs e)
-        {
-            /*            JavaScriptSerializer SoundsJsonSerizlizer = new JavaScriptSerializer();
-                        var sounds = SoundsJsonSerizlizer.Deserialize<Dictionary<string, Dictionary<string, object>>>((new WebClient()).DownloadString("http://www.bangbang93.com/bmcl/resources/sounds.json"));
-                        Hashtable DownloadFile = new Hashtable();
-                        int FileCount = 0;
-                        int DuplicateFileCount = 0;
-                        int JsonDuplicateFileCount = 0;
-                        foreach (KeyValuePair<string, Dictionary<string, object>> SoundEntity in sounds)
-                        {
-                            switch (SoundEntity.Value["category"] as string)
-                            {
-                                case "ambient":
-                                case "weather":
-                                case "player":
-                                case "neutral":
-                                case "hostile":
-                                case "block":
-                                case "master":
-                                    //arraylist
-                                    var SoundFile = SoundEntity.Value["sounds"] as ArrayList;
-                                    if (SoundFile == null) goto case "music";
-                                    foreach (string FileName in SoundFile)
-                                    {
-                                        FileCount++;
-                                        string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + FileName + ".ogg";
-                                        string SoundName = MeCore.Config.MCPath + @"assets\sounds\" + FileName + ".ogg";
-                                        DataRow[] result = _dt.Select("FileName = " + "'sounds/" + FileName + ".ogg'");
-                                        if (result.Count() != 0)
-                                        {
-                                            DuplicateFileCount++;
-                                            continue;
-                                        }
-                                        if (DownloadFile.ContainsKey(Url))
-                                        {
-                                            JsonDuplicateFileCount++;
-                                            continue;
-                                        }
-                                        DownloadFile.Add(Url, SoundName);
-                                    }
-                                    break;
-                                case "music":
-                                    var MusicFile = SoundEntity.Value["sounds"] as ArrayList;
-                                    foreach (Dictionary<string, object> music in MusicFile)
-                                    {
-                                        if (!music.ContainsKey("stream")) continue;
-                                        if ((bool)music["stream"] == false) continue;
-                                        FileCount++;
-                                        string Url = "http://www.bangbang93.com/bmcl/resources/" + "sounds/" + music["name"] + ".ogg";
-                                        string SoundName = MeCore.Config.MCPath + @"\assets\sounds\" + music["name"] + ".ogg";
-                                        DataRow[] result = _dt.Select("FileName = " + "'sounds/" + music["name"] as string + ".ogg'");
-                                        if (result.Count() != 0)
-                                        {
-                                            DuplicateFileCount++;
-                                            continue;
-                                        }
-                                        if (DownloadFile.ContainsKey(Url))
-                                        {
-                                            JsonDuplicateFileCount++;
-                                            continue;
-                                        }
-                                        DownloadFile.Add(Url, SoundName);
-                                    }
-                                    break;
-                                case "record":
-                                    var RecordFile = SoundEntity.Value["sounds"] as ArrayList;
-                                    if (RecordFile[0] is string)
-                                        goto case "master";
-                                    else
-                                        goto case "music";
-
-                            }
-                        }
-                        Logger.log(string.Format("共计{0}个文件，{1}个文件重复,{2}个文件json内部重复，{3}个文件待下载", FileCount, DuplicateFileCount, JsonDuplicateFileCount, DownloadFile.Count));
-                        FrmDownload frmDownload = new FrmDownload(DownloadFile);
-                        frmDownload.Show();*/
         }
 
         #endregion
@@ -634,9 +715,7 @@ namespace MetoCraft.DL
         readonly ForgeVersionList _forgeVer = new ForgeVersionList();
         private void butReload_Click(object sender, RoutedEventArgs e)
         {
-            if (butReload.Content.ToString() == LangManager.GetLangFromResource("btnReForgeGetting"))
-                return;
-            butReload.Content = LangManager.GetLangFromResource("btnReForgeGetting");
+            butReload.Content = LangManager.GetLangFromResource("RemoteVerGetting");
             butReload.IsEnabled = false;
             RefreshForgeVersionList();
         }
@@ -650,11 +729,12 @@ namespace MetoCraft.DL
             var dt = new DataTable();
             dt.Columns.Add("Ver");
             dt.Columns.Add("MCVer");
+            dt.Columns.Add("Time", typeof(DateTime));
             dt.Columns.Add("Tag");
             if (_forgeVer.GetNew() != null)
                 foreach (object[] t in _forgeVer.GetNew())
                 {
-                    dt.Rows.Add(new object[] { t[0], t[1], t[2] });
+                    dt.Rows.Add(new object[] { t[0], t[1], t[2], t[3] });
                 }
             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
             {
@@ -675,17 +755,20 @@ namespace MetoCraft.DL
             {
                 var url = new Uri(_forgeVer.ForgeDownloadUrl[ver]);
                 var downer = new WebClient();
-                downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
+                downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
                 downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e) {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(e.ProgressPercentage + "%")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Forge安裝檔 " + e.ProgressPercentage + "%")));
+                };
+                downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e) {
+                    MeCore.Invoke(new Action(() => task.setTaskStatus("嘗試安裝Forge")));
+                    new ForgeInstaller().install("forge.jar");
+                    MeCore.Invoke(new Action(() => task.setTaskStatus("完成")));
+                    task.noticeFinished();
                 };
                 MeCore.Invoke(new Action(() => task.setTaskStatus("下載Forge安裝檔")));
-                downer.DownloadFile(url, "forge.jar");
-                MeCore.Invoke(new Action(() => task.setTaskStatus("嘗試安裝Forge")));
-                new ForgeInstaller().install("forge.jar");
-                MeCore.Invoke(new Action(() => task.setTaskStatus("完成")));
+                downer.DownloadFileAsync(url, "forge.jar");
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("安裝Forge"));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("安裝Forge").setDetectAlive(false));
         }
 
         private void butFDL_Click(object sender, RoutedEventArgs e)
@@ -714,9 +797,7 @@ namespace MetoCraft.DL
         }
         public void setLblColor(Color color)
         {
-            labDownInfo.Foreground = new SolidColorBrush(color);
             lblDLI.Foreground = new SolidColorBrush(color);
-            lblDr.Foreground = new SolidColorBrush(color);
             lblTitle.Foreground = new SolidColorBrush(color);
             lblTitle_Copy.Foreground = new SolidColorBrush(color);
             lblTitle_Copy1.Foreground = new SolidColorBrush(color);

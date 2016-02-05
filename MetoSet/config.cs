@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Windows;
 using System.Drawing;
+using System.Linq;
 
 namespace MetoCraft
 {
@@ -14,47 +15,59 @@ namespace MetoCraft
     public class Config : ICloneable
     {
         [DataMember]
+        [LitJson.JsonPropertyName("javapath")]
         public string Javaw;
         [DataMember]
+        [LitJson.JsonPropertyName("minecraftpath")]
         public string MCPath;
         [DataMember]
+        [LitJson.JsonPropertyName("javaXmx")]
         public string Javaxmx;
         [DataMember]
+        [LitJson.JsonPropertyName("lastversion")]
         public string LastPlayVer;
         [DataMember]
+        [LitJson.JsonPropertyName("jvmarg")]
         public string ExtraJvmArg;
         [DataMember]
+        [LitJson.JsonPropertyName("language")]
         public string Lang;
+//        [DataMember]
+//        public bool Autostart, Report,CheckUpdate;
+//        [DataMember]
+//        [LitJson.JsonPropertyName("transparency")]
+//        public double WindowTransparency;
         [DataMember]
-        public bool Autostart, Report,CheckUpdate;
-        [DataMember]
-        public double WindowTransparency;
-        [DataMember]
+        [LitJson.JsonPropertyName("background")]
         public string BackGround;
         [DataMember]
-        public Color color;
+        [LitJson.JsonPropertyName("color")]
+        public byte[] color;
         [DataMember]
+        [LitJson.JsonPropertyName("downloadsource")]
         public int DownloadSource;
-        [DataMember]
-        public Dictionary<string, object> PluginConfig = new Dictionary<string, object>();
+//        [DataMember]
+//        public Dictionary<string, object> PluginConfig = new Dictionary<string, object>();
 
-        [DataMember] public string GUID;
+        [DataMember]
+        [LitJson.JsonPropertyName("guid")]
+        public string GUID;
 
         public Config()
         {
-            Javaw = GetJavaDir() ?? "javaw.exe";
+            Javaw = KMCCC.Tools.SystemTools.FindValidJava().First() ?? "javaw.exe";
             MCPath = MeCore.BaseDirectory + ".minecraft";
-            Javaxmx = (GetMemory() / 4).ToString(CultureInfo.InvariantCulture);
-            Autostart = false;
+            Javaxmx = (/*GetMemory()*/KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024).ToString(CultureInfo.InvariantCulture);
+//            Autostart = false;
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
-            WindowTransparency = 1;
+//            WindowTransparency = 1;
             BackGround = "default";
-            color = Color.FromArgb(255,255,255);
-            Report = true;
+            color = new byte[] { 255, 255, 255 };
+//            Report = true;
             DownloadSource = 0;
             Lang = GetValidLang();
-            CheckUpdate = true;
-            PluginConfig = null;
+//            CheckUpdate = true;
+//            PluginConfig = null;
             GUID = GetGuid();
         }
         public string GetValidLang() {
@@ -64,6 +77,7 @@ namespace MetoCraft
             }
             return CultureInfo.CurrentUICulture.Parent.Name;
         }
+        /**
         public object GetPluginConfig(string key)
         {
             if (PluginConfig.ContainsKey(key))
@@ -72,7 +86,7 @@ namespace MetoCraft
             }
             return null;
         }
-
+        
         public void SetPluginConfig(string key, object value)
         {
             if (PluginConfig.ContainsKey(key))
@@ -84,21 +98,24 @@ namespace MetoCraft
                 PluginConfig.Add(key, value);
             }
         }
-
+        **/
         public object Clone()
         {
-            return (Config)this.MemberwiseClone();
+            return (Config)MemberwiseClone();
         }
 
         public static Config Load(string file)
         {
-            if (!System.IO.File.Exists(file))
+            if (!File.Exists(file))
                 return new Config();
             try
             {
                 var fs = new FileStream(file, FileMode.Open);
                 var ser = new DataContractSerializer(typeof(Config));
-                var cfg = (Config)ser.ReadObject(fs);
+                ///for json
+                var cfg = LitJson.JsonMapper.ToObject<Config>(new LitJson.JsonReader(new StreamReader(fs)));
+                ///for xml
+                //var cfg = (Config)ser.ReadObject(fs);
                 fs.Close();
                 if (cfg.GUID == null)
                 {
@@ -108,7 +125,7 @@ namespace MetoCraft
             }
             catch
             {
-                MessageBox.Show("加载配置文件遇到错误，使用默认配置");
+                MessageBox.Show("errer occurred when loading the config file, try to use default config.");
                 return new Config();
             }
         }
@@ -122,12 +139,20 @@ namespace MetoCraft
                 }
                 if (file == null)
                 {
-                    file = MeCore.BaseDirectory + "metocraft.xml";
+                    ///for json
+                    file = MeCore.BaseDirectory + "mtmcl_config.json";
+                    ///for xml
+                    //file = MeCore.BaseDirectory + "mtmcl_config.xml";
                 }
-                var fs = new FileStream(file, FileMode.Create);
-                var ser = new DataContractSerializer(typeof(Config));
-                ser.WriteObject(fs, cfg);
-                fs.Close();
+                //var fs = new FileStream(file, FileMode.Create);
+                ///for xml
+                /*var ser = new DataContractSerializer(typeof(Config));
+                ser.WriteObject(fs, cfg);*/
+                ///for json
+                //var jw = new LitJson.JsonWriter(new StreamWriter(fs));
+                //LitJson.JsonMapper.ToJson(cfg);
+            File.WriteAllText(file, LitJson.JsonMapper.ToJson(cfg), System.Text.Encoding.UTF8);
+                //fs.Close();
             }
             catch (Exception)
             {
@@ -143,6 +168,8 @@ namespace MetoCraft
         /// 读取注册表，寻找安装的java路径
         /// </summary>
         /// <returns>javaw.exe路径</returns>
+        /// <remarks>This method has been replaced by the similar method in KMCCC</remarks>
+        [Obsolete]
         public static string GetJavaDir()
         {
             try
@@ -179,6 +206,8 @@ namespace MetoCraft
         /// 获取系统物理内存大小
         /// </summary>
         /// <returns>系统物理内存大小，支持64bit,单位MB</returns>
+        /// <remarks>This method has been replaced by the similar method in KMCCC</remarks>
+        [Obsolete]
         public static ulong GetMemory()
         {
             try
@@ -189,11 +218,11 @@ namespace MetoCraft
                 foreach (var o in moc1)
                 {
                     var mo1 = (ManagementObject) o;
-                    capacity += ((Math.Round(Int64.Parse(mo1.Properties["Capacity"].Value.ToString()) / 1024 / 1024.0, 1)));
+                    capacity += ((Math.Round(long.Parse(mo1.Properties["Capacity"].Value.ToString()) / 1024 / 1024.0, 1)));
                 }
                 moc1.Dispose();
                 cimobject1.Dispose();
-                UInt64 qmem = Convert.ToUInt64(capacity.ToString(CultureInfo.InvariantCulture));
+                ulong qmem = Convert.ToUInt64(capacity.ToString(CultureInfo.InvariantCulture));
                 return qmem;
             }
             catch (System.Runtime.InteropServices.COMException ex)

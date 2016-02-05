@@ -6,6 +6,8 @@
     <s:String x:Key="LangName">zh-CHT</s:String>
     <s:String x:Key="Play">遊玩</s:String>
     <s:String x:Key="Download">下載</s:String>
+    <s:String x:Key="ReDownload">重新下載</s:String>
+    <s:String x:Key="ReDLTooltip">用於修復損壞的文件</s:String>
     <s:String x:Key="Setting">設定</s:String>
     <s:String x:Key="About">關於</s:String>
     <s:String x:Key="Browse">瀏覽</s:String>
@@ -77,14 +79,14 @@
     <s:String x:Key="ETwitch">開啟直播 (Twitch)</s:String>
     <!-- /ACLogin -->
     <!--Error-->
-    <s:String x:Key="JavaFault">您可以嘗試以下方法解決此問題：&#13;&#10;
-        1.重新安裝Java&#13;&#10;
+    <s:String x:Key="JavaFault">您可以嘗試以下方法解決此問題：/n/
+        1.重新安裝Java/n/
         2.檢查Minecraft Jar是否已經損壞</s:String>
-    <s:String x:Key="AuthFault">您可以嘗試以下方法解決此問題：&#13;&#10;
-        1.檢查您的電郵與密碼是否正確輸入&#13;&#10;
-        .聯絡網絡供應商</s:String>
-    <s:String x:Key="LibFault">您可以嘗試以下方法解決此問題：&#13;&#10;
-        1.檢查庫文件是否完整&#13;&#10;
+    <s:String x:Key="AuthFault">您可以嘗試以下方法解決此問題：/n/
+        1.檢查您的電郵與密碼是否正確輸入/n/
+        2.聯絡網絡供應商</s:String>
+    <s:String x:Key="LibFault">您可以嘗試以下方法解決此問題：/n/
+        1.檢查庫文件是否完整/m/
         2.檢查庫文件是否已在其他應用程式中開啟</s:String>
     <!--/Error-->
     <!-- Other -->

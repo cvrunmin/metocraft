@@ -67,7 +67,7 @@ namespace MetoCraft.Forge
                     {
                         Logger.log("MinecraftForge " + ver.version, " for ", ver.mcversion, " does not have installer");
                     }
-                    arrayList.Add(new object[] { ver.version, ver.mcversion, item.Key.Contains("latest") ? "latest" : (item.Key.Contains("recommended") ? "recommended" : "") });
+                    arrayList.Add(new object[] { ver.version, ver.mcversion, DateTime.SpecifyKind(util.TimeHelper.UnixTimeStampToDateTime((double)ver.modified), DateTimeKind.Local), item.Key.Contains("latest") ? "latest" : (item.Key.Contains("recommended") ? "recommended" : "") });
                     Logger.log("获取Forge", ver.version);
                 }
             }

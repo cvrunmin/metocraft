@@ -31,7 +31,16 @@ namespace MetoCraft
         {
             InitializeComponent();
             this.lblDesc.Content = desc;
-            this.lblHelp.Text = help;
+            //this.lblHelp.Text = help;
+            string[] helps = System.Text.RegularExpressions.Regex.Split(help, "/n/");
+            for (int i = 0; i < helps.Length; i++)
+            {
+                lblHelp.Inlines.Add(helps[i]);
+                if (i != helps.Length - 1)
+                {
+                    lblHelp.Inlines.Add(new LineBreak());
+                }
+            }
         }
 
         private void butOk_Click(object sender, RoutedEventArgs e)

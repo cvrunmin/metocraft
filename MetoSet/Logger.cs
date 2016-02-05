@@ -18,7 +18,7 @@ namespace MetoCraft
 //        static readonly FrmLog frmLog = new FrmLog();
         static public void start()
         {
-            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\metocraft.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
             fs.Close();
             if (debug)
             {
@@ -55,7 +55,7 @@ namespace MetoCraft
         }
         static private void write(string str, LogType type = LogType.Info)
         {
-            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\metocraft.log", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             sw.WriteLine(writeInfo(type) + str);
             sw.Close();

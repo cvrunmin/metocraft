@@ -32,7 +32,7 @@ namespace MetoCraft
             MeCore.NIcon.MainWindow = this;
             MeCore.MainWindow = this;
             InitializeComponent();
-            this.Title = "MetoCraft V1 Ver." + MeCore.version;
+            this.Title = "MTMCL V1 Ver." + MeCore.version;
         }
         private void butMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -156,8 +156,7 @@ namespace MetoCraft
             gridSet.listLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
             gridSet.loadConfig();
             gridPlay.loadConfig();
-            gridPlay.sliderRAM.Maximum = Config.GetMemory();
-            gridPlay.sliderRAMPro.Maximum = Config.GetMemory();
+            gridPlay.sliderRAMPro.Maximum = gridPlay.sliderRAM.Maximum = KMCCC.Tools.SystemTools.GetTotalMemory() / 1024 / 1024;
             if (gridPlay.txtBoxP.Text != "")
             {
                 gridPlay.LoadVersionList();
@@ -175,13 +174,6 @@ namespace MetoCraft
             gridDL.Visibility = Visibility.Visible;
             gridSet.Visibility = Visibility.Hidden;
             gridAbout.Visibility = Visibility.Hidden;
-        }
-
-        private void but_Click(object sender, RoutedEventArgs e)
-        {
-            NewGui.TaskGui task = new NewGui.TaskGui();
-            task.Show();
-            task.setTask("啟動Corn Him's UHC").setTaskStatus("");
         }
 
         private void butClose_Click(object sender, RoutedEventArgs e)
