@@ -445,6 +445,7 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <RestorePackages>true</RestorePackages>
   <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
