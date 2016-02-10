@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MTMCL.util;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MetoCraft.util;
 
-namespace MetoCraft
+namespace MTMCL
 {
     /// <summary>
     /// MCCrash.xaml 的互動邏輯
     /// </summary>
     public partial class MCCrash : Window
     {
+        public string path { get; private set; }
         public MCCrash()
         {
             InitializeComponent();
@@ -35,6 +25,14 @@ namespace MetoCraft
             {
                 txtblktitle.AddContentFromSpecficString(Lang.LangManager.GetLangFromResource("MCCrashTitle"));
             }
+        }
+        public MCCrash(string content, string path) : this(content) {
+            this.path = path;
+            butOpen.IsEnabled = true;
+        }
+        private void butOpen_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(path);
         }
     }
 }

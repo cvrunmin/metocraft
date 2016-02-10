@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Xml;
 
-namespace MetoCraft.Profile
+namespace MTMCL.Profile
 {
     public class ProfileInJson
     {
@@ -41,7 +37,7 @@ namespace MetoCraft.Profile
                 {
                     StreamWriter stream = doc.CreateText();
                     LitJson.JsonWriter writer = new LitJson.JsonWriter(stream);
-                    writer.Write(LitJson.JsonMapper.ToJson(pro));
+                    LitJson.JsonMapper.ToJson(pro, writer);
                     stream.Close();
                     return true;
                 }
@@ -49,7 +45,7 @@ namespace MetoCraft.Profile
                 {
                     StreamWriter stream = new StreamWriter(doc.FullName);
                     LitJson.JsonWriter writer = new LitJson.JsonWriter(stream);
-                    writer.Write(LitJson.JsonMapper.ToJson(pro));
+                    LitJson.JsonMapper.ToJson(pro, writer);
                     stream.Close();
                     return true;
                 }

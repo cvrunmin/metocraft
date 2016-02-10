@@ -1,32 +1,24 @@
 ﻿using KMCCC.Launcher;
-using MetoCraft.NewGui;
-using MetoCraft.Profile;
+using MTMCL.NewGui;
+using MTMCL.Profile;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace MetoCraft.Play
+namespace MTMCL.Play
 {
     /// <summary>
     /// PlayMain.xaml 的互動邏輯
     /// </summary>
     public partial class PlayMain : Grid
     {
-        public static LauncherCore launcher;
+        public LauncherCore launcher;
         private KMCCC.Launcher.Version[] vers;
         public KMCCC.Launcher.Version[] versions
         {
@@ -43,6 +35,8 @@ namespace MetoCraft.Play
         private Profile.Profile[] profiles;
         private string _path = Environment.CurrentDirectory + "\\profiles.xml";
         private ProfileInXML xmlLoader;
+        public string serverip;
+        public string serverport;
         public PlayMain()
         {
             InitializeComponent();
@@ -78,7 +72,11 @@ namespace MetoCraft.Play
                         {
                             Version = versions[comboVer.SelectedIndex],
                             MaxMemory = (int)sliderRAM.Value,
-                            Authenticator = login.auth
+                            Authenticator = login.auth,
+                            Server = new ServerInfo {
+                                Address = serverip,
+                                Port = Convert.ToUInt16(serverport)
+                            }
                         });
                         if (!result.Success)
                         {
@@ -181,31 +179,31 @@ namespace MetoCraft.Play
             }
         }
         private void onGameExit(LaunchHandle handle, int code) {
-                if (code != 0)
+            if (code != 0)
+            {
+                if (Directory.Exists(launcher.GameRootPath + @"\crash-reports"))
                 {
-                    if (Directory.Exists(launcher.GameRootPath + @"\crash-reports"))
+                    if (_clientCrashReportCount != Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count())
                     {
-                        if (_clientCrashReportCount != Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count())
+                        Logger.log("found new crash report");
+                        var clientCrashReportDir = new DirectoryInfo(launcher.GameRootPath + @"\crash-reports");
+                        var lastClientCrashReportPath = "";
+                        var lastClientCrashReportModifyTime = DateTime.MinValue;
+                        foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
                         {
-                            Logger.log("found new crash report");
-                            var clientCrashReportDir = new DirectoryInfo(launcher.GameRootPath + @"\crash-reports");
-                            var lastClientCrashReportPath = "";
-                            var lastClientCrashReportModifyTime = DateTime.MinValue;
-                            foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
+                            if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
                             {
-                                if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
-                                {
-                                    lastClientCrashReportPath = clientCrashReport.FullName;
-                                }
+                                lastClientCrashReportPath = clientCrashReport.FullName;
                             }
-                            var crashReportReader = new StreamReader(lastClientCrashReportPath);
-                            var s = crashReportReader.ReadToEnd();
-                            Logger.log(s, Logger.LogType.Crash);
-                            MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s).Show()));
-                            crashReportReader.Close();
                         }
+                        var crashReportReader = new StreamReader(lastClientCrashReportPath, Encoding.Default);
+                        var s = crashReportReader.ReadToEnd();
+                        Logger.log(s, Logger.LogType.Crash);
+                        MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s, lastClientCrashReportPath).Show()));
+                        crashReportReader.Close();
                     }
                 }
+            }
         }
         private void butDown_Click(object sender, RoutedEventArgs e)
         {
@@ -252,16 +250,7 @@ namespace MetoCraft.Play
             comboJava.SelectedItem = MeCore.Config.Javaw;
             txtBoxArg.Text = MeCore.Config.ExtraJvmArg;
             sliderRAM.Value = sliderRAMPro.Value = Convert.ToDouble(MeCore.Config.Javaxmx);
-            try
-            {
-                if (launcher.GetVersion(MeCore.Config.LastPlayVer) != null) {
-                    comboVer.SelectedItem = MeCore.Config.LastPlayVer;
-                }
-            }
-            catch (Exception e)
-            {
-                new ErrorReport(e).Show();
-            }
+
         }
 
         private void butF5Ver_Click(object sender, RoutedEventArgs e)

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace MetoCraft.Assets
+namespace MTMCL.Assets
 {
     [DataContract]
     public class AssetsEntity

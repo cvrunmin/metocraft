@@ -1,10 +1,10 @@
-﻿using MetoCraft.Lang;
+﻿using MTMCL.Lang;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace MetoCraft
+namespace MTMCL
 {
     public class NotiIcon
     {
@@ -29,7 +29,7 @@ namespace MetoCraft
         {
             NIcon.Visible = false;
             NIcon = new NotifyIcon { Visible = true };
-            var s = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/metocraft.ico"));
+            var s = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/MTMCL.ico"));
             if (s != null) this.NIcon.Icon = System.Drawing.Icon.FromHandle(new System.Drawing.Bitmap(s.Stream).GetHicon());
             MenuItem menuItem = _nMenu.MenuItems.Add(LangManager.GetLangFromResource("MenuShowMainWindow"));
             menuItem.Name = "ShowMainWindow";
@@ -45,7 +45,7 @@ namespace MetoCraft
 
         public void ShowBalloonTip(int time, string message, ToolTipIcon toolTipIcon = ToolTipIcon.Info)
         {
-            this.NIcon.ShowBalloonTip(time, "Metocraft", message, toolTipIcon);
+            this.NIcon.ShowBalloonTip(time, "MTMCL", message, toolTipIcon);
         }
 
         public void Hide()

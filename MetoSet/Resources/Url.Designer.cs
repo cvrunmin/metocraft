@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MetoCraft.Resources {
+namespace MTMCL.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MetoCraft.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MetoCraft.Resources.Url", typeof(Url).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MTMCL.Resources.Url", typeof(Url).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

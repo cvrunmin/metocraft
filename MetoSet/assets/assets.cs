@@ -1,14 +1,13 @@
-﻿using System;
+﻿using MTMCL.util;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Threading;
 using System.Web.Script.Serialization;
-using System.IO;
 
-using MetoCraft.util;
-
-namespace MetoCraft.Assets
+namespace MTMCL.Assets
 {
     public class Assets
     {

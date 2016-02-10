@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Text;
 
-namespace MetoCraft.util
+namespace MTMCL.util
 {
     static class FileHelper
     {
@@ -58,7 +55,8 @@ namespace MetoCraft.util
         }
 
     }
-    static class TimeHelper {
+    static class TimeHelper
+    {
         static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         static readonly double MaxUnixSeconds = (DateTime.MaxValue - UnixEpoch).TotalSeconds;
 
@@ -69,21 +67,27 @@ namespace MetoCraft.util
                : UnixEpoch.AddSeconds(unixTimeStamp);
         }
     }
-    static class ContentHelper {
-        public static void AddContentFromSpecficString(this System.Windows.Controls.TextBlock textblock, string spstring) {
+    static class ContentHelper
+    {
+        public static void AddContentFromSpecficString(this System.Windows.Controls.TextBlock textblock, string spstring)
+        {
             string[] strings = spstring.Split('[', ']');
             bool recordBold = false;
             StringBuilder st = new StringBuilder();
             for (int i = 0; i < strings.Length; i++)
             {
-                switch (strings[i]) {
+                switch (strings[i])
+                {
                     case "/bold/":
                         recordBold = true;
                         break;
                     case "/endbold/":
-                        recordBold = false;
-                        textblock.Inlines.Add(new System.Windows.Documents.Run(st.ToString()) { FontWeight = System.Windows.FontWeights.Bold});
-                        st.Clear();
+                        if (recordBold)
+                        {
+                            recordBold = false;
+                            textblock.Inlines.Add(new System.Windows.Documents.Run(st.ToString()) { FontWeight = System.Windows.FontWeights.Bold });
+                            st.Clear();
+                        }
                         break;
                     case "/newline/":
                         textblock.Inlines.Add(new System.Windows.Documents.LineBreak());

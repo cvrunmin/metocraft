@@ -37,6 +37,7 @@
     <s:String x:Key="DLSrc">下載源</s:String>
     <s:String x:Key="BG">啟動器背景</s:String>
     <s:String x:Key="Color">啟動器顏色</s:String>
+    <s:String x:Key="ExpandTaskTitle">啟動時打開任務介面</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">環境</s:String>
@@ -50,7 +51,7 @@
     <s:String x:Key="Type">類型</s:String>
     <s:String x:Key="RTime">發布時間</s:String>
     <s:String x:Key="LaVer">啟動版本</s:String>
-    <s:String x:Key="Profile">總則</s:String>
+    <s:String x:Key="Profile">啟動專案（Profiles）</s:String>
     <!-- /Play -->
     <!-- DL -->
     <s:String x:Key="DLMC">Minecraft原版客戶端</s:String>
@@ -58,6 +59,7 @@
     <s:String x:Key="DLLib">庫</s:String>
     <s:String x:Key="DLAssets">資源</s:String>
     <s:String x:Key="DLForge">Minecraft Forge客戶端</s:String>
+    <s:String x:Key="DLPack">整合包</s:String>
     <s:String x:Key="DownLoad">下載</s:String>
     <s:String x:Key="Refresh">刷新</s:String>
     <s:String x:Key="Libs">庫</s:String>
@@ -73,21 +75,19 @@
     <s:String x:Key="Login">登入</s:String>
     <s:String x:Key="Off">離線</s:String>
     <s:String x:Key="Mojang">在線 (Mojang)</s:String>
+    <s:String x:Key="Online">在線 ({0})</s:String>
     <s:String x:Key="UName">用戶名</s:String>
     <s:String x:Key="UNEM">用戶名 / 電郵</s:String>
     <s:String x:Key="PW">密碼</s:String>
-    <s:String x:Key="ETwitch">開啟直播 (Twitch)</s:String>
+    <s:String x:Key="ETwitch">啟用直播 (Twitch)</s:String>
     <!-- /ACLogin -->
     <!--Error-->
-    <s:String x:Key="JavaFault">您可以嘗試以下方法解決此問題：/n/
-        1.重新安裝Java/n/
-        2.檢查Minecraft Jar是否已經損壞</s:String>
-    <s:String x:Key="AuthFault">您可以嘗試以下方法解決此問題：/n/
-        1.檢查您的電郵與密碼是否正確輸入/n/
-        2.聯絡網絡供應商</s:String>
-    <s:String x:Key="LibFault">您可以嘗試以下方法解決此問題：/n/
-        1.檢查庫文件是否完整/m/
-        2.檢查庫文件是否已在其他應用程式中開啟</s:String>
+    <s:String x:Key="JavaFault">您可以嘗試以下方法解決此問題：[/newline/]1.重新安裝Java[/newline/]2.檢查Minecraft Jar是否已經損壞</s:String>
+    <s:String x:Key="AuthFault">您可以嘗試以下方法解決此問題：[/newline/]1.檢查您的電郵與密碼是否正確輸入[/newline/]2.聯絡網絡供應商[/newline/]如果是自訂驗證伺服器，您可以嘗試：[/newline/]1.聯絡驗證伺服器供應商</s:String>
+    <s:String x:Key="LibFault">您可以嘗試以下方法解決此問題：[/newline/]1.檢查庫文件是否完整[/newline/]2.檢查庫文件是否已在其他應用程式中開啟[/newline/]如果正在使用整合包，您可以嘗試：[/newline/]1.檢查整合包內容是否完整[/newline/]2.檢查整合包內容是否正確配置[/newline/]3.聯絡整合包提供者</s:String>
+    <s:String x:Key="MCCrashTitle">[/bold/]哎呀，看來遊戲崩潰了！抱歉為你帶來不便 :([/endbold/][/newline/]使用魔法和愛，我們已經成功地收集是次崩潰的細節，我們會盡快調查此崩潰[/newline/]你可以在下面查看完整的崩潰報告。</s:String>
+    <s:String x:Key="MCCrashTitleModded">[/bold/]哎呀，看來遊戲崩潰了！抱歉為你帶來不便 :([/endbold/][/newline/]我們覺得遊戲己被修改，因此我們並不能認受這份崩潰報告[/newline/]不過，如果你確實在使用模組，請將此報告發送給模組作者看看！</s:String>
+    <s:String x:Key="ReportTitle">出現未遇期的例外，請聯絡作者</s:String>
     <!--/Error-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">發現資源文件修改，正在同步</s:String>
@@ -101,4 +101,5 @@
     <s:String x:Key="Edit">編輯</s:String>
     <s:String x:Key="Reset">重設</s:String>
     <s:String x:Key="Select">選擇</s:String>
+    <s:String x:Key="NoCollectingData">因發行版MTMCL沒提供相關代碼而未知</s:String>
 </ResourceDictionary>

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Controls;
+﻿using MTMCL.JsonClass;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
-using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Windows.Controls;
 
-using MetoCraft.JsonClass;
-using System.Web.Script.Serialization;
-
-namespace MetoCraft.Forge
+namespace MTMCL.Forge
 {
     class ForgeVersionList
     {

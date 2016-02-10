@@ -1,19 +1,14 @@
-﻿using MetoCraft.Lang;
+﻿using MTMCL.Lang;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using KMCCC.Launcher;
-using System.Threading;
 
-namespace MetoCraft
+namespace MTMCL
 {
     /// <summary>
     /// App.xaml 的互動邏輯
@@ -21,9 +16,14 @@ namespace MetoCraft
     public partial class App : Application
     {
         private static FileStream _appLock;
+        public static bool forceNonDedicate = false;
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (Array.IndexOf(e.Args, "-NotServer") != -1)
+            {
+                forceNonDedicate = true;
+            }
             if (e.Args.Length == 0)   // 判断debug模式
                 Logger.debug = false;
             else
@@ -93,8 +93,6 @@ namespace MetoCraft
             base.OnExit(e);
             Logger.stop();
             Thread.Sleep(1);
-//            MeCore.MainWindow.gridAbout.bbGet.Abort();
-//            MeCore.MainWindow.gridAbout.rGet.Abort();
         }
 
         public static void AboutToExit()
@@ -102,8 +100,6 @@ namespace MetoCraft
             _appLock.Close();
             Logger.stop();
             Thread.Sleep(1);
-//            MeCore.MainWindow.gridAbout.bbGet.Abort();
-//            MeCore.MainWindow.gridAbout.rGet.Abort();
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Collections;
 
-namespace MetoCraft.Lang
+namespace MTMCL.Lang
 {
     static class LangManager
     {

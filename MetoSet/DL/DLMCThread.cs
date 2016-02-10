@@ -1,11 +1,11 @@
-﻿using MetoCraft.Lang;
+﻿using MTMCL.Lang;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetoCraft.DL
+namespace MTMCL.DL
 {
     class DLMCThread
     {
@@ -16,8 +16,8 @@ namespace MetoCraft.DL
                 downpath.Append(selectver).Append("\\");
                 downpath.Append(selectver).Append(".jar");
                 var downer = new WebClient();
-                downer.Headers.Add("User-Agent", "MetoCraft" + MeCore.version);
-                var downurl = new StringBuilder(MetoCraft.Resources.UrlReplacer.getDownloadUrl());
+                downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
+                var downurl = new StringBuilder(MTMCL.Resources.UrlReplacer.getDownloadUrl());
                 downurl.Append(@"versions\");
                 downurl.Append(selectver).Append("\\");
                 downurl.Append(selectver).Append(".jar");

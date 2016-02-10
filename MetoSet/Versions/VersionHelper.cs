@@ -3,10 +3,10 @@ using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading;
-using MetoCraft.Lang;
-using MetoCraft;
+using MTMCL.Lang;
+using MTMCL;
 
-namespace MetoCraft.Versions
+namespace MTMCL.Versions
 {
     static class VersionHelper
     {
@@ -46,7 +46,7 @@ namespace MetoCraft.Versions
                 }
                 info.time = DateTime.Now.GetDateTimeFormats('s')[0] + timezone;
                 info.releaseTime = DateTime.Now.GetDateTimeFormats('s')[0] + timezone;
-                info.type = "Port by Metocraft,code By BMCL";
+                info.type = "Port by MTMCL,code By BMCL";
                 info.minecraftArguments = "${auth_player_name}";
                 info.mainClass = "net.minecraft.client.Minecraft";
                 OnImportProgressChangeEvent(("ImportSolveNative"));

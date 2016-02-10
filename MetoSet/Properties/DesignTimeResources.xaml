@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:MetoCraft.Properties">
+                    xmlns:local="clr-namespace:MTMCL.Properties">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/MetoCraft;component/ButtonStyle.xaml"/>
+        <ResourceDictionary Source="/MTMCL;component/ButtonStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

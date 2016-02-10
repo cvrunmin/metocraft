@@ -1,15 +1,18 @@
-﻿<Window x:Class="MetoCraft.ErrorReport"
+﻿<Window x:Class="MTMCL.ErrorReport"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MetoCraft"
+        xmlns:local="clr-namespace:MTMCL"
         mc:Ignorable="d"
-        Title="ErrorReport" Height="500" Width="400">
+        Title="ErrorReport" Height="500" Width="500">
     <Grid>
         <TextBox x:Name="txtMes" TextWrapping="Wrap" Text="TextBox" Margin="0,0,0,69"/>
         <Button x:Name="butEmail" Content="Email" HorizontalAlignment="Left" Width="75" Height="19" VerticalAlignment="Bottom" Click="butEmail_Click"/>
-        <Label x:Name="lblDesc1" Content="An unexpected exception has been occurred. Please contact the author." Margin="0,405,0,0" VerticalAlignment="Top" Height="24" FontSize="11.333"/>
+        <Label x:Name="lblDesc1" Margin="0,0,0,24" Height="40" VerticalAlignment="Bottom">
+            <AccessText TextWrapping="Wrap">An unexpected exception has been occurred. Please contact the author.</AccessText>
+        </Label>
+        <Button x:Name="butMCBBS" Content="MCBBS Thread" HorizontalAlignment="Left" Margin="80,0,0,0" Click="butMCBBS_Click" IsEnabled="False" Height="19" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>

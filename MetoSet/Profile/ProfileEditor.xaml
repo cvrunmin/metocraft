@@ -1,15 +1,15 @@
-﻿<Window x:Class="MetoCraft.Profile.ProfileEditor"
+﻿<Window x:Class="MTMCL.Profile.ProfileEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MetoCraft.Profile"
+        xmlns:local="clr-namespace:MTMCL.Profile"
         mc:Ignorable="d"
         Title="ProfileEditor" Height="300" Width="500">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/MetoCraft;component/ControlStyle.xaml"/>
+                <ResourceDictionary Source="/MTMCL;component/ControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

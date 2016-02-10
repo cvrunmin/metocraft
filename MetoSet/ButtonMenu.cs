@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MetoCraft
+namespace MTMCL
 {
     public class ButtonMenu : Button
     {

@@ -1,15 +1,15 @@
-﻿<Window x:Class="MetoCraft.MCCrash"
+﻿<Window x:Class="MTMCL.MCCrash"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MetoCraft"
+        xmlns:local="clr-namespace:MTMCL"
         mc:Ignorable="d"
-        Title="Crash Report" Height="320" Width="550">
+        Title="Crash Report" Height="400" Width="700">
     <Grid>
         <Grid Height="50" VerticalAlignment="Top">
-            <TextBlock x:Name="txtblktitle" Margin="0,0,75,0"/>
-            <Button x:Name="button" Content="Open Report" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
+            <TextBlock x:Name="txtblktitle" Margin="0,0,101,0"/>
+            <Button x:Name="butOpen" Content="Open Report" VerticalAlignment="Top" HorizontalAlignment="Right" Width="101" Click="butOpen_Click" IsEnabled="False"/>
         </Grid>
         <ScrollViewer Margin="0,50,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <TextBlock x:Name="txtContent" TextWrapping="Wrap" Text=""/>

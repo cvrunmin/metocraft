@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Collections;
 
-namespace MetoCraft
+namespace MTMCL
 {
     static public class Logger
     {
@@ -140,17 +140,17 @@ namespace MetoCraft
 
         static public void info(string message)
         {
-            Logger.log(message);
+            log(message);
         }
 
         static public void error(string message)
         {
-            Logger.log(message, LogType.Error);
+            log(message, LogType.Error);
         }
 
         static public void error(Exception ex)
         {
-            Logger.log(ex);
+            log(ex);
         }
         
 

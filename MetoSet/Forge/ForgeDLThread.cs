@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace MetoCraft.Forge
+namespace MTMCL.Forge
 {
     class ForgeDLThread
     {

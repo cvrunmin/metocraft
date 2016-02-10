@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace MetoCraft.Profile
+namespace MTMCL.Profile
 {
     public class Profiles
     {

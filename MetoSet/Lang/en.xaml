@@ -37,6 +37,7 @@
     <s:String x:Key="DLSrc">Download Source</s:String>
     <s:String x:Key="BG">Background</s:String>
     <s:String x:Key="Color">Color</s:String>
+    <s:String x:Key="ExpandTaskTitle">Expand task gui on opening launcher</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>
@@ -57,6 +58,7 @@
     <s:String x:Key="DLLib">Library</s:String>
     <s:String x:Key="DLAssets">Assets</s:String>
     <s:String x:Key="DLForge">Minecraft Forge Client</s:String>
+    <s:String x:Key="DLPack">Mod Pack</s:String>
     <s:String x:Key="Refresh">Refresh</s:String>
     <s:String x:Key="Libs">Libraries</s:String>
     <s:String x:Key="Assets">Assets</s:String>
@@ -71,17 +73,19 @@
     <s:String x:Key="Login">Login</s:String>
     <s:String x:Key="Off">Offline</s:String>
     <s:String x:Key="Mojang">Online (Mojang)</s:String>
+    <s:String x:Key="Online">Online ({0})</s:String>
     <s:String x:Key="UName">Username</s:String>
     <s:String x:Key="UNEM">Username / Email</s:String>
     <s:String x:Key="PW">Password</s:String>
     <s:String x:Key="ETwitch">Enable Twitch</s:String>
     <!-- /ACLogin -->
     <!--Error-->
-    <s:String x:Key="JavaFault">You can try these methods to solve this problem:/n/1.reinstall Java./n/2.check the minecraft jar has been corrupt or not.</s:String>
-    <s:String x:Key="AuthFault">You can try these methods to solve this problem:/n/1.check your email and password are correct or not./n/2.contect the provider.</s:String>
-    <s:String x:Key="LibFault">You can try these methods to solve this problem:/n/1.check your libraries are intect or not./n/2.check your libraries are opened by other application or not.</s:String>
+    <s:String x:Key="JavaFault">You could try these methods to solve this problem:[/newline/]1.reinstall Java.[/newline/]2.check the minecraft jar has been corrupt or not.</s:String>
+    <s:String x:Key="AuthFault">You could try these methods to solve this problem:[/newline/]1.check your email and password are correct or not.[/newline/]2.contact the network provider.[/newline/]If you are using custom authenticator, you could try: [/newline/]1.contact the authenticator provider.</s:String>
+    <s:String x:Key="LibFault">You could try these methods to solve this problem:[/newline/]1.check your libraries are intact or not.[/newline/]2.check your libraries are opened by other application or not.[/newline/]If you are using mod pack, you could try: [/newline/]1.check if the mod pack is intact or not.[/newline/]2.check if the mod pack is configured correctly or not.[/newline/]3.contact the mod pack provider.</s:String>
     <s:String x:Key="MCCrashTitle">[/bold/]Uhoh, it looks like the game has crashed! Sorry for the inconvenience :([/endbold/][/newline/]Using magic and love, we've managed to gather some details about the crash and we will investigate this as soon as we can.[/newline/]You can see the full report below.</s:String>
     <s:String x:Key="MCCrashTitleModded">[/bold/]Uhoh, it looks like the game has crashed! Sorry for the inconvenience :([/endbold/][/newline/]We think your game may be modded, and as such we can't accept this crash report.[/newline/]However, if you do indeed use mods, please send this to the mod authors to take a look at!</s:String>
+    <s:String x:Key="ReportTitle">An unexpected exception has been occurred. Please contact the author.</s:String>
     <!--/Error-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
@@ -95,4 +99,5 @@
     <s:String x:Key="Edit">Edit</s:String>
     <s:String x:Key="Reset">Reset</s:String>
     <s:String x:Key="Select">Select</s:String>
+    <s:String x:Key="NoCollectingData">Unknown due to no related code in release version MTMCL</s:String>
 </ResourceDictionary>

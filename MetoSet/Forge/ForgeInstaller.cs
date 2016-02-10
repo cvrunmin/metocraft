@@ -1,17 +1,14 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
-using MetoCraft.JsonClass;
+using MTMCL.JsonClass;
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Packaging;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows;
 
-namespace MetoCraft.Forge
+namespace MTMCL.Forge
 {
     class ForgeInstaller
     {
@@ -40,10 +37,11 @@ namespace MetoCraft.Forge
                     {
                         mcjar.Create();
                         requiredelete = true;
-                        string url = MetoCraft.Resources.UrlReplacer.getDownloadUrl() + "versions/" + info.install.minecraft + "/" + info.install.minecraft + ".jar";
+                        string url = Resources.UrlReplacer.getDownloadUrl() + "versions/" + info.install.minecraft + "/" + info.install.minecraft + ".jar";
                         if (!downloadFileETag(url, mcjar.FullName))
                         {
                             mcjar.Delete();
+                            zip.Close();
                             return false;
                         }
                     }
@@ -63,16 +61,18 @@ namespace MetoCraft.Forge
                 catch (Exception e)
                 {
                     MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                    zip.Close();
                     return false;
                 }
             }
             FileInfo lib = info.install.GetLibraryPath(libdir);
-/*            List<Artifact> bad = new List<Artifact>();
-            downloadInstalledLibrary(info, libdir, grabbed, bad);
-            if (bad.Count > 0)
-            {
-                return false;
-            }*/
+            //List<Artifact> bad = new List<Artifact>();
+            //downloadInstalledLibrary(info, libdir, grabbed, bad);
+            //if (bad.Count > 0)
+            //{
+            //    zip.Close();
+            //    return false;
+            //}
             if (!lib.Directory.Exists)
             {
                 lib.Directory.Create();
@@ -81,12 +81,14 @@ namespace MetoCraft.Forge
             {
                 TextWriter writer = new StreamWriter(verjson.Create(), Encoding.UTF8);
                 LitJson.JsonWriter jsonwriter = new LitJson.JsonWriter(writer);
+                jsonwriter.PrettyPrint = true;
                 LitJson.JsonMapper.ToJson(info.versionInfo,jsonwriter);
                 writer.Close();
             }
             catch (Exception e)
             {
                 MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                zip.Close();
                 return false;
             }
             try
@@ -114,8 +116,10 @@ namespace MetoCraft.Forge
             catch (Exception e)
             {
                 MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                zip.Close();
                 return false;
             }
+            zip.Close();
             return true;
         }
 
@@ -125,7 +129,10 @@ namespace MetoCraft.Forge
             {
                 Uri _url = new Uri(url);
                 WebClient connect = new WebClient();
+                //HttpWebRequest connect = WebRequest.CreateHttp(_url);
                 connect.DownloadFile(url, file);
+                //connect.Timeout = 5000;
+                //connect.ReadWriteTimeout = 5000;
                 etag = connect.Headers.Get("ETag");
                 if (string.IsNullOrWhiteSpace(etag))
                 {
@@ -140,6 +147,8 @@ namespace MetoCraft.Forge
                 {
                     byte[] filedata = File.ReadAllBytes(file);
                     string hash = hashMD5(filedata);
+                    Logger.log("  ETag: " + etag);
+                    Logger.log("  MD5:  " + hash);
                     return etag.Equals(hash, StringComparison.InvariantCultureIgnoreCase);
                 }
                 catch (Exception e)
@@ -173,7 +182,10 @@ namespace MetoCraft.Forge
             }
             catch (FileNotFoundException e)
             {
-                MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                if (!libURL.EndsWith(".pack.xz"))
+                {
+                    MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                }
                 return false;
             }
             catch (Exception e)
@@ -229,6 +241,31 @@ namespace MetoCraft.Forge
             srcstream.Close();
             targetstream.Close();
         }
+        private void CopyEntry(FileInfo source, ZipOutputStream target)
+        {
+            ZipFile srczip = new ZipFile(source.FullName);
+            ZipInputStream srcstream = new ZipInputStream(File.OpenRead(source.FullName));
+            ZipOutputStream targetstream = target;
+            ZipEntry entry;
+            while ((entry = srcstream.GetNextEntry()) != null)
+            {
+                if (entry.IsDirectory)
+                {
+                    targetstream.PutNextEntry(entry);
+                }
+                else
+                {
+                    ZipEntry ine = new ZipEntry(entry.Name);
+                    ine.DateTime = entry.DateTime;
+                    targetstream.PutNextEntry(ine);
+                    byte[] buffer = ReadEntry(srczip, entry);
+                    targetstream.Write(buffer, 0, buffer.Length);
+                }
+            }
+            srczip.Close();
+            srcstream.Close();
+            targetstream.Close();
+        }
         private static byte[] ReadEntry(ZipFile file, ZipEntry entry)
         {
             return ReadFully(file.GetInputStream(entry));
@@ -261,7 +298,7 @@ namespace MetoCraft.Forge
                 if (item.clientreq)
                 {
                     FileInfo file = artifact.GetLocalPath(dir);
-                    string liburl = MetoCraft.Resources.UrlReplacer.getLibraryUrl();
+                    string liburl = Resources.UrlReplacer.getLibraryUrl();
                     if (!string.IsNullOrWhiteSpace(item.url))
                     {
                         liburl = item.url + "/";
@@ -278,7 +315,7 @@ namespace MetoCraft.Forge
                     {
                         if (!downloadFile(artifact.Descriptor, packFile.FullName, liburl, checksums))
                         {
-                            if (!liburl.StartsWith(MetoCraft.Resources.UrlReplacer.getLibraryUrl()))
+                            if (!liburl.StartsWith(Resources.UrlReplacer.getLibraryUrl()))
                             {
                                 bad.Add(artifact);
                             }
@@ -307,7 +344,7 @@ namespace MetoCraft.Forge
                         catch (OutOfMemoryException)
                         {
                             bad.Add(artifact);
-                            artifact.Memo = "Out of Memory: Try restarting installer with JVM Argument: -Xmx1G";
+                            artifact.Memo = "Out of Memory";
                         }
                         catch (Exception)
                         {
@@ -332,6 +369,7 @@ namespace MetoCraft.Forge
             catch (Exception e)
             {
                 MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                Logger.log(e);
                 return false;
             }
         }
@@ -397,7 +435,7 @@ namespace MetoCraft.Forge
                 output.Delete();
             }
 
-            byte[] decompressed = ReadFully(new ZipInputStream(new MemoryStream(data)));
+            byte[] decompressed = ReadFully(new XZ.NET.XZInputStream(new MemoryStream(data)));
             string end = new string(Encoding.UTF8.GetChars(decompressed), decompressed.Length - 4, 4);
             if (!end.Equals("SIGN"))
             {
@@ -410,8 +448,11 @@ namespace MetoCraft.Forge
                     ((decompressed[x - 7] & 0xFF) << 8) |
                     ((decompressed[x - 6] & 0xFF) << 16) |
                     ((decompressed[x - 5] & 0xFF) << 24);
-            FileInfo temp = new FileInfo("art.pack");
-
+            FileInfo temp = new FileInfo(Path.Combine(Path.GetTempPath(), "art.pack"));
+            Logger.log("  Signed");
+            Logger.log("  Checksum Length: " + len);
+            Logger.log("  Total Length:    " + (decompressed.Length - len - 8));
+            Logger.log("  Temp File:       " + temp.FullName);
             byte[] checksums = new byte[len];
             Array.Copy(decompressed, decompressed.Length - len - 8, checksums, 0, len);
             FileStream o = new FileStream(temp.FullName, FileMode.Open);
@@ -424,8 +465,8 @@ namespace MetoCraft.Forge
             FileStream jarBytes = new FileStream(output.FullName, FileMode.Open);
             ZipOutputStream jos = new ZipOutputStream(jarBytes);
 
-//            Pack200.newUnpacker().unpack(temp, jos);
-
+            //Pack200.newUnpacker().unpack(temp, jos);
+            CopyEntry(temp, jos);
             ZipEntry checksumsFile = new ZipEntry("checksums.sha1");
             checksumsFile.DateTime = DateTime.FromFileTime(0);
             jos.PutNextEntry(checksumsFile);

@@ -3,20 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MetoCraft.Sett"
-             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MetoCraft.Sett.Settings"
+             xmlns:local="clr-namespace:MTMCL.Sett"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MTMCL.Sett.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="369" d:DesignWidth="537" Loaded="PGrid_Loaded">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/MetoCraft;component/ControlStyle.xaml"/>
+                <ResourceDictionary Source="/MTMCL;component/ControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
     <Grid x:Name="gridParent" Margin="0" Background="#7FFFFFFF">
         <Label x:Name="lblTitle" Content="{DynamicResource Setting}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
-        <ScrollViewer Margin="0,35,0,32" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="0,35,0,32" VerticalScrollBarVisibility="Auto" Template="{DynamicResource ScrollViewerControlTemplate}">
             <Grid>
                 <Label x:Name="lblLang" Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <ComboBox x:Name="listLang" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="300" Background="White" BorderBrush="Black" SelectionChanged="listLang_SelectionChanged" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemContainerStyle="{DynamicResource ComboBoxItemStyle1}" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25" BorderThickness="1"/>
@@ -28,17 +28,17 @@
                 </ComboBox>
                 <Label x:Name="lblBG" Content="{DynamicResource BG}" HorizontalAlignment="Left" Margin="0,110,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="txtBoxP" Margin="0,135,0,0" TextWrapping="Wrap" Background="#FFFFFFFF" BorderBrush="#FFABADB3" Foreground="#FF000000" SelectionBrush="#FF3399FF" HorizontalAlignment="Left" Width="300" Height="23" VerticalAlignment="Top"/>
-                <Button x:Name="butBrowse" Content="{DynamicResource Browse}" Margin="300,135,0,0" Click="butBrowse_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
-                <Button x:Name="butSave" Content="{DynamicResource Save}" HorizontalAlignment="Left" Margin="375,135,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butSave_Click"/>
-                <Button x:Name="butReset" Content="{DynamicResource Reset}" HorizontalAlignment="Left" Margin="450,135,-5,0" VerticalAlignment="Top" Width="75" Height="23" Click="butReset_Click"/>
+                <Button x:Name="butBrowse" Content="{DynamicResource Browse}" Margin="300,135,0,0" Click="butBrowse_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Style="{DynamicResource NormalButton}"/>
+                <Button x:Name="butSave" Content="{DynamicResource Save}" HorizontalAlignment="Left" Margin="375,135,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butSave_Click" Style="{DynamicResource NormalButton}"/>
+                <Button x:Name="butReset" Content="{DynamicResource Reset}" HorizontalAlignment="Left" Margin="450,135,-5,0" VerticalAlignment="Top" Width="75" Height="23" Click="butReset_Click" Style="{DynamicResource NormalButton}"/>
                 <Label x:Name="lblColor" Content="{DynamicResource Color}" HorizontalAlignment="Left" Margin="0,163,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="txtBoxColor" HorizontalAlignment="Left" Height="23" Margin="0,188,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                <Button x:Name="butColor" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="120,188,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butColor_Click"/>
-                <Button x:Name="butCSave" Content="{DynamicResource Save}" HorizontalAlignment="Left" Margin="195,188,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butCSave_Click"/>
-                <Label x:Name="lblTransTitle" Content="Transparency" HorizontalAlignment="Left" Margin="1,216,0,0" VerticalAlignment="Top"/>
-                <Slider x:Name="sliderTransparency" HorizontalAlignment="Left" Margin="1,241,0,0" VerticalAlignment="Top" Height="21" Width="500" Style="{DynamicResource SliderStyle}" Maximum="1" TickFrequency="0.1" LargeChange="0.5" Value="1" AutoToolTipPlacement="TopLeft" IsEnabled="False"/>
+                <Button x:Name="butColor" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="120,188,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butColor_Click" Style="{DynamicResource NormalButton}"/>
+                <Button x:Name="butCSave" Content="{DynamicResource Save}" HorizontalAlignment="Left" Margin="195,188,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="butCSave_Click" Style="{DynamicResource NormalButton}"/>
+                <ToggleButton x:Name="butExpandTask" Content="" HorizontalAlignment="Left" Margin="1,241,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top" Checked="butExpandTask_Checked" Unchecked="butExpandTask_Unchecked"/>
+                <Label x:Name="lblTaskTitle" Content="{DynamicResource ExpandTaskTitle}" HorizontalAlignment="Left" Margin="1,216,0,0" VerticalAlignment="Top"/>
             </Grid>
         </ScrollViewer>
-        <Button x:Name="butSave1" Content="{DynamicResource Save}" HorizontalAlignment="Left" Width="202" Height="32" FontSize="16" VerticalAlignment="Bottom"/>
+        <Button x:Name="butSave1" Content="{DynamicResource Save}" HorizontalAlignment="Left" Width="202" Height="32" FontSize="16" VerticalAlignment="Bottom" Style="{DynamicResource NormalButton}" Click="butSave1_Click"/>
     </Grid>
 </Grid>

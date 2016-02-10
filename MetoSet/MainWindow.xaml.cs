@@ -1,30 +1,19 @@
-﻿using MetoCraft.Lang;
-using MetoCraft.NewGui;
+﻿using MTMCL.Lang;
+using MTMCL.NewGui;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace MetoCraft
+namespace MTMCL
 {
     /// <summary>
     /// MainWindow.xaml 的互動邏輯
     /// </summary>
     public partial class MainWindow : Window
     {
-        double nOldWndLeft, nOldWndTop, nClickX, nClickY;
-        bool mdowned = false;
         System.Windows.Forms.Timer timer;
         List<TaskBar> tasklist = new List<TaskBar>();
         public MainWindow()
@@ -64,43 +53,8 @@ namespace MetoCraft
             }
         }
         
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (gridPlay.Margin != new Thickness(0))
-            {
-                gridPlay.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
-            }
-            else
-            {
-                if (gridPlay.gridBasic.Margin != new Thickness(0))
-                {
-                    gridPlay.gridBasic.Margin = new Thickness(0, -(gridMain.ActualHeight), 0, gridMain.ActualHeight);
-                }
-                if (gridPlay.gridPro.Margin != new Thickness(0))
-                {
-                    gridPlay.gridPro.Margin = new Thickness(0, (gridMain.ActualHeight), 0, -(gridMain.ActualHeight));
-                }
-            }
-            if (gridDL.Margin != new Thickness(0))
-            {
-                gridDL.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
-            }
-            if (gridSet.Margin != new Thickness(0))
-            {
-                gridSet.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
-            }
-            if (gridAbout.Margin != new Thickness(0))
-            {
-                gridAbout.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
-            }
-        }
-
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
-/*            gridPlay.Margin = new Thickness(0);
-            gridDL.Margin = new Thickness(0, 0, 0, ActualHeight);
-            gridSet.Margin = new Thickness(0,0,0,ActualHeight);
-            gridAbout.Margin = new Thickness(0,0,0,ActualHeight);*/
             gridPlay.Visibility = Visibility.Visible;
             gridDL.Visibility = Visibility.Hidden;
             gridSet.Visibility = Visibility.Hidden;
@@ -109,10 +63,6 @@ namespace MetoCraft
 
         private void butAbout_Click(object sender, RoutedEventArgs e)
         {
-/*            gridPlay.Margin = new Thickness(0,0,0,ActualHeight);
-            gridDL.Margin = new Thickness(0, 0, 0, ActualHeight);
-            gridSet.Margin = new Thickness(0, 0, 0, ActualHeight);
-            gridAbout.Margin = new Thickness(0);*/
             gridPlay.Visibility = Visibility.Hidden;
             gridDL.Visibility = Visibility.Hidden;
             gridSet.Visibility = Visibility.Hidden;
@@ -130,10 +80,6 @@ namespace MetoCraft
 
         private void butConfig_Click(object sender, RoutedEventArgs e)
         {
-/*            gridPlay.Margin = new Thickness(0, 0, 0, ActualHeight);
-            gridDL.Margin = new Thickness(0,0,0,ActualHeight);
-            gridSet.Margin = new Thickness(0);
-            gridAbout.Margin = new Thickness(0, 0, 0, ActualHeight);*/
             gridPlay.Visibility = Visibility.Hidden;
             gridDL.Visibility = Visibility.Hidden;
             gridSet.Visibility = Visibility.Visible;
@@ -141,14 +87,15 @@ namespace MetoCraft
         }
         public void ChangeLanguage()
         {
-//            GridConfig.listDownSource.Items[1] = LangManager.GetLangFromResource("listOfficalSource");
-//            GridConfig.listDownSource.Items[0] = LangManager.GetLangFromResource("listAuthorSource");
-//            BmclCore.LoadPlugin(LangManager.GetLangFromResource("LangName"));
             gridAbout.loadOSData();
         }
         public bool FinishLoad = false;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (MeCore.IsServerDedicated)
+            {
+                LoadServerDeDicatedVersion();
+            }
             timer = new System.Windows.Forms.Timer();
             timer.Enabled = true;
             timer.Interval = 1000;
@@ -160,98 +107,33 @@ namespace MetoCraft
             if (gridPlay.txtBoxP.Text != "")
             {
                 gridPlay.LoadVersionList();
+                try
+                {
+                    if (gridPlay.launcher.GetVersion(MeCore.Config.LastPlayVer) != null)
+                    {
+                        gridPlay.comboVer.SelectedItem = MeCore.Config.LastPlayVer;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    new ErrorReport(ex).Show();
+                }
+            }
+            if (!MeCore.Config.ExpandTaskGui)
+            {
+                expanderTask_Collapsed(this, null);
             }
             FinishLoad = true;
         }
 
         private void butDL_Click(object sender, RoutedEventArgs e)
         {
-/*            gridPlay.Margin = new Thickness(0,0,0,ActualHeight);
-            gridDL.Margin = new Thickness(0);
-            gridSet.Margin = new Thickness(0,0,0,ActualHeight);
-            gridAbout.Margin = new Thickness(0, 0, 0, ActualHeight);*/
             gridPlay.Visibility = Visibility.Hidden;
             gridDL.Visibility = Visibility.Visible;
             gridSet.Visibility = Visibility.Hidden;
             gridAbout.Visibility = Visibility.Hidden;
         }
 
-        private void butClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void gridTitle_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            mdowned = false;
-        }
-
-        private void gridTitle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-/*            if (gridTitle.IsMouseOver)
-            {
-                DragMove();
-            }*/
-
-        }
-
-        private void gridTitle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
-        }
-
-        private void butMin_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void gridTitle_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                DragMove();
-            }
-            nOldWndLeft = Left;
-            nOldWndTop = Top;
-            nClickX = e.GetPosition(this).X;
-            nClickY = e.GetPosition(this).Y;
-            mdowned = true;
-        }
-
-/*        private void gridTitle_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (gridTitle.CaptureMouse() && mdowned)
-            {
-                Top = e.GetPosition(this).Y + nOldWndTop - nClickY;
-                Left = e.GetPosition(this).X + nOldWndLeft - nClickX;
-                nOldWndLeft = Left;
-                nOldWndTop = Top;
-            }
-        }*/
-        public override void OnApplyTemplate()
-        {
-            Button butMin = GetTemplateChild("butMin") as Button;
-            if (butMin != null)
-                butMin.Click += butMin_Click;
-
-            Button butCls = GetTemplateChild("butClose") as Button;
-            if (butCls != null)
-                butCls.Click += butClose_Click;
-
-            Grid gridTitle = GetTemplateChild("gridTitle") as Grid;
-            if (gridTitle != null)
-                gridTitle.MouseLeftButtonDown += gridTitle_MouseLeftButtonDown;
-
-            base.OnApplyTemplate();
-        }
         private void timer_Tick(object sender, EventArgs e)
         {
             lblTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
@@ -273,6 +155,7 @@ namespace MetoCraft
                     }
                 }
             }
+            expanderTask.Header = tasklist.Count != 0 ? tasklist.Count.ToString() : "";
         }
 
         private void expanderTask_Expanded(object sender, RoutedEventArgs e)
@@ -321,6 +204,53 @@ namespace MetoCraft
         {
             string s = i.ToString();
             if (s.Length == 1) { return "0" + s; } else return s;
+        }
+        private void LoadServerDeDicatedVersion() {
+            Title = !string.IsNullOrWhiteSpace(MeCore.ServerCfg.Title) ? MeCore.ServerCfg.Title + ", powered by MTMCL" : Title;
+            gridDL.butPack.Visibility = Visibility.Visible;
+            if (!MeCore.ServerCfg.AllowDownloadLibAndAsset)
+            {
+                gridDL.butDLLib.IsEnabled = false;
+                gridDL.butDLAsset.IsEnabled = false;
+            }
+            if (!MeCore.ServerCfg.AllowReDownloadLibAndAsset)
+            {
+                gridDL.butRDLLib.IsEnabled = false;
+                gridDL.butRDLAsset.IsEnabled = false;
+            }
+            if (!MeCore.ServerCfg.AllowSelfDownloadClient)
+            {
+                gridDL.butDLMC.IsEnabled = false;
+                gridDL.butFDL.IsEnabled = false;
+            }
+            if (MeCore.ServerCfg.NeedServerPack & !string.IsNullOrWhiteSpace(MeCore.ServerCfg.ServerPackUrl))
+            {
+                gridDL.txtboxUrl.Text = MeCore.ServerCfg.ServerPackUrl;
+            }
+            if (MeCore.ServerCfg.LockBackground)
+            {
+                gridSet.butSave.IsEnabled = false;
+            }
+            if (!string.IsNullOrWhiteSpace(MeCore.ServerCfg.BackgroundPath))
+            {
+                MeCore.DefaultBG = MeCore.ServerCfg.BackgroundPath;
+            }
+            if (!string.IsNullOrWhiteSpace(MeCore.ServerCfg.ClientPath))
+            {
+                gridPlay.txtBoxP.Text = System.IO.Path.Combine(MeCore.BaseDirectory, MeCore.ServerCfg.ClientPath);
+                MeCore.Config.MCPath = gridPlay.txtBoxP.Text;
+                MeCore.Config.Save(null);
+                gridPlay.butBrowse.IsEnabled = false;
+            }
+            if (!string.IsNullOrWhiteSpace(MeCore.ServerCfg.ServerIP))
+            {
+                if (MeCore.ServerCfg.ServerIP.IndexOf(':') != -1)
+                {
+                    gridPlay.serverip = MeCore.ServerCfg.ServerIP.Substring(0,MeCore.ServerCfg.ServerIP.IndexOf(':')).Trim(':');
+                    gridPlay.serverport = MeCore.ServerCfg.ServerIP.Substring(MeCore.ServerCfg.ServerIP.IndexOf(':')).Trim(':');
+                }
+            }
+            gridPlay.butDown.IsEnabled = false;
         }
     }
 }

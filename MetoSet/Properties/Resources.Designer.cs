@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MetoCraft.Properties {
+namespace MTMCL.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MetoCraft.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MetoCraft.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MTMCL.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -123,6 +123,16 @@ namespace MetoCraft.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
+        internal static System.Drawing.Bitmap ImageDLPack {
+            get {
+                object obj = ResourceManager.GetObject("ImageDLPack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
         internal static System.Drawing.Bitmap ImageDLVanilla {
             get {
                 object obj = ResourceManager.GetObject("ImageDLVanilla", resourceCulture);
@@ -166,6 +176,16 @@ namespace MetoCraft.Properties {
         internal static System.Drawing.Bitmap offline {
             get {
                 object obj = ResourceManager.GetObject("offline", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap others {
+            get {
+                object obj = ResourceManager.GetObject("others", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

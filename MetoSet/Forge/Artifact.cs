@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace MetoCraft.Forge
+namespace MTMCL.Forge
 {
     class Artifact
     {

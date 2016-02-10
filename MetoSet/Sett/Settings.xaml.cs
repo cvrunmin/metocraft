@@ -1,25 +1,14 @@
 ﻿using Microsoft.Win32;
+using MTMCL.Lang;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.IO;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MetoCraft.Lang;
-using MetoCraft.Resources;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Threading;
+using System.Windows.Media.Imaging;
 
-namespace MetoCraft.Sett
+namespace MTMCL.Sett
 {
     /// <summary>
     /// About.xaml 的互動邏輯
@@ -78,7 +67,7 @@ namespace MetoCraft.Sett
         private void butBrowse_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
-            dialog.Filter = "PNG(*.png)|*.png|JPG(*.jpg)|*.jpg|Bitmap(*.bmp)|*.bmp|All Files(*.*)|*.*";
+            dialog.Filter = "PNG(*.png)|*.png|JPG(*.jpg, *.jpeg)|*.jpg; *.jpeg|TIFF(*.tif, *.tiff)|*.tif; *.tiff|Bitmap(*.bmp)|*.bmp";
             dialog.ShowDialog();
             txtBoxP.Text = dialog.FileName;
         }
@@ -86,63 +75,76 @@ namespace MetoCraft.Sett
         private void butSave_Click(object sender, RoutedEventArgs e)
         {
             Save();
-            //            Render();
         }
 
         private void butReset_Click(object sender, RoutedEventArgs e)
         {
             txtBoxP.Text = "default";
             Save();
-            //            Render();
         }
 
-        private void Save() {
+        private void Save()
+        {
             MeCore.Config.BackGround = txtBoxP.Text;
             MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).R;
             MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).G;
             MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).B;
-            //            MeCore.Config.WindowTransparency = sliderTransparency.Value;
             MeCore.Config.Save(null);
             Render();
             RenderColor();
-            //            RenderTransparency();
         }
 
         private void Render()
         {
-            try
+            if (butSave.IsEnabled)
             {
-                if (MeCore.Config.BackGround.Equals("default", StringComparison.InvariantCultureIgnoreCase))
+                try
                 {
-                    var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
-                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
-                    MeCore.MainWindow.gridParent.Background = new ImageBrush
+                    if (MeCore.Config.BackGround.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.BackGround))
                     {
-                        ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg.png")),
-                        Stretch = Stretch.UniformToFill
-                    };
-                    da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
-                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
+                        var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
+                        MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
+                        MeCore.MainWindow.gridParent.Background = new ImageBrush
+                        {
+                            ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
+                            Stretch = Stretch.UniformToFill
+                        };
+                        da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                        MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
+                    }
+                    else
+                    {
+                        var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
+                        MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
+                        MeCore.MainWindow.gridParent.Background = new ImageBrush
+                        {
+                            ImageSource = new BitmapImage(new Uri(MeCore.Config.BackGround)),
+                            Stretch = Stretch.Fill
+                        };
+                        da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                        MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
-                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
-                    MeCore.MainWindow.gridParent.Background = new ImageBrush
-                    {
-                        ImageSource = new BitmapImage(new Uri(MeCore.Config.BackGround)),
-                        Stretch = Stretch.Fill
-                    };
-                    da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
-                    MeCore.MainWindow.BeginAnimation(OpacityProperty, da);
+                    new ErrorReport(ex).ShowDialog();
+                    MeCore.Config.BackGround = "default";
+                    MeCore.Config.Save(null);
+                    MeCore.MainWindow.Close();
+                    System.Windows.Forms.Application.Restart();
                 }
             }
-            catch (Exception ex)
+            else
             {
-                new ErrorReport(ex).ShowDialog();
-                MeCore.MainWindow.Close();
-                System.Windows.Forms.Application.Restart();
-
+                var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
+                MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
+                MeCore.MainWindow.gridParent.Background = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
+                    Stretch = Stretch.UniformToFill
+                };
+                da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
             }
         }
 
@@ -150,19 +152,21 @@ namespace MetoCraft.Sett
         {
             ColorDialog dialog = new ColorDialog();
             dialog.ShowDialog();
-            txtBoxColor.Text = (dialog.Color.ToArgb() & 0xFFFFFFFF).ToString();
+            txtBoxColor.Text = (dialog.Color.ToArgb() & 0xFFFFFF).ToString();
         }
 
         public void loadConfig()
         {
             txtBoxP.Text = MeCore.Config.BackGround;
-            txtBoxColor.Text = (ByteArrayToArgb() & 0xFFFFFFFF).ToString();
+            txtBoxColor.Text = (ByteArrayToArgb() & 0xFFFFFF).ToString();
+            butExpandTask.IsChecked = MeCore.Config.ExpandTaskGui;
             //            sliderTransparency.Value = MeCore.Config.WindowTransparency;
             Render();
             RenderColor();
             //            RenderTransparency();
         }
-        private uint ByteArrayToArgb() {
+        private uint ByteArrayToArgb()
+        {
             uint color = 0;
             color += MeCore.Config.color[2];
             color += (uint)(MeCore.Config.color[1] << 8);
@@ -177,7 +181,8 @@ namespace MetoCraft.Sett
             MeCore.Config.Save(null);
             RenderColor();
         }
-        private void RenderColor() {
+        private void RenderColor()
+        {
             try
             {
                 {
@@ -227,7 +232,23 @@ namespace MetoCraft.Sett
             lblDLUrl.Foreground = new SolidColorBrush(color);
             lblTitle.Foreground = new SolidColorBrush(color);
             lblLang.Foreground = new SolidColorBrush(color);
-            lblTransTitle.Foreground = new SolidColorBrush(color);
+        }
+
+        private void butSave1_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void butExpandTask_Checked(object sender, RoutedEventArgs e)
+        {
+            MeCore.Config.ExpandTaskGui = true;
+            MeCore.Config.Save(null);
+        }
+
+        private void butExpandTask_Unchecked(object sender, RoutedEventArgs e)
+        {
+            MeCore.Config.ExpandTaskGui = false;
+            MeCore.Config.Save(null);
         }
     }
 }

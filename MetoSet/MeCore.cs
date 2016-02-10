@@ -1,22 +1,25 @@
-﻿using MetoCraft.Lang;
+﻿using MTMCL.Lang;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MetoCraft
+namespace MTMCL
 {
     public static class MeCore
     {
         public static string version;
         public static Config Config;
+        public static Server.ServerInfo ServerCfg;
+        public static bool IsServerDedicated;
         public static Dictionary<string, object> Language = new Dictionary<string, object>();
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
         private readonly static string Cfgfile = BaseDirectory + "mtmcl_config.json";
+        private readonly static string Serverfile = BaseDirectory + "mtmcl_server_config.json";
+        public static string DefaultBG = "pack://application:,,,/Resources/bg.png";
         public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
@@ -25,12 +28,36 @@ namespace MetoCraft
         {
             version = Application.ResourceAssembly.FullName.Split('=')[1];
             version = version.Substring(0, version.IndexOf(','));
-            Logger.log("MTMCL Ver." + version + "launching");
+            Logger.log("----------"+DateTime.Now.ToLongTimeString()+" launch log----------");
+            Logger.log("MTMCL Ver." + version + " launching");
+            if (File.Exists(Serverfile))
+            {
+                ServerCfg = Server.ServerInfo.Load(Serverfile);
+                if (ServerCfg.Ignore)
+                {
+                    IsServerDedicated = false;
+                    Logger.log("Launching normal version due to failure to read the server config");
+                }
+                else if (App.forceNonDedicate)
+                {
+                    IsServerDedicated = false;
+                    Logger.log("Launching normal version due to the argument");
+                }
+                else
+                {
+                    IsServerDedicated = true;
+                    Logger.log("Launching server-dedicated version");
+                }
+            }
+            else
+            {
+                Logger.log("Launching normal version as the server config file is missing");
+            }
             if (File.Exists(Cfgfile))
             {
                 Config = Config.Load(Cfgfile);
                 Logger.log(string.Format("loaded {0}", Cfgfile));
-                Logger.log(Config);
+                Logger.log(Config.ToReadableLog());
                 LoadLanguage();
                 ChangeLanguage(Config.Lang);
             }
@@ -49,10 +76,6 @@ namespace MetoCraft
                 Config.Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4).ToString(CultureInfo.InvariantCulture);
             }
             LangManager.UseLanguage(Config.Lang);
-/*            if (!App.SkipPlugin)
-            {
-                LoadPlugin(LangManager.GetLangFromResource("LangName"));
-            }*/
 #if DEBUG
 #else
 //            ReleaseCheck();
