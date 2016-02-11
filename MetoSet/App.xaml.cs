@@ -60,10 +60,12 @@ namespace MTMCL
                     Logger.log("found one or more arguments");
                     if (!e.Args[index + 1].StartsWith("-"))
                     {
+                        Logger.log("try delete update file");
                         DoUpdate(e.Args[index + 1]);
                     }
                     else
                     {
+                        Logger.log("try do update");
                         DoUpdate();
                     }
                 }
@@ -148,8 +150,15 @@ namespace MTMCL
                 {
                     Logger.log(processName);
                     File.Copy(processName, "MTMCL.exe", true);
-                    Process.Start("MTMCL.exe", "-Update " + processName);
-                    Current.Shutdown(0);
+                    //Process.Start("MTMCL.exe", "-Update " + processName);
+                    Logger.log("try launch");
+                    Process.Start(new ProcessStartInfo {
+                        FileName = "MTMCL.exe",
+                        Arguments = "-Update " + processName
+                    });
+                    Logger.log("tried launch");
+                    //Current.Shutdown(0);
+                    Environment.Exit(0);
                     return;
                 }
                 catch (Exception e)
