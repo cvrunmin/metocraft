@@ -191,10 +191,16 @@
     </Compile>
     <Compile Include="Resources\UrlReplacer.cs" />
     <Compile Include="Server\ServerInfo.cs" />
+    <Compile Include="Update\TaskGui.xaml.cs">
+      <DependentUpon>TaskGui.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Update\UpdateJson.cs" />
+    <Compile Include="Update\Updater.cs" />
     <Compile Include="util\Helper.cs" />
     <Compile Include="util\GridViewSort.cs" />
     <Compile Include="Versions\RawVersionListType.cs" />
     <Compile Include="Versions\RemoteVerType.cs" />
+    <Compile Include="Versions\VersionJson.cs" />
     <Compile Include="Zip\Checksums\Adler32.cs" />
     <Compile Include="Zip\Checksums\CRC32.cs" />
     <Compile Include="Zip\Checksums\IChecksum.cs" />
@@ -328,6 +334,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Update\TaskGui.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

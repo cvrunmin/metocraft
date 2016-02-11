@@ -9,21 +9,23 @@ namespace MTMCL.Versions
     [DataContract]
     class RemoteVerType
     {
-        [DataMember(Order = 0, IsRequired = true)]
+        [DataMember(IsRequired = true)]
         public string id;
-        [DataMember(Order = 1, IsRequired = true)]
+        [DataMember(IsRequired = true)]
         public string time;
-        [DataMember(Order = 2, IsRequired = true)]
+        [DataMember(IsRequired = true)]
         public string releaseTime;
-        [DataMember(Order = 3, IsRequired = true)]
+        [DataMember(IsRequired = true)]
         public string type;
-
+        [DataMember(IsRequired = false)]
+        public string url;
         public RemoteVerType()
         {
             id = "";
             time = "";
             releaseTime = "";
             type = "";
+            url = "";
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xaml;
 
 namespace MTMCL
 {
@@ -17,9 +18,19 @@ namespace MTMCL
     {
         private static FileStream _appLock;
         public static bool forceNonDedicate = false;
-        [STAThread]
+        public static EventWaitHandle ProgramStarted;
+
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            bool createNew;
+            ProgramStarted = new EventWaitHandle(false, EventResetMode.AutoReset, "MTMCLStart", out createNew);
+            if (!createNew)
+            {
+                ProgramStarted.Set();
+                Environment.Exit(3);
+                return;
+            }
             if (Array.IndexOf(e.Args, "-NotServer") != -1)
             {
                 forceNonDedicate = true;
@@ -34,13 +45,19 @@ namespace MTMCL
 #else
             Dispatcher.UnhandledException += Dispatcher_UnhandledException;
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-/*            if (Array.IndexOf(e.Args, "-Update") != -1)
+            for (int i = 0; i < e.Args.Length; i++)
             {
+                Logger.log(e.Args[i]);
+            }
+            if (Array.IndexOf(e.Args, "-Update") != -1)
+            {
+                Logger.log("found update argument");
                 var index = Array.IndexOf(e.Args, "-Update");
                 if (index < e.Args.Length - 1)
                 {
+                    Logger.log("found one or more arguments");
                     if (!e.Args[index + 1].StartsWith("-"))
                     {
                         DoUpdate(e.Args[index + 1]);
@@ -50,12 +67,17 @@ namespace MTMCL
                         DoUpdate();
                     }
                 }
-            }*/
-/*            if (Array.IndexOf(e.Args, "-SkipPlugin") != -1)
+                else
+                {
+                    Logger.log("try do update");
+                    DoUpdate();
+                }
+            }
+            /*if (Array.IndexOf(e.Args, "-SkipPlugin") != -1)
             {
-                App._skipPlugin = true;
+                  App._skipPlugin = true;
             }*/
-            try
+            /*try
             {
                 _appLock = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "MEC.lck", FileMode.Create);
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture));
@@ -67,12 +89,16 @@ namespace MTMCL
             {
                 MessageBox.Show(LangManager.GetLangFromResource("StartupDuplicate"));
                 Environment.Exit(3);
-            }
+            }*/
             WebRequest.DefaultWebProxy = null;  //禁用默认代理
             base.OnStartup(e);
         }
-        // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once UnusedParameter.Local
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var crash = new ErrorReport(e.ExceptionObject as Exception);
+            crash.Show();
+        }
+
         void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             e.SetObserved();
@@ -80,11 +106,20 @@ namespace MTMCL
             crash.Show();
         }
 
-        // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once UnusedParameter.Local
         private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
+            if (e.Exception is XamlParseException)
+            {
+                if (e.Exception.InnerException != null)
+                {
+                    if (e.Exception.InnerException is FileLoadException)
+                    {
+
+                        return;
+                    }
+                }
+            }
             var crash = new ErrorReport(e.Exception);
             crash.Show();
         }
@@ -92,14 +127,43 @@ namespace MTMCL
         {
             base.OnExit(e);
             Logger.stop();
-            Thread.Sleep(1);
         }
 
         public static void AboutToExit()
         {
-            _appLock.Close();
+            //_appLock.Close();
             Logger.stop();
-            Thread.Sleep(1);
+        }
+        private void DoUpdate()
+        {
+            var processName = Process.GetCurrentProcess().ProcessName;
+            var time = 0;
+            while (time < 10)
+            {
+                try
+                {
+                    Logger.log(processName);
+                    File.Copy(processName, "MTMCL.exe", true);
+                    Process.Start("MTMCL.exe", "-Update " + processName);
+                    Current.Shutdown(0);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    Logger.error(e);
+                }
+                finally
+                {
+                    time++;
+                }
+            }
+            MessageBox.Show("Failed to update automatically, please replace the outdated version with " + processName + " manually.\n自動升級失敗，請手動使用" + processName + "替代舊版文件");
+            MessageBox.Show("Failed to update automatically, please replace the outdated version with " + processName + " manually.\n自動升級失敗，請手動使用" + processName + "替代舊版文件");
+        }
+
+        private void DoUpdate(string fileName)
+        {
+            File.Delete(fileName);
         }
     }
 }

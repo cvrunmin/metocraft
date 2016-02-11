@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 
-namespace MTMCL.NewGui
+namespace MTMCL.Update
 {
     /// <summary>
     /// TaskGui.xaml 的互動邏輯
@@ -15,24 +15,35 @@ namespace MTMCL.NewGui
         Thread _task;
         Process _subTask;
         int hr = 0,min = 0, sec = 0;
-        public TaskGui()
+        private readonly int _build;
+        private readonly string _url;
+        private readonly System.Net.WebClient _client = new System.Net.WebClient();
+        public TaskGui(int build, string url)
         {
             InitializeComponent();
-        }
-        public TaskGui(Thread task) {
+            _build = build;
+            _url = url;
             InitializeComponent();
-            _task = task;
-            _task.Start();
+            _client.DownloadProgressChanged += ClientOnDownloadProgressChanged;
+            _client.DownloadFileCompleted += ClientOnDownloadFileCompleted;
+            _client.DownloadFileAsync(new Uri(_url), "MTMCL." + _build + ".exe");
         }
-        public TaskGui setThread(Thread task) {
-            _task = task;
-            _task.Start();
-            return this;
-        }
-        public TaskGui setSubProcess(Process task)
+
+        private void ClientOnDownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs asyncCompletedEventArgs)
         {
-            _subTask = task;
-            return this;
+            _client.Dispose();
+            App.AboutToExit();
+            Thread.Sleep(1000);
+            //Process.Start("MTMCL." + _build + ".exe", "-Update");
+            Process.Start(new ProcessStartInfo { FileName = "MTMCL." + _build + ".exe", Arguments = "-Update"});
+            Logger.log(string.Format("MTMCL V1 Ver.{0} exited to upodate", MeCore.version));
+            Close();
+            Environment.Exit(0);
+        }
+
+        private void ClientOnDownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs downloadProgressChangedEventArgs)
+        {
+            setTaskStatus(downloadProgressChangedEventArgs.ProgressPercentage.ToString(System.Globalization.CultureInfo.InvariantCulture) + "%");
         }
         public TaskGui setTask(string name)
         {
@@ -42,10 +53,6 @@ namespace MTMCL.NewGui
         public TaskGui setTaskStatus(string status)
         {
             lblTaskStatus.Content = status;
-            return this;
-        }
-        public TaskGui countTime() {
-            startCount = true;
             return this;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -59,9 +66,6 @@ namespace MTMCL.NewGui
         private void timer_Tick(object sender, EventArgs e)
         {
             lblTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
-            if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited))) {
-                Close();
-            }
             if (startCount) {
                 ++sec;
                 if (sec >= 60) {

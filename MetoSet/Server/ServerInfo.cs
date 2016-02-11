@@ -21,7 +21,7 @@ namespace MTMCL.Server
         [DataMember(Name = "server-ip")]
         [LitJson.JsonPropertyName("server-ip")]
         public string ServerIP;
-        [DataMember(Name = "client-path")]
+        [DataMember(Name = "client-name")]
         [LitJson.JsonPropertyName("client-name")]
         public string ClientPath;
         [DataMember(Name = "need-server-pack")]

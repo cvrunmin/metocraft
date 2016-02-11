@@ -52,7 +52,8 @@ namespace MTMCL.Resources
                     return Url.URL_LIBRARIES_BASE;
             }
         }
-        public static string getDownloadUrl() {
+        public static string getDownloadUrl()
+        {
             switch (MeCore.Config.DownloadSource)
             {
                 case 0:
@@ -63,6 +64,20 @@ namespace MTMCL.Resources
                     return Url.URL_DOWNLOAD_rapiddata;
                 default:
                     return Url.URL_DOWNLOAD_BASE;
+            }
+        }
+        public static string getVersionsUrl()
+        {
+            switch (MeCore.Config.DownloadSource)
+            {
+                case 0:
+                    return "https://launchermeta.mojang.com/mc/game/version_manifest.json";
+                case 1:
+                    return Url.URL_DOWNLOAD_bangbang93 + "versions/versions.json";
+                case 2:
+                    return Url.URL_DOWNLOAD_rapiddata + "versions/versions.json";
+                default:
+                    return Url.URL_DOWNLOAD_BASE + "versions/versions.json";
             }
         }
     }

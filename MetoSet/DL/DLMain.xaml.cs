@@ -37,7 +37,7 @@ namespace MTMCL.DL
             butRefresh.IsEnabled = false;
             listRemoteVer.DataContext = null;
             var rawJson = new DataContractJsonSerializer(typeof(RawVersionListType));
-            var getJson = (HttpWebRequest)WebRequest.Create(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "versions/versions.json");
+            var getJson = (HttpWebRequest)WebRequest.Create(MTMCL.Resources.UrlReplacer.getVersionsUrl());
             getJson.Timeout = 10000;
             getJson.ReadWriteTimeout = 10000;
             getJson.UserAgent = "MTMCL" + MeCore.version;
@@ -53,17 +53,18 @@ namespace MTMCL.DL
                     dt.Columns.Add("Ver");
                     dt.Columns.Add("RelTime", typeof(DateTime));
                     dt.Columns.Add("Type");
+                    dt.Columns.Add("Url");
                     if (remoteVersion != null)
                         foreach (RemoteVerType rv in remoteVersion.getVersions())
                         {
-                            dt.Rows.Add(new object[] { rv.id, DateTime.Parse(rv.releaseTime), rv.type });
+                            dt.Rows.Add(new object[] { rv.id, DateTime.Parse(rv.releaseTime), rv.type, rv.url });
                         }
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                         listRemoteVer.DataContext = dt;
-                        listRemoteVer.Items.SortDescriptions.Add(new SortDescription("RelTime", System.ComponentModel.ListSortDirection.Descending));
+                        listRemoteVer.Items.SortDescriptions.Add(new SortDescription("RelTime", ListSortDirection.Descending));
                     }));
                 }
                 catch (WebException ex)
@@ -125,6 +126,10 @@ namespace MTMCL.DL
                         Directory.CreateDirectory(Path.GetDirectoryName(downpath.ToString()));
                     }
                     string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
+                    if (selectVer[3] != null & MeCore.Config.DownloadSource == 0)
+                    {
+                        downjsonfile = selectVer[3] as string;
+                    }
                     string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
                     try
                     {
@@ -140,8 +145,9 @@ namespace MTMCL.DL
                         };
                         Logger.log("download:" + downjsonfile);
                         downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                        Logger.log("download:" + downurl);
-                        downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
+                        VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(new StreamReader(downjsonpath));
+                        Logger.log("download:" + (ver.downloads.client.url != null & MeCore.Config.DownloadSource == 0 ? ver.downloads.client.url : downurl.ToString()));
+                        downer.DownloadFileAsync(new Uri((ver.downloads.client.url != null & MeCore.Config.DownloadSource == 0 ? ver.downloads.client.url : downurl.ToString())), downpath.ToString());
                     }
                     catch (Exception ex)
                     {

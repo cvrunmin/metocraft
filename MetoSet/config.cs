@@ -45,7 +45,9 @@ namespace MTMCL
         [DataMember]
         [LitJson.JsonPropertyName("expand-task-gui")]
         public bool ExpandTaskGui;
-
+        [DataMember]
+        [LitJson.JsonPropertyName("check-update")]
+        public bool CheckUpdate;
         public Config()
         {
             Javaw = KMCCC.Tools.SystemTools.FindValidJava().First() ?? "javaw.exe";
@@ -58,6 +60,7 @@ namespace MTMCL
             Lang = GetValidLang();
             ExpandTaskGui = true;
             GUID = GetGuid();
+            CheckUpdate = true;
         }
         public string GetValidLang() {
             if (CultureInfo.CurrentUICulture.Parent.Name != "zh-CHT" && CultureInfo.CurrentUICulture.Parent.Name != "zh-CHS"
@@ -147,6 +150,8 @@ namespace MTMCL
             sb.AppendLine("GUID" + GUID);
             sb.AppendLine("Background: " + BackGround);
             sb.AppendLine("Color: " + color[0] + ", " + color[1] + ", " + color[2]);
+            sb.AppendLine("Expand Task Gui on loading: " + ExpandTaskGui);
+            sb.AppendLine("Check update: " + CheckUpdate);
             return sb.ToString();
         }
 

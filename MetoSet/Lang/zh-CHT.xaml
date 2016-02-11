@@ -69,6 +69,7 @@
     <s:String x:Key="Hash">哈爾值</s:String>
     <s:String x:Key="MCVer">Minecraft版本</s:String>
     <s:String x:Key="Tag">標籤</s:String>
+    <s:String x:Key="Url">網址</s:String>
     <!-- /DL -->
     <!-- ACLogin -->
     <s:String x:Key="ACTitle">選擇帳戶</s:String>

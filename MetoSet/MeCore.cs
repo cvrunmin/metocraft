@@ -22,6 +22,7 @@ namespace MTMCL
         public static string DefaultBG = "pack://application:,,,/Resources/bg.png";
         public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
+        private static Application thisApplication = Application.Current;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
 
         static MeCore()
@@ -78,8 +79,40 @@ namespace MTMCL
             LangManager.UseLanguage(Config.Lang);
 #if DEBUG
 #else
-//            ReleaseCheck();
+            ReleaseCheck();
 #endif
+        }
+        private static void ReleaseCheck()
+        {
+            if (Config.CheckUpdate)
+            {
+                var updateChecker = new Update.Updater();
+                updateChecker.CheckFinishEvent += UpdateCheckerOnCheckFinishEvent;
+            }
+        }
+        private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, int updateBuild)
+        {
+            if (hasUpdate)
+            {
+                var a = MessageBox.Show(MainWindow, "","更新", MessageBoxButton.OKCancel,
+                    MessageBoxImage.Information);
+                if (a == MessageBoxResult.OK)
+                {
+                    var updater = new Update.TaskGui(updateBuild, updateAddr);
+                    MainWindow.Hide();
+                    updater.setTask("更新MTMCL").ShowDialog();
+                }
+                if (a == MessageBoxResult.No || a == MessageBoxResult.None)
+                {
+                    if (MessageBox.Show(MainWindow, "", "更新", MessageBoxButton.OKCancel,
+                    MessageBoxImage.Information) == MessageBoxResult.OK)
+                    {
+                        var updater = new Update.TaskGui(updateBuild, updateAddr);
+                        MainWindow.Hide();
+                        updater.setTask("更新MTMCL").ShowDialog();
+                    }
+                }
+            }
         }
         public static void Invoke(Delegate invoke, object[] argObjects = null)
         {
@@ -114,6 +147,26 @@ namespace MTMCL
             else
             {
                 Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\Lang");
+            }
+        }
+        public static void Halt(int code = 0)
+        {
+            thisApplication.Shutdown(code);
+        }
+
+        public static void SingleInstance(Window window)
+        {
+            System.Threading.ThreadPool.RegisterWaitForSingleObject(App.ProgramStarted, OnAnotherProgramStarted, window, -1, false);
+        }
+
+        private static void OnAnotherProgramStarted(object state, bool timedout)
+        {
+            var window = state as Window;
+            NIcon.ShowBalloonTip(2000, LangManager.GetLangFromResource("MTMCLHiddenInfo"));
+            if (window != null)
+            {
+                Dispatcher.Invoke(new Action(window.Show));
+                Dispatcher.Invoke(new Action(() => { window.Activate(); }));
             }
         }
     }
