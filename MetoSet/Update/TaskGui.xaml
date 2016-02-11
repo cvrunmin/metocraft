@@ -18,8 +18,8 @@
             <Label x:Name="lblTaskStatus" Content="" Margin="0,6,0,5" HorizontalAlignment="Right" Width="197" HorizontalContentAlignment="Right"/>
         </Grid>
         <Grid Margin="0,35">
-            <Label x:Name="label" Content="請勿關閉或拔除電腦的電源" Margin="0,61,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" FontSize="21.333"/>
-            <Label x:Name="label1" Margin="0,98,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="21.333" Padding="0">
+            <Label x:Name="label" Content="請勿關閉或拔除電腦的電源" Margin="0,64,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" FontSize="18.667"/>
+            <Label x:Name="label1" Margin="0,98,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="18.667" Padding="0">
                 <AccessText TextWrapping="Wrap" TextAlignment="Center">Please do not power off or unplug your machine</AccessText>
             </Label>
         </Grid>

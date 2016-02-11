@@ -11,14 +11,14 @@ namespace MTMCL.Update
 {
     public class Updater
     {
-        public delegate void CheckFinishEventHandler(bool hasUpdate, string updateAddr, int updateBuild);
+        public delegate void CheckFinishEventHandler(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild);
 
         public event CheckFinishEventHandler CheckFinishEvent;
 
-        protected virtual void OnCheckFinishEvent(bool hasupdate, string updateaddr, int updateBuild)
+        protected virtual void OnCheckFinishEvent(bool hasupdate, string updateaddr, string updateinfo, int updateBuild)
         {
             CheckFinishEventHandler handler = CheckFinishEvent;
-            if (handler != null) MeCore.Invoke(new Action(() => handler(hasupdate, updateaddr, updateBuild)));
+            if (handler != null) MeCore.Invoke(new Action(() => handler(hasupdate, updateaddr, updateinfo, updateBuild)));
         }
         private const string CheckFile = @"http://cvronmin.github.io/mtmcl-version.json";
         public bool HasUpdate { get; private set; }
@@ -75,7 +75,7 @@ namespace MTMCL.Update
                     HasUpdate = false;
                     Logger.log("no update.");
                 }
-                OnCheckFinishEvent(HasUpdate, DownloadUrl, Convert.ToInt32(latest[3]));
+                OnCheckFinishEvent(HasUpdate, DownloadUrl, updatejs.versions[0].info, Convert.ToInt32(latest[3]));
             }
             catch (Exception e)
             {

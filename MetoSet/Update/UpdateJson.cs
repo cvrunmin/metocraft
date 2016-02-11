@@ -18,6 +18,8 @@ namespace MTMCL.Update
             public string version;
             [DataMember]
             public string url;
+            [DataMember]
+            public string info;
         }
     }
 }

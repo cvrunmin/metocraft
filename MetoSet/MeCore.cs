@@ -90,11 +90,11 @@ namespace MTMCL
                 updateChecker.CheckFinishEvent += UpdateCheckerOnCheckFinishEvent;
             }
         }
-        private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, int updateBuild)
+        private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
         {
             if (hasUpdate)
             {
-                var a = MessageBox.Show(MainWindow, "","更新", MessageBoxButton.OKCancel,
+                var a = MessageBox.Show(MainWindow, updateinfo,"更新", MessageBoxButton.OKCancel,
                     MessageBoxImage.Information);
                 if (a == MessageBoxResult.OK)
                 {
@@ -104,7 +104,7 @@ namespace MTMCL
                 }
                 if (a == MessageBoxResult.No || a == MessageBoxResult.None)
                 {
-                    if (MessageBox.Show(MainWindow, "", "更新", MessageBoxButton.OKCancel,
+                    if (MessageBox.Show(MainWindow, updateinfo, "更新", MessageBoxButton.OKCancel,
                     MessageBoxImage.Information) == MessageBoxResult.OK)
                     {
                         var updater = new Update.TaskGui(updateBuild, updateAddr);

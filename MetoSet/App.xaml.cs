@@ -137,6 +137,10 @@ namespace MTMCL
         private void DoUpdate()
         {
             var processName = Process.GetCurrentProcess().ProcessName;
+            if (processName.IndexOf(".exe") == -1)
+            {
+                processName = processName + ".exe";
+            }
             var time = 0;
             while (time < 10)
             {
