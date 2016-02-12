@@ -23,6 +23,7 @@ namespace MTMCL.Assets
             _ver = ver;
             _urlDownloadBase = urlDownloadBase ?? Resources.UrlReplacer.getDownloadUrl();
             _urlResourceBase = urlResourceBase ?? Resources.UrlReplacer.getResourceUrl();
+            //Run();
             var thread = new Thread(Run);
             thread.Start();
         }
@@ -30,81 +31,54 @@ namespace MTMCL.Assets
         private void Run()
         {
             string gameVersion = _ver.Assets;
-            if (String.IsNullOrWhiteSpace(gameVersion) || _ver.Assets.Equals("legacy"))
+            if (string.IsNullOrWhiteSpace(gameVersion) | gameVersion != "legacy")
             {
+                Logger.log("version isn\'t legacy, return.");
                 return;
             }
-            try
+            string path = Path.Combine(MeCore.Config.MCPath, "assets\\indexes", gameVersion + ".json");
+            if (File.Exists(path))
             {
-                _downloader.DownloadStringAsync(new Uri(_urlDownloadBase + "indexes/" + gameVersion + ".json"));
-                Logger.info(_urlDownloadBase + "indexes/" + gameVersion + ".json");
-            }
-            catch (WebException ex)
-            {
-                Logger.info("游戏版本" + gameVersion);
-                Logger.error(ex);
-            }
-            _downloader.DownloadStringCompleted += Downloader_DownloadStringCompleted;
-            _downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
-        }
-        void Downloader_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                Logger.error(e.UserState.ToString());
-                Logger.error(e.Error);
-            }
-        }
-
-        void Downloader_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            _downloader.DownloadStringCompleted -= Downloader_DownloadStringCompleted;
-            if (e.Error != null)
-            {
-                if (e.Error is WebException)
-                {
-                    var ex = e.Error as WebException;
-                    Logger.log(ex.Response.ResponseUri.ToString());
-                }
-                Logger.error(e.Error);
-            }
-            else
-            {
-                string gameVersion = _ver.Assets;
-                FileHelper.CreateDirectoryForFile(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
-                var sw = new StreamWriter(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
-                sw.Write(e.Result);
-                sw.Close();
-                var jsSerializer = new JavaScriptSerializer();
-                var assetsObject = jsSerializer.Deserialize<Dictionary<string, Dictionary<string, AssetsEntity>>>(e.Result);
-                obj = assetsObject["objects"];
+                var sr = new StreamReader(path);
+                var assetsObject = LitJson.JsonMapper.ToObject<AssetIndex>(sr.ReadToEnd());
+                obj = assetsObject.objects;
                 Logger.log("共", obj.Count.ToString(CultureInfo.InvariantCulture), "项assets");
-                foreach (KeyValuePair<string, AssetsEntity> entity in obj)
+                if (assetsObject._virtual)
                 {
-                    string url = _urlResourceBase + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
-                    string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
-                    FileHelper.CreateDirectoryForFile(file);
-                    try
+                    foreach (KeyValuePair<string, AssetsEntity> entity in obj)
                     {
-                        if (FileHelper.IfFileVaild(file, entity.Value.size)) continue;
-                        if (_init)
+                        string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                        if (!File.Exists(file))
                         {
-//                            MeCore.NIcon.ShowBalloonTip(3000, Lang.LangManager.GetLangFromResource("FoundAssetsModify"));
                             _init = false;
+                            break;
+                        }
+                        try
+                        {
+                            if (!FileHelper.IfFileVaild(file, entity.Value.size))
+                            {
+                                _init = false;
+                                break;
+                            }
+                            string finfile = Path.Combine(MeCore.Config.MCPath, "assets", entity.Key);
+                            if (File.Exists(finfile))
+                            {
+                                continue;
+                            }
+                            FileHelper.CreateDirectoryForFile(finfile);
+                            File.Copy(file, finfile);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.error(ex);
                         }
                     }
-                    catch (WebException ex)
-                    {
-                        Logger.log(ex.Response.ResponseUri.ToString());
-                        Logger.error(ex);
-                    }
                 }
-                if (_init)
+                if (!_init)
                 {
-                    Logger.info("无需更新assets");
+                    Logger.log("load and fix assets failed");
                 }
             }
-            
         }
     }
 }

@@ -60,13 +60,13 @@ namespace MTMCL.Play
             }));
             if (login.auth != null)
             {
-                new Assets.Assets(versions[comboVer.SelectedIndex]);
                 TaskBar gui = new TaskBar();
                 var task = new Thread(new ThreadStart(delegate
                 {
                     Dispatcher.Invoke(new MethodInvoker(delegate
                     {
                         gui.setTaskStatus("正在啟動");
+                        new Assets.Assets(versions[comboVer.SelectedIndex]);
                         launcher.GameExit += onGameExit;
                         var result = launcher.Launch(new LaunchOptions
                         {

@@ -226,40 +226,7 @@ namespace MTMCL.DL
                     if (!File.Exists(libfile))
                     {
                         Logger.log("开始下载" + libfile, Logger.LogType.Info);
-                        try
-                        {
-                            if (!Directory.Exists(Path.GetDirectoryName(libfile)))
-                            {
-                                Directory.CreateDirectory(Path.GetDirectoryName(libfile));
-                            }
-                            string url = MTMCL.Resources.UrlReplacer.getLibraryUrl();
-                            if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
-                            {
-                                url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
-                            }
-#if DEBUG
-                            MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-#endif
-                            Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-                            //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
-                            _downer.DownloadFile(
-                                url +
-                                libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                        }
-                        catch (WebException ex)
-                        {
-                            Logger.log(ex);
-                            Logger.log("原地址下载失败，尝试BMCL源" + libfile);
-                            try
-                            {
-                                _downer.DownloadFile(MTMCL.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                            }
-                            catch (WebException exception)
-                            {
-                                MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
-                                return;
-                            }
-                        }
+                        DownloadLibOrNative(libfile, false);
                     }
                 }
                 i = 0;
@@ -269,42 +236,7 @@ namespace MTMCL.DL
                     if (!File.Exists(libfile))
                     {
                         Logger.log("开始下载" + libfile, Logger.LogType.Info);
-                        try
-                        {
-                            //                    OnStateChangeEvent(LangManager.GetLangFromResource("LauncherDownloadLib") + lib.name);
-                            //                    Downloading++;
-                            if (!Directory.Exists(Path.GetDirectoryName(libfile)))
-                            {
-                                Directory.CreateDirectory(Path.GetDirectoryName(libfile));
-                            }
-                            string url = MTMCL.Resources.UrlReplacer.getLibraryUrl();
-                            if (!string.IsNullOrWhiteSpace(nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url))
-                            {
-                                url = nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url;
-                            }
-#if DEBUG
-                            MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-#endif
-                            Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-                            //                Logger.log(_urlLib + libfile.Remove(0, Environment.CurrentDirectory.Length + 22).Replace("\\", "/"));
-                            _downer.DownloadFile(
-                                url +
-                                libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                        }
-                        catch (WebException ex)
-                        {
-                            Logger.log(ex);
-                            Logger.log("原地址下载失败，尝试BMCL源" + libfile);
-                            try
-                            {
-                                _downer.DownloadFile(MTMCL.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                            }
-                            catch (WebException exception)
-                            {
-                                MeCore.Invoke(new Action(() => new KnownErrorReport(exception.Message).Show()));
-                                return;
-                            }
-                        }
+                        DownloadLibOrNative(libfile, true);
                     }
                 }
             }));
@@ -323,43 +255,15 @@ namespace MTMCL.DL
                     i++;
                     MeCore.Invoke(new Action(() => task.setTaskStatus("下載Library " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
                     Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
-                    try
+                    if (!Directory.Exists(Path.GetDirectoryName(libfile)))
                     {
-                        if (!Directory.Exists(Path.GetDirectoryName(libfile)))
-                        {
-                            Directory.CreateDirectory(Path.GetDirectoryName(libfile));
-                        }
-                        if (File.Exists(libfile))
-                        {
-                            File.Delete(libfile);
-                        }
-                        string url = MTMCL.Resources.UrlReplacer.getLibraryUrl();
-                        if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(libfile)).Url))
-                        {
-                            url = libt.ElementAt(libs.ToList().IndexOf(libfile)).Url;
-                        }
-#if DEBUG
-                        MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-#endif
-                        Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-                        _downer.DownloadFile(
-                            url +
-                            libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                        Directory.CreateDirectory(Path.GetDirectoryName(libfile));
                     }
-                    catch (WebException ex)
+                    if (File.Exists(libfile))
                     {
-                        Logger.log(ex);
-                        Logger.log("原地址下载失败，尝试BMCL源" + libfile);
-                        try
-                        {
-                            _downer.DownloadFile(MTMCL.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                        }
-                        catch (WebException exception)
-                        {
-                            MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
-                            return;
-                        }
+                        File.Delete(libfile);
                     }
+                    DownloadLibOrNative(libfile, false);
                 }
                 i = 0;
                 foreach (string libfile in natives)
@@ -367,46 +271,63 @@ namespace MTMCL.DL
                     MeCore.Invoke(new Action(() => task.setTaskStatus("下載Native " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
 
                     Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
-                    try
+                    if (!Directory.Exists(Path.GetDirectoryName(libfile)))
                     {
-                        if (!Directory.Exists(Path.GetDirectoryName(libfile)))
-                        {
-                            Directory.CreateDirectory(Path.GetDirectoryName(libfile));
-                        }
-                        if (File.Exists(libfile))
-                        {
-                            File.Delete(libfile);
-                        }
-                        string url = MTMCL.Resources.UrlReplacer.getLibraryUrl();
-                        if (!string.IsNullOrWhiteSpace(nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url))
-                        {
-                            url = nativet.ElementAt(natives.ToList().IndexOf(libfile)).Url;
-                        }
-#if DEBUG
-                        MessageBox.Show(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-#endif
-                        Logger.log(url + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-                        _downer.DownloadFile(
-                            url +
-                            libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
+                        Directory.CreateDirectory(Path.GetDirectoryName(libfile));
                     }
-                    catch (WebException ex)
+                    if (File.Exists(libfile))
                     {
-                        Logger.log(ex);
-                        Logger.log("原地址下载失败，尝试BMCL源" + libfile);
-                        try
-                        {
-                            _downer.DownloadFile(MTMCL.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + libfile.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), libfile);
-                        }
-                        catch (WebException exception)
-                        {
-                            MeCore.Invoke(new Action(() => new KnownErrorReport(exception.Message).Show()));
-                            return;
-                        }
+                        File.Delete(libfile);
                     }
+                    DownloadLibOrNative(libfile, true);
                 }
             }));
             MeCore.MainWindow.addTask(task.setThread(thDL).setTask("重新下載必要文件"));
+        }
+        private void DownloadLibOrNative(string file, bool isNative) {
+            try
+            {
+                if (!Directory.Exists(Path.GetDirectoryName(file)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(file));
+                }
+                string url = MTMCL.Resources.UrlReplacer.getLibraryUrl();
+                if (isNative)
+                {
+                    if (!string.IsNullOrWhiteSpace(nativet.ElementAt(natives.ToList().IndexOf(file)).Url))
+                    {
+                        url = MTMCL.Resources.UrlReplacer.getForgeMaven(nativet.ElementAt(natives.ToList().IndexOf(file)).Url);
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(file)).Url))
+                    {
+                        url = MTMCL.Resources.UrlReplacer.getForgeMaven(libt.ElementAt(libs.ToList().IndexOf(file)).Url);
+                    }
+                }
+#if DEBUG
+                MessageBox.Show(url + file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+#endif
+                Logger.log(url + file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                _downer.DownloadFile(
+                    url +
+                    file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), file);
+            }
+            catch (WebException ex)
+            {
+                Logger.log(ex);
+                Logger.log("原地址下载失败，尝试BMCL源" + file);
+                try
+                {
+                    _downer.DownloadFile(MTMCL.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), file);
+                }
+                catch (WebException exception)
+                {
+                    MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
+                    return;
+                }
+            }
         }
 
         #endregion
@@ -707,14 +628,7 @@ namespace MTMCL.DL
         }
         private bool assetExist(KeyValuePair<string, AssetsEntity> entity, bool isVirtual)
         {
-            if (isVirtual)
-            {
-                return File.Exists(MeCore.Config.MCPath + @"\assets\" + entity.Key);
-            }
-            else
-            {
-                return File.Exists(MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash);
-            }
+            return File.Exists(MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash);
         }
 
         #endregion
@@ -814,7 +728,8 @@ namespace MTMCL.DL
             {
                 try
                 {
-                    MeCore.Invoke(new System.Windows.Forms.MethodInvoker(()=> {
+                    MeCore.Invoke(new System.Windows.Forms.MethodInvoker(() =>
+                    {
                         Uri url = new Uri(txtboxUrl.Text);
                         if (url == null | string.IsNullOrWhiteSpace(url.AbsoluteUri))
                         {

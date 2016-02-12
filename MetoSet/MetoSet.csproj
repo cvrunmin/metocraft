@@ -159,7 +159,6 @@
     <Compile Include="DL\DLMain.xaml.cs">
       <DependentUpon>DLMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DL\DLMCThread.cs" />
     <Compile Include="DL\ModPackProcesser.cs" />
     <Compile Include="Forge\Artifact.cs" />
     <Compile Include="Forge\ForgeInstaller.cs" />
