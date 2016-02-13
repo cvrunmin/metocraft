@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="KnownErrorReport" Height="200" Width="400">
     <Grid>
-        <Canvas HorizontalAlignment="Left" Width="69" Margin="0,50">
+        <Canvas HorizontalAlignment="Left" Width="69" Margin="0,-34.5,0,34.5" VerticalAlignment="Center">
             <Ellipse Height="69" Stroke="Black" Width="69" StrokeThickness="2.5"/>
             <Rectangle Height="29" Canvas.Left="30" Stroke="Black" StrokeThickness="2.5" Canvas.Top="30" Width="9" Fill="Black"/>
             <Rectangle Fill="Black" Height="9" Canvas.Left="30" Stroke="Black" StrokeThickness="2.5" Canvas.Top="16" Width="9"/>

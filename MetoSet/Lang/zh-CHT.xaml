@@ -89,6 +89,11 @@
     <s:String x:Key="MCCrashTitle">[/bold/]哎呀，看來遊戲崩潰了！抱歉為你帶來不便 :([/endbold/][/newline/]使用魔法和愛，我們已經成功地收集是次崩潰的細節，我們會盡快調查此崩潰[/newline/]你可以在下面查看完整的崩潰報告。</s:String>
     <s:String x:Key="MCCrashTitleModded">[/bold/]哎呀，看來遊戲崩潰了！抱歉為你帶來不便 :([/endbold/][/newline/]我們覺得遊戲己被修改，因此我們並不能認受這份崩潰報告[/newline/]不過，如果你確實在使用模組，請將此報告發送給模組作者看看！</s:String>
     <s:String x:Key="ReportTitle">出現未遇期的例外，請聯絡作者</s:String>
+    <s:String x:Key="NoVersion">沒有發現或選擇版本</s:String>
+    <s:String x:Key="NoVersionSolve">您可以嘗試以下方法解決此問題：[/newline/]1.檢查遊戲目錄是否有效。[/newline/]2.檢查是否已經選擇版本。</s:String>
+    <s:String x:Key="ForgeNoVersionSolve">請確保您擁有Minecraft {0} 以及已經運行最少一次。</s:String>
+    <s:String x:Key="NoConnectionSolve">請確保您已經連接到網絡。</s:String>
+    <s:String x:Key="FormatFaultSolve">請確保 {0} 是正確格式。</s:String>
     <!--/Error-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">發現資源文件修改，正在同步</s:String>

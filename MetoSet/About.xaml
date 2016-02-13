@@ -8,14 +8,15 @@
              d:DesignHeight="369" d:DesignWidth="537" Loaded="PGrid_Loaded" Background="#7FFFFFFF">
     <Label x:Name="lblCOM" Content="{DynamicResource COM}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
     <Label x:Name="lblCVer" Content="{DynamicResource COMVer}" HorizontalAlignment="Left" Margin="15,36,0,0" VerticalAlignment="Top"/>
-    <Label x:Name="lblCVer1" Content="" HorizontalAlignment="Left" Margin="85,36,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblCVer1" Content="" HorizontalAlignment="Left" Margin="87,36,0,0" VerticalAlignment="Top"/>
     <Label x:Name="lblBit" Content="{DynamicResource COMType}" HorizontalAlignment="Left" Margin="15,66,0,0" VerticalAlignment="Top"/>
-    <Label x:Name="lblBit1" Content="" HorizontalAlignment="Left" Margin="113,66,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblBit1" Content="" HorizontalAlignment="Left" Margin="96,66,0,0" VerticalAlignment="Top"/>
     <Label x:Name="lblJava" Content="{DynamicResource COMJava}" HorizontalAlignment="Left" Margin="15,96,0,0" VerticalAlignment="Top"/>
-    <Label x:Name="lblJava1" Content="" HorizontalAlignment="Left" Margin="117,96,0,0" VerticalAlignment="Top"/>
-    <Label x:Name="lblLauncher" Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" Margin="0,126,0,0" VerticalAlignment="Top" FontSize="16"/>
-    <Label x:Name="lblLaVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="15,162,0,0" VerticalAlignment="Top"/>
-    <Label x:Name="lblLaVer1" Content="" HorizontalAlignment="Left" Margin="73,162,0,0" VerticalAlignment="Top"/>
-    <Label x:Name="lblKM" Content="KMCCC" HorizontalAlignment="Left" Margin="15,192,0,0" VerticalAlignment="Top"/>
-    <Label x:Name="lblKM1" Content="" HorizontalAlignment="Left" Margin="73,192,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblJava1" Content="" HorizontalAlignment="Left" Margin="100,96,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblLauncher" Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" Margin="0,151,0,0" VerticalAlignment="Top" FontSize="16"/>
+    <Label x:Name="lblLaVer" Content="{DynamicResource Version}" HorizontalAlignment="Left" Margin="15,187,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblLaVer1" Content="" HorizontalAlignment="Left" Margin="73,187,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblKM" Content="KMCCC" HorizontalAlignment="Left" Margin="15,217,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblKM1" Content="" HorizontalAlignment="Left" Margin="73,217,0,0" VerticalAlignment="Top"/>
+    <Label x:Name="lblTips" Content="" HorizontalAlignment="Left" Margin="15,126,0,0" VerticalAlignment="Top"/>
 </Grid>

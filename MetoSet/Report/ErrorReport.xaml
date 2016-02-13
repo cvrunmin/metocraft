@@ -10,7 +10,7 @@
         <TextBox x:Name="txtMes" TextWrapping="Wrap" Text="TextBox" Margin="0,0,0,69"/>
         <Button x:Name="butEmail" Content="Email" HorizontalAlignment="Left" Width="75" Height="19" VerticalAlignment="Bottom" Click="butEmail_Click"/>
         <Label x:Name="lblDesc1" Margin="0,0,0,24" Height="40" VerticalAlignment="Bottom">
-            <AccessText TextWrapping="Wrap">An unexpected exception has been occurred. Please contact the author.</AccessText>
+            <AccessText TextWrapping="Wrap" Text="{DynamicResource ReportTitle}"/>
         </Label>
         <Button x:Name="butMCBBS" Content="MCBBS Thread" HorizontalAlignment="Left" Margin="80,0,0,0" Click="butMCBBS_Click" IsEnabled="False" Height="19" VerticalAlignment="Bottom"/>
 

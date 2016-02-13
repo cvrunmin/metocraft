@@ -71,8 +71,7 @@ namespace MTMCL.DL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
-                        er.ShowDialog();
+                        new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message, LangManager.GetLangFromResource("NoConnectionSolve")).Show();
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
@@ -81,8 +80,7 @@ namespace MTMCL.DL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        KnownErrorReport er = new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message);
-                        er.ShowDialog();
+                        new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message, LangManager.GetLangFromResource("NoConnectionSolve")).Show();
                         butRefresh.Content = LangManager.GetLangFromResource("Refresh");
                         butRefresh.IsEnabled = true;
                     }));
@@ -146,17 +144,26 @@ namespace MTMCL.DL
                         Logger.log("download:" + downjsonfile);
                         downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
                         VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(new StreamReader(downjsonpath));
-                        Logger.log("download:" + (ver.downloads.client.url != null & MeCore.Config.DownloadSource == 0 ? ver.downloads.client.url : downurl.ToString()));
-                        downer.DownloadFileAsync(new Uri((ver.downloads.client.url != null & MeCore.Config.DownloadSource == 0 ? ver.downloads.client.url : downurl.ToString())), downpath.ToString());
+                        if (ver.downloads != null)
+                        {
+                            if (ver.downloads.client != null)
+                            {
+                                if (ver.downloads.client.url != null)
+                                {
+                                    downurl.Clear().Append(ver.downloads.client.url);
+                                }
+                            }
+
+                        }
+                        Logger.log("download:" + downurl.ToString());
+                        downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
                     }
                     catch (Exception ex)
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            KnownErrorReport er = new KnownErrorReport(ex.Message);
-                            er.ShowDialog();
-                            butDLMC.Content = LangManager.GetLangFromResource("Download");
-                            butDLMC.IsEnabled = true;
+                            new ErrorReport(ex).Show();
+                            taskbar.noticeFinished();
                         }));
                     }
                 }));
@@ -199,14 +206,14 @@ namespace MTMCL.DL
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
                         listLib.DataContext = dt;
-                        listLib.Items.SortDescriptions.Add(new SortDescription("Exist", System.ComponentModel.ListSortDirection.Ascending));
+                        listLib.Items.SortDescriptions.Add(new SortDescription("Exist", ListSortDirection.Ascending));
                     }));
                 }
                 catch (Exception ex)
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        new KnownErrorReport(ex.Message).Show();
+                        new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"),MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex] + ".json")).Show();
                     }));
                 }
             }
@@ -241,7 +248,6 @@ namespace MTMCL.DL
                 }
             }));
             MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載必要文件"));
-            //            thDL.Start();
         }
         private void butRDLLib_Click(object sender, RoutedEventArgs e)
         {
@@ -284,7 +290,8 @@ namespace MTMCL.DL
             }));
             MeCore.MainWindow.addTask(task.setThread(thDL).setTask("重新下載必要文件"));
         }
-        private void DownloadLibOrNative(string file, bool isNative) {
+        private void DownloadLibOrNative(string file, bool isNative)
+        {
             try
             {
                 if (!Directory.Exists(Path.GetDirectoryName(file)))
@@ -426,7 +433,7 @@ namespace MTMCL.DL
                         {
                             Logger.log(ex.Response.ResponseUri.ToString());
                             Logger.error(ex);
-                            new ErrorReport(ex).Show();
+                            new KnownErrorReport(ex.Message, LangManager.GetLangFromResource("NoConnectionSolve")).Show();
                         }));
                     }
                 }
@@ -478,7 +485,7 @@ namespace MTMCL.DL
                         {
                             Logger.log(ex.Response.ResponseUri.ToString());
                             Logger.error(ex);
-                            new ErrorReport(ex).Show();
+                            new KnownErrorReport(ex.Message, LangManager.GetLangFromResource("NoConnectionSolve")).Show();
                         }));
                     }
                 }
@@ -509,7 +516,7 @@ namespace MTMCL.DL
             {
                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                 {
-                    new KnownErrorReport(ex.Message).Show();
+                    new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"))).Show();
                 }));
             }
         }
@@ -568,7 +575,7 @@ namespace MTMCL.DL
                         {
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
-                                new KnownErrorReport(ex.Message).Show();
+                                new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"),gameVersion + ".json")).Show();
                             }));
                         }
                     }
@@ -612,7 +619,7 @@ namespace MTMCL.DL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            new KnownErrorReport(ex.Message).Show();
+                            new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"),gameVersion + ".json")).Show();
                         }));
                     }
                 }

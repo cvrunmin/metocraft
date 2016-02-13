@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,7 +41,6 @@ namespace MTMCL
         }
         public void loadOSData()
         {
-#if DEBUG
             string oss = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
             int ins = 0;
             ins = oss.IndexOf("Pro");
@@ -50,12 +50,30 @@ namespace MTMCL
             }
             lblCVer1.Content = oss;
             lblBit1.Content = (Environment.Is64BitOperatingSystem ? Lang.LangManager.GetLangFromResource("COMx64") : Lang.LangManager.GetLangFromResource("COMx86")) + ", " + (Environment.Is64BitProcess ? Lang.LangManager.GetLangFromResource("PCSx64") : Lang.LangManager.GetLangFromResource("PCSx86"));
-            lblJava1.Content = (Directory.Exists(@"C:\Program Files\Java") && Directory.GetDirectories(@"C:\Program Files\Java") != null ? (Environment.Is64BitOperatingSystem ? "x64" : "x86") : "") + (Directory.Exists(@"C:\Program Files (x86)\Java") && Directory.GetDirectories(@"C:\Program Files\Java") != null ? " & x86" : "");
-#else
-            lblCVer1.Content = Lang.LangManager.GetLangFromResource("NoCollectingData");
-            lblBit1.Content = Lang.LangManager.GetLangFromResource("NoCollectingData");
-            lblJava1.Content = Lang.LangManager.GetLangFromResource("NoCollectingData");
-#endif
+            StringBuilder builder = new StringBuilder();
+            if (Directory.Exists(@"C:\Program Files\Java"))
+            {
+                if (Directory.GetDirectories(@"C:\Program Files\Java") != null)
+                {
+                    builder.Append(Environment.Is64BitOperatingSystem ? "x64" : "x86");
+                }
+            }
+            if (Directory.Exists(@"C:\Program Files (x86)\Java"))
+            {
+                if (Directory.GetDirectories(@"C:\Program Files (x86)\Java") != null)
+                {
+                    if (builder.Length != 0)
+                    {
+                        builder.Append("& x86");
+                    }
+                    else
+                    {
+                        builder.Append("x86");
+                    }
+                }
+            }
+            lblJava1.Content = builder.ToString();
+
         }
 
         public void setLblColor(Color color)

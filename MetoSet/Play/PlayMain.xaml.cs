@@ -53,6 +53,11 @@ namespace MTMCL.Play
         }
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
+            if (versions == null | comboVer.SelectedIndex == -1)
+            {
+                new KnownErrorReport(Lang.LangManager.GetLangFromResource("NoVersion"), Lang.LangManager.GetLangFromResource("NoVersionSolve")).Show();
+                return;
+            }
             ACLogin login = new ACLogin();
             Dispatcher.Invoke(new MethodInvoker(delegate
             {
@@ -118,6 +123,11 @@ namespace MTMCL.Play
         }
         private void butPlayPro_Click(object sender, RoutedEventArgs e)
         {
+            if (profiles == null | comboProfile.SelectedIndex == -1)
+            {
+                new KnownErrorReport(Lang.LangManager.GetLangFromResource("NoVersion"),Lang.LangManager.GetLangFromResource("NoVersionSolve")).Show();
+                return;
+            }
             ACLogin login = new ACLogin();
             Dispatcher.Invoke(new MethodInvoker(delegate
             {

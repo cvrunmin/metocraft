@@ -157,6 +157,7 @@ namespace MTMCL.Sett
 
         public void loadConfig()
         {
+            comboDLSrc.SelectedIndex = MeCore.Config.DownloadSource;
             txtBoxP.Text = MeCore.Config.BackGround;
             txtBoxColor.Text = (ByteArrayToArgb() & 0xFFFFFF).ToString();
             butExpandTask.IsChecked = MeCore.Config.ExpandTaskGui;

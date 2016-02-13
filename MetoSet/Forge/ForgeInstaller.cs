@@ -13,7 +13,8 @@ namespace MTMCL.Forge
     class ForgeInstaller
     {
         private List<Artifact> grabbed;
-        public bool install(string target) {
+        public bool install(string target)
+        {
             if (!File.Exists(target))
             {
                 return false;
@@ -60,7 +61,7 @@ namespace MTMCL.Forge
                 }
                 catch (Exception e)
                 {
-                    MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                    MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), info.install.minecraft)).Show()));
                     zip.Close();
                     return false;
                 }
@@ -82,7 +83,7 @@ namespace MTMCL.Forge
                 TextWriter writer = new StreamWriter(verjson.Create(), Encoding.UTF8);
                 LitJson.JsonWriter jsonwriter = new LitJson.JsonWriter(writer);
                 jsonwriter.PrettyPrint = true;
-                LitJson.JsonMapper.ToJson(info.versionInfo,jsonwriter);
+                LitJson.JsonMapper.ToJson(info.versionInfo, jsonwriter);
                 writer.Close();
             }
             catch (Exception e)
@@ -124,7 +125,8 @@ namespace MTMCL.Forge
         }
 
         string etag;
-        private bool downloadFileETag(string url, string file) {
+        private bool downloadFileETag(string url, string file)
+        {
             try
             {
                 Uri _url = new Uri(url);
@@ -194,7 +196,8 @@ namespace MTMCL.Forge
                 return false;
             }
         }
-        private string hashMD5(byte[] data) {
+        private string hashMD5(byte[] data)
+        {
             byte[] hashed = MD5.Create().ComputeHash(data);
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < hashed.Length; i++)
@@ -213,7 +216,8 @@ namespace MTMCL.Forge
             }
             return builder.ToString();
         }
-        private void CopyAndStrip(string source, string target) {
+        private void CopyAndStrip(string source, string target)
+        {
             ZipFile srczip = new ZipFile(source);
             ZipInputStream srcstream = new ZipInputStream(File.OpenRead(source));
             ZipOutputStream targetstream = new ZipOutputStream(new BufferedStream(File.OpenRead(target)));
@@ -286,7 +290,8 @@ namespace MTMCL.Forge
             } while (len != -1);
             return stream.ToArray();
         }
-        private void downloadInstalledLibrary(ForgeInstall info, DirectoryInfo dir, List<Artifact> grabbed, List<Artifact> bad) {
+        private void downloadInstalledLibrary(ForgeInstall info, DirectoryInfo dir, List<Artifact> grabbed, List<Artifact> bad)
+        {
             foreach (var item in info.versionInfo.libraries)
             {
                 Artifact artifact = new Artifact(item.name);
@@ -355,7 +360,8 @@ namespace MTMCL.Forge
             }
 
         }
-        private bool checksumsValid(FileInfo file, List<string> sums) {
+        private bool checksumsValid(FileInfo file, List<string> sums)
+        {
             try
             {
                 byte[] data = File.ReadAllBytes(file.FullName);
@@ -373,7 +379,8 @@ namespace MTMCL.Forge
                 return false;
             }
         }
-        private bool validateJar(FileInfo file, byte[] data, List<string> sums) {
+        private bool validateJar(FileInfo file, byte[] data, List<string> sums)
+        {
             Dictionary<string, string> files = new Dictionary<string, string>();
             string[] hashes = null;
             ZipInputStream jar = new ZipInputStream(new MemoryStream(data));
@@ -399,7 +406,7 @@ namespace MTMCL.Forge
                 bool failed = !sums.Contains(a);
                 if (failed)
                 {
-                    
+
                 }
                 else
                 {
