@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="35" d:DesignWidth="394" Loaded="UserControl_Loaded" BorderBrush="#FF70A1B2" BorderThickness="1">
     <Grid Background="#FFBBE3F1" Width="394" Height="35">
-        <Label x:Name="lblTaskName" Content="" Margin="0,6,0,5" HorizontalAlignment="Left" Width="197"/>
-        <Label x:Name="lblTaskStatus" Content="" Margin="0,6,0,5" HorizontalAlignment="Right" Width="197" HorizontalContentAlignment="Right"/>
+        <Label x:Name="lblTaskName" Content="" Margin="0,6,0,5"/>
+        <Label x:Name="lblTaskStatus" Content="" Margin="0,6,0,5" HorizontalContentAlignment="Right"/>
     </Grid>
 </UserControl>

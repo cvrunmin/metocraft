@@ -93,6 +93,24 @@
     <s:String x:Key="NoConnectionSolve">Please make sure you have connected to the Internet.</s:String>
     <s:String x:Key="FormatFaultSolve">Please make sure {0} is in correct format.</s:String>
     <!--/Error-->
+    <!--Task-->
+    <s:String x:Key="TaskLaunch">Launch {0}</s:String>
+    <s:String x:Key="SubTaskLaunch">Launching</s:String>
+    <s:String x:Key="TaskFinish">Finish</s:String>
+    <s:String x:Key="TaskDLMC">Download Core</s:String>
+    <s:String x:Key="TaskDLLib">Download the essentials</s:String>
+    <s:String x:Key="TaskRDLLib">Re-download the essentials</s:String>
+    <s:String x:Key="SubTaskDLLib">Downloading Libraries {0}</s:String>
+    <s:String x:Key="SubTaskDLNative">Downloading Natives {0}</s:String>
+    <s:String x:Key="TaskDLAssets">Download Assets</s:String>
+    <s:String x:Key="TaskRDLAssets">Re-download Assets</s:String>
+    <s:String x:Key="TaskInstallForge">Install Forge</s:String>
+    <s:String x:Key="SubTaskDLForge">Downloading Forge {0}%</s:String>
+    <s:String x:Key="SubTaskInstallForge">Trying to install Forge</s:String>
+    <s:String x:Key="TaskDLModPack">Download Mod Pack</s:String>
+    <s:String x:Key="SubTaskDLModPack">Downloading Mod Pack {0}%</s:String>
+    <s:String x:Key="SubTaskExtractModPack">Trying to extract Mod Pack</s:String>
+    <!--/Task-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
     <s:String x:Key="SyncAssetsFinish">Assets synced. Please restart the client if they are not working</s:String>

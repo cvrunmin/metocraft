@@ -45,7 +45,14 @@ namespace MTMCL.DL
             {
                 try
                 {
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate { butRefresh.Content = LangManager.GetLangFromResource("RemoteVerGetting"); }));
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        butRefresh.Content = LangManager.GetLangFromResource("RemoteVerGetting");
+                        if (MeCore.Config.DownloadSource == 1)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                        }
+                    }));
                     var getJsonAns = (HttpWebResponse)getJson.GetResponse();
                     // ReSharper disable once AssignNullToNotNullAttribute
                     var remoteVersion = rawJson.ReadObject(getJsonAns.GetResponseStream()) as RawVersionListType;
@@ -106,6 +113,13 @@ namespace MTMCL.DL
                 NewGui.TaskBar taskbar = new NewGui.TaskBar();
                 var task = new Thread(new ThreadStart(delegate
                 {
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        if (MeCore.Config.DownloadSource == 1)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                        }
+                    }));
                     var selectver = selectVer[0] as string;
                     var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
                     downpath.Append(selectver).Append("\\");
@@ -167,7 +181,7 @@ namespace MTMCL.DL
                         }));
                     }
                 }));
-                MeCore.MainWindow.addTask(taskbar.setThread(task).setTask("下載核心文件").setDetectAlive(false));
+                MeCore.MainWindow.addTask(taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false));
             }
         }
         private void listRemoteVer_MouseDoubleClick(object sender, EventArgs e)
@@ -207,13 +221,15 @@ namespace MTMCL.DL
                     {
                         listLib.DataContext = dt;
                         listLib.Items.SortDescriptions.Add(new SortDescription("Exist", ListSortDirection.Ascending));
+                        butDLLib.IsEnabled = true;
+                        butRDLLib.IsEnabled = true;
                     }));
                 }
                 catch (Exception ex)
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"),MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex] + ".json")).Show();
+                        new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"), MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex] + ".json")).Show();
                     }));
                 }
             }
@@ -224,42 +240,55 @@ namespace MTMCL.DL
             NewGui.TaskBar task = new NewGui.TaskBar();
             var thDL = new Thread(new ThreadStart(delegate
             {
+                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate {
+                    if (MeCore.Config.DownloadSource == 1)
+                    {
+                        task.setTaskStatus("先让我睡一会");
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                    }
+                }));
                 WebClient _downer = new WebClient();
                 int i = 0;
                 foreach (string libfile in libs)
                 {
                     i++;
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Library " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float)i / libs.Count()) * 100f).ToString() + "%"))));
                     if (!File.Exists(libfile))
                     {
-                        Logger.log("开始下载" + libfile, Logger.LogType.Info);
+                        Logger.log("Start downloading " + libfile, Logger.LogType.Info);
                         DownloadLibOrNative(libfile, false);
                     }
                 }
                 i = 0;
                 foreach (string libfile in natives)
                 {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Native " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLNative"), (((float)i / natives.Count()) * 100f).ToString() + "%"))));
                     if (!File.Exists(libfile))
                     {
-                        Logger.log("开始下载" + libfile, Logger.LogType.Info);
+                        Logger.log("Start downloading" + libfile, Logger.LogType.Info);
                         DownloadLibOrNative(libfile, true);
                     }
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載必要文件"));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLLib")));
         }
         private void butRDLLib_Click(object sender, RoutedEventArgs e)
         {
             NewGui.TaskBar task = new NewGui.TaskBar();
             var thDL = new Thread(new ThreadStart(delegate
             {
+                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate {
+                    if (MeCore.Config.DownloadSource == 1)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                    }
+                }));
                 WebClient _downer = new WebClient();
                 int i = 0;
                 foreach (string libfile in libs)
                 {
                     i++;
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Library " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float)i / libs.Count()) * 100f).ToString() + "%"))));
                     Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
                     if (!Directory.Exists(Path.GetDirectoryName(libfile)))
                     {
@@ -274,7 +303,7 @@ namespace MTMCL.DL
                 i = 0;
                 foreach (string libfile in natives)
                 {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Native " + (((float)i / libs.Count()) * 100f).ToString() + "%")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLNative"), (((float)i / natives.Count()) * 100f).ToString() + "%"))));
 
                     Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
                     if (!Directory.Exists(Path.GetDirectoryName(libfile)))
@@ -288,7 +317,7 @@ namespace MTMCL.DL
                     DownloadLibOrNative(libfile, true);
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("重新下載必要文件"));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskRDLLib")));
         }
         private void DownloadLibOrNative(string file, bool isNative)
         {
@@ -373,7 +402,7 @@ namespace MTMCL.DL
                         }
                         catch (WebException ex)
                         {
-                            Logger.info("游戏版本" + gameVersion);
+                            Logger.info("game version" + gameVersion);
                             Logger.error(ex);
                         }
                         _downer.DownloadStringCompleted += Downloader_DownloadStringCompleted;
@@ -442,7 +471,7 @@ namespace MTMCL.DL
                     Logger.info("无需更新assets");
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thGet).setTask("下載資源文件"));
+            MeCore.MainWindow.addTask(task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskDLAssets")));
             //            thGet.Start();
         }
         private void butRDLAsset_Click(object sender, RoutedEventArgs e)
@@ -490,7 +519,7 @@ namespace MTMCL.DL
                     }
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thGet).setTask("重新下載資源文件"));
+            MeCore.MainWindow.addTask(task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")));
         }
 
         private void butF5Asset_Click(object sender, RoutedEventArgs e)
@@ -569,13 +598,16 @@ namespace MTMCL.DL
                             {
                                 listAsset.DataContext = dt;
                                 listAsset.Items.SortDescriptions.Add(new SortDescription("Exist", ListSortDirection.Ascending));
+                                butDLAsset.IsEnabled = true;
+                                butRDLAsset.IsEnabled = true;
+                                butF5Asset.IsEnabled = true;
                             }));
                         }
                         catch (Exception ex)
                         {
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
-                                new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"),gameVersion + ".json")).Show();
+                                new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"), gameVersion + ".json")).Show();
                             }));
                         }
                     }
@@ -619,7 +651,7 @@ namespace MTMCL.DL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"),gameVersion + ".json")).Show();
+                            new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"), gameVersion + ".json")).Show();
                         }));
                     }
                 }
@@ -693,20 +725,20 @@ namespace MTMCL.DL
                 }
                 downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
                 {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("下載Forge安裝檔 " + e.ProgressPercentage + "%")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"),e.ProgressPercentage))));
                 };
                 downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                 {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("嘗試安裝Forge")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
                     new ForgeInstaller().install(filename);
                     File.Delete(filename);
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("完成")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
                     task.noticeFinished();
                 };
-                MeCore.Invoke(new Action(() => task.setTaskStatus("下載Forge安裝檔")));
+                MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), "0"))));
                 downer.DownloadFileAsync(url, filename);
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("安裝Forge").setDetectAlive(false));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false));
         }
 
         private void butFDL_Click(object sender, RoutedEventArgs e)
@@ -753,28 +785,28 @@ namespace MTMCL.DL
                         }
                         downer.DownloadProgressChanged += delegate (object sender1, DownloadProgressChangedEventArgs e1)
                         {
-                            MeCore.Invoke(new Action(() => task.setTaskStatus("下載壓縮檔 " + e1.ProgressPercentage + "%")));
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLModPack"), e1.ProgressPercentage))));
                         };
                         downer.DownloadFileCompleted += delegate (object sender1, AsyncCompletedEventArgs e1)
                         {
-                            MeCore.Invoke(new Action(() => task.setTaskStatus("嘗試解壓")));
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskExtractModPack"))));
                             new ModPackProcesser().install(filename);
                             File.Delete(filename);
-                            MeCore.Invoke(new Action(() => task.setTaskStatus("完成")));
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
                             task.noticeFinished();
                         };
-                        MeCore.Invoke(new Action(() => task.setTaskStatus("下載壓縮檔")));
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLModPack"), 0))));
                         downer.DownloadFileAsync(url, filename);
                     }));
                 }
                 catch (Exception e1)
                 {
                     MeCore.Invoke(new Action(() => new KnownErrorReport(e1.Message, e1.StackTrace).Show()));
-                    MeCore.Invoke(new Action(() => task.setTaskStatus("失敗")));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
                     task.noticeFinished();
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask("下載整合包").setDetectAlive(false));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLModPack")).setDetectAlive(false));
         }
         #endregion
         public void setLblColor(Color color)

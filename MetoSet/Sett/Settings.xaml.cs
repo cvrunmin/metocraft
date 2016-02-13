@@ -62,6 +62,10 @@ namespace MTMCL.Sett
         private void comboDLSrc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MeCore.Config.DownloadSource = comboDLSrc.SelectedIndex;
+            if (MeCore.Config.DownloadSource == 1)
+            {
+                System.Windows.MessageBox.Show("使用BMCLAPI時需要限制連線頻率\n使用BMCLAPI时需要限制连线频率\nFrequency of connecting to BMCLAPI have to be limited", "注意 Attention", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
             MeCore.Config.Save(null);
         }
         private void butBrowse_Click(object sender, RoutedEventArgs e)
@@ -176,9 +180,19 @@ namespace MTMCL.Sett
         }
         private void butCSave_Click(object sender, RoutedEventArgs e)
         {
-            MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).R;
-            MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).G;
-            MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).B;
+            uint c;
+            if (uint.TryParse(txtBoxColor.Text, out c))
+            {
+                MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).R;
+                MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).G;
+                MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).B;
+            }
+            else
+            {
+                MeCore.Config.color[0] = System.Drawing.Color.FromArgb(0xFFFFFF).R;
+                MeCore.Config.color[1] = System.Drawing.Color.FromArgb(0xFFFFFF).G;
+                MeCore.Config.color[2] = System.Drawing.Color.FromArgb(0xFFFFFF).B;
+            }
             MeCore.Config.Save(null);
             RenderColor();
         }
@@ -204,6 +218,7 @@ namespace MTMCL.Sett
             catch (Exception ex)
             {
                 new ErrorReport(ex).ShowDialog();
+                MeCore.Config.color = new byte[] { 255, 255, 255 };
                 MeCore.MainWindow.Close();
                 System.Windows.Forms.Application.Restart();
 

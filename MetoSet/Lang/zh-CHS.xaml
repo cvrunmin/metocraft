@@ -94,6 +94,24 @@
     <s:String x:Key="NoConnectionSolve">请确保您已经连接到网络且在连接被墙的网络的时候挂上合适的VPN</s:String>
     <s:String x:Key="FormatFaultSolve">请确保 {0} 是正确格式。</s:String>
     <!--/Error-->
+    <!--Task-->
+    <s:String x:Key="TaskLaunch">启动{0}</s:String>
+    <s:String x:Key="SubTaskLaunch">正在启动</s:String>
+    <s:String x:Key="TaskFinish">完成</s:String>
+    <s:String x:Key="TaskDLMC">下载核心文件</s:String>
+    <s:String x:Key="TaskDLLib">下载必要文件</s:String>
+    <s:String x:Key="TaskRDLLib">重新下载必要文件</s:String>
+    <s:String x:Key="SubTaskDLLib">下载Library {0}</s:String>
+    <s:String x:Key="SubTaskDLNative">下载Native {0}</s:String>
+    <s:String x:Key="TaskDLAssets">下载资源文件</s:String>
+    <s:String x:Key="TaskRDLAssets">重新下载资源文件</s:String>
+    <s:String x:Key="TaskInstallForge">安装Forge</s:String>
+    <s:String x:Key="SubTaskDLForge">下载Forge {0}%</s:String>
+    <s:String x:Key="SubTaskInstallForge">尝试安装Forge</s:String>
+    <s:String x:Key="TaskDLModPack">下载整合包</s:String>
+    <s:String x:Key="SubTaskDLModPack">下载整合包 {0}%</s:String>
+    <s:String x:Key="SubTaskExtractModPack">尝试解压整合包</s:String>
+    <!--/Task-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">发现资源文件修改，正在同步</s:String>
     <s:String x:Key="SyncAssetsFinish">同步资源文件完毕，若未生效，请重启客户端</s:String>

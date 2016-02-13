@@ -70,7 +70,7 @@ namespace MTMCL.Play
                 {
                     Dispatcher.Invoke(new MethodInvoker(delegate
                     {
-                        gui.setTaskStatus("正在啟動");
+                        gui.setTaskStatus(Lang.LangManager.GetLangFromResource("SubTaskLaunch"));
                         new Assets.Assets(versions[comboVer.SelectedIndex]);
                         launcher.GameExit += onGameExit;
                         var result = launcher.Launch(new LaunchOptions
@@ -115,7 +115,7 @@ namespace MTMCL.Play
                         }
                     }));
                 }));
-                MeCore.MainWindow.addTask(gui.setTask("啟動" + versions[comboVer.SelectedIndex].Id).setThread(task));
+                MeCore.MainWindow.addTask(gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"),versions[comboVer.SelectedIndex].Id)).setThread(task));
                 MeCore.Config.LastPlayVer = versions[comboVer.SelectedIndex].Id;
                 MeCore.Config.Save(null);
             }
@@ -140,7 +140,7 @@ namespace MTMCL.Play
                 {
                     Dispatcher.Invoke(new MethodInvoker(delegate
                     {
-                        gui.setTaskStatus("正在啟動");
+                        gui.setTaskStatus(Lang.LangManager.GetLangFromResource("SubTaskLaunch"));
                         launcher.GameExit += onGameExit;
                         var result = launcher.Launch(new LaunchOptions
                         {
@@ -185,7 +185,7 @@ namespace MTMCL.Play
                         }
                     }));
                 }));
-                MeCore.MainWindow.addTask(gui.setTask("啟動" + profiles[comboProfile.SelectedIndex].version).setThread(task));
+                MeCore.MainWindow.addTask(gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), profiles[comboProfile.SelectedIndex].version)).setThread(task));
             }
         }
         private void onGameExit(LaunchHandle handle, int code) {
@@ -233,7 +233,12 @@ namespace MTMCL.Play
             MeCore.MainWindow.gridDL.listVerFAsset.SelectedIndex = -1;
             comboVer.Items.Clear();
             MeCore.MainWindow.gridDL.listVerFLib.Items.Clear();
+            MeCore.MainWindow.gridDL.butDLLib.IsEnabled = false;
+            MeCore.MainWindow.gridDL.butRDLLib.IsEnabled = false;
             MeCore.MainWindow.gridDL.listVerFAsset.Items.Clear();
+            MeCore.MainWindow.gridDL.butF5Asset.IsEnabled = false;
+            MeCore.MainWindow.gridDL.butDLAsset.IsEnabled = false;
+            MeCore.MainWindow.gridDL.butRDLAsset.IsEnabled = false;
             try
             {
                 launcher = LauncherCore.Create(new LauncherCoreCreationOption(txtBoxP.Text, comboJava.SelectedItem as string));

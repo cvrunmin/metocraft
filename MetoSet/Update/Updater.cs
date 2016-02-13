@@ -52,6 +52,8 @@ namespace MTMCL.Update
             string[] builds = MeCore.version.Split('.');
             var req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = "GET";
+            req.Timeout = 7500;
+            req.ReadWriteTimeout = 7500;
             var res = (HttpWebResponse)req.GetResponse();
             UpdateJson updatejs = LitJson.JsonMapper.ToObject<UpdateJson>(new LitJson.JsonReader(new StreamReader(res.GetResponseStream())));
             string[] latest = updatejs.versions[0].version.Split('.');

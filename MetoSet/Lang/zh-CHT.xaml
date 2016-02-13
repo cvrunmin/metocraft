@@ -95,6 +95,24 @@
     <s:String x:Key="NoConnectionSolve">請確保您已經連接到網絡。</s:String>
     <s:String x:Key="FormatFaultSolve">請確保 {0} 是正確格式。</s:String>
     <!--/Error-->
+    <!--Task-->
+    <s:String x:Key="TaskLaunch">啟動{0}</s:String>
+    <s:String x:Key="SubTaskLaunch">正在啟動</s:String>
+    <s:String x:Key="TaskFinish">完成</s:String>
+    <s:String x:Key="TaskDLMC">下載核心文件</s:String>
+    <s:String x:Key="TaskDLLib">下載必要文件</s:String>
+    <s:String x:Key="TaskRDLLib">重新下載必要文件</s:String>
+    <s:String x:Key="SubTaskDLLib">下載Library {0}</s:String>
+    <s:String x:Key="SubTaskDLNative">下載Native {0}</s:String>
+    <s:String x:Key="TaskDLAssets">下載資源文件</s:String>
+    <s:String x:Key="TaskRDLAssets">重新下載資源文件</s:String>
+    <s:String x:Key="TaskInstallForge">安裝Forge</s:String>
+    <s:String x:Key="SubTaskDLForge">下載Forge {0}%</s:String>
+    <s:String x:Key="SubTaskInstallForge">嘗試安裝Forge</s:String>
+    <s:String x:Key="TaskDLModPack">下載整合包</s:String>
+    <s:String x:Key="SubTaskDLModPack">下載整合包 {0}%</s:String>
+    <s:String x:Key="SubTaskExtractModPack">嘗試解壓整合包</s:String>
+    <!--/Task-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">發現資源文件修改，正在同步</s:String>
     <s:String x:Key="SyncAssetsFinish">同步資源文件完畢，若未生效，請重啟客戶端</s:String>
