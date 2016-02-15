@@ -645,6 +645,9 @@ namespace MTMCL.DL
                         {
                             listAsset.DataContext = dt;
                             listAsset.Items.SortDescriptions.Add(new SortDescription("Exist", ListSortDirection.Ascending));
+                            butDLAsset.IsEnabled = true;
+                            butRDLAsset.IsEnabled = true;
+                            butF5Asset.IsEnabled = true;
                         }));
                     }
                     catch (Exception ex)
