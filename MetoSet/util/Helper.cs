@@ -1,5 +1,7 @@
-﻿using System;
+﻿using KMCCC.Launcher;
+using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MTMCL.util
@@ -103,6 +105,36 @@ namespace MTMCL.util
                         }
                         break;
                 }
+            }
+        }
+    }
+    static class LibraryHelper
+    {
+        public static bool CheckLibrary(this KMCCC.Launcher.Version version)
+        {
+            try
+            {
+                var libs = version.Libraries.Select(lib => MeCore.MainWindow.gridPlay.launcher.GetLibPath(lib));
+                var natives = version.Natives.Select(native => MeCore.MainWindow.gridPlay.launcher.GetNativePath(native));
+                foreach (string libflie in libs)
+                {
+                    if (!File.Exists(libflie))
+                    {
+                        return false;
+                    }
+                }
+                foreach (string libflie in natives)
+                {
+                    if (!File.Exists(libflie))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

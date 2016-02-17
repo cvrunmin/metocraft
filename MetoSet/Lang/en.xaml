@@ -79,11 +79,14 @@
     <s:String x:Key="UNEM">Username / Email</s:String>
     <s:String x:Key="PW">Password</s:String>
     <s:String x:Key="ETwitch">Enable Twitch</s:String>
+    <s:String x:Key="RememberMe">Remember Me</s:String>
+    <s:String x:Key="RememberPW">Remember Password</s:String>
     <!-- /ACLogin -->
     <!--Error-->
-    <s:String x:Key="JavaFault">You could try these methods to solve this problem:[/newline/]1.reinstall Java.[/newline/]2.check the minecraft jar has been corrupt or not.</s:String>
-    <s:String x:Key="AuthFault">You could try these methods to solve this problem:[/newline/]1.check your email and password are correct or not.[/newline/]2.contact the network provider.[/newline/]If you are using custom authenticator, you could try: [/newline/]1.contact the authenticator provider.</s:String>
-    <s:String x:Key="LibFault">You could try these methods to solve this problem:[/newline/]1.check your libraries are intact or not.[/newline/]2.check your libraries are opened by other application or not.[/newline/]If you are using mod pack, you could try: [/newline/]1.check if the mod pack is intact or not.[/newline/]2.check if the mod pack is configured correctly or not.[/newline/]3.contact the mod pack provider.</s:String>
+    <s:String x:Key="JavaFaultSolve">You could try these methods to solve this problem:[/newline/]1.reinstall Java.[/newline/]2.check the minecraft jar has been corrupt or not.</s:String>
+    <s:String x:Key="AuthFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your email and password are correct or not.[/newline/]2.contact the network provider.[/newline/]If you are using custom authenticator, you could try: [/newline/]1.contact the authenticator provider.</s:String>
+    <s:String x:Key="LibFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your libraries are intact or not.[/newline/]2.check your libraries are opened by other application or not.[/newline/]If you are using mod pack, you could try: [/newline/]1.check if the mod pack is intact or not.[/newline/]2.check if the mod pack is configured correctly or not.[/newline/]3.contact the mod pack provider.</s:String>
+    <s:String x:Key="LibFault">Detected missing or corrupted libraries.</s:String>
     <s:String x:Key="MCCrashTitle">[/bold/]Uhoh, it looks like the game has crashed! Sorry for the inconvenience :([/endbold/][/newline/]Using magic and love, we've managed to gather some details about the crash and we will investigate this as soon as we can.[/newline/]You can see the full report below.</s:String>
     <s:String x:Key="MCCrashTitleModded">[/bold/]Uhoh, it looks like the game has crashed! Sorry for the inconvenience :([/endbold/][/newline/]We think your game may be modded, and as such we can't accept this crash report.[/newline/]However, if you do indeed use mods, please send this to the mod authors to take a look at!</s:String>
     <s:String x:Key="ReportTitle">An unexpected exception has been occurred. Please contact the author.</s:String>
@@ -94,6 +97,7 @@
     <s:String x:Key="FormatFaultSolve">Please make sure {0} is in correct format.</s:String>
     <!--/Error-->
     <!--Task-->
+    <s:String x:Key="TaskTitle">Task List</s:String>
     <s:String x:Key="TaskLaunch">Launch {0}</s:String>
     <s:String x:Key="SubTaskLaunch">Launching</s:String>
     <s:String x:Key="TaskFinish">Finish</s:String>

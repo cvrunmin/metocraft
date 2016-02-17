@@ -48,6 +48,10 @@ namespace MTMCL
         [DataMember]
         [LitJson.JsonPropertyName("check-update")]
         public bool CheckUpdate;
+        [DataMember]
+        public string username;
+        [DataMember]
+        public string token;
         public Config()
         {
             Javaw = KMCCC.Tools.SystemTools.FindValidJava().First() ?? "javaw.exe";

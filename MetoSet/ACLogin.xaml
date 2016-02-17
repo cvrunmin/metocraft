@@ -10,6 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ButtonStyle.xaml"/>
+                <ResourceDictionary Source="ControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -30,7 +31,8 @@
             <TextBox x:Name="txtBoxUN" Height="30" Margin="10,70,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>
             <Button x:Name="butBackOff" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackOff_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
             <Button x:Name="butLoginOff" Content="{DynamicResource Login}" Margin="0,0,217,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butLoginOff_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
-
+            <Label x:Name="lblRM1" Content="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top"/>
+            <ToggleButton x:Name="butRM1" Content="" HorizontalAlignment="Left" Margin="104,110,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top"/>
         </Grid>
         <Grid x:Name="gridMojang" Background="White" Visibility="Collapsed">
             <Label x:Name="lblTitleM" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
@@ -40,8 +42,12 @@
             <PasswordBox x:Name="pwbox" Margin="10,135,10,0" VerticalAlignment="Top" Height="30" FontSize="18.667"/>
             <Button x:Name="butBackM" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackM_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
             <Button x:Name="butLoginM" Content="{DynamicResource Login}" Margin="0,0,217,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butLoginM_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
-            <CheckBox x:Name="checkTwitch" Content="{DynamicResource ETwitch}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top"/>
-
+            <Label x:Name="lblRM2" Content="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top"/>
+            <ToggleButton x:Name="butRM2" Content="" HorizontalAlignment="Left" Margin="139,196,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top"/>
+            <Label x:Name="lblCheckTwitch" Content="{DynamicResource ETwitch}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top"/>
+            <ToggleButton x:Name="butCheckTwitch" Content="" HorizontalAlignment="Left" Margin="139,172,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top"/>
+            <Label x:Name="lblRPW" Content="{DynamicResource RememberPW}" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top"/>
+            <ToggleButton x:Name="butRPW" Content="" HorizontalAlignment="Left" Margin="139,221,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top" IsEnabled="False"/>
         </Grid>
     </Grid>
 </Window>

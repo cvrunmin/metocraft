@@ -1000,7 +1000,7 @@
     <SolidColorBrush x:Key="Button.Checked.MouseOver.Border" Color="#FF4CA0E3"/>
     <SolidColorBrush x:Key="Button.Pressed.Background" Color="White"/>
     <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF666666"/>
-    <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+    <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FF999999"/>
     <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
     <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
@@ -1057,7 +1057,10 @@
                             <Setter Property="Background" TargetName="border1" Value="{DynamicResource Button.Pressed.Border}"/>
                             <Setter Property="Background" TargetName="border2" Value="{DynamicResource Button.Pressed.Background}"/>
                         </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="false"/>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border1" Property="BorderBrush" Value="{DynamicResource Button.Disabled.Background}"/>
+                            <Setter TargetName="border2" Property="Background" Value="{DynamicResource Button.Disabled.Background}"/>
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="False"/>

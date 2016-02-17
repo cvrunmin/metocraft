@@ -1,6 +1,7 @@
 ﻿using KMCCC.Launcher;
 using MTMCL.NewGui;
 using MTMCL.Profile;
+using MTMCL.util;
 using System;
 using System.IO;
 using System.Linq;
@@ -71,6 +72,10 @@ namespace MTMCL.Play
                     Dispatcher.Invoke(new MethodInvoker(delegate
                     {
                         gui.setTaskStatus(Lang.LangManager.GetLangFromResource("SubTaskLaunch"));
+                        if (!versions[comboVer.SelectedIndex].CheckLibrary()) {
+                            new KnownErrorReport(Lang.LangManager.GetLangFromResource("LibFault"), Lang.LangManager.GetLangFromResource("LibFaultSolve")).Show();
+                            return;
+                        }
                         new Assets.Assets(versions[comboVer.SelectedIndex]);
                         launcher.GameExit += onGameExit;
                         var result = launcher.Launch(new LaunchOptions
@@ -88,16 +93,16 @@ namespace MTMCL.Play
                             switch (result.ErrorType)
                             {
                                 case ErrorType.NoJAVA:
-                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("JavaFault")).Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("JavaFaultSolve")).Show();
                                     break;
                                 case ErrorType.AuthenticationFailed:
-                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("AuthFault")).Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("AuthFaultSolve")).Show();
                                     break;
                                 case ErrorType.OperatorException:
                                     new KnownErrorReport(result.ErrorMessage).Show();
                                     break;
                                 case ErrorType.UncompressingFailed:
-                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("LibFault")).Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("LibFaultSolve")).Show();
                                     break;
                                 case ErrorType.Unknown:
                                     new KnownErrorReport(result.ErrorMessage).Show();
@@ -106,7 +111,7 @@ namespace MTMCL.Play
                         }
                         else
                         {
-                            _clientCrashReportCount = System.IO.Directory.Exists(launcher.GameRootPath + @"\crash-reports") ? System.IO.Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count() : 0;
+                            _clientCrashReportCount = Directory.Exists(launcher.GameRootPath + @"\crash-reports") ? System.IO.Directory.GetFiles(launcher.GameRootPath + @"\crash-reports").Count() : 0;
                             gui.setTaskStatus("");
                             gui.setSubProcess(result.Handle.GetType().GetField("Process", System.Reflection.BindingFlags.NonPublic |
                                     System.Reflection.BindingFlags.Instance).GetValue(result.Handle) as System.Diagnostics.Process);
@@ -141,6 +146,11 @@ namespace MTMCL.Play
                     Dispatcher.Invoke(new MethodInvoker(delegate
                     {
                         gui.setTaskStatus(Lang.LangManager.GetLangFromResource("SubTaskLaunch"));
+                        if (!launcher.GetVersion(profiles[comboProfile.SelectedIndex].version).CheckLibrary())
+                        {
+                            new KnownErrorReport(Lang.LangManager.GetLangFromResource("LibFault"), Lang.LangManager.GetLangFromResource("LibFaultSolve")).Show();
+                            return;
+                        }
                         launcher.GameExit += onGameExit;
                         var result = launcher.Launch(new LaunchOptions
                         {
@@ -159,16 +169,16 @@ namespace MTMCL.Play
                             switch (result.ErrorType)
                             {
                                 case ErrorType.NoJAVA:
-                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("JavaFault")).Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("JavaFaultSolve")).Show();
                                     break;
                                 case ErrorType.AuthenticationFailed:
-                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("AuthFault")).Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("AuthFaultSolve")).Show();
                                     break;
                                 case ErrorType.OperatorException:
                                     new KnownErrorReport(result.ErrorMessage).Show();
                                     break;
                                 case ErrorType.UncompressingFailed:
-                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("LibFault")).Show();
+                                    new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("LibFaultSolve")).Show();
                                     break;
                                 case ErrorType.Unknown:
                                     new KnownErrorReport(result.ErrorMessage).Show();

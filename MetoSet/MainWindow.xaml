@@ -41,13 +41,10 @@
         <Expander x:Name="expanderTask" Header="" Expanded="expanderTask_Expanded" Collapsed="expanderTask_Collapsed" IsExpanded="True" BorderThickness="0" ExpandDirection="Right" Background="#7FFFFFFF" HorizontalAlignment="Right" Width="415">
             <Grid x:Name="TaskGui" Width="394" HorizontalAlignment="Right" Background="White">
                 <Grid Height="35" VerticalAlignment="Top" Background="#FF00234F">
-                    <Label x:Name="lblTime" Content="16:53" Margin="0,6,7,5" Foreground="White" HorizontalAlignment="Right" Width="42"/>
+                    <Label x:Name="lblTime" Content="" Margin="0,6,7,5" Foreground="White" HorizontalAlignment="Right" Width="42"/>
+                    <Label x:Name="lblTitle" Content="{DynamicResource TaskTitle}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Foreground="White"/>
                 </Grid>
-                <Grid Margin="0,35,0,0" Height="201" VerticalAlignment="Top">
-                    <Label x:Name="label" Content="請勿在工作運行時關閉或拔除電腦的電源" Margin="0,61,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-                    <Label x:Name="label1" Content="Please do not power off or unplug your machine &#xA;                         when tasks is working" Margin="0,86,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-                </Grid>
-                <WrapPanel x:Name="taskPanal" Margin="0,236,0,0" Background="#FFBBE3F1"/>
+                <WrapPanel x:Name="taskPanal" Margin="0,35,0,0" Background="#FFBBE3F1"/>
             </Grid>
 
         </Expander>

@@ -60,10 +60,12 @@ namespace MTMCL.NewGui
             return this;
         }
         public void noticeFinished() {
+            setTaskStatus(Lang.LangManager.GetLangFromResource("TaskFinish"));
             finished = true;
         }
         public void noticeNotFinish()
         {
+            setTaskStatus("");
             finished = false;
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -83,7 +85,6 @@ namespace MTMCL.NewGui
         {
             if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited)) && needDetectAlive())
             {
-                setTaskStatus("Finished");
                 noticeFinished();
             }
             if (startCount)

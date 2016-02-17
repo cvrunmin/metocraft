@@ -80,11 +80,14 @@
     <s:String x:Key="UNEM">用户名/ 电邮</s:String>
     <s:String x:Key="PW">密码</s:String>
     <s:String x:Key="ETwitch">启用直播 (Twitch)</s:String>
+    <s:String x:Key="RememberMe">记住我</s:String>
+    <s:String x:Key="RememberPW">记住密码</s:String>
     <!-- /ACLogin -->
     <!--Error-->
-    <s:String x:Key="JavaFault">您可以尝试以下方法解决此问题：[/newline/]1.重新安装Java[/newline/]2.检查Minecraft Jar是否已经损坏</s:String>
-    <s:String x:Key="AuthFault">您可以尝试以下方法解决此问题：[/newline/]1.检查您的电邮与密码是否正确输入[/newline/]2.联络网络供应商[/newline/]如果是自订验证伺服器，您可以尝试：[/newline/]1.联络验证伺服器供应商</s:String>
-    <s:String x:Key="LibFault">您可以尝试以下方法解决此问题：[/newline/]1.检查库文件是否完整[/newline/]2.检查库文件是否已在其他应用程式中开启[/newline/]如果正在使用整合包，您可以尝试：[/newline/]1.检查整合包内容是否完整[/newline/]2.检查整合包内容是否正确配置[/newline/]3.联络整合包提供者</s:String>
+    <s:String x:Key="JavaFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.重新安装Java[/newline/]2.检查Minecraft Jar是否已经损坏</s:String>
+    <s:String x:Key="AuthFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.检查您的电邮与密码是否正确输入[/newline/]2.联络网络供应商[/newline/]如果是自订验证伺服器，您可以尝试：[/newline/]1.联络验证伺服器供应商</s:String>
+    <s:String x:Key="LibFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.检查库文件是否完整[/newline/]2.检查库文件是否已在其他应用程式中开启[/newline/]如果正在使用整合包，您可以尝试：[/newline/]1.检查整合包内容是否完整[/newline/]2.检查整合包内容是否正确配置[/newline/]3.联络整合包提供者</s:String>
+    <s:String x:Key="LibFault">发现缺失或损坏的库文件</s:String>
     <s:String x:Key="MCCrashTitle">[/bold/]哎呀，看来游戏崩溃了！抱歉为你带来不便:([/endbold/][/newline/]使用魔法和爱，我们已经成功地收集是次崩溃的细节，我们会尽快调查此崩溃[/newline/]你可以在下面查看完整的崩溃报告。</s:String>
     <s:String x:Key="MCCrashTitleModded">[/bold/]哎呀，看来游戏崩溃了！抱歉为你带来不便:([/endbold/][/newline/]我们觉得游戏己被修改，因此我们并不能认受这份崩溃报告[/newline/]不过，如果你确实在使用模组，请将此报告发送给模组作者看看！</s:String>
     <s:String x:Key="ReportTitle">出现未遇期的例外，请联络作者</s:String>
@@ -95,6 +98,7 @@
     <s:String x:Key="FormatFaultSolve">请确保 {0} 是正确格式。</s:String>
     <!--/Error-->
     <!--Task-->
+    <s:String x:Key="TaskTitle">任务列表</s:String>
     <s:String x:Key="TaskLaunch">启动{0}</s:String>
     <s:String x:Key="SubTaskLaunch">正在启动</s:String>
     <s:String x:Key="TaskFinish">完成</s:String>

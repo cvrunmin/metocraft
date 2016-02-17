@@ -81,11 +81,14 @@
     <s:String x:Key="UNEM">用戶名 / 電郵</s:String>
     <s:String x:Key="PW">密碼</s:String>
     <s:String x:Key="ETwitch">啟用直播 (Twitch)</s:String>
+    <s:String x:Key="RememberMe">記住我</s:String>
+    <s:String x:Key="RememberPW">記住密碼</s:String>
     <!-- /ACLogin -->
     <!--Error-->
-    <s:String x:Key="JavaFault">您可以嘗試以下方法解決此問題：[/newline/]1.重新安裝Java[/newline/]2.檢查Minecraft Jar是否已經損壞</s:String>
-    <s:String x:Key="AuthFault">您可以嘗試以下方法解決此問題：[/newline/]1.檢查您的電郵與密碼是否正確輸入[/newline/]2.聯絡網絡供應商[/newline/]如果是自訂驗證伺服器，您可以嘗試：[/newline/]1.聯絡驗證伺服器供應商</s:String>
-    <s:String x:Key="LibFault">您可以嘗試以下方法解決此問題：[/newline/]1.檢查庫文件是否完整[/newline/]2.檢查庫文件是否已在其他應用程式中開啟[/newline/]如果正在使用整合包，您可以嘗試：[/newline/]1.檢查整合包內容是否完整[/newline/]2.檢查整合包內容是否正確配置[/newline/]3.聯絡整合包提供者</s:String>
+    <s:String x:Key="JavaFaultSolve">您可以嘗試以下方法解決此問題：[/newline/]1.重新安裝Java[/newline/]2.檢查Minecraft Jar是否已經損壞</s:String>
+    <s:String x:Key="AuthFaultSolve">您可以嘗試以下方法解決此問題：[/newline/]1.檢查您的電郵與密碼是否正確輸入[/newline/]2.聯絡網絡供應商[/newline/]如果是自訂驗證伺服器，您可以嘗試：[/newline/]1.聯絡驗證伺服器供應商</s:String>
+    <s:String x:Key="LibFaultSolve">您可以嘗試以下方法解決此問題：[/newline/]1.檢查庫文件是否完整[/newline/]2.檢查庫文件是否已在其他應用程式中開啟[/newline/]如果正在使用整合包，您可以嘗試：[/newline/]1.檢查整合包內容是否完整[/newline/]2.檢查整合包內容是否正確配置[/newline/]3.聯絡整合包提供者</s:String>
+    <s:String x:Key="LibFault">發現缺失或損壞的庫文件</s:String>
     <s:String x:Key="MCCrashTitle">[/bold/]哎呀，看來遊戲崩潰了！抱歉為你帶來不便 :([/endbold/][/newline/]使用魔法和愛，我們已經成功地收集是次崩潰的細節，我們會盡快調查此崩潰[/newline/]你可以在下面查看完整的崩潰報告。</s:String>
     <s:String x:Key="MCCrashTitleModded">[/bold/]哎呀，看來遊戲崩潰了！抱歉為你帶來不便 :([/endbold/][/newline/]我們覺得遊戲己被修改，因此我們並不能認受這份崩潰報告[/newline/]不過，如果你確實在使用模組，請將此報告發送給模組作者看看！</s:String>
     <s:String x:Key="ReportTitle">出現未遇期的例外，請聯絡作者</s:String>
@@ -96,6 +99,7 @@
     <s:String x:Key="FormatFaultSolve">請確保 {0} 是正確格式。</s:String>
     <!--/Error-->
     <!--Task-->
+    <s:String x:Key="TaskTitle">任務列表</s:String>
     <s:String x:Key="TaskLaunch">啟動{0}</s:String>
     <s:String x:Key="SubTaskLaunch">正在啟動</s:String>
     <s:String x:Key="TaskFinish">完成</s:String>

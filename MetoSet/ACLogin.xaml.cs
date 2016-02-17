@@ -40,6 +40,11 @@ namespace MTMCL
         private void butLoginOff_Click(object sender, RoutedEventArgs e)
         {
             auth = new KMCCC.Authentication.OfflineAuthenticator(txtBoxUN.Text);
+            if ((bool)butRM1.IsChecked)
+            {
+                MeCore.Config.username = txtBoxUN.Text;
+                MeCore.Config.Save(null);
+            }
             Close();
         }
 
@@ -51,7 +56,12 @@ namespace MTMCL
 
         private void butLoginM_Click(object sender, RoutedEventArgs e)
         {
-            auth = new KMCCC.Authentication.YggdrasilLogin(txtBoxUNE.Text, pwbox.Password, (bool)checkTwitch.IsChecked);
+            auth = new KMCCC.Authentication.YggdrasilLogin(txtBoxUNE.Text, pwbox.Password, (bool)butCheckTwitch.IsChecked);
+            if ((bool)butRM2.IsChecked)
+            {
+                MeCore.Config.username = txtBoxUNE.Text;
+                MeCore.Config.Save(null);
+            }
             Close();
         }
 
@@ -161,15 +171,5 @@ namespace MTMCL
                 CreateCustomAuth();
             }
         }
-        /*        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-       {
-           if (gridOff.Margin != new Thickness(0)) {
-               gridOff.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
-           }
-           if (gridMojang.Margin != new Thickness(0))
-           {
-               gridMojang.Margin = new Thickness(0, 0, 0, gridMain.ActualHeight);
-           }
-       }*/
     }
 }
