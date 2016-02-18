@@ -64,7 +64,7 @@ namespace MTMCL.Sett
             MeCore.Config.DownloadSource = comboDLSrc.SelectedIndex;
             if (MeCore.Config.DownloadSource == 1)
             {
-                System.Windows.MessageBox.Show("使用BMCLAPI時需要限制連線頻率\n使用BMCLAPI时需要限制连线频率\nFrequency of connecting to BMCLAPI have to be limited", "注意 Attention", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                //System.Windows.MessageBox.Show("使用BMCLAPI時需要限制連線頻率\n使用BMCLAPI时需要限制连线频率\nFrequency of connecting to BMCLAPI have to be limited", "注意 Attention", MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
             MeCore.Config.Save(null);
         }
@@ -90,9 +90,19 @@ namespace MTMCL.Sett
         private void Save()
         {
             MeCore.Config.BackGround = txtBoxP.Text;
-            MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).R;
-            MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).G;
-            MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(uint.Parse(txtBoxColor.Text) & 0x7FFFFFFF)).B;
+            uint c;
+            if (uint.TryParse(txtBoxColor.Text, out c))
+            {
+                MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).R;
+                MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).G;
+                MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).B;
+            }
+            else
+            {
+                MeCore.Config.color[0] = System.Drawing.Color.FromArgb(0xFFFFFF).R;
+                MeCore.Config.color[1] = System.Drawing.Color.FromArgb(0xFFFFFF).G;
+                MeCore.Config.color[2] = System.Drawing.Color.FromArgb(0xFFFFFF).B;
+            }
             MeCore.Config.Save(null);
             Render();
             RenderColor();
@@ -131,7 +141,7 @@ namespace MTMCL.Sett
                 }
                 catch (Exception ex)
                 {
-                    new ErrorReport(ex).ShowDialog();
+                    //new ErrorReport(ex).ShowDialog();
                     MeCore.Config.BackGround = "default";
                     MeCore.Config.Save(null);
                     MeCore.MainWindow.Close();
@@ -205,7 +215,7 @@ namespace MTMCL.Sett
                     MeCore.MainWindow.gridMenu.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridAbout.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridDL.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
-                    //                    MeCore.MainWindow.gridPlay.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
+                    MeCore.MainWindow.gridPlay.animateLblBG(da);
                     gridParent.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.expanderTask.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     var col = System.Drawing.Color.FromArgb((int)(~ByteArrayToArgb()));

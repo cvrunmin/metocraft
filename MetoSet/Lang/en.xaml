@@ -22,6 +22,11 @@
     <s:String x:Key="COMJava">Installed Java</s:String>
 
     <s:String x:Key="Pro">Pro</s:String>
+    <s:String x:Key="Home">Home</s:String>
+    <s:String x:Key="Enterprise">Enterprise</s:String>
+    <s:String x:Key="Home_Basic">Home Basic</s:String>
+    <s:String x:Key="Home_Premium">Home Premium</s:String>
+    <s:String x:Key="Ultimate">Ultimate</s:String>
     <s:String x:Key="COMx64">64-bit Operaing System</s:String>
     <s:String x:Key="COMx86">32-bit Operaing System</s:String>
     <s:String x:Key="PCSx64">64-bit Processor</s:String>
@@ -101,6 +106,8 @@
     <s:String x:Key="TaskLaunch">Launch {0}</s:String>
     <s:String x:Key="SubTaskLaunch">Launching</s:String>
     <s:String x:Key="TaskFinish">Finish</s:String>
+    <s:String x:Key="TaskFail">Fail</s:String>
+    <s:String x:Key="TaskExist">Duplicate Task</s:String>
     <s:String x:Key="TaskDLMC">Download Core</s:String>
     <s:String x:Key="TaskDLLib">Download the essentials</s:String>
     <s:String x:Key="TaskRDLLib">Re-download the essentials</s:String>

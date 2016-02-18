@@ -44,10 +44,12 @@ namespace MTMCL
             string oss = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
             int ins = 0;
             ins = oss.IndexOf("Pro");
-            if (ins != -1)
+            string[] ss = oss.Split(' ');
+            oss = oss.Substring(0, (ss[0] + " " + ss[1]).Length) + " " + Lang.LangManager.GetLangFromResource(oss.Substring((ss[0] + " " + ss[1] + " ").Length).Replace(' ', '_'));
+            /*if (ins != -1)
             {
                 oss = oss.Substring(0, ins) + Lang.LangManager.GetLangFromResource("Pro");
-            }
+            }*/
             lblCVer1.Content = oss;
             lblBit1.Content = (Environment.Is64BitOperatingSystem ? Lang.LangManager.GetLangFromResource("COMx64") : Lang.LangManager.GetLangFromResource("COMx86")) + ", " + (Environment.Is64BitProcess ? Lang.LangManager.GetLangFromResource("PCSx64") : Lang.LangManager.GetLangFromResource("PCSx86"));
             StringBuilder builder = new StringBuilder();
@@ -64,7 +66,7 @@ namespace MTMCL
                 {
                     if (builder.Length != 0)
                     {
-                        builder.Append("& x86");
+                        builder.Append(" & x86");
                     }
                     else
                     {
@@ -75,7 +77,6 @@ namespace MTMCL
             lblJava1.Content = builder.ToString();
 
         }
-
         public void setLblColor(Color color)
         {
             lblBit.Foreground = new SolidColorBrush(color);

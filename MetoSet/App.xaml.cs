@@ -47,31 +47,22 @@ namespace MTMCL
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-            for (int i = 0; i < e.Args.Length; i++)
-            {
-                Logger.log(e.Args[i]);
-            }
             if (Array.IndexOf(e.Args, "-Update") != -1)
             {
-                Logger.log("found update argument");
                 var index = Array.IndexOf(e.Args, "-Update");
                 if (index < e.Args.Length - 1)
                 {
-                    Logger.log("found one or more arguments");
                     if (!e.Args[index + 1].StartsWith("-"))
                     {
-                        Logger.log("try delete update file");
                         DoUpdate(e.Args[index + 1]);
                     }
                     else
                     {
-                        Logger.log("try do update");
                         DoUpdate();
                     }
                 }
                 else
                 {
-                    Logger.log("try do update");
                     DoUpdate();
                 }
             }

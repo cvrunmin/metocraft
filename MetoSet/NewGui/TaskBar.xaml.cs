@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Security.Permissions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,8 +60,21 @@ namespace MTMCL.NewGui
             detectAlive = flag;
             return this;
         }
-        public void noticeFinished() {
-            setTaskStatus(Lang.LangManager.GetLangFromResource("TaskFinish"));
+        public void noticeFinished()
+        {
+            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLangFromResource("TaskFinish"))));
+            finished = true;
+        }
+        public void noticeFailed()
+        {
+            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLangFromResource("TaskFail"))));
+            finished = true;
+        }
+        [SecurityPermission(SecurityAction.Demand, ControlThread = true)]
+        public void noticeExisted()
+        {
+            _task.Abort();
+            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLangFromResource("TaskExist"))));
             finished = true;
         }
         public void noticeNotFinish()

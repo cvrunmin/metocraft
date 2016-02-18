@@ -15,29 +15,30 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-    <Grid x:Name="gridBasic" Margin="0,0,0,0">
+    <Grid x:Name="gridBasic" Margin="0,0,0,0" Visibility="Visible">
         <Button x:Name="butPlay" Content="{DynamicResource PlayPlay}" Margin="0,0,10,10" Click="butPlay_Click" Height="55" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="120" Style="{DynamicResource NormalButton}"/>
         <ComboBox x:Name="comboVer" Margin="0,0,135,10" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150"/>
-        <Button x:Name="butF5Ver" Content="{DynamicResource Refresh}" Margin="0,0,285,10" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="butF5Ver_Click" Style="{DynamicResource NormalButton}"/>        <ComboBox x:Name="comboJava" Margin="0,0,135,40" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150"/>
-        <Label x:Name="lblJava" Content="{DynamicResource UseJ}" Margin="0,0,285,42" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="69" HorizontalContentAlignment="Right"/>
-        <Label x:Name="lblVer" Content="{DynamicResource Version}" Margin="0,0,360,10" HorizontalAlignment="Right" Width="53" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right"/>
-        <Label x:Name="lblMP" Content="{DynamicResource MCPath}" Margin="0,0,365,68" HorizontalAlignment="Right" Width="93" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right"/>
+        <Button x:Name="butF5Ver" Content="{DynamicResource Refresh}" Margin="0,0,285,10" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="butF5Ver_Click" Style="{DynamicResource NormalButton}"/>
+        <ComboBox x:Name="comboJava" Margin="0,0,135,40" Template="{DynamicResource ComboBoxControlTemplate1}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150"/>
+        <Label x:Name="lblJava" Content="{DynamicResource UseJ}" Margin="0,0,285,42" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="69" HorizontalContentAlignment="Right" Background="#7FFFFFFF"/>
+        <Label x:Name="lblVer" Content="{DynamicResource Version}" Margin="0,0,360,10" HorizontalAlignment="Right" Width="53" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Background="#7FFFFFFF"/>
+        <Label x:Name="lblMP" Content="{DynamicResource MCPath}" Margin="0,0,365,68" HorizontalAlignment="Right" Width="93" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Background="#7FFFFFFF"/>
         <TextBox x:Name="txtBoxP" Margin="0,0,10,70" TextWrapping="Wrap" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="275"/>
         <Button x:Name="butBrowse" Content="{DynamicResource Browse}" Margin="0,0,285,70" Click="butBrowse_Click" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Style="{DynamicResource NormalButton}"/>
-        <Label x:Name="lblMM" Content="{DynamicResource Xmx}" Margin="0,0,410,98" HorizontalAlignment="Right" Width="117" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right"/>
-        <Slider x:Name="sliderRAM" Margin="0,0,10,98" Foreground="#7F000000" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="400" ValueChanged="sliderRAM_ValueChanged"/>
+        <Label x:Name="lblMM" Content="{DynamicResource Xmx}" Margin="0,0,410,98" HorizontalAlignment="Right" Width="117" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Background="#7FFFFFFF"/>
+        <Slider x:Name="sliderRAM" Margin="0,0,10,98" Foreground="#7F000000" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="400" ValueChanged="sliderRAM_ValueChanged" Minimum="512"/>
         <Button x:Name="butDown" Content="↓" HorizontalAlignment="Left" Width="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Height="35" VerticalAlignment="Bottom" Click="butDown_Click" Style="{DynamicResource FunctionButton}"/>
-        <Label x:Name="lblArg" Content="{DynamicResource ExArg}" Margin="0,0,407,119" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="123" HorizontalContentAlignment="Right"/>
+        <Label x:Name="lblArg" Content="{DynamicResource ExArg}" Margin="0,0,407,119" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="123" HorizontalContentAlignment="Right" Background="#7FFFFFFF"/>
         <TextBox x:Name="txtBoxArg" Margin="0,0,10,121" TextWrapping="Wrap" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="397"/>
     </Grid>
     <Grid x:Name="gridPro" Margin="0,0,0,0" Visibility="Collapsed">
         <Button x:Name="butPlayPro" Width="120" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="55" HorizontalAlignment="Right" Content="{DynamicResource PlayPlay}" Click="butPlayPro_Click" Style="{DynamicResource NormalButton}"/>
         <ComboBox x:Name="comboProfile" Width="150" VerticalAlignment="Bottom" Template="{DynamicResource ComboBoxControlTemplate1}" Margin="0,0,135,10" Height="25" HorizontalAlignment="Right"/>
-        <Button x:Name="butF5Profile" Width="75" VerticalAlignment="Bottom" Margin="0,0,285,10" Height="25" HorizontalAlignment="Right" Content="{DynamicResource Refresh}" Click="butF5Profile_Click" Style="{DynamicResource NormalButton}"/>
-        <Label x:Name="lblProfile" VerticalAlignment="Bottom" Margin="0,0,435,10" Height="25" HorizontalAlignment="Right" Content="{DynamicResource Profile}" HorizontalContentAlignment="Right"/>
-        <Label x:Name="lblMM_Copy" Content="{DynamicResource Xmx}" Margin="0,0,410,70" HorizontalAlignment="Right" Width="117" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right"/>
-        <Slider x:Name="sliderRAMPro" Margin="0,0,10,70" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="400" ValueChanged="sliderRAMPro_ValueChanged"/> 
+        <Button x:Name="butF5Profile" Width="75" VerticalAlignment="Bottom" Margin="0,0,135,35" Height="25" HorizontalAlignment="Right" Content="{DynamicResource Refresh}" Click="butF5Profile_Click" Style="{DynamicResource NormalButton}"/>
+        <Label x:Name="lblProfile" VerticalAlignment="Bottom" Margin="0,0,285,10" Height="25" HorizontalAlignment="Right" Content="{DynamicResource Profile}" HorizontalContentAlignment="Right" Background="#7FFFFFFF" Width="125"/>
+        <Label x:Name="lblMM_Copy" Content="{DynamicResource Xmx}" Margin="0,0,410,70" HorizontalAlignment="Right" Width="117" Height="25" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Background="#7FFFFFFF"/>
+        <Slider x:Name="sliderRAMPro" Margin="0,0,10,70" Style="{DynamicResource SliderStyle}" Value="1024" Maximum="2048" SmallChange="256" LargeChange="1024" AutoToolTipPlacement="TopLeft" TickFrequency="256" IsSnapToTickEnabled="True" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="400" ValueChanged="sliderRAMPro_ValueChanged" Minimum="512"/>
         <Button x:Name="butUp" Content="↑" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="35" BorderBrush="{x:Null}" Background="#7FFFFFFF" Click="butUp_Click" Style="{DynamicResource FunctionButton}"/>
-        <Button x:Name="butEdit" Content="{DynamicResource Edit}" Margin="0,0,360,10" Click="butEdit_Click" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Style="{DynamicResource NormalButton}"/>
+        <Button x:Name="butEdit" Content="{DynamicResource Edit}" Margin="0,0,210,35" Click="butEdit_Click" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Style="{DynamicResource NormalButton}"/>
     </Grid>
 </Grid>

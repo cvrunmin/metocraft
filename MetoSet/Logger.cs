@@ -18,7 +18,7 @@ namespace MTMCL
 //        static readonly FrmLog frmLog = new FrmLog();
         static public void start()
         {
-            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
             fs.Close();
             if (debug)
             {

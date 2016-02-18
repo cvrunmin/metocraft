@@ -22,6 +22,11 @@
     <s:String x:Key="COMJava">安裝的Java</s:String>
 
     <s:String x:Key="Pro">專業版</s:String>
+    <s:String x:Key="Home">家用版</s:String>
+    <s:String x:Key="Enterprise">企業版</s:String>
+    <s:String x:Key="Home_Basic">家用入門版</s:String>
+    <s:String x:Key="Home_Premium">家用進階版</s:String>
+    <s:String x:Key="Ultimate">旗艦版</s:String>
     <s:String x:Key="COMx64">64位元作業系統</s:String>
     <s:String x:Key="COMx86">32位元作業系統</s:String>
     <s:String x:Key="PCSx64">x64型處理器</s:String>
@@ -103,6 +108,8 @@
     <s:String x:Key="TaskLaunch">啟動{0}</s:String>
     <s:String x:Key="SubTaskLaunch">正在啟動</s:String>
     <s:String x:Key="TaskFinish">完成</s:String>
+    <s:String x:Key="TaskFail">失敗</s:String>
+    <s:String x:Key="TaskExist">重複任務</s:String>
     <s:String x:Key="TaskDLMC">下載核心文件</s:String>
     <s:String x:Key="TaskDLLib">下載必要文件</s:String>
     <s:String x:Key="TaskRDLLib">重新下載必要文件</s:String>

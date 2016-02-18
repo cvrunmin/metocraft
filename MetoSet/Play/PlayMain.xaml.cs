@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace MTMCL.Play
 {
@@ -120,7 +121,7 @@ namespace MTMCL.Play
                         }
                     }));
                 }));
-                MeCore.MainWindow.addTask(gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"),versions[comboVer.SelectedIndex].Id)).setThread(task));
+                MeCore.MainWindow.addTask(gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"),versions[comboVer.SelectedIndex].Id)).setThread(task), "game");
                 MeCore.Config.LastPlayVer = versions[comboVer.SelectedIndex].Id;
                 MeCore.Config.Save(null);
             }
@@ -195,7 +196,7 @@ namespace MTMCL.Play
                         }
                     }));
                 }));
-                MeCore.MainWindow.addTask(gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), profiles[comboProfile.SelectedIndex].version)).setThread(task));
+                MeCore.MainWindow.addTask(gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), profiles[comboProfile.SelectedIndex].version)).setThread(task), "game");
             }
         }
         private void onGameExit(LaunchHandle handle, int code) {
@@ -321,6 +322,15 @@ namespace MTMCL.Play
             lblMP.Foreground = new SolidColorBrush(color);
             lblProfile.Foreground = new SolidColorBrush(color);
             lblVer.Foreground = new SolidColorBrush(color);
+        }
+        public void animateLblBG(ColorAnimation a) {
+            lblArg.Background.BeginAnimation(SolidColorBrush.ColorProperty, a);
+            lblJava.Background.BeginAnimation(SolidColorBrush.ColorProperty, a);
+            lblMM.Background.BeginAnimation(SolidColorBrush.ColorProperty, a);
+            lblMM_Copy.Background.BeginAnimation(SolidColorBrush.ColorProperty, a);
+            lblMP.Background.BeginAnimation(SolidColorBrush.ColorProperty, a);
+            lblProfile.Background.BeginAnimation(SolidColorBrush.ColorProperty, a);
+            lblVer.Background.BeginAnimation(SolidColorBrush.ColorProperty, a);
         }
 
         private void sliderRAM_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

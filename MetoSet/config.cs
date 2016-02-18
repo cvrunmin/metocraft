@@ -99,7 +99,7 @@ namespace MTMCL
             }
             catch
             {
-                MessageBox.Show("errer occurred when loading the config file, try to use default config.");
+                //MessageBox.Show("errer occurred when loading the config file, try to use default config.");
                 return new Config();
             }
         }
@@ -133,7 +133,7 @@ namespace MTMCL
             catch (Exception e)
             {
                 Logger.log(e);
-                MessageBox.Show("cannot save config file");
+                //MessageBox.Show("cannot save config file");
             }
         }
 

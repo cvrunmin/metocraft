@@ -2,6 +2,7 @@
 using MTMCL.NewGui;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,7 +16,7 @@ namespace MTMCL
     public partial class MainWindow : Window
     {
         System.Windows.Forms.Timer timer;
-        List<TaskBar> tasklist = new List<TaskBar>();
+        Dictionary<string, TaskBar> taskdict = new Dictionary<string, TaskBar>();
         public MainWindow()
         {
             MeCore.NIcon.MainWindow = this;
@@ -137,25 +138,25 @@ namespace MTMCL
         private void timer_Tick(object sender, EventArgs e)
         {
             lblTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
-            if (tasklist.Count != 0)
+            if (taskdict.Count != 0)
             {
-                List<TaskBar> deletable = new List<TaskBar>();
-                foreach (var task in tasklist)
+                Dictionary<string, TaskBar> deletable = new Dictionary<string, TaskBar>();
+                foreach (var task in taskdict)
                 {
-                    if (task.isFinished())
+                    if (task.Value.isFinished())
                     {
-                        deletable.Add(task);
+                        deletable.Add(task.Key, task.Value);
                     }
                 }
                 if (deletable.Count != 0)
                 {
                     foreach (var task in deletable)
                     {
-                        removeTask(task);
+                        removeTask(task.Key, task.Value);
                     }
                 }
             }
-            expanderTask.Header = tasklist.Count != 0 ? tasklist.Count.ToString() : "";
+            expanderTask.Header = taskdict.Count != 0 ? taskdict.Count.ToString() : "";
         }
 
         private void expanderTask_Expanded(object sender, RoutedEventArgs e)
@@ -190,14 +191,28 @@ namespace MTMCL
             gridParent.BeginAnimation(MarginProperty, ani2);
         }
 
-        public void addTask(TaskBar task) {
+        public void addTask(TaskBar task, string identifier) {
+            if (taskdict.ContainsKey(identifier))
+            {
+                //return;
+                task.noticeExisted();
+                string _identifier = identifier + "exist";
+                int i = 0;
+                while (taskdict.ContainsKey(_identifier))
+                {
+                    ++i;
+                    _identifier = identifier + "exist" + i;
+                }
+                identifier = _identifier;
+            }
             task.Margin = new Thickness(0);
-            tasklist.Add(task);
+            taskdict.Add(identifier, task);
             taskPanal.Children.Add(task);
         }
-        public void removeTask(TaskBar task)
+        public async void removeTask(string s, TaskBar task)
         {
-            tasklist.Remove(task);
+            taskdict.Remove(s);
+            await Task.Delay(1000);
             taskPanal.Children.Remove(task);
         }
         private string toGoodString(int i)

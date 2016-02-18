@@ -14,6 +14,7 @@ using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -45,12 +46,12 @@ namespace MTMCL.DL
             {
                 try
                 {
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(async delegate
                     {
                         butRefresh.Content = LangManager.GetLangFromResource("RemoteVerGetting");
                         if (MeCore.Config.DownloadSource == 1)
                         {
-                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                            await Task.Delay(TimeSpan.FromSeconds(1));
                         }
                     }));
                     var getJsonAns = (HttpWebResponse)getJson.GetResponse();
@@ -111,13 +112,13 @@ namespace MTMCL.DL
             if (selectVer != null)
             {
                 NewGui.TaskBar taskbar = new NewGui.TaskBar();
-                var task = new Thread(new ThreadStart(delegate
+                var task = new Thread(new ThreadStart(async delegate
                 {
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(async delegate
                     {
                         if (MeCore.Config.DownloadSource == 1)
                         {
-                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                            await Task.Delay(TimeSpan.FromSeconds(1));
                         }
                     }));
                     var selectver = selectVer[0] as string;
@@ -156,8 +157,19 @@ namespace MTMCL.DL
                             Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
                         };
                         Logger.log("download:" + downjsonfile);
-                        downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                        VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(new StreamReader(downjsonpath));
+                        try
+                        {
+                            downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
+                        }
+                        catch (Exception)
+                        {
+                            taskbar.noticeFailed();
+                            return;
+                        }
+                        await Task.Delay(TimeSpan.FromMilliseconds(500));
+                        var sr = new StreamReader(downjsonpath);
+                        VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(sr);
+                        sr.Close();
                         if (ver.downloads != null)
                         {
                             if (ver.downloads.client != null)
@@ -177,11 +189,11 @@ namespace MTMCL.DL
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
                             new ErrorReport(ex).Show();
-                            taskbar.noticeFinished();
+                            taskbar.noticeFailed();
                         }));
                     }
                 }));
-                MeCore.MainWindow.addTask(taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false));
+                MeCore.MainWindow.addTask(taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false), "dl-mcclient-" + selectVer[0] as string);
             }
         }
         private void listRemoteVer_MouseDoubleClick(object sender, EventArgs e)
@@ -270,7 +282,7 @@ namespace MTMCL.DL
                     }
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLLib")));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLLib")), "dl-lib");
         }
         private void butRDLLib_Click(object sender, RoutedEventArgs e)
         {
@@ -290,14 +302,6 @@ namespace MTMCL.DL
                     i++;
                     MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float)i / libs.Count()) * 100f).ToString() + "%"))));
                     Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
-                    if (!Directory.Exists(Path.GetDirectoryName(libfile)))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(libfile));
-                    }
-                    if (File.Exists(libfile))
-                    {
-                        File.Delete(libfile);
-                    }
                     DownloadLibOrNative(libfile, false);
                 }
                 i = 0;
@@ -306,18 +310,10 @@ namespace MTMCL.DL
                     MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLNative"), (((float)i / natives.Count()) * 100f).ToString() + "%"))));
 
                     Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
-                    if (!Directory.Exists(Path.GetDirectoryName(libfile)))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(libfile));
-                    }
-                    if (File.Exists(libfile))
-                    {
-                        File.Delete(libfile);
-                    }
                     DownloadLibOrNative(libfile, true);
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskRDLLib")));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskRDLLib")), "dl-lib");
         }
         private void DownloadLibOrNative(string file, bool isNative)
         {
@@ -471,7 +467,7 @@ namespace MTMCL.DL
                     Logger.info("无需更新assets");
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskDLAssets")));
+            MeCore.MainWindow.addTask(task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskDLAssets")), "dl-assets");
             //            thGet.Start();
         }
         private void butRDLAsset_Click(object sender, RoutedEventArgs e)
@@ -519,7 +515,7 @@ namespace MTMCL.DL
                     }
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")));
+            MeCore.MainWindow.addTask(task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")), "dl-assets");
         }
 
         private void butF5Asset_Click(object sender, RoutedEventArgs e)
@@ -741,7 +737,7 @@ namespace MTMCL.DL
                 MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), "0"))));
                 downer.DownloadFileAsync(url, filename);
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false), "dl-instl-forgeclient-" + ver);
         }
 
         private void butFDL_Click(object sender, RoutedEventArgs e)
@@ -809,7 +805,7 @@ namespace MTMCL.DL
                     task.noticeFinished();
                 }
             }));
-            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLModPack")).setDetectAlive(false));
+            MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLModPack")).setDetectAlive(false), "dl-modpack");
         }
         #endregion
         public void setLblColor(Color color)
