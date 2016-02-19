@@ -40,6 +40,7 @@
     <s:String x:Key="OfDL">Override for Display Language</s:String>
     <s:String x:Key="OfDLDesc">If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>
     <s:String x:Key="DLSrc">Download Source</s:String>
+    <s:String x:Key="UdtSrc">Update Source</s:String>
     <s:String x:Key="BG">Background</s:String>
     <s:String x:Key="Color">Color</s:String>
     <s:String x:Key="ExpandTaskTitle">Expand task gui on opening launcher</s:String>

@@ -89,19 +89,19 @@ namespace MTMCL.Sett
 
         private void Save()
         {
-            MeCore.Config.BackGround = txtBoxP.Text;
+            MeCore.Config.Background = txtBoxP.Text;
             uint c;
             if (uint.TryParse(txtBoxColor.Text, out c))
             {
-                MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).R;
-                MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).G;
-                MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).B;
+                MeCore.Config.Color[0] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).R;
+                MeCore.Config.Color[1] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).G;
+                MeCore.Config.Color[2] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).B;
             }
             else
             {
-                MeCore.Config.color[0] = System.Drawing.Color.FromArgb(0xFFFFFF).R;
-                MeCore.Config.color[1] = System.Drawing.Color.FromArgb(0xFFFFFF).G;
-                MeCore.Config.color[2] = System.Drawing.Color.FromArgb(0xFFFFFF).B;
+                MeCore.Config.Color[0] = System.Drawing.Color.FromArgb(0xFFFFFF).R;
+                MeCore.Config.Color[1] = System.Drawing.Color.FromArgb(0xFFFFFF).G;
+                MeCore.Config.Color[2] = System.Drawing.Color.FromArgb(0xFFFFFF).B;
             }
             MeCore.Config.Save(null);
             Render();
@@ -114,7 +114,7 @@ namespace MTMCL.Sett
             {
                 try
                 {
-                    if (MeCore.Config.BackGround.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.BackGround))
+                    if (MeCore.Config.Background.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.Background))
                     {
                         var da = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
                         MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
@@ -132,17 +132,16 @@ namespace MTMCL.Sett
                         MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
                         MeCore.MainWindow.gridParent.Background = new ImageBrush
                         {
-                            ImageSource = new BitmapImage(new Uri(MeCore.Config.BackGround)),
+                            ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
                             Stretch = Stretch.Fill
                         };
                         da = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
                         MeCore.MainWindow.gridParent.BeginAnimation(OpacityProperty, da);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    //new ErrorReport(ex).ShowDialog();
-                    MeCore.Config.BackGround = "default";
+                    MeCore.Config.Background = "default";
                     MeCore.Config.Save(null);
                     MeCore.MainWindow.Close();
                     System.Windows.Forms.Application.Restart();
@@ -172,7 +171,8 @@ namespace MTMCL.Sett
         public void loadConfig()
         {
             comboDLSrc.SelectedIndex = MeCore.Config.DownloadSource;
-            txtBoxP.Text = MeCore.Config.BackGround;
+            comboUdtSrc.SelectedIndex = MeCore.Config.UpdateSource;
+            txtBoxP.Text = MeCore.Config.Background;
             txtBoxColor.Text = (ByteArrayToArgb() & 0xFFFFFF).ToString();
             butExpandTask.IsChecked = MeCore.Config.ExpandTaskGui;
             //            sliderTransparency.Value = MeCore.Config.WindowTransparency;
@@ -183,9 +183,9 @@ namespace MTMCL.Sett
         private uint ByteArrayToArgb()
         {
             uint color = 0;
-            color += MeCore.Config.color[2];
-            color += (uint)(MeCore.Config.color[1] << 8);
-            color += (uint)(MeCore.Config.color[0] << 16);
+            color += MeCore.Config.Color[2];
+            color += (uint)(MeCore.Config.Color[1] << 8);
+            color += (uint)(MeCore.Config.Color[0] << 16);
             return color;
         }
         private void butCSave_Click(object sender, RoutedEventArgs e)
@@ -193,15 +193,15 @@ namespace MTMCL.Sett
             uint c;
             if (uint.TryParse(txtBoxColor.Text, out c))
             {
-                MeCore.Config.color[0] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).R;
-                MeCore.Config.color[1] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).G;
-                MeCore.Config.color[2] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).B;
+                MeCore.Config.Color[0] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).R;
+                MeCore.Config.Color[1] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).G;
+                MeCore.Config.Color[2] = System.Drawing.Color.FromArgb((int)(c & 0xFFFFFF)).B;
             }
             else
             {
-                MeCore.Config.color[0] = System.Drawing.Color.FromArgb(0xFFFFFF).R;
-                MeCore.Config.color[1] = System.Drawing.Color.FromArgb(0xFFFFFF).G;
-                MeCore.Config.color[2] = System.Drawing.Color.FromArgb(0xFFFFFF).B;
+                MeCore.Config.Color[0] = System.Drawing.Color.FromArgb(0xFFFFFF).R;
+                MeCore.Config.Color[1] = System.Drawing.Color.FromArgb(0xFFFFFF).G;
+                MeCore.Config.Color[2] = System.Drawing.Color.FromArgb(0xFFFFFF).B;
             }
             MeCore.Config.Save(null);
             RenderColor();
@@ -211,7 +211,7 @@ namespace MTMCL.Sett
             try
             {
                 {
-                    var da = new ColorAnimation(Color.FromArgb(127, MeCore.Config.color[0], MeCore.Config.color[1], MeCore.Config.color[2]), TimeSpan.FromSeconds(0.25));
+                    var da = new ColorAnimation(Color.FromArgb(127, MeCore.Config.Color[0], MeCore.Config.Color[1], MeCore.Config.Color[2]), TimeSpan.FromSeconds(0.25));
                     MeCore.MainWindow.gridMenu.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridAbout.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
                     MeCore.MainWindow.gridDL.Background.BeginAnimation(SolidColorBrush.ColorProperty, da);
@@ -228,7 +228,7 @@ namespace MTMCL.Sett
             catch (Exception ex)
             {
                 new ErrorReport(ex).ShowDialog();
-                MeCore.Config.color = new byte[] { 255, 255, 255 };
+                MeCore.Config.Color = new byte[] { 255, 255, 255 };
                 MeCore.MainWindow.Close();
                 System.Windows.Forms.Application.Restart();
 
@@ -274,6 +274,12 @@ namespace MTMCL.Sett
         private void butExpandTask_Unchecked(object sender, RoutedEventArgs e)
         {
             MeCore.Config.ExpandTaskGui = false;
+            MeCore.Config.Save(null);
+        }
+
+        private void comboUdtSrc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MeCore.Config.UpdateSource = Convert.ToByte(comboUdtSrc.SelectedIndex);
             MeCore.Config.Save(null);
         }
     }

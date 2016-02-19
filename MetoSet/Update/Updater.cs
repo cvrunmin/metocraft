@@ -31,14 +31,14 @@ namespace MTMCL.Update
         private void Run() {
             try
             {
-                CheckUpdate(CheckFile);
+                CheckUpdate(MeCore.Config.UpdateSource == 1 ? CheckFile2 : CheckFile);
             }
             catch (Exception e)
             {
                 Logger.log(e);
                 try
                 {
-                    CheckUpdate(CheckFile2);
+                    CheckUpdate(MeCore.Config.UpdateSource == 1 ? CheckFile : CheckFile2);
                 }
                 catch (Exception e1)
                 {

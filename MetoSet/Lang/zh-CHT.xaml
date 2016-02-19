@@ -40,6 +40,7 @@
     <s:String x:Key="OfDL">覆寫語言</s:String>
     <s:String x:Key="OfDLDesc">如果您想使用的顯示語言與Windows語言不同，請在這裡選擇</s:String>
     <s:String x:Key="DLSrc">下載源</s:String>
+    <s:String x:Key="UdtSrc">更新源</s:String>
     <s:String x:Key="BG">啟動器背景</s:String>
     <s:String x:Key="Color">啟動器顏色</s:String>
     <s:String x:Key="ExpandTaskTitle">啟動時打開任務介面</s:String>

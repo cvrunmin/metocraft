@@ -14,53 +14,252 @@ namespace MTMCL
     {
         [DataMember]
         [LitJson.JsonPropertyName("javapath")]
-        public string Javaw;
+        private string javaw;
         [DataMember]
         [LitJson.JsonPropertyName("minecraftpath")]
-        public string MCPath;
+        private string mcPath;
         [DataMember]
         [LitJson.JsonPropertyName("javaXmx")]
-        public string Javaxmx;
+        private string javaxmx;
         [DataMember]
         [LitJson.JsonPropertyName("lastversion")]
-        public string LastPlayVer;
+        private string lastPlayVer;
         [DataMember]
         [LitJson.JsonPropertyName("jvmarg")]
-        public string ExtraJvmArg;
+        private string extraJvmArg;
         [DataMember]
         [LitJson.JsonPropertyName("language")]
-        public string Lang;
+        private string lang;
         [DataMember]
         [LitJson.JsonPropertyName("background")]
-        public string BackGround;
+        private string background;
         [DataMember]
         [LitJson.JsonPropertyName("color")]
-        public byte[] color;
+        private byte[] color;
         [DataMember]
-        [LitJson.JsonPropertyName("downloadsource")]
-        public int DownloadSource;
+        [LitJson.JsonPropertyName("download-source")]
+        private int downloadSource;
         [DataMember]
-        [LitJson.JsonPropertyName("guid")]
-        public string GUID;
+        private string guid;
         [DataMember]
         [LitJson.JsonPropertyName("expand-task-gui")]
-        public bool ExpandTaskGui;
+        private bool expandTaskGui;
         [DataMember]
         [LitJson.JsonPropertyName("check-update")]
-        public bool CheckUpdate;
+        private bool checkUpdate;
         [DataMember]
-        public string username;
+        private string username;
         [DataMember]
-        public string token;
+        private string token;
+        [DataMember]
+        [LitJson.JsonPropertyName("update-source")]
+        private byte updateSource;
+
+        public string Javaw
+        {
+            get
+            {
+                return javaw;
+            }
+
+            set
+            {
+                javaw = value;
+            }
+        }
+
+        public string MCPath
+        {
+            get
+            {
+                return mcPath;
+            }
+
+            set
+            {
+                mcPath = value;
+            }
+        }
+
+        public string Javaxmx
+        {
+            get
+            {
+                return javaxmx;
+            }
+
+            set
+            {
+                javaxmx = value;
+            }
+        }
+
+        public string LastPlayVer
+        {
+            get
+            {
+                return lastPlayVer;
+            }
+
+            set
+            {
+                lastPlayVer = value;
+            }
+        }
+
+        public string ExtraJvmArg
+        {
+            get
+            {
+                return extraJvmArg;
+            }
+
+            set
+            {
+                extraJvmArg = value;
+            }
+        }
+
+        public string Lang
+        {
+            get
+            {
+                return lang;
+            }
+
+            set
+            {
+                lang = value;
+            }
+        }
+
+        public string Background
+        {
+            get
+            {
+                return background;
+            }
+
+            set
+            {
+                background = value;
+            }
+        }
+
+        public byte[] Color
+        {
+            get
+            {
+                return color;
+            }
+
+            set
+            {
+                color = value;
+            }
+        }
+
+        public int DownloadSource
+        {
+            get
+            {
+                return downloadSource;
+            }
+
+            set
+            {
+                downloadSource = value;
+            }
+        }
+
+        public string GUID
+        {
+            get
+            {
+                return guid;
+            }
+
+            set
+            {
+                guid = value;
+            }
+        }
+
+        public bool ExpandTaskGui
+        {
+            get
+            {
+                return expandTaskGui;
+            }
+
+            set
+            {
+                expandTaskGui = value;
+            }
+        }
+
+        public bool CheckUpdate
+        {
+            get
+            {
+                return checkUpdate;
+            }
+
+            set
+            {
+                checkUpdate = value;
+            }
+        }
+
+        public string Username
+        {
+            get
+            {
+                return username;
+            }
+
+            set
+            {
+                username = value;
+            }
+        }
+
+        public string Token
+        {
+            get
+            {
+                return token;
+            }
+
+            set
+            {
+                token = value;
+            }
+        }
+
+        public byte UpdateSource
+        {
+            get
+            {
+                return updateSource;
+            }
+
+            set
+            {
+                updateSource = value;
+            }
+        }
+
         public Config()
         {
             Javaw = KMCCC.Tools.SystemTools.FindValidJava().First() ?? "javaw.exe";
             MCPath = MeCore.BaseDirectory + ".minecraft";
             Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024).ToString(CultureInfo.InvariantCulture);
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
-            BackGround = "default";
-            color = new byte[] { 255, 255, 255 };
+            Background = "default";
+            Color = new byte[] { 255, 255, 255 };
             DownloadSource = 0;
+            UpdateSource = 0;
             Lang = GetValidLang();
             ExpandTaskGui = true;
             GUID = GetGuid();
@@ -150,10 +349,11 @@ namespace MTMCL
             sb.AppendLine("Java Xmx: " + Javaxmx);
             sb.AppendLine("Extra JVM Arg: " + ExtraJvmArg);
             sb.AppendLine("Download Source: " + DownloadSource);
+            sb.AppendLine("Update Source: " + UpdateSource);
             sb.AppendLine("Last Played Version: " + LastPlayVer);
             sb.AppendLine("GUID" + GUID);
-            sb.AppendLine("Background: " + BackGround);
-            sb.AppendLine("Color: " + color[0] + ", " + color[1] + ", " + color[2]);
+            sb.AppendLine("Background: " + Background);
+            sb.AppendLine("Color: " + Color[0] + ", " + Color[1] + ", " + Color[2]);
             sb.AppendLine("Expand Task Gui on loading: " + ExpandTaskGui);
             sb.AppendLine("Check update: " + CheckUpdate);
             return sb.ToString();
