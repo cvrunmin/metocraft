@@ -4,7 +4,7 @@ namespace MTMCL.Resources
 {
     public class UrlReplacer
     {
-        public static string getForgeMaven(string srcUrl) {
+        public static string getForgeMaven(string srcUrl, int? src = null) {
             if (string.IsNullOrWhiteSpace(srcUrl))
             {
                 throw new InvalidOperationException("The source is blank: " + srcUrl);
@@ -13,7 +13,7 @@ namespace MTMCL.Resources
             {
                 throw new InvalidOperationException("The source isn\'t a url: " + srcUrl);
             }
-            switch (MeCore.Config.DownloadSource)
+            switch (src != null ? src : MeCore.Config.DownloadSource)
             {
                 case 0:
                     return srcUrl;
@@ -24,6 +24,9 @@ namespace MTMCL.Resources
                 default:
                     return srcUrl;
             }
+        }
+        public static string toGoodLibUrl(string srcUrl, int? src = null) {
+            return srcUrl.Replace("https://libraries.minecraft.net/", src != null ? getLibraryUrl(src) : getLibraryUrl());
         }
         public static string getResourceUrl() {
             switch (MeCore.Config.DownloadSource)
@@ -38,9 +41,9 @@ namespace MTMCL.Resources
                     return Url.URL_RESOURCE_BASE;
             }
         }
-        public static string getLibraryUrl()
+        public static string getLibraryUrl(int? src = null)
         {
-            switch (MeCore.Config.DownloadSource)
+            switch (src != null ? src : MeCore.Config.DownloadSource)
             {
                 case 0:
                     return Url.URL_LIBRARIES_BASE;

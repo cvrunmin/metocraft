@@ -42,7 +42,42 @@ namespace MTMCL.util
             }
             return true;
         }
-
+        static public bool IfFileVaild(string Path, long Length, string sha1)
+        {
+            if (!File.Exists(Path))
+            {
+                return false;
+            }
+            if (new FileInfo(Path).Length == 0)
+            {
+                return false;
+            }
+            if (Length > 0)
+            {
+                if (new FileInfo(Path).Length != Length)
+                {
+                    return false;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(sha1))
+            {
+                if (!hashSHA1(File.ReadAllBytes(Path)).Equals(sha1))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        private static string hashSHA1(byte[] data)
+        {
+            byte[] hashed = System.Security.Cryptography.SHA1.Create().ComputeHash(data);
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hashed.Length; i++)
+            {
+                builder.Append(hashed[i].ToString());
+            }
+            return builder.ToString();
+        }
         static public void CreateDirectoryIfNotExist(string Dir)
         {
             if (!Directory.Exists(Dir))

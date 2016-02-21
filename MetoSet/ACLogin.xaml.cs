@@ -42,7 +42,7 @@ namespace MTMCL
             auth = new KMCCC.Authentication.OfflineAuthenticator(txtBoxUN.Text);
             if ((bool)butRM1.IsChecked)
             {
-                MeCore.Config.Username = txtBoxUN.Text;
+                MeCore.Config.username = txtBoxUN.Text;
                 MeCore.Config.Save(null);
             }
             Close();
@@ -59,7 +59,7 @@ namespace MTMCL
             auth = new KMCCC.Authentication.YggdrasilLogin(txtBoxUNE.Text, pwbox.Password, (bool)butCheckTwitch.IsChecked);
             if ((bool)butRM2.IsChecked)
             {
-                MeCore.Config.Username = txtBoxUNE.Text;
+                MeCore.Config.username = txtBoxUNE.Text;
                 MeCore.Config.Save(null);
             }
             Close();

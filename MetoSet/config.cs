@@ -14,241 +14,46 @@ namespace MTMCL
     {
         [DataMember]
         [LitJson.JsonPropertyName("javapath")]
-        private string javaw;
+        public string Javaw { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("minecraftpath")]
-        private string mcPath;
+        public string MCPath { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("javaXmx")]
-        private string javaxmx;
+        public string Javaxmx { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("lastversion")]
-        private string lastPlayVer;
+        public string LastPlayVer { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("jvmarg")]
-        private string extraJvmArg;
+        public string ExtraJvmArg { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("language")]
-        private string lang;
+        public string Lang { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("background")]
-        private string background;
+        public string Background { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("color")]
-        private byte[] color;
+        public byte[] Color { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("download-source")]
-        private int downloadSource;
+        public int DownloadSource { get; set; }
         [DataMember]
-        private string guid;
+        public string GUID { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("expand-task-gui")]
-        private bool expandTaskGui;
+        public bool ExpandTaskGui { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("check-update")]
-        private bool checkUpdate;
+        public bool CheckUpdate { get; set; }
         [DataMember]
-        private string username;
+        public string username;
         [DataMember]
-        private string token;
+        public string token;
         [DataMember]
         [LitJson.JsonPropertyName("update-source")]
-        private byte updateSource;
-
-        public string Javaw
-        {
-            get
-            {
-                return javaw;
-            }
-
-            set
-            {
-                javaw = value;
-            }
-        }
-
-        public string MCPath
-        {
-            get
-            {
-                return mcPath;
-            }
-
-            set
-            {
-                mcPath = value;
-            }
-        }
-
-        public string Javaxmx
-        {
-            get
-            {
-                return javaxmx;
-            }
-
-            set
-            {
-                javaxmx = value;
-            }
-        }
-
-        public string LastPlayVer
-        {
-            get
-            {
-                return lastPlayVer;
-            }
-
-            set
-            {
-                lastPlayVer = value;
-            }
-        }
-
-        public string ExtraJvmArg
-        {
-            get
-            {
-                return extraJvmArg;
-            }
-
-            set
-            {
-                extraJvmArg = value;
-            }
-        }
-
-        public string Lang
-        {
-            get
-            {
-                return lang;
-            }
-
-            set
-            {
-                lang = value;
-            }
-        }
-
-        public string Background
-        {
-            get
-            {
-                return background;
-            }
-
-            set
-            {
-                background = value;
-            }
-        }
-
-        public byte[] Color
-        {
-            get
-            {
-                return color;
-            }
-
-            set
-            {
-                color = value;
-            }
-        }
-
-        public int DownloadSource
-        {
-            get
-            {
-                return downloadSource;
-            }
-
-            set
-            {
-                downloadSource = value;
-            }
-        }
-
-        public string GUID
-        {
-            get
-            {
-                return guid;
-            }
-
-            set
-            {
-                guid = value;
-            }
-        }
-
-        public bool ExpandTaskGui
-        {
-            get
-            {
-                return expandTaskGui;
-            }
-
-            set
-            {
-                expandTaskGui = value;
-            }
-        }
-
-        public bool CheckUpdate
-        {
-            get
-            {
-                return checkUpdate;
-            }
-
-            set
-            {
-                checkUpdate = value;
-            }
-        }
-
-        public string Username
-        {
-            get
-            {
-                return username;
-            }
-
-            set
-            {
-                username = value;
-            }
-        }
-
-        public string Token
-        {
-            get
-            {
-                return token;
-            }
-
-            set
-            {
-                token = value;
-            }
-        }
-
-        public byte UpdateSource
-        {
-            get
-            {
-                return updateSource;
-            }
-
-            set
-            {
-                updateSource = value;
-            }
-        }
+        public byte UpdateSource { get; set; }
 
         public Config()
         {

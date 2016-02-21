@@ -1,4 +1,5 @@
-﻿using MTMCL.Assets;
+﻿using KMCCC.Launcher;
+using MTMCL.Assets;
 using MTMCL.Forge;
 using MTMCL.Lang;
 using MTMCL.util;
@@ -170,6 +171,10 @@ namespace MTMCL.DL
                         var sr = new StreamReader(downjsonpath);
                         VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(sr);
                         sr.Close();
+                        var jw = new LitJson.JsonWriter(new StreamWriter(downjsonpath));
+                        jw.PrettyPrint = true;
+                        LitJson.JsonMapper.ToJson(ver.Simplify(), jw);
+                        jw.TextWriter.Close();
                         if (ver.downloads != null)
                         {
                             if (ver.downloads.client != null)
@@ -203,10 +208,7 @@ namespace MTMCL.DL
 
         #endregion
         #region DLLib
-        IEnumerable<KMCCC.Launcher.Library> libt;
-        IEnumerable<string> libs;
-        IEnumerable<KMCCC.Launcher.Native> nativet;
-        IEnumerable<string> natives;
+        List<LibraryUniversal> libs = new List<LibraryUniversal>();
         private void listVerFLib_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (listVerFLib.SelectedIndex != -1)
@@ -217,17 +219,16 @@ namespace MTMCL.DL
                     var dt = new DataTable();
                     dt.Columns.Add("Lib");
                     dt.Columns.Add("Exist");
-                    libt = MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex].Libraries;
-                    libs = libt.Select(lib => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetLibPath(MeCore.MainWindow.gridPlay.launcher, lib));
-                    foreach (string libfile in libs)
+                    var ver = MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex];
+                    libs.Clear();
+                    VersionJson lib = LitJson.JsonMapper.ToObject<VersionJson>(new LitJson.JsonReader(new StreamReader(MeCore.MainWindow.gridPlay.launcher.GetVersionJsonPath(ver))));
+                    foreach (var item in lib.libraries.ToUniversalLibrary())
                     {
-                        dt.Rows.Add(new object[] { libfile.Substring(libfile.IndexOf("libraries")), File.Exists(libfile) });
+                        libs.Add(item);
                     }
-                    nativet = MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex].Natives;
-                    natives = nativet.Select(native => KMCCC.Launcher.LauncherCoreItemResolverExtensions.GetNativePath(MeCore.MainWindow.gridPlay.launcher, native));
-                    foreach (string nafile in natives)
+                    foreach (LibraryUniversal libfile in libs)
                     {
-                        dt.Rows.Add(new object[] { nafile.Substring(nafile.IndexOf("libraries")), File.Exists(nafile) });
+                        dt.Rows.Add(new object[] { libfile.path.Substring(libfile.path.IndexOf("libraries")), FileHelper.IfFileVaild(libfile.path) });
                     }
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
@@ -241,7 +242,8 @@ namespace MTMCL.DL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"), MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex] + ".json")).Show();
+                        Logger.log(ex);
+                        new KnownErrorReport(ex.Message, string.Format(LangManager.GetLangFromResource("FormatFaultSolve"), MeCore.MainWindow.gridPlay.versions[listVerFLib.SelectedIndex].Id + ".json")).Show();
                     }));
                 }
             }
@@ -252,33 +254,23 @@ namespace MTMCL.DL
             NewGui.TaskBar task = new NewGui.TaskBar();
             var thDL = new Thread(new ThreadStart(delegate
             {
-                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate {
+                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(async delegate
+                {
                     if (MeCore.Config.DownloadSource == 1)
                     {
-                        task.setTaskStatus("先让我睡一会");
-                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        await Task.Delay(TimeSpan.FromSeconds(1));
                     }
                 }));
                 WebClient _downer = new WebClient();
                 int i = 0;
-                foreach (string libfile in libs)
+                foreach (var libfile in libs)
                 {
                     i++;
                     MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float)i / libs.Count()) * 100f).ToString() + "%"))));
-                    if (!File.Exists(libfile))
+                    if (!File.Exists(libfile.path))
                     {
-                        Logger.log("Start downloading " + libfile, Logger.LogType.Info);
-                        DownloadLibOrNative(libfile, false);
-                    }
-                }
-                i = 0;
-                foreach (string libfile in natives)
-                {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLNative"), (((float)i / natives.Count()) * 100f).ToString() + "%"))));
-                    if (!File.Exists(libfile))
-                    {
-                        Logger.log("Start downloading" + libfile, Logger.LogType.Info);
-                        DownloadLibOrNative(libfile, true);
+                        Logger.log("Start downloading " + libfile.path, Logger.LogType.Info);
+                        DownloadLib(libfile);
                     }
                 }
             }));
@@ -289,70 +281,77 @@ namespace MTMCL.DL
             NewGui.TaskBar task = new NewGui.TaskBar();
             var thDL = new Thread(new ThreadStart(delegate
             {
-                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate {
+                Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(async delegate
+                {
                     if (MeCore.Config.DownloadSource == 1)
                     {
-                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        await Task.Delay(TimeSpan.FromSeconds(1));
                     }
                 }));
                 WebClient _downer = new WebClient();
                 int i = 0;
-                foreach (string libfile in libs)
+                foreach (var libfile in libs)
                 {
                     i++;
                     MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float)i / libs.Count()) * 100f).ToString() + "%"))));
-                    Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
-                    DownloadLibOrNative(libfile, false);
-                }
-                i = 0;
-                foreach (string libfile in natives)
-                {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLNative"), (((float)i / natives.Count()) * 100f).ToString() + "%"))));
-
-                    Logger.log("开始重新下载" + libfile, Logger.LogType.Info);
-                    DownloadLibOrNative(libfile, true);
+                    Logger.log("开始重新下载" + libfile.path, Logger.LogType.Info);
+                    DownloadLib(libfile);
                 }
             }));
             MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskRDLLib")), "dl-lib");
         }
-        private void DownloadLibOrNative(string file, bool isNative)
+        private void DownloadLib(LibraryUniversal file)
         {
             try
             {
-                if (!Directory.Exists(Path.GetDirectoryName(file)))
+                if (!Directory.Exists(Path.GetDirectoryName(file.path)))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(file));
+                    Directory.CreateDirectory(Path.GetDirectoryName(file.path));
                 }
                 string url = MTMCL.Resources.UrlReplacer.getLibraryUrl();
-                if (isNative)
+                if (!string.IsNullOrWhiteSpace(file.url))
                 {
-                    if (!string.IsNullOrWhiteSpace(nativet.ElementAt(natives.ToList().IndexOf(file)).Url))
+                    if (file.url.StartsWith("https://libraries.minecraft.net/"))
                     {
-                        url = MTMCL.Resources.UrlReplacer.getForgeMaven(nativet.ElementAt(natives.ToList().IndexOf(file)).Url);
+                        url = MTMCL.Resources.UrlReplacer.toGoodLibUrl(file.url);
+                    }
+                    else {
+                        url = MTMCL.Resources.UrlReplacer.getForgeMaven(file.url) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                     }
                 }
                 else
                 {
-                    if (!string.IsNullOrWhiteSpace(libt.ElementAt(libs.ToList().IndexOf(file)).Url))
-                    {
-                        url = MTMCL.Resources.UrlReplacer.getForgeMaven(libt.ElementAt(libs.ToList().IndexOf(file)).Url);
-                    }
+                    url = url + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                 }
 #if DEBUG
-                MessageBox.Show(url + file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
+                MessageBox.Show(url);
 #endif
-                Logger.log(url + file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/"));
-                _downer.DownloadFile(
-                    url +
-                    file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), file);
+                Logger.log(url);
+                _downer.DownloadFile(url, file.path);
             }
             catch (WebException ex)
             {
                 Logger.log(ex);
-                Logger.log("原地址下载失败，尝试BMCL源" + file);
+                Logger.log("原地址下载失败，尝试BMCL源" + file.url);
                 try
                 {
-                    _downer.DownloadFile(MTMCL.Resources.Url.URL_DOWNLOAD_bangbang93 + "libraries/" + file.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("/", "\\"), file);
+                    string url = MTMCL.Resources.UrlReplacer.getLibraryUrl(1);
+                    if (!string.IsNullOrWhiteSpace(file.url))
+                    {
+                        if (file.url.StartsWith("https://libraries.minecraft.net/"))
+                        {
+                            url = MTMCL.Resources.UrlReplacer.toGoodLibUrl(file.url, 1);
+                        }
+                        else {
+                            url = MTMCL.Resources.UrlReplacer.getForgeMaven(file.url, 1) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                        }
+                    }
+                    else
+                    {
+                        url = url + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                    }
+                    Logger.log(url);
+                    _downer.DownloadFile(MTMCL.Resources.UrlReplacer.toGoodLibUrl(url), file.path);
                 }
                 catch (WebException exception)
                 {
@@ -364,7 +363,7 @@ namespace MTMCL.DL
 
         #endregion
         #region DLAsset
-        AssetIndex assets;
+        Assets.AssetIndex assets;
         KMCCC.Launcher.Version _ver;
         bool _init = true;
         private void listVerFAsset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -577,7 +576,7 @@ namespace MTMCL.DL
                         var sw = new StreamWriter(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
                         sw.Write(e.Result);
                         sw.Close();
-                        assets = LitJson.JsonMapper.ToObject<AssetIndex>(e.Result);
+                        assets = LitJson.JsonMapper.ToObject<Assets.AssetIndex>(e.Result);
                         Logger.log("共", assets.objects.Count.ToString(CultureInfo.InvariantCulture), "项assets");
                         try
                         {
@@ -623,7 +622,7 @@ namespace MTMCL.DL
                     string gameVersion = _ver.Assets;
                     FileHelper.CreateDirectoryForFile(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
                     var sr = new StreamReader(MeCore.Config.MCPath + "/assets/indexes/" + gameVersion + ".json");
-                    assets = LitJson.JsonMapper.ToObject<AssetIndex>(sr.ReadToEnd());
+                    assets = LitJson.JsonMapper.ToObject<Assets.AssetIndex>(sr.ReadToEnd());
                     sr.Close();
                     Logger.log("共", assets.objects.Count.ToString(CultureInfo.InvariantCulture), "项assets");
                     try
@@ -724,7 +723,7 @@ namespace MTMCL.DL
                 }
                 downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
                 {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"),e.ProgressPercentage))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), e.ProgressPercentage))));
                 };
                 downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                 {
