@@ -47,16 +47,21 @@ namespace MTMCL.Forge
                 ForgeVersion.Version ver = null;
                 if (forge.number.TryGetValue(item.Value.ToString(), out ver)) {
                     bool install = false;
+                    string version = ver.mcversion + "-" + ver.version;
+                    if (!string.IsNullOrWhiteSpace(ver.branch))
+                    {
+                        version = version + "-" + ver.branch;
+                    }
                     for (int i = 0; i < ver.files.GetLength(0); i++)
                     {
                         if (ver.files[i][1].Equals("changelog"))
                         {
-                            ForgeChangeLogUrl[ver.version] = forge.webpath + "/" + ver.mcversion + "-" + ver.version + "/" + forge.artifact + "-" + ver.mcversion + "-" + ver.version + "-" + ver.files[i][1] + "." + ver.files[i][0];
+                            ForgeChangeLogUrl[ver.version] = forge.webpath + "/" + version + "/" + forge.artifact + "-" +version + "-" + ver.files[i][1] + "." + ver.files[i][0];
                         }
                         if (ver.files[i][1].Equals("installer"))
                         {
                             install = true;
-                            ForgeDownloadUrl[ver.version] = forge.webpath + "/" + ver.mcversion + "-" + ver.version + "/" + forge.artifact + "-" + ver.mcversion + "-" + ver.version + "-" + ver.files[i][1] + "." + ver.files[i][0];
+                            ForgeDownloadUrl[ver.version] = forge.webpath + "/" + version + "/" + forge.artifact + "-" + version + "-" + ver.files[i][1] + "." + ver.files[i][0];
                         }
                     }
                     if (!install)

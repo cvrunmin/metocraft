@@ -722,11 +722,19 @@ namespace MTMCL.DL
                 };
                 downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                 {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
-                    new ForgeInstaller().install(filename);
-                    File.Delete(filename);
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
-                    task.noticeFinished();
+                    try
+                    {
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
+                        new ForgeInstaller().install(filename);
+                        File.Delete(filename);
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
+                        task.noticeFinished();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.log(ex);
+                        task.noticeFailed();
+                    }
                 };
                 MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), "0"))));
                 downer.DownloadFileAsync(url, filename);
