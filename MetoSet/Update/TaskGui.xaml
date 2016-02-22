@@ -5,24 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MTMCL.Update"
         mc:Ignorable="d"
-        Title="Updater" Height="300" Width="400" ResizeMode="CanMinimize" Loaded="Window_Loaded">
+        Title="Updater" Height="110" Width="400" ResizeMode="CanMinimize" Loaded="Window_Loaded">
     <Grid>
         <Grid Height="35" VerticalAlignment="Top" Background="#FF00234F">
             <Label x:Name="lblTime" Content="16:53" Margin="0,6,7,5" Foreground="White" HorizontalAlignment="Right" Width="42"/>
         </Grid>
-        <Grid Height="35" VerticalAlignment="Bottom">
+        <Grid Margin="0,35,0,0">
             <Grid.Background>
                 <SolidColorBrush Color="#FFBBE3F1"/>
             </Grid.Background>
             <Label x:Name="lblTaskName" Content="" Margin="0,6,0,5" HorizontalAlignment="Left" Width="197"/>
             <Label x:Name="lblTaskStatus" Content="" Margin="0,6,0,5" HorizontalAlignment="Right" Width="197" HorizontalContentAlignment="Right"/>
         </Grid>
-        <Grid Margin="0,35">
-            <Label x:Name="label" Content="請勿關閉或拔除電腦的電源" Margin="0,64,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" FontSize="18.667"/>
-            <Label x:Name="label1" Margin="0,98,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="18.667" Padding="0">
-                <AccessText TextWrapping="Wrap" TextAlignment="Center">Please do not power off or unplug your machine</AccessText>
-            </Label>
-        </Grid>
-
     </Grid>
 </Window>

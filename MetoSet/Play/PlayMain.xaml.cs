@@ -70,7 +70,7 @@ namespace MTMCL.Play
                 TaskBar gui = new TaskBar();
                 var task = new Thread(new ThreadStart(delegate
                 {
-                    Dispatcher.Invoke(new MethodInvoker(delegate
+                    Dispatcher.Invoke(new MethodInvoker(async delegate
                     {
                         gui.setTaskStatus(Lang.LangManager.GetLangFromResource("SubTaskLaunch"));
                         if (!versions[comboVer.SelectedIndex].CheckLibrary()) {
@@ -78,6 +78,7 @@ namespace MTMCL.Play
                             return;
                         }
                         new Assets.Assets(versions[comboVer.SelectedIndex]);
+                        await System.Threading.Tasks.Task.Delay(750);
                         launcher.GameExit += onGameExit;
                         var result = launcher.Launch(new LaunchOptions
                         {

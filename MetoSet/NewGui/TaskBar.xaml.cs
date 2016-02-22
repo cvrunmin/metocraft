@@ -95,11 +95,16 @@ namespace MTMCL.NewGui
             startCount = true;
             return this;
         }
+        public TaskBar stopCountTime()
+        {
+            startCount = false;
+            return this;
+        }
         private void timer_Tick(object sender, EventArgs e)
         {
             if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited)) && needDetectAlive())
             {
-                noticeFinished();
+                stopCountTime().noticeFinished();
             }
             if (startCount)
             {

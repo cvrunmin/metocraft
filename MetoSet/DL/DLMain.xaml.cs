@@ -392,6 +392,7 @@ namespace MTMCL.DL
                         string gameVersion = _ver.Assets;
                         try
                         {
+                            Dispatcher.Invoke(new Action(()=> listVerFAsset.IsEnabled = false));
                             _downer.DownloadStringAsync(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + gameVersion + ".json"));
                             Logger.info(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + gameVersion + ".json");
                         }
@@ -427,10 +428,6 @@ namespace MTMCL.DL
                     }));
                     string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
-                    if (assets._virtual)
-                    {
-                        file = MeCore.Config.MCPath + @"\assets\" + entity.Key;
-                    }
                     FileHelper.CreateDirectoryForFile(file);
                     try
                     {
@@ -484,10 +481,6 @@ namespace MTMCL.DL
                     }));
                     string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
-                    if (assets._virtual)
-                    {
-                        file = MeCore.Config.MCPath + @"\assets\" + entity.Key;
-                    }
                     FileHelper.CreateDirectoryForFile(file);
                     try
                     {
@@ -546,6 +539,7 @@ namespace MTMCL.DL
         }
         void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
+            Dispatcher.Invoke(new Action(() => listVerFAsset.IsEnabled = true));
             if (e.Error != null)
             {
                 Logger.error(e.UserState.ToString());
@@ -555,6 +549,7 @@ namespace MTMCL.DL
 
         void Downloader_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
+            Dispatcher.Invoke(new Action(() => listVerFAsset.IsEnabled = true));
             _downer.DownloadStringCompleted -= Downloader_DownloadStringCompleted;
             if (e != null)
             {

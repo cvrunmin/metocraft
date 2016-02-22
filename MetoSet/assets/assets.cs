@@ -60,7 +60,7 @@ namespace MTMCL.Assets
                                 _init = false;
                                 break;
                             }
-                            string finfile = Path.Combine(MeCore.Config.MCPath, "assets", entity.Key);
+                            string finfile = Path.Combine(MeCore.Config.MCPath, "assets\\virtual\\legacy", entity.Key);
                             if (File.Exists(finfile))
                             {
                                 continue;
