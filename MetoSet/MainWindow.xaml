@@ -1,52 +1,101 @@
-﻿<Window
+﻿<metro:MetroWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MTMCL"
-        xmlns:localplay="clr-namespace:MTMCL.Play"
-        xmlns:localdl="clr-namespace:MTMCL.DL"
-        xmlns:localset="clr-namespace:MTMCL.Sett"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         x:Class="MTMCL.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="1015" BorderBrush="Black" Background="White" MinWidth="500" MinHeight="350" Closing="Window_Closing" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="CanResize">
-    <Window.Resources>
+    GlowBrush="{DynamicResource AccentColorBrush}"
+        Title="MainWindow" Height="395" Width="653" BorderBrush="Black" Background="White" ResizeMode="CanResize" TitleCaps="False">
+    <!--<Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ButtonStyle.xaml"/>
-                <ResourceDictionary Source="ControlStyle.xaml"/>
-                <ResourceDictionary Source="WindowStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="Resources/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>
+    </Window.Resources>-->
     <Grid>
-        <Grid x:Name="gridParent" Margin="0,0,415,0">
+        <Grid x:Name="gridParent" Margin="0,0,0,0">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
             </Grid.Background>
-            <Grid x:Name="gridMenu" HorizontalAlignment="Left" Width="55" Background="#7FFFFFFF">
-                <local:ButtonMenu x:Name="butPlay"  Content="{DynamicResource Play}"     HorizontalAlignment="Left" Height="44" Margin="0"         VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImagePlay.png"  BorderThickness="2" Click="butPlay_Click"/>
-                <local:ButtonMenu x:Name="butDL"    Content="{DynamicResource Download}" HorizontalAlignment="Left" Height="44" Margin="0,44,0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageDL.png"    BorderThickness="2" Click="butDL_Click"/>
-                <local:ButtonMenu x:Name="butSet"   Content="{DynamicResource Setting}"  HorizontalAlignment="Left" Height="44" Margin="0,88,-0,0" VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageSet.png"   BorderThickness="2" Click="butConfig_Click"/>
-                <local:ButtonMenu x:Name="butAbout" Content="{DynamicResource About}"    HorizontalAlignment="Left" Height="44" Margin="0,132,-0,0"  VerticalAlignment="Top" Width="124" Style="{DynamicResource ButtonMeList}" MenuImage="Resources/ImageAbout.png" BorderThickness="2" Click="butAbout_Click"/>
-            </Grid>
-            <Grid x:Name="gridMain" Margin="55,0,0,0">
-                <localplay:PlayMain x:Name="gridPlay" Margin="0,0,0,0"/>
-                <localdl:DLMain x:Name="gridDL" Margin="0,0,0,0" Visibility="Hidden"/>
-                <localset:Settings x:Name="gridSet" Margin="0,0,0,0" Visibility="Hidden"/>
-                <local:About x:Name="gridAbout" Margin="0,0,0,0" Visibility="Hidden"/>
-            </Grid>
-            <Button x:Name="butMenu" Content="≡" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="40" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" FontSize="18.667" Click="butMenu_Click" Style="{DynamicResource FunctionButton}"/>
-        </Grid>
-        <Expander x:Name="expanderTask" Header="" Expanded="expanderTask_Expanded" Collapsed="expanderTask_Collapsed" IsExpanded="True" BorderThickness="0" ExpandDirection="Right" Background="#7FFFFFFF" HorizontalAlignment="Right" Width="415">
-            <Grid x:Name="TaskGui" Width="394" HorizontalAlignment="Right" Background="White">
-                <Grid Height="35" VerticalAlignment="Top" Background="#FF00234F">
-                    <Label x:Name="lblTime" Content="" Margin="0,6,7,5" Foreground="White" HorizontalAlignment="Right" Width="42"/>
-                    <Label x:Name="lblTitle" Content="{DynamicResource TaskTitle}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Foreground="White"/>
-                </Grid>
-                <WrapPanel x:Name="taskPanal" Margin="0,35,0,0" Background="#FFBBE3F1"/>
-            </Grid>
+            <Grid x:Name="gridMain" Margin="0,0,0,0">
+                <Label x:Name="lblWelcome" Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
+                <Grid Margin="10,44,0,0" HorizontalAlignment="Left" Width="625" Height="310" VerticalAlignment="Top">
+                    <metro:Tile Height="100" Width="205" Title="{DynamicResource Play}" metro:ButtonHelper.PreserveTextCase="True" Background="#CC00B3FF" Margin="0" HorizontalAlignment="Right" Count="" VerticalAlignment="Top">
+                        <Rectangle Height="50" Width="50">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_control_play}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
+                    <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="205" Height="100" Background="#CCC16100">
+                        <Rectangle Height="50" Width="50">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_list}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
+                    <metro:Tile x:Name="butSetting" Title="{DynamicResource Setting}" Margin="0,105,0,0" Width="205" Height="205" Click="butSetting_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Rectangle Height="50" Width="50">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_settings}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
+                    <metro:Tile x:Name="butNotice" Title="Notice" HorizontalAlignment="Left" Margin="210,0,0,0" VerticalAlignment="Top" Width="100" Height="100">
+                        <Rectangle Height="50" Width="50">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_notification_above}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
+                    <metro:Tile x:Name="butPlayQuick" Title="{DynamicResource QuickPlay}" HorizontalAlignment="Left" Margin="420,210,0,0" VerticalAlignment="Top" Width="205" Height="100" MouseEnter="butPlayQuick_MouseEnter" MouseLeave="butPlayQuick_MouseLeave">
+                        <Grid Height="200" Width="205">
+                            <Grid x:Name="butPlayQuick_a" Margin="0,0,0,100">
+                                <Rectangle Height="50" Width="100">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_control_fastforward_variant}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <Grid x:Name="butPlayQuick_b" Height="100" Margin="0,100,0,0">
+                                <Label x:Name="lblQuickPlayb" Content="{DynamicResource QuickPlayLabel}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="21.333"/>
+                            </Grid>
+                        </Grid>
+                    </metro:Tile>
+                    <metro:Tile x:Name="butGradle" HorizontalAlignment="Left" Margin="420,105,0,0" VerticalAlignment="Top" Width="50" Height="50">
+                        <Rectangle Height="25" Width="25">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_language_java}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
+                    <metro:Tile x:Name="butDL" Title="{DynamicResource Download}" HorizontalAlignment="Left" Margin="210,105,0,0" VerticalAlignment="Top" Width="205" Height="205">
+                        <Rectangle Height="50" Width="50">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_download}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
 
-        </Expander>
+                </Grid>
+            </Grid>
+            <Grid x:Name="gridLoadingScreen" Margin="0" Visibility="Collapsed">
+                <Rectangle HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100">
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{DynamicResource appbar_settings}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+            <Grid x:Name="gridOthers"/>
+        </Grid>
     </Grid>
-</Window>
+</metro:MetroWindow>

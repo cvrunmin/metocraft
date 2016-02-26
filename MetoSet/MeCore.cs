@@ -13,14 +13,14 @@ namespace MTMCL
     {
         public static string version;
         public static Config Config;
-        public static Server.ServerInfo ServerCfg;
+        //public static Server.ServerInfo ServerCfg;
         public static bool IsServerDedicated;
         public static Dictionary<string, object> Language = new Dictionary<string, object>();
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
         private readonly static string Cfgfile = BaseDirectory + "mtmcl_config.json";
         private readonly static string Serverfile = BaseDirectory + "mtmcl_server_config.json";
         public static string DefaultBG = "pack://application:,,,/Resources/bg.png";
-        public static NotiIcon NIcon = new NotiIcon();
+        //public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
         private static Application thisApplication = Application.Current;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
@@ -31,7 +31,7 @@ namespace MTMCL
             version = version.Substring(0, version.IndexOf(','));
             Logger.log("----------"+DateTime.Now.ToLongTimeString()+" launch log----------");
             Logger.log("MTMCL Ver." + version + " launching");
-            if (File.Exists(Serverfile))
+            /*if (File.Exists(Serverfile))
             {
                 ServerCfg = Server.ServerInfo.Load(Serverfile);
                 if (ServerCfg.Ignore)
@@ -53,7 +53,7 @@ namespace MTMCL
             else
             {
                 Logger.log("Launching normal version as the server config file is missing");
-            }
+            }*/
             if (File.Exists(Cfgfile))
             {
                 Config = Config.Load(Cfgfile);
@@ -79,18 +79,18 @@ namespace MTMCL
             LangManager.UseLanguage(Config.Lang);
 #if DEBUG
 #else
-            ReleaseCheck();
+            //ReleaseCheck();
 #endif
         }
-        private static void ReleaseCheck()
+        /*private static void ReleaseCheck()
         {
             if (Config.CheckUpdate)
             {
                 var updateChecker = new Update.Updater();
                 updateChecker.CheckFinishEvent += UpdateCheckerOnCheckFinishEvent;
             }
-        }
-        private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
+        }*/
+        /*private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
         {
             if (hasUpdate)
             {
@@ -113,7 +113,7 @@ namespace MTMCL
                     }
                 }
             }
-        }
+        }*/
         public static void Invoke(Delegate invoke, object[] argObjects = null)
         {
             Dispatcher.Invoke(invoke, argObjects);
@@ -162,7 +162,7 @@ namespace MTMCL
         private static void OnAnotherProgramStarted(object state, bool timedout)
         {
             var window = state as Window;
-            NIcon.ShowBalloonTip(2000, LangManager.GetLangFromResource("MTMCLHiddenInfo"));
+            //NIcon.ShowBalloonTip(2000, LangManager.GetLangFromResource("MTMCLHiddenInfo"));
             if (window != null)
             {
                 Dispatcher.Invoke(new Action(window.Show));

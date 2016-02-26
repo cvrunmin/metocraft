@@ -5,6 +5,8 @@
     <s:String x:Key="DisplayName">English</s:String>
     <s:String x:Key="LangName">en</s:String>
     <s:String x:Key="Play">Play</s:String>
+    <s:String x:Key="QuickPlay">Quick Play</s:String>
+    <s:String x:Key="QuickPlayLabel">Let's Retrograde!</s:String>
     <s:String x:Key="Download">Download</s:String>
     <s:String x:Key="ReDownload">Redownload</s:String>
     <s:String x:Key="ReDLTooltip">to repair corrupted files</s:String>
@@ -36,6 +38,7 @@
     <s:String x:Key="Version">Version</s:String>
     <!-- /About.xaml -->
     <!-- Settings.xaml -->
+    <s:String x:Key="GameSet">Game</s:String>
     <s:String x:Key="Language">Language</s:String>
     <s:String x:Key="OfDL">Override for Display Language</s:String>
     <s:String x:Key="OfDLDesc">If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>

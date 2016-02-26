@@ -1,0 +1,42 @@
+﻿<Grid x:Class="MTMCL.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL"
+                 xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="364" d:DesignWidth="645">
+    <!--<Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="Resources/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>-->
+    <Grid>
+        <TabControl x:Name="tabControl" TabStripPlacement="Left" Margin="0,40,0,0">
+            <TabItem Header="{DynamicResource GameSet}">
+                <Grid Background="#7FFFFFFF"/>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
+            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+                <Rectangle.OpacityMask>
+                    <VisualBrush
+        Visual="{StaticResource appbar_arrow_left}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+
+        </Button>
+        <Label x:Name="lblTitle" Content="{DynamicResource Setting}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+    </Grid>
+</Grid>

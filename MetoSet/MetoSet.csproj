@@ -120,6 +120,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\KMCCC.Pro.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
@@ -135,7 +139,8 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>False</Private>
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
@@ -150,56 +155,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ACLogin.xaml.cs">
-      <DependentUpon>ACLogin.xaml</DependentUpon>
+    <Compile Include="Blank.cs" />
+    <Compile Include="config.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="MeCore.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="assets\AssetIndex.cs" />
-    <Compile Include="assets\assets.cs" />
-    <Compile Include="assets\AssetsEntity.cs" />
-    <Compile Include="DL\DLMain.xaml.cs">
-      <DependentUpon>DLMain.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DL\ModPackProcesser.cs" />
-    <Compile Include="Forge\Artifact.cs" />
-    <Compile Include="Forge\ForgeInstaller.cs" />
-    <Compile Include="Forge\ForgeVersionList.cs" />
-    <Compile Include="JsonClass\ForgeInstall.cs" />
-    <Compile Include="JsonClass\ForgeVersion.cs" />
-    <Compile Include="NewGui\TaskBar.xaml.cs">
-      <DependentUpon>TaskBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Profile\Profile.cs" />
-    <Compile Include="Profile\ProfileEditor.xaml.cs">
-      <DependentUpon>ProfileEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Profile\ProfileInXML.cs" />
-    <Compile Include="Profile\Profiles.cs" />
-    <Compile Include="Report\ErrorReport.xaml.cs">
-      <DependentUpon>ErrorReport.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Report\KnownErrorReport.xaml.cs">
-      <DependentUpon>KnownErrorReport.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Report\MCCrash.xaml.cs">
-      <DependentUpon>MCCrash.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Url.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Url.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\UrlReplacer.cs" />
-    <Compile Include="Server\ServerInfo.cs" />
-    <Compile Include="Update\TaskGui.xaml.cs">
-      <DependentUpon>TaskGui.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Update\UpdateJson.cs" />
-    <Compile Include="Update\Updater.cs" />
-    <Compile Include="util\Helper.cs" />
-    <Compile Include="util\GridViewSort.cs" />
-    <Compile Include="Versions\RawVersionListType.cs" />
-    <Compile Include="Versions\RemoteVerType.cs" />
-    <Compile Include="Versions\VersionJson.cs" />
     <Compile Include="Zip\Checksums\Adler32.cs" />
     <Compile Include="Zip\Checksums\CRC32.cs" />
     <Compile Include="Zip\Checksums\IChecksum.cs" />
@@ -241,58 +203,14 @@
     <Compile Include="Zip\ZipInputStream.cs" />
     <Compile Include="Zip\ZipNameTransform.cs" />
     <Compile Include="Zip\ZipOutputStream.cs" />
-    <Page Include="ACLogin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ControlStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DL\DLMain.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="NewGui\TaskBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Play\PlayMain.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Profile\ProfileEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Properties\DesignTimeResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
-    <Page Include="Report\ErrorReport.xaml">
+    <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Report\KnownErrorReport.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Report\MCCrash.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Sett\Settings.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="About.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Lang\en.xaml">
       <SubType>Designer</SubType>
@@ -310,44 +228,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Play\PlayMain.xaml.cs">
-      <DependentUpon>PlayMain.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Sett\Settings.xaml.cs">
-      <DependentUpon>Settings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="About.xaml.cs">
-      <DependentUpon>About.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ButtonMenu.cs" />
-    <Compile Include="config.cs" />
     <Compile Include="Lang\LangManager.cs" />
     <Compile Include="Lang\LangType.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Update\TaskGui.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WindowStyle.xaml">
+    <Page Include="Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MeCore.cs" />
-    <Compile Include="NotiIcon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -373,10 +269,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <EmbeddedResource Include="Resources\Url.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Url.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ImagePlay.png" />
@@ -448,6 +341,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\others.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
