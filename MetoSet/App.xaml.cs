@@ -19,7 +19,7 @@ namespace MTMCL
         private static FileStream _appLock;
         public static bool forceNonDedicate = false;
         public static EventWaitHandle ProgramStarted;
-
+        public static KMCCC.Launcher.LauncherCore core;
 
         protected override void OnStartup(StartupEventArgs e)
         {

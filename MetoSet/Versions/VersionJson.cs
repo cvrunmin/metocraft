@@ -257,7 +257,7 @@ namespace MTMCL.Versions
                 liblist.Add(new LibraryUniversal
                 {
                     name = item.NS + ":" + item.Name + ":" + item.Version,
-                    path = MeCore.MainWindow.gridPlay.launcher.GetLibPath(item),
+                    path = App.core.GetLibPath(item),
                     url = item.Url
                 });
             }
@@ -271,7 +271,7 @@ namespace MTMCL.Versions
                 liblist.Add(new LibraryUniversal
                 {
                     name = item.NS + ":" + item.Name + ":" + item.Version,
-                    path = MeCore.MainWindow.gridPlay.launcher.GetNativePath(item),
+                    path = App.core.GetNativePath(item),
                     url = item.Url
                 });
             }

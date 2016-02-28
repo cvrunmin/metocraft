@@ -20,7 +20,7 @@ namespace MTMCL
         public string MCPath { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("javaXmx")]
-        public string Javaxmx { get; set; }
+        public double Javaxmx { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("lastversion")]
         public string LastPlayVer { get; set; }
@@ -59,7 +59,7 @@ namespace MTMCL
         {
             Javaw = KMCCC.Tools.SystemTools.FindValidJava().First() ?? "javaw.exe";
             MCPath = MeCore.BaseDirectory + ".minecraft";
-            Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024).ToString(CultureInfo.InvariantCulture);
+            Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024);
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
             Background = "default";
             Color = new byte[] { 255, 255, 255 };
@@ -141,11 +141,14 @@ namespace MTMCL
             }
         }
 
-        public void Save(string file = null)
+        public void Save()
+        {
+            Save(this, null);
+        }
+        public void Save(string file)
         {
             Save(this, file);
         }
-
         public string ToReadableLog() {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine("Language: " + Lang);

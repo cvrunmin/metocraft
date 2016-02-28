@@ -149,8 +149,8 @@ namespace MTMCL.util
         {
             try
             {
-                var libs = version.Libraries.Select(lib => MeCore.MainWindow.gridPlay.launcher.GetLibPath(lib));
-                var natives = version.Natives.Select(native => MeCore.MainWindow.gridPlay.launcher.GetNativePath(native));
+                var libs = version.Libraries.Select(lib => App.core.GetLibPath(lib));
+                var natives = version.Natives.Select(native => App.core.GetNativePath(native));
                 foreach (string libflie in libs)
                 {
                     if (!File.Exists(libflie))

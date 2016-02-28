@@ -1,0 +1,71 @@
+﻿<Grid
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL"
+             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Play"
+             mc:Ignorable="d" 
+             d:DesignHeight="362" d:DesignWidth="643" Initialized="Grid_Initialized">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Grid>
+        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
+            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+
+        </Button>
+        <Label x:Name="lblTitle" Content="{DynamicResource Play}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+        <Label Content="{DynamicResource PlayVer}" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <ListView x:Name="listVer" Margin="0,75,322,0" SelectionChanged="listVer_SelectionChanged" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True">
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
+                    <GridViewColumn DisplayMemberBinding="{Binding Version}" Header="{DynamicResource Version}" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="{DynamicResource Type}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TabControl Margin="0,45,0,0" HorizontalAlignment="Right" Width="322">
+            <TabItem Header="{DynamicResource Libs}" Custom:ControlsHelper.HeaderFontSize="16">
+                <Grid Background="#7FFFFFFF">
+                    <ListView x:Name="listLib" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Lib}" Header="{DynamicResource DLLib}" Width="220"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Exist}" Header="{DynamicResource Exist}" Width="75"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource Assets}" Custom:ControlsHelper.HeaderFontSize="16">
+                <Grid Background="#7FFFFFFF">
+                    <ListView x:Name="listAsset" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Assets}" Header="{DynamicResource Assets}" Width="220"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Exist}" Header="{DynamicResource Exist}" Width="75"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource Play}" Custom:ControlsHelper.HeaderFontSize="16">
+                <Grid Background="#7FFFFFFF">
+                    <Label Content="{DynamicResource LaVer}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                    <Label x:Name="lblSelectVer" Content="" HorizontalAlignment="Left" Margin="130,0,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <Button x:Name="butPlay" Content="{DynamicResource PlayPlay}" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Width="75" Click="butPlay_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Grid>

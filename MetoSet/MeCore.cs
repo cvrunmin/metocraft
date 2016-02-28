@@ -24,7 +24,6 @@ namespace MTMCL
         public static MainWindow MainWindow = null;
         private static Application thisApplication = Application.Current;
         public static Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
-
         static MeCore()
         {
             version = Application.ResourceAssembly.FullName.Split('=')[1];
@@ -60,7 +59,7 @@ namespace MTMCL
                 Logger.log(string.Format("loaded {0}", Cfgfile));
                 Logger.log(Config.ToReadableLog());
                 LoadLanguage();
-                ChangeLanguage(Config.Lang);
+                //ChangeLanguage(Config.Lang);
             }
             else
             {
@@ -72,9 +71,9 @@ namespace MTMCL
             {
                 Config.Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
             }
-            if (Config.Javaxmx == "autosearch")
+            if (Config.Javaxmx == -1)
             {
-                Config.Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4).ToString(CultureInfo.InvariantCulture);
+                Config.Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4) / 1024 / 1024;
             }
             LangManager.UseLanguage(Config.Lang);
 #if DEBUG

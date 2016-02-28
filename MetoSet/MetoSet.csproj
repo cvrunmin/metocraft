@@ -155,13 +155,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Blank.cs" />
+    <Compile Include="assets\AssetIndex.cs" />
+    <Compile Include="assets\assets.cs" />
+    <Compile Include="assets\AssetsEntity.cs" />
     <Compile Include="config.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MeCore.cs" />
+    <Compile Include="Play.xaml.cs">
+      <DependentUpon>Play.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UrlReplacer.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="util\Helper.cs" />
+    <Compile Include="Versions\VersionJson.cs" />
     <Compile Include="Zip\Checksums\Adler32.cs" />
     <Compile Include="Zip\Checksums\CRC32.cs" />
     <Compile Include="Zip\Checksums\IChecksum.cs" />
@@ -203,6 +211,10 @@
     <Compile Include="Zip\ZipInputStream.cs" />
     <Compile Include="Zip\ZipNameTransform.cs" />
     <Compile Include="Zip\ZipOutputStream.cs" />
+    <Page Include="Play.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Properties\DesignTimeResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -260,6 +272,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -272,19 +285,7 @@
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ImagePlay.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ImageAbout.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="screenLaunch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ImageSet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ImageDL.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="SplashScreen.png" />
@@ -297,18 +298,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\bg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ImageDLVanilla.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ImageDLAssets.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ImageDLForge.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ImageDLLib.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
@@ -337,9 +326,6 @@
     <Resource Include="Resources\mtmcl.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ImageDLPack.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\others.png" />
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +333,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Play\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play-normal.jpg" />
+    <Resource Include="Resources\quick-play.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

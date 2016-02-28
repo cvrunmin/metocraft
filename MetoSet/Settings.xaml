@@ -6,33 +6,63 @@
              xmlns:local="clr-namespace:MTMCL"
                  xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="364" d:DesignWidth="645">
-    <!--<Grid.Resources>
+             d:DesignHeight="362" d:DesignWidth="643" Initialized="Grid_Initialized">
+    <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-                <ResourceDictionary Source="Resources/Icons.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Grid.Resources>-->
+    </Grid.Resources>
     <Grid>
         <TabControl x:Name="tabControl" TabStripPlacement="Left" Margin="0,40,0,0">
             <TabItem Header="{DynamicResource GameSet}">
-                <Grid Background="#7FFFFFFF"/>
+                <Grid Background="#7FFFFFFF">
+                    <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                    <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="512" LargeChange="128" metro:SliderHelper.EnableMouseWheel="MouseHover" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged"/>
+                    <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" metro:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
+                    <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click"/>
+                    <Rectangle x:Name="rectMPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,83,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_check}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <Label Content="{DynamicResource UseJ}" HorizontalAlignment="Left" Margin="0,114,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <ComboBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" SelectionChanged="comboJava_SelectionChanged"/>
+                    <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
+                </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="{DynamicResource Download}">
+                <Grid Background="#7FFFFFFF">
+                    <Label Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                    <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboDLSrc_SelectionChanged">
+                        <ComboBoxItem Content="Official" HorizontalAlignment="Left" Width="348"/>
+                        <ComboBoxItem Content="BMCLAPI" HorizontalAlignment="Left" Width="348"/>
+                    </ComboBox>
+                    <Label Content="{DynamicResource UdtSrc}" HorizontalAlignment="Left" Margin="0,61,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <ComboBox x:Name="comboUdtSrc" HorizontalAlignment="Left" Margin="2,91,0,0" VerticalAlignment="Top" Width="348" SelectionChanged="comboUdtSrc_SelectionChanged">
+                        <ComboBoxItem Content="GitHub" HorizontalAlignment="Left" Width="346"/>
+                        <ComboBoxItem Content="Coding" HorizontalAlignment="Left" Width="346"/>
+                    </ComboBox>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource LauncherSet}">
+                <Grid Background="#7FFFFFFF">
+                    <Label Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                    <ComboBox x:Name="comboLang" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboLang_SelectionChanged"/>
+                    <Label Content="{DynamicResource BG}" HorizontalAlignment="Left" Margin="0,66,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <TextBox x:Name="txtboxBG" HorizontalAlignment="Left" Height="23" Margin="0,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350"/>
+                    <Button x:Name="butBGBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="350,96,0,0" VerticalAlignment="Top" Width="75"/>
+                </Grid>
             </TabItem>
         </TabControl>
         <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
             <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
                 <Rectangle.OpacityMask>
-                    <VisualBrush
-        Visual="{StaticResource appbar_arrow_left}"/>
+                    <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
 

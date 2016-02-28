@@ -19,8 +19,6 @@ namespace MTMCL.Resources
                     return srcUrl;
                 case 1:
                     return srcUrl.Replace("http://files.minecraftforge.net/maven", "http://bmclapi2.bangbang93.com/maven");
-                case 2:
-                    return srcUrl.Replace("http://files.minecraftforge.net/maven", "http://mirrors.rapiddata.org/forge/maven");
                 default:
                     return srcUrl;
             }
@@ -32,13 +30,11 @@ namespace MTMCL.Resources
             switch (MeCore.Config.DownloadSource)
             {
                 case 0:
-                    return Url.URL_RESOURCE_BASE;
+                    return "http://resources.download.minecraft.net/";
                 case 1:
-                    return Url.URL_RESOURCE_bangbang93;
-                case 2:
-                    return Url.URL_RESOURCE_rapiddata;
+                    return "http://bmclapi2.bangbang93.com/assets/";
                 default:
-                    return Url.URL_RESOURCE_BASE;
+                    return "http://resources.download.minecraft.net/";
             }
         }
         public static string getLibraryUrl(int? src = null)
@@ -46,13 +42,11 @@ namespace MTMCL.Resources
             switch (src != null ? src : MeCore.Config.DownloadSource)
             {
                 case 0:
-                    return Url.URL_LIBRARIES_BASE;
+                    return "https://libraries.minecraft.net/";
                 case 1:
-                    return Url.URL_LIBRARIES_bangbang93;
-                case 2:
-                    return Url.URL_LIBRARIES_rapiddata;
+                    return "http://bmclapi2.bangbang93.com/libraries/";
                 default:
-                    return Url.URL_LIBRARIES_BASE;
+                    return "https://libraries.minecraft.net/";
             }
         }
         public static string getDownloadUrl()
@@ -60,13 +54,11 @@ namespace MTMCL.Resources
             switch (MeCore.Config.DownloadSource)
             {
                 case 0:
-                    return Url.URL_DOWNLOAD_BASE;
+                    return "https://s3.amazonaws.com/Minecraft.Download/";
                 case 1:
-                    return Url.URL_DOWNLOAD_bangbang93;
-                case 2:
-                    return Url.URL_DOWNLOAD_rapiddata;
+                    return "http://bmclapi.bangbang93.com/";
                 default:
-                    return Url.URL_DOWNLOAD_BASE;
+                    return "https://s3.amazonaws.com/Minecraft.Download/";
             }
         }
         public static string getVersionsUrl()
@@ -76,11 +68,9 @@ namespace MTMCL.Resources
                 case 0:
                     return "https://launchermeta.mojang.com/mc/game/version_manifest.json";
                 case 1:
-                    return Url.URL_DOWNLOAD_bangbang93 + "versions/versions.json";
-                case 2:
-                    return Url.URL_DOWNLOAD_rapiddata + "versions/versions.json";
+                    return "http://bmclapi.bangbang93.com/versions/versions.json";
                 default:
-                    return Url.URL_DOWNLOAD_BASE + "versions/versions.json";
+                    return "https://s3.amazonaws.com/Minecraft.Download/versions/versions.json";
             }
         }
     }

@@ -40,11 +40,15 @@ namespace MTMCL.Lang
             if (!Languages.ContainsKey(languageName))
             {
                 Application.Current.Resources = DefaultLanguage;
+                ReplaceDictationaries();
                 return;
             }
             var langType = Languages[languageName];
             if (langType != null)
+            {
                 Application.Current.Resources = langType.Language;
+                ReplaceDictationaries();
+            }
         }
 
         public static string[] ListLanuage()
@@ -57,6 +61,15 @@ namespace MTMCL.Lang
                 i++;
             }
             return langs;
+        }
+        private static void ReplaceDictationaries()
+        {
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml") });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml") });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml") });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml") });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml") });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Resources/Icons.xaml") });
         }
     }
 }

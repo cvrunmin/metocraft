@@ -8,35 +8,34 @@
         x:Class="MTMCL.MainWindow"
         mc:Ignorable="d"
     GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="MainWindow" Height="395" Width="653" BorderBrush="Black" Background="White" ResizeMode="CanResize" TitleCaps="False">
-    <!--<Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-                <ResourceDictionary Source="Resources/Icons.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>-->
+        Title="MainWindow" Height="393" Width="651" BorderBrush="Black" Background="White" TitleCaps="False" Icon="Resources/mtmcl.ico" ResizeMode="CanMinimize" ShowMaxRestoreButton="False">
+    <metro:MetroWindow.Flyouts>
+        <metro:FlyoutsControl>
+            <metro:Flyout x:Name="launchFlyout" Width="200" Theme="Accent" Position="Right" IsOpen="True" AnimateOpacity="True" IsModal="True">
+                <Grid>
+                    <Button x:Name="butLaunchNormal" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchNormal_MouseEnter" MouseLeave="butLaunchNormal_MouseLeave"/>
+                </Grid>
+            </metro:Flyout>
+        </metro:FlyoutsControl>
+    </metro:MetroWindow.Flyouts>
     <Grid>
         <Grid x:Name="gridParent" Margin="0,0,0,0">
+            <Grid x:Name="gridBG">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
-            </Grid.Background>
+                </Grid.Background>
+            </Grid>
             <Grid x:Name="gridMain" Margin="0,0,0,0">
                 <Label x:Name="lblWelcome" Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
-                <Grid Margin="10,44,0,0" HorizontalAlignment="Left" Width="625" Height="310" VerticalAlignment="Top">
-                    <metro:Tile Height="100" Width="205" Title="{DynamicResource Play}" metro:ButtonHelper.PreserveTextCase="True" Background="#CC00B3FF" Margin="0" HorizontalAlignment="Right" Count="" VerticalAlignment="Top">
+                <Grid x:Name="gridMenu" Margin="10,44,10,10" Width="625" Height="310">
+                    <metro:Tile x:Name="butPlay" Height="100" Width="205" Title="{DynamicResource Play}" metro:ButtonHelper.PreserveTextCase="True" Background="#CC00B3FF" Margin="420,0,0,0" Count="" Click="butPlay_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_control_play}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="205" Height="100" Background="#CCC16100">
+                    <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="205" Height="100" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_list}" />
@@ -50,7 +49,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butNotice" Title="Notice" HorizontalAlignment="Left" Margin="210,0,0,0" VerticalAlignment="Top" Width="100" Height="100">
+                    <metro:Tile x:Name="butNotice" Title="Notice" Margin="210,0,0,0" Width="100" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_notification_above}" />
