@@ -15,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-    <Grid>
+    <Grid Initialized="Grid_Initialized">
         <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
             <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
                 <Rectangle.OpacityMask>

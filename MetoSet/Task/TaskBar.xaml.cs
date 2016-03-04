@@ -1,16 +1,19 @@
-﻿using System;
+﻿using MTMCL.Threads;
+using System;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
-namespace MTMCL.NewGui
+namespace MTMCL.Task
 {
     /// <summary>
-    /// TaskBar.xaml 的互動邏輯
+    /// TaskListBar.xaml 的互動邏輯
     /// </summary>
-    public partial class TaskBar : UserControl
+    public partial class TaskListBar : Button
     {
         System.Windows.Forms.Timer timer;
         bool startCount = false;
@@ -18,36 +21,45 @@ namespace MTMCL.NewGui
         bool detectAlive = true;
         Thread _task;
         Process _subTask;
+        public ImageSource ImgSrc { get; set; }
         int hr = 0, min = 0, sec = 0;
-        public TaskBar()
+        public string TaskName { get; set; }
+        public string TaskStatus { get; set; }
+        public string Identifier { get; set; }
+        public TaskListBar()
         {
             InitializeComponent();
         }
-        public TaskBar(Thread task)
+        public TaskListBar(Thread task)
         {
             InitializeComponent();
             _task = task;
             _task.Start();
         }
-        public TaskBar setThread(Thread task)
+        public TaskListBar setThread(Thread task)
         {
             _task = task;
             _task.Start();
             return this;
         }
-        public TaskBar setSubProcess(Process task)
+        public TaskListBar setThread(MTMCLThread task)
+        {
+            task.Start();
+            return this;
+        }
+        public TaskListBar setSubProcess(Process task)
         {
             _subTask = task;
             return this;
         }
-        public TaskBar setTask(string name)
+        public TaskListBar setTask(string name)
         {
-            lblTaskName.Content = name;
+            TaskName = name;
             return this;
         }
-        public TaskBar setTaskStatus(string status)
+        public TaskListBar setTaskStatus(string status)
         {
-            lblTaskStatus.Content = status;
+            TaskStatus = status;
             return this;
         }
         public bool isFinished() {
@@ -56,7 +68,7 @@ namespace MTMCL.NewGui
         public bool needDetectAlive() {
             return detectAlive;
         }
-        public TaskBar setDetectAlive(bool flag) {
+        public TaskListBar setDetectAlive(bool flag) {
             detectAlive = flag;
             return this;
         }
@@ -90,21 +102,25 @@ namespace MTMCL.NewGui
             timer.Tick += new EventHandler(this.timer_Tick);
         }
 
-        public TaskBar countTime()
+        public TaskListBar countTime()
         {
             startCount = true;
             return this;
         }
-        public TaskBar stopCountTime()
+        public TaskListBar stopCountTime()
         {
             startCount = false;
             return this;
         }
+
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited)) && needDetectAlive())
+            if (_task != null)
             {
-                stopCountTime().noticeFinished();
+                if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited)) && needDetectAlive())
+                {
+                    stopCountTime().noticeFinished();
+                }
             }
             if (startCount)
             {

@@ -1,0 +1,64 @@
+﻿<Grid
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL"
+    xmlns:util="clr-namespace:Wpf.Util"
+             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Download"
+             mc:Ignorable="d" 
+             d:DesignHeight="362" d:DesignWidth="643">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Grid>
+        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
+            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+
+        </Button>
+        <Label Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+        <TabControl x:Name="tabControl" Margin="0,45,0,0">
+            <TabItem Header="{DynamicResource DLMC}">
+                <Grid Background="#7FFFFFFF">
+                    <ListView x:Name="listRemoteVer" Margin="0,0,150,0" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Ver}" util:GridViewSort.PropertyName="Ver" Header="{DynamicResource Version}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding RelTime}" util:GridViewSort.PropertyName="RelTime" Header="{DynamicResource RTime}" Width="250"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Type}" util:GridViewSort.PropertyName="Type" Header="{DynamicResource Type}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Url}" util:GridViewSort.PropertyName="Url" Header="{DynamicResource Url}" Width="0"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="butReloadMC" Content="{DynamicResource Reload}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Custom:ControlsHelper.ContentCharacterCasing="Normal" FontSize="21.333" Click="butReloadMC_Click"/>
+                    <Button x:Name="butDLMC" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" FontSize="21.333" Click="butDLMC_Click" HorizontalAlignment="Right" Width="150"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource DLForge}">
+                <Grid Background="#7FFFFFFF">
+                    <ListView x:Name="listForge" HorizontalAlignment="Left" Width="485" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Ver}" Header="{DynamicResource Version}" Width="110" util:GridViewSort.PropertyName="Ver"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding MCVer}" Header="{DynamicResource MCVer}" Width="105" util:GridViewSort.PropertyName="MCVer"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="{DynamicResource RTime}" Width="170" util:GridViewSort.PropertyName="Time"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Tag}" Header="{DynamicResource Tag}" Width="100" util:GridViewSort.PropertyName="Tag"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="butReloadForge" Content="{DynamicResource Reload}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="45" FontSize="21.333" Click="butReloadForge_Click"/>
+                    <Button x:Name="butDLForge" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="150" FontSize="21.333" Click="butDLForge_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Grid>

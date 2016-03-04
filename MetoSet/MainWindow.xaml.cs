@@ -1,5 +1,15 @@
-﻿using System;
+﻿using KMCCC.Launcher;
+using MTMCL.Task;
+using MTMCL.Threads;
+using MTMCL.util;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -12,6 +22,8 @@ namespace MTMCL
     /// </summary>
     public partial class MainWindow
     {
+        System.Windows.Forms.Timer timer;
+        public LaunchOptions _LaunchOptions;
         public MainWindow()
         {
             //MeCore.NIcon.MainWindow = this;
@@ -35,10 +47,10 @@ namespace MTMCL
         private void butPlayQuick_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             var ani1 = new ThicknessAnimationUsingKeyFrames();
-            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
+            //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
             ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0,-100,0,200), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
-            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
             butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
@@ -47,10 +59,10 @@ namespace MTMCL
         private void butPlayQuick_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             var ani1 = new ThicknessAnimationUsingKeyFrames();
-            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -75, 0, 175), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -75, 0, 175), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
-            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 25, 0, 75), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 25, 0, 75), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 100, 0, 0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
             butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
@@ -73,6 +85,14 @@ namespace MTMCL
                     tile = butPlay;
                     grid = new Play();
                     break;
+                case "download":
+                    tile = butDL;
+                    grid = new Download();
+                    break;
+                case "tasklist":
+                    tile = butTask;
+                    grid = new TaskList();
+                    break;
                 default:
                     return;
             }
@@ -81,9 +101,9 @@ namespace MTMCL
             gridLoadingScreen.Background = new SolidColorBrush(Color.FromRgb(((SolidColorBrush)tile.Background).Color.R, ((SolidColorBrush)tile.Background).Color.G, ((SolidColorBrush)tile.Background).Color.B));
             gridLoadingScreen.Visibility = Visibility.Visible;
             var ani = new ThicknessAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(gridMenu.Margin.Left + tile.Margin.Left, gridMenu.Margin.Top + tile.Margin.Top, gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)),KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
-            ani.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(10), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.05))));
-            ani.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.2))));
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMenu.Margin.Left + tile.Margin.Left, gridMenu.Margin.Top + tile.Margin.Top, gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)),KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)),new CubicEase() { EasingMode = EasingMode.EaseInOut}));
+            //ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(10), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.05))));
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.2)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
             gridLoadingScreen.BeginAnimation(MarginProperty, ani);
             await System.Threading.Tasks.Task.Delay(1000);
             gridOthers.Children.Clear();
@@ -104,20 +124,139 @@ namespace MTMCL
 
         private void butLaunchNormal_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(1.25));
-            gridBG.BeginAnimation(OpacityProperty, ani);
+            gridBG.Opacity = 0;
             gridBG.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/play-normal.jpg"))) { Stretch = Stretch.UniformToFill};
-            ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+            var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
             gridBG.BeginAnimation(OpacityProperty, ani);
         }
 
         private void butLaunchNormal_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(1.25));
+            var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
             gridBG.BeginAnimation(OpacityProperty, ani);
-            gridBG.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/bg.png"))) { Stretch = Stretch.UniformToFill };
-            ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
-            gridBG.BeginAnimation(OpacityProperty, ani);
+        }
+        private int _clientCrashReportCount;
+        public void LaunchGame(LaunchMode mode)
+        {
+            if (_LaunchOptions != null)
+            {
+                _LaunchOptions.Mode = mode;
+                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/play-normal-banner.jpg"))};
+                var task = new LaunchMCThread(_LaunchOptions);
+                task.StateChange += delegate (string state)
+                {
+                    gui.setTaskStatus(state);
+                };
+                task.TaskCountTime += delegate
+                {
+                    gui.countTime();
+                };
+                task.GameExit += delegate {
+                    gui.stopCountTime().noticeFinished();
+                };
+                task.GameCrash += delegate (string content, string path) {
+                    //new MCCrash(content, path).Show();
+                };
+                addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.Id)).setThread(task).setDetectAlive(false));
+            }
+        }
+        private void butLaunchNormal_Click(object sender, RoutedEventArgs e)
+        {
+            LaunchGame(null);
+            MeCore.MainWindow.launchFlyout.IsOpen = false;
+        }
+
+        private void butPlayQuick_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (butPlayQuick.IsEnabled)
+            {
+                var ani1 = new ThicknessAnimationUsingKeyFrames();
+                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani2 = new ThicknessAnimationUsingKeyFrames();
+                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -100, 0, 200), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani3 = new ThicknessAnimationUsingKeyFrames();
+                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 100, 0, 0), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
+                butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
+                butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
+            }
+            else
+            {
+                var ani1 = new ThicknessAnimationUsingKeyFrames();
+                //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
+                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 100, 0, 0), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani2 = new ThicknessAnimationUsingKeyFrames();
+                //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani3 = new ThicknessAnimationUsingKeyFrames();
+                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 200, 0, -100), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
+                butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
+                butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
+            }
+        }
+
+        private void butDL_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage("download");
+        }
+
+        public Dictionary<string, TaskListBar> taskdict = new Dictionary<string, TaskListBar>();
+        public void addTask(string identifier, TaskListBar task)
+        {
+            if (taskdict.ContainsKey(identifier))
+            {
+                //return;
+                task.noticeExisted();
+                string _identifier = identifier + "exist";
+                int i = 0;
+                while (taskdict.ContainsKey(_identifier))
+                {
+                    ++i;
+                    _identifier = identifier + "exist" + i;
+                }
+                identifier = _identifier;
+            }
+            task.Margin = new Thickness(0);
+            taskdict.Add(identifier, task);
+        }
+        public void removeTask(string s, TaskListBar task)
+        {
+            taskdict.Remove(s);
+        }
+
+        private void butTask_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage("tasklist");
+        }
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (taskdict.Count != 0)
+            {
+                Dictionary<string, TaskListBar> deletable = new Dictionary<string, TaskListBar>();
+                foreach (var task in taskdict)
+                {
+                    if (task.Value.isFinished())
+                    {
+                        deletable.Add(task.Key, task.Value);
+                    }
+                }
+                if (deletable.Count != 0)
+                {
+                    foreach (var task in deletable)
+                    {
+                        removeTask(task.Key, task.Value);
+                    }
+                }
+            }
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            timer = new System.Windows.Forms.Timer();
+            timer.Enabled = true;
+            timer.Interval = 1000;
+            timer.Tick += new EventHandler(this.timer_Tick);
         }
     }
 }

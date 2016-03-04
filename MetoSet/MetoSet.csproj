@@ -129,7 +129,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -155,20 +154,45 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ACLogin.xaml.cs">
+      <DependentUpon>ACLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="assets\AssetIndex.cs" />
     <Compile Include="assets\assets.cs" />
     <Compile Include="assets\AssetsEntity.cs" />
+    <Compile Include="BakaXLMode.cs" />
+    <Compile Include="ButtonMenu.cs" />
     <Compile Include="config.cs" />
+    <Compile Include="Download.xaml.cs">
+      <DependentUpon>Download.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forge\Artifact.cs" />
+    <Compile Include="Forge\ForgeDLThread.cs" />
+    <Compile Include="Forge\ForgeInstaller.cs" />
+    <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="JsonClass\ForgeInstall.cs" />
+    <Compile Include="JsonClass\ForgeVersion.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MeCore.cs" />
     <Compile Include="Play.xaml.cs">
       <DependentUpon>Play.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Threads\LaunchMCThread.cs" />
     <Compile Include="Resources\UrlReplacer.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Task\TaskBar.xaml.cs">
+      <DependentUpon>TaskBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Task\TaskList.xaml.cs">
+      <DependentUpon>TaskList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Threads\MTMCLThread.cs" />
+    <Compile Include="util\GridViewSort.cs" />
     <Compile Include="util\Helper.cs" />
+    <Compile Include="Versions\RawVersionListType.cs" />
+    <Compile Include="Versions\RemoteVerType.cs" />
     <Compile Include="Versions\VersionJson.cs" />
     <Compile Include="Zip\Checksums\Adler32.cs" />
     <Compile Include="Zip\Checksums\CRC32.cs" />
@@ -211,6 +235,18 @@
     <Compile Include="Zip\ZipInputStream.cs" />
     <Compile Include="Zip\ZipNameTransform.cs" />
     <Compile Include="Zip\ZipOutputStream.cs" />
+    <Page Include="ACLogin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Download.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Play.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -251,6 +287,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Task\TaskBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Task\TaskList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,6 +384,9 @@
   <ItemGroup>
     <Resource Include="Resources\play-normal.jpg" />
     <Resource Include="Resources\quick-play.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play-normal-banner.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

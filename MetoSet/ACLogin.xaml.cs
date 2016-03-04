@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,7 +10,7 @@ namespace MTMCL
     /// <summary>
     /// ACLogin.xaml 的互動邏輯
     /// </summary>
-    public partial class ACLogin : Window
+    public partial class ACLogin : MetroWindow
     {
         public string UN;
         public string PW;
@@ -69,7 +70,7 @@ namespace MTMCL
         {
             Close();
         }
-        private void CreateCustomAuth() {
+        /*private void CreateCustomAuth() {
             if (MeCore.ServerCfg.Auths.Count != 0)
             {
                 short i = 0;
@@ -163,12 +164,12 @@ namespace MTMCL
                 }
             }
         }
-
+        */
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (MeCore.IsServerDedicated)
             {
-                CreateCustomAuth();
+                //CreateCustomAuth();
             }
         }
     }

@@ -1,8 +1,9 @@
-﻿<Window x:Class="MTMCL.ACLogin"
+﻿<metro:MetroWindow x:Class="MTMCL.ACLogin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:MTMCL"
         mc:Ignorable="d"
         Title="ACLogin" Height="492" Width="471" ResizeMode="NoResize" Loaded="Window_Loaded">
@@ -10,17 +11,18 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ButtonStyle.xaml"/>
-                <ResourceDictionary Source="ControlStyle.xaml"/>
+                <!--<ResourceDictionary Source="ControlStyle.xaml"/>-->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Grid x:Name="gridMain" Background="White">
         <Grid x:Name="gridMenu">
             <Label x:Name="lblTitle" Content="{DynamicResource ACTitle}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
-            <Button x:Name="butClose" Content="{DynamicResource Close}" Margin="0,0,10,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butClose_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
+            <Button x:Name="butClose" Content="{DynamicResource Close}" Margin="0,0,10,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butClose_Click" BorderThickness="2" FontSize="16"/>
             <ScrollViewer HorizontalAlignment="Left" Height="350" Margin="0,52,0,0" VerticalAlignment="Top" Width="452" VerticalScrollBarVisibility="Auto">
                 <Grid x:Name="gridscrolllist">
-                    <local:ButtonMenu x:Name="butOffline" Content="{DynamicResource Off}" Margin="0,0,-17,0" VerticalAlignment="Top" Height="60" Click="butOffline_Click" Style="{DynamicResource ButtonMeListSolid}" ListType="True" Background="White" MenuImage="Resources/offline.png" FontSize="16"/>
+                    <local:ButtonMenu x:Name="butOffline" Content="{DynamicResource Offline}" Margin="0,0,-17,0" VerticalAlignment="Top" Height="60" Click="butOffline_Click" Style="{DynamicResource ButtonMeListSolid}" ListType="True" Background="White" MenuImage="Resources/offline.png" FontSize="16"/>
                     <local:ButtonMenu x:Name="butMojang" Content="{DynamicResource Mojang}" Margin="0,60,-17,0" VerticalAlignment="Top" Height="60" Click="butMojang_Click" Style="{DynamicResource ButtonMeListSolid}" ListType="True" Background="White" MenuImage="Resources/mojang.png" FontSize="16"/>
                 </Grid>
             </ScrollViewer>
@@ -29,25 +31,21 @@
             <Label x:Name="lblTitleOff" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Label x:Name="lblUN" Content="{DynamicResource UName}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
             <TextBox x:Name="txtBoxUN" Height="30" Margin="10,70,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>
-            <Button x:Name="butBackOff" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackOff_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
-            <Button x:Name="butLoginOff" Content="{DynamicResource Login}" Margin="0,0,217,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butLoginOff_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
-            <Label x:Name="lblRM1" Content="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top"/>
-            <ToggleButton x:Name="butRM1" Content="" HorizontalAlignment="Left" Margin="104,110,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top"/>
+            <Button x:Name="butBackOff" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackOff_Click" BorderThickness="2" FontSize="16"/>
+            <Button x:Name="butLoginOff" Content="{DynamicResource Login}" Margin="0,0,217,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butLoginOff_Click" BorderThickness="2" FontSize="16"/>
+            <metro:ToggleSwitch x:Name="butRM1" Header="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
         </Grid>
-        <Grid x:Name="gridMojang" Background="White" Visibility="Collapsed">
+        <Grid x:Name="gridMojang" Background="White" Visibility="Visible">
             <Label x:Name="lblTitleM" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Label x:Name="lblUNE" Content="{DynamicResource UNEM}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
             <TextBox x:Name="txtBoxUNE" Height="30" Margin="10,75,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>
             <Label x:Name="lblPW" Content="{DynamicResource PW}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" FontSize="16"/>
             <PasswordBox x:Name="pwbox" Margin="10,135,10,0" VerticalAlignment="Top" Height="30" FontSize="18.667"/>
-            <Button x:Name="butBackM" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackM_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
-            <Button x:Name="butLoginM" Content="{DynamicResource Login}" Margin="0,0,217,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butLoginM_Click" BorderThickness="2" FontSize="16" Style="{DynamicResource NormalButton}"/>
-            <Label x:Name="lblRM2" Content="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top"/>
-            <ToggleButton x:Name="butRM2" Content="" HorizontalAlignment="Left" Margin="139,196,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top"/>
-            <Label x:Name="lblCheckTwitch" Content="{DynamicResource ETwitch}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top"/>
-            <ToggleButton x:Name="butCheckTwitch" Content="" HorizontalAlignment="Left" Margin="139,172,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top"/>
-            <Label x:Name="lblRPW" Content="{DynamicResource RememberPW}" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top"/>
-            <ToggleButton x:Name="butRPW" Content="" HorizontalAlignment="Left" Margin="139,221,0,0" Style="{DynamicResource ToggleButtonStyle}" Width="44" Height="20" VerticalAlignment="Top" IsEnabled="False"/>
+            <Button x:Name="butBackM" Content="{DynamicResource Back}" Margin="0,0,10,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butBackM_Click" BorderThickness="2" FontSize="16"/>
+            <Button x:Name="butLoginM" Content="{DynamicResource Login}" Margin="0,0,217,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butLoginM_Click" BorderThickness="2" FontSize="16"/>
+            <metro:ToggleSwitch x:Name="butRM2" Header="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,236,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
+            <metro:ToggleSwitch x:Name="butCheckTwitch" Header="{DynamicResource ETwitch}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
+            <metro:ToggleSwitch x:Name="butRPW" Header="{DynamicResource RememberPW}" HorizontalAlignment="Left" Margin="10,302,0,0" VerticalAlignment="Top" IsEnabled="False" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
         </Grid>
     </Grid>
-</Window>
+</metro:MetroWindow>

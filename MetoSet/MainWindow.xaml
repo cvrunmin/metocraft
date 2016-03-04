@@ -8,24 +8,41 @@
         x:Class="MTMCL.MainWindow"
         mc:Ignorable="d"
     GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="MainWindow" Height="393" Width="651" BorderBrush="Black" Background="White" TitleCaps="False" Icon="Resources/mtmcl.ico" ResizeMode="CanMinimize" ShowMaxRestoreButton="False">
+        Title="MainWindow" Height="393" Width="651" BorderBrush="Black" Background="White" TitleCaps="False" Icon="Resources/mtmcl.ico" ResizeMode="CanMinimize" ShowMaxRestoreButton="False" Loaded="MetroWindow_Loaded">
     <metro:MetroWindow.Flyouts>
         <metro:FlyoutsControl>
-            <metro:Flyout x:Name="launchFlyout" Width="200" Theme="Accent" Position="Right" IsOpen="True" AnimateOpacity="True" IsModal="True">
+            <metro:Flyout x:Name="launchFlyout" Theme="Accent" Position="Right" IsOpen="True" IsModal="True" Header="Select Launch Mode">
                 <Grid>
-                    <Button x:Name="butLaunchNormal" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchNormal_MouseEnter" MouseLeave="butLaunchNormal_MouseLeave"/>
+                    <Button x:Name="butLaunchNormal" Content="Normal" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchNormal_MouseEnter" MouseLeave="butLaunchNormal_MouseLeave" Click="butLaunchNormal_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="Resources/play-normal-banner.jpg" Stretch="UniformToFill"/>
+                        </Button.Background>
+                    </Button>
                 </Grid>
             </metro:Flyout>
         </metro:FlyoutsControl>
     </metro:MetroWindow.Flyouts>
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </metro:MetroWindow.Resources>
     <Grid>
         <Grid x:Name="gridParent" Margin="0,0,0,0">
-            <Grid x:Name="gridBG">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Grid x:Name="gridBG">
+                <Grid.Background>
+                    <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
                 </Grid.Background>
             </Grid>
             <Grid x:Name="gridMain" Margin="0,0,0,0">
+                <Grid.Background>
+                    <ImageBrush/>
+                </Grid.Background>
                 <Label x:Name="lblWelcome" Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
                 <Grid x:Name="gridMenu" Margin="10,44,10,10" Width="625" Height="310">
                     <metro:Tile x:Name="butPlay" Height="100" Width="205" Title="{DynamicResource Play}" metro:ButtonHelper.PreserveTextCase="True" Background="#CC00B3FF" Margin="420,0,0,0" Count="" Click="butPlay_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -35,7 +52,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="205" Height="100" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="205" Height="100" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_list}" />
@@ -56,7 +73,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butPlayQuick" Title="{DynamicResource QuickPlay}" HorizontalAlignment="Left" Margin="420,210,0,0" VerticalAlignment="Top" Width="205" Height="100" MouseEnter="butPlayQuick_MouseEnter" MouseLeave="butPlayQuick_MouseLeave">
+                    <metro:Tile x:Name="butPlayQuick" Title="{DynamicResource QuickPlay}" HorizontalAlignment="Left" Margin="420,210,0,0" VerticalAlignment="Top" Width="205" Height="100" MouseEnter="butPlayQuick_MouseEnter" MouseLeave="butPlayQuick_MouseLeave" IsEnabledChanged="butPlayQuick_IsEnabledChanged">
                         <Grid Height="200" Width="205">
                             <Grid x:Name="butPlayQuick_a" Margin="0,0,0,100">
                                 <Rectangle Height="50" Width="100">
@@ -66,7 +83,10 @@
                                 </Rectangle>
                             </Grid>
                             <Grid x:Name="butPlayQuick_b" Height="100" Margin="0,100,0,0">
-                                <Label x:Name="lblQuickPlayb" Content="{DynamicResource QuickPlayLabel}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="21.333"/>
+                                <Label Content="{DynamicResource QuickPlayLabel}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="21.333"/>
+                            </Grid>
+                            <Grid x:Name="butPlayQuick_c" Height="100" Margin="0,-100,0,200">
+                                <Label Content="{DynamicResource GameLaunched}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="21.333"/>
                             </Grid>
                         </Grid>
                     </metro:Tile>
@@ -77,7 +97,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butDL" Title="{DynamicResource Download}" HorizontalAlignment="Left" Margin="210,105,0,0" VerticalAlignment="Top" Width="205" Height="205">
+                    <metro:Tile x:Name="butDL" Title="{DynamicResource Download}" HorizontalAlignment="Left" Margin="210,105,0,0" VerticalAlignment="Top" Width="205" Height="205" Click="butDL_Click">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_download}" />

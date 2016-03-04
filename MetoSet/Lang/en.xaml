@@ -6,7 +6,7 @@
     <s:String x:Key="LangName">en</s:String>
     <s:String x:Key="Play">Play</s:String>
     <s:String x:Key="QuickPlay">Quick Play</s:String>
-    <s:String x:Key="QuickPlayLabel">Selected Version:{0}</s:String>
+    <s:String x:Key="QuickPlayLabel">Launch!</s:String>
     <s:String x:Key="Download">Download</s:String>
     <s:String x:Key="ReDownload">Redownload</s:String>
     <s:String x:Key="ReDLTooltip">to repair corrupted files</s:String>
@@ -66,6 +66,7 @@
     <s:String x:Key="RTime">Release Time</s:String>
     <s:String x:Key="LaVer">Launch Version</s:String>
     <s:String x:Key="Profile">Profile</s:String>
+    <s:String x:Key="GameLaunched">Game Launched</s:String>
     <!-- /Play -->
     <!-- DL -->
     <s:String x:Key="DLMC">Minecraft Vanilla Client</s:String>
@@ -86,7 +87,7 @@
     <!-- ACLogin -->
     <s:String x:Key="ACTitle">Select Account</s:String>
     <s:String x:Key="Login">Login</s:String>
-    <s:String x:Key="Off">Offline</s:String>
+    <s:String x:Key="Offline">Offline</s:String>
     <s:String x:Key="Mojang">Online (Mojang)</s:String>
     <s:String x:Key="Online">Online ({0})</s:String>
     <s:String x:Key="UName">Username</s:String>
@@ -114,6 +115,7 @@
     <s:String x:Key="TaskTitle">Task List</s:String>
     <s:String x:Key="TaskLaunch">Launch {0}</s:String>
     <s:String x:Key="SubTaskLaunch">Launching</s:String>
+    <s:String x:Key="SubTaskCheckLib">Checking Libraries</s:String>
     <s:String x:Key="TaskFinish">Finish</s:String>
     <s:String x:Key="TaskFail">Fail</s:String>
     <s:String x:Key="TaskExist">Duplicate Task</s:String>
@@ -144,4 +146,6 @@
     <s:String x:Key="Reset">Reset</s:String>
     <s:String x:Key="Select">Select</s:String>
     <s:String x:Key="NoCollectingData">Unknown due to no related code in release version MTMCL</s:String>
+    <s:String x:Key="On">On</s:String>
+    <s:String x:Key="Off">Off</s:String>
 </ResourceDictionary>

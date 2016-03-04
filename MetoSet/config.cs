@@ -57,7 +57,14 @@ namespace MTMCL
 
         public Config()
         {
-            Javaw = KMCCC.Tools.SystemTools.FindValidJava().First() ?? "javaw.exe";
+            try
+            {
+                Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
+            }
+            catch
+            {
+                Javaw = "javaw.exe";
+            }
             MCPath = MeCore.BaseDirectory + ".minecraft";
             Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024);
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";

@@ -66,6 +66,7 @@
     <s:String x:Key="RTime">發布時間</s:String>
     <s:String x:Key="LaVer">啟動版本</s:String>
     <s:String x:Key="Profile">啟動專案（Profiles）</s:String>
+    <s:String x:Key="GameLaunched">遊戲已啟動</s:String>
     <!-- /Play -->
     <!-- DL -->
     <s:String x:Key="DLMC">Minecraft原版客戶端</s:String>
@@ -88,7 +89,7 @@
     <!-- ACLogin -->
     <s:String x:Key="ACTitle">選擇帳戶</s:String>
     <s:String x:Key="Login">登入</s:String>
-    <s:String x:Key="Off">離線</s:String>
+    <s:String x:Key="Offline">離線</s:String>
     <s:String x:Key="Mojang">在線 (Mojang)</s:String>
     <s:String x:Key="Online">在線 ({0})</s:String>
     <s:String x:Key="UName">用戶名</s:String>
@@ -146,4 +147,6 @@
     <s:String x:Key="Reset">重設</s:String>
     <s:String x:Key="Select">選擇</s:String>
     <s:String x:Key="NoCollectingData">因發行版MTMCL沒提供相關代碼而未知</s:String>
+    <s:String x:Key="On">開</s:String>
+    <s:String x:Key="Off">關</s:String>
 </ResourceDictionary>
