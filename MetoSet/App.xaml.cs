@@ -16,7 +16,6 @@ namespace MTMCL
     /// </summary>
     public partial class App : Application
     {
-        private static FileStream _appLock;
         public static bool forceNonDedicate = false;
         public static EventWaitHandle ProgramStarted;
         public static KMCCC.Launcher.LauncherCore core;
@@ -44,15 +43,15 @@ namespace MTMCL
         }
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            //var crash = new ErrorReport(e.ExceptionObject as Exception);
-            //crash.Show();
+            var crash = new ErrorReport(e.ExceptionObject as Exception);
+            crash.Show();
         }
 
         void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             e.SetObserved();
-            //var crash = new ErrorReport(e.Exception);
-            //crash.Show();
+            var crash = new ErrorReport(e.Exception);
+            crash.Show();
         }
 
         private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -69,19 +68,18 @@ namespace MTMCL
                     }
                 }
             }
-            //var crash = new ErrorReport(e.Exception);
-            //crash.Show();
+            var crash = new ErrorReport(e.Exception);
+            crash.Show();
         }
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            //Logger.stop();
+            Logger.stop();
         }
 
         public static void AboutToExit()
         {
-            //_appLock.Close();
-            //Logger.stop();
+            Logger.stop();
         }
     }
 }

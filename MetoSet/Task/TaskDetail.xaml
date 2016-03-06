@@ -1,0 +1,23 @@
+﻿<Grid x:Class="MTMCL.Task.TaskDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL.Task"
+             mc:Ignorable="d" 
+             d:DesignHeight="362" d:DesignWidth="643" Loaded="Grid_Loaded">
+    <Grid.Background>
+        <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}}}" Stretch="UniformToFill"/>
+    </Grid.Background>
+    <Grid>
+            
+    </Grid>
+    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
+        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+    <Label x:Name="lblTitle" Content="" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+</Grid>

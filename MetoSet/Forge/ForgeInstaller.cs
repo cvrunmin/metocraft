@@ -67,13 +67,13 @@ namespace MTMCL.Forge
                 }
             }
             FileInfo lib = info.install.GetLibraryPath(libdir);
-            //List<Artifact> bad = new List<Artifact>();
-            //downloadInstalledLibrary(info, libdir, grabbed, bad);
-            //if (bad.Count > 0)
-            //{
-            //    zip.Close();
-            //    return false;
-            //}
+            List<Artifact> bad = new List<Artifact>();
+            downloadInstalledLibrary(info, libdir, grabbed, bad);
+            if (bad.Count > 0)
+            {
+                zip.Close();
+                return false;
+            }
             if (!lib.Directory.Exists)
             {
                 lib.Directory.Create();
@@ -335,6 +335,12 @@ namespace MTMCL.Forge
                     {
                         try
                         {
+                            File.Copy(new Uri("pack://application:,,,/Resources/unPackXZ.jar").AbsolutePath, "unpacker.jar", true);
+                            System.Diagnostics.Process process = new System.Diagnostics.Process();
+                            process.StartInfo = new System.Diagnostics.ProcessStartInfo() {
+                                FileName = MeCore.Config.Javaw,
+                                Arguments = "-jar unpacker.jar -XZFilePath \"" + packFile.FullName + "\" -unXZFilePath \"" + packFile.DirectoryName + "\" -unPackPath \"" + packFile.DirectoryName + "\""
+                            };
                             unpackLibrary(file, File.ReadAllBytes(packFile.FullName));
                             packFile.Delete();
                             if (checksumsValid(file, checksums))

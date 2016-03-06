@@ -16,6 +16,7 @@
     <s:String x:Key="Save">Save</s:String>
     <s:String x:Key="Reload">Reload</s:String>
     <s:String x:Key="Close">Close</s:String>
+    <s:String x:Key="Restart">Restart</s:String>
     <s:String x:Key="Back">Back</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">Computer</s:String>
@@ -53,6 +54,7 @@
     <s:String x:Key="PlayEnvir">Environment</s:String>
     <s:String x:Key="PlayVer">Version</s:String>
     <s:String x:Key="PlayPlay">Play</s:String>
+    <s:String x:Key="SelectLMode">Select Launch Mode</s:String>
     <s:String x:Key="Xmx">Max Memory</s:String>
     <s:String x:Key="MCPath">Minecraft Path</s:String>
     <s:String x:Key="MCPath_WM">Please make sure that it is a valid directory</s:String>
@@ -72,6 +74,7 @@
     <s:String x:Key="DLMC">Minecraft Vanilla Client</s:String>
     <s:String x:Key="DLLib">Library</s:String>
     <s:String x:Key="DLAssets">Assets</s:String>
+    <s:String x:Key="DDLAssets">Download Assets</s:String>
     <s:String x:Key="DLForge">Minecraft Forge Client</s:String>
     <s:String x:Key="DLPack">Mod Pack</s:String>
     <s:String x:Key="Refresh">Refresh</s:String>
@@ -110,6 +113,8 @@
     <s:String x:Key="ForgeNoVersionSolve">Please make sure you have Minecraft {0} and run it at least once.</s:String>
     <s:String x:Key="NoConnectionSolve">Please make sure you have connected to the Internet.</s:String>
     <s:String x:Key="FormatFaultSolve">Please make sure {0} is in correct format.</s:String>
+    <s:String x:Key="Email">Email</s:String>
+    <s:String x:Key="MCBBSThread">MCBBS Thread</s:String>
     <!--/Error-->
     <!--Task-->
     <s:String x:Key="TaskTitle">Task List</s:String>

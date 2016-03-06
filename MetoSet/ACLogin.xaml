@@ -35,7 +35,7 @@
             <Button x:Name="butLoginOff" Content="{DynamicResource Login}" Margin="0,0,217,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butLoginOff_Click" BorderThickness="2" FontSize="16"/>
             <metro:ToggleSwitch x:Name="butRM1" Header="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
         </Grid>
-        <Grid x:Name="gridMojang" Background="White" Visibility="Visible">
+        <Grid x:Name="gridMojang" Background="White" Visibility="Collapsed">
             <Label x:Name="lblTitleM" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Label x:Name="lblUNE" Content="{DynamicResource UNEM}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
             <TextBox x:Name="txtBoxUNE" Height="30" Margin="10,75,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>

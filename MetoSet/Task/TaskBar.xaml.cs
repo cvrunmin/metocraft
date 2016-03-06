@@ -6,7 +6,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace MTMCL.Task
 {
@@ -29,6 +28,10 @@ namespace MTMCL.Task
         public TaskListBar()
         {
             InitializeComponent();
+            timer = new System.Windows.Forms.Timer();
+            timer.Enabled = true;
+            timer.Interval = 1000;
+            timer.Tick += new EventHandler(this.timer_Tick);
         }
         public TaskListBar(Thread task)
         {
@@ -44,7 +47,7 @@ namespace MTMCL.Task
         }
         public TaskListBar setThread(MTMCLThread task)
         {
-            task.Start();
+            _task = task.Start();
             return this;
         }
         public TaskListBar setSubProcess(Process task)
@@ -55,11 +58,13 @@ namespace MTMCL.Task
         public TaskListBar setTask(string name)
         {
             TaskName = name;
+            ((AccessText)lblTaskName.Content).Text = TaskName;
             return this;
         }
         public TaskListBar setTaskStatus(string status)
         {
             TaskStatus = status;
+            lblTaskStatus.Content = TaskStatus;
             return this;
         }
         public bool isFinished() {
@@ -96,10 +101,7 @@ namespace MTMCL.Task
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            timer = new System.Windows.Forms.Timer();
-            timer.Enabled = true;
-            timer.Interval = 1000;
-            timer.Tick += new EventHandler(this.timer_Tick);
+
         }
 
         public TaskListBar countTime()

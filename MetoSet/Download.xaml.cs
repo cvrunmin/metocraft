@@ -1,5 +1,6 @@
 ﻿using MTMCL.Forge;
 using MTMCL.Lang;
+using MTMCL.Task;
 using MTMCL.Versions;
 using System;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace MTMCL
 {
@@ -121,7 +123,7 @@ namespace MTMCL
             DataRowView selectVer = listRemoteVer.SelectedItem as DataRowView;
             if (selectVer != null)
             {
-                //NewGui.TaskBar taskbar = new NewGui.TaskBar();
+                TaskListBar taskbar = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
                 var task = new Thread(new ThreadStart(async delegate
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(async delegate
@@ -159,12 +161,12 @@ namespace MTMCL
                         downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                         {
                             Logger.log("Success to download client file.");
-                            //taskbar.noticeFinished();
+                            taskbar.noticeFinished();
                             //Dispatcher.Invoke(new Action(() => MeCore.MainWindow.gridPlay.LoadVersionList()));
                         };
                         downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
                         {
-                            //Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
+                            Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
                         };
                         Logger.log("download:" + downjsonfile);
                         try
@@ -173,7 +175,7 @@ namespace MTMCL
                         }
                         catch (Exception)
                         {
-                            //taskbar.noticeFailed();
+                            taskbar.noticeFailed();
                             return;
                         }
                         await System.Threading.Tasks.Task.Delay(TimeSpan.FromMilliseconds(500));
@@ -203,12 +205,11 @@ namespace MTMCL
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
                             //new ErrorReport(ex).Show();
-                            //taskbar.noticeFailed();
+                            taskbar.noticeFailed();
                         }));
                     }
                 }));
-                task.Start();
-                //MeCore.MainWindow.addTask(taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false), "dl-mcclient-" + selectVer[0] as string);
+                MeCore.MainWindow.addTask("dl-mcclient-" + selectVer[0] as string, taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false));
             }
         }
         readonly ForgeVersionList _forgeVer = new ForgeVersionList();
@@ -249,7 +250,7 @@ namespace MTMCL
                 MessageBox.Show(LangManager.GetLangFromResource("ForgeDoNotSupportInstaller"));
                 return;
             }
-            //NewGui.TaskBar task = new NewGui.TaskBar();
+            TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
             var thDL = new Thread(new ThreadStart(delegate
             {
                 var url = new Uri(_forgeVer.ForgeDownloadUrl[ver]);
@@ -264,29 +265,28 @@ namespace MTMCL
                 }
                 downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
                 {
-                    //MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), e.ProgressPercentage))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), e.ProgressPercentage))));
                 };
                 downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                 {
                     try
                     {
-                        //MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
                         new ForgeInstaller().install(filename);
                         File.Delete(filename);
-                        //MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
-                        //task.noticeFinished();
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
+                        task.noticeFinished();
                     }
                     catch (Exception ex)
                     {
                         Logger.log(ex);
-                        //task.noticeFailed();
+                        task.noticeFailed();
                     }
                 };
-                //MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), "0"))));
+                MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), "0"))));
                 downer.DownloadFileAsync(url, filename);
             }));
-            //MeCore.MainWindow.addTask(task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false), "dl-instl-forgeclient-" + ver);
-            thDL.Start();
+            MeCore.MainWindow.addTask("dl-instl-forgeclient-" + ver, task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false));
         }
 
         private void butDLForge_Click(object sender, RoutedEventArgs e)

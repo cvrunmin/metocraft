@@ -20,11 +20,11 @@ namespace MTMCL.Threads
 
         public delegate void StateChangeEventHandler(string state);
         public delegate void GameExitHandler();
-        public delegate void CountTime();
+        public delegate void GameLaunched();
         public delegate void GameCrashedHandler(string content, string reportpath);
         public event StateChangeEventHandler StateChange;
         public event GameExitHandler GameExit;
-        public event CountTime TaskCountTime;
+        public event GameLaunched TaskCountTime;
         public event GameCrashedHandler GameCrash;
         private void OnStateChange(string state)
         {
@@ -39,12 +39,11 @@ namespace MTMCL.Threads
         public LaunchMCThread(LaunchOptions options) {
             _LaunchOptions = options;
         }
-        public void Start()
+        public Thread Start()
         {
-            //var thread = new Thread(Run);
-            var task = new System.Threading.Tasks.Task(Run);
+            var task = new Thread(Run);
             task.Start();
-            //thread.Start();
+            return task;
         }
         private async void Run() {
             OnStateChange(LangManager.GetLangFromResource("SubTaskLaunch"));
@@ -57,8 +56,6 @@ namespace MTMCL.Threads
                     List<LibraryUniversal> libs = new List<LibraryUniversal>();
                     VersionJson lib = LitJson.JsonMapper.ToObject<VersionJson>(new LitJson.JsonReader(new StreamReader(App.core.GetVersionJsonPath(_LaunchOptions.Version))));
                     libs = lib.libraries.ToUniversalLibrary();
-                    var thDL = new Thread(new ThreadStart(delegate
-                    {
                         WebClient _downer = new WebClient();
                         int i = 0;
                         foreach (var libfile in libs)
@@ -71,7 +68,6 @@ namespace MTMCL.Threads
                                 Download(libfile);
                             }
                         }
-                    }));
                 }
                 catch { }
             }
@@ -117,6 +113,7 @@ namespace MTMCL.Threads
                         //new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("JavaFaultSolve")).Show();
                         break;
                     case ErrorType.AuthenticationFailed:
+                        MeCore.Dispatcher.Invoke(new Action(()=>new ErrorReport(new NullReferenceException()).Show()));
                         //new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("AuthFaultSolve")).Show();
                         break;
                     case ErrorType.OperatorException:
@@ -134,7 +131,7 @@ namespace MTMCL.Threads
             {
                 _clientCrashReportCount = Directory.Exists(App.core.GameRootPath + @"\crash-reports") ? Directory.GetFiles(App.core.GameRootPath + @"\crash-reports").Count() : 0;
                 //butPlayQuick.IsEnabled = false;
-                OnStateChange("");
+                //OnStateChange("");
                 TaskCountTime?.Invoke();
                 //MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + versions[comboVer.SelectedIndex].Id);
             }

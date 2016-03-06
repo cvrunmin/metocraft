@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MTMCL.Task"
              mc:Ignorable="d" 
              d:DesignHeight="362" d:DesignWidth="643">
-    <Grid Initialized="Grid_Initialized" Unloaded="Grid_Unloaded">
+    <Grid Initialized="Grid_Initialized" Unloaded="Grid_Unloaded" Loaded="Grid_Loaded">
         <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
             <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
                 <Rectangle.OpacityMask>

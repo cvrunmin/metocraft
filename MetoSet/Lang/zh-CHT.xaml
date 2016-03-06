@@ -53,6 +53,7 @@
     <s:String x:Key="PlayEnvir">環境</s:String>
     <s:String x:Key="PlayVer">版本</s:String>
     <s:String x:Key="PlayPlay">遊玩</s:String>
+    <s:String x:Key="SelectLMode">選擇啟動模式</s:String>
     <s:String x:Key="Xmx">可用最大記憶體</s:String>
     <s:String x:Key="MCPath">Minecraft 路徑</s:String>
     <s:String x:Key="MCPath_WM">請確保此為有效路徑</s:String>
@@ -73,6 +74,7 @@
     <s:String x:Key="DLMCC">原版客戶端</s:String>
     <s:String x:Key="DLLib">庫</s:String>
     <s:String x:Key="DLAssets">資源</s:String>
+    <s:String x:Key="DDLAssets">下載資源</s:String>
     <s:String x:Key="DLForge">Minecraft Forge客戶端</s:String>
     <s:String x:Key="DLPack">整合包</s:String>
     <s:String x:Key="DownLoad">下載</s:String>
@@ -117,6 +119,7 @@
     <s:String x:Key="TaskTitle">任務列表</s:String>
     <s:String x:Key="TaskLaunch">啟動{0}</s:String>
     <s:String x:Key="SubTaskLaunch">正在啟動</s:String>
+    <s:String x:Key="SubTaskCheckLib">檢查庫</s:String>
     <s:String x:Key="TaskFinish">完成</s:String>
     <s:String x:Key="TaskFail">失敗</s:String>
     <s:String x:Key="TaskExist">重複任務</s:String>

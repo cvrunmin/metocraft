@@ -51,8 +51,13 @@
     <s:String x:Key="PlayEnvir">环境</s:String>
     <s:String x:Key="PlayVer">版本</s:String>
     <s:String x:Key="PlayPlay">游玩</s:String>
+    <s:String x:Key="SelectLMode">选择启动模式</s:String>
     <s:String x:Key="Xmx">可用最大内存</s:String>
     <s:String x:Key="MCPath">Minecraft 路径</s:String>
+    <s:String x:Key="MCPath_WM">请确保此为有效路径</s:String>
+    <s:String x:Key="MCPath_NotExist">不存在此路径（将在下载Minecraft客户端时一并创建）</s:String>
+    <s:String x:Key="MCPath_NotValid">此路径不存在"versions"文件夹（将在下载Minecraft客户端时一并创建）</s:String>
+    <s:String x:Key="MCPath_Catched">检查路径时发生错误</s:String>
     <s:String x:Key="UseJ">使用的Java</s:String>
     <s:String x:Key="ExArg">额外Jvm参数</s:String>
     <s:String x:Key="VerInfo">版本信息</s:String>
@@ -66,6 +71,7 @@
     <s:String x:Key="DLMC">Minecraft原版客户端</s:String>
     <s:String x:Key="DLLib">库</s:String>
     <s:String x:Key="DLAssets">资源</s:String>
+    <s:String x:Key="DDLAssets">下载资源</s:String>
     <s:String x:Key="DLForge">Minecraft Forge客户端</s:String>
     <s:String x:Key="DLPack">整合包</s:String>
     <s:String x:Key="DownLoad">下载</s:String>
@@ -110,6 +116,7 @@
     <s:String x:Key="TaskTitle">任务列表</s:String>
     <s:String x:Key="TaskLaunch">启动{0}</s:String>
     <s:String x:Key="SubTaskLaunch">正在启动</s:String>
+    <s:String x:Key="SubTaskCheckLib">检查库</s:String>
     <s:String x:Key="TaskFinish">完成</s:String>
     <s:String x:Key="TaskFail">失败</s:String>
     <s:String x:Key="TaskExist">重复任务</s:String>

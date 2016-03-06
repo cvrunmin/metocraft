@@ -5,11 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MTMCL.Task"
              mc:Ignorable="d" 
-             d:DesignHeight="75" d:DesignWidth="645" Loaded="UserControl_Loaded" BorderThickness="1"  Background="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}" Padding="0">
+             d:DesignHeight="75" d:DesignWidth="645" Loaded="UserControl_Loaded" BorderThickness="1" Padding="0">
+    <Button.Background>
+        <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}" Stretch="UniformToFill"/>
+    </Button.Background>
     <Grid Margin="0" Width="645" Height="75">
-        <Label x:Name="lblTaskName" Margin="0,0,250,0" FontSize="13.333" FontWeight="Bold">
-            <AccessText Text="{Binding TaskName,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
+        <Label x:Name="lblTaskName" FontSize="13.333" FontWeight="Bold" HorizontalAlignment="Left" Width="395">
+            <AccessText Text="" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
         </Label>
-        <Label x:Name="lblTaskStatus" Content="{Binding TaskStatus,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}" Margin="320,30,0,0" HorizontalContentAlignment="Right" FontSize="18.667" FontWeight="Bold"/>
+        <Label x:Name="lblTaskStatus" Content="" Margin="0,30,0,0" HorizontalContentAlignment="Right" FontSize="21.333" FontWeight="Bold" HorizontalAlignment="Right" Width="325"/>
     </Grid>
 </Button>

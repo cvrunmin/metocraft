@@ -12,12 +12,22 @@
     <metro:MetroWindow.Flyouts>
         <metro:FlyoutsControl>
             <metro:Flyout x:Name="launchFlyout" Theme="Accent" Position="Right" IsOpen="True" IsModal="True" Header="Select Launch Mode">
-                <Grid>
-                    <Button x:Name="butLaunchNormal" Content="Normal" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchNormal_MouseEnter" MouseLeave="butLaunchNormal_MouseLeave" Click="butLaunchNormal_Click">
+                <Grid Margin="0,0,0,0">
+                    <local:ButtonMenu x:Name="butLaunchNormal" Content="Normal" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchNormal_MouseEnter" MouseLeave="butLaunchNormal_MouseLeave" Click="butLaunchNormal_Click" MenuImage="Resources/play-normal-logo.png">
                         <Button.Background>
                             <ImageBrush ImageSource="Resources/play-normal-banner.jpg" Stretch="UniformToFill"/>
                         </Button.Background>
-                    </Button>
+                    </local:ButtonMenu>
+                    <local:ButtonMenu x:Name="butLaunchBMCL" Content="BMCL" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchBMCL_MouseEnter" MouseLeave="butLaunchBMCL_MouseLeave" Click="butLaunchBMCL_Click" Margin="0,50,0,0" MenuImage="Resources/play-bmcl-logo.png">
+                        <Button.Background>
+                            <ImageBrush ImageSource="Resources/play-bmcl-banner.jpg" Stretch="UniformToFill"/>
+                        </Button.Background>
+                    </local:ButtonMenu>
+                    <local:ButtonMenu x:Name="butLaunchBaka" Content="BakaXL" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchBaka_MouseEnter" MouseLeave="butLaunchBaka_MouseLeave" Click="butLaunchBaka_Click" Margin="0,100,0,0" MenuImage="Resources/play-bakaxl-logo.jpg">
+                        <Button.Background>
+                            <ImageBrush ImageSource="Resources/play-bakaxl-banner.jpg" Stretch="UniformToFill"/>
+                        </Button.Background>
+                    </local:ButtonMenu>
                 </Grid>
             </metro:Flyout>
         </metro:FlyoutsControl>

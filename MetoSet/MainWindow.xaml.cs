@@ -129,41 +129,86 @@ namespace MTMCL
             var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
             gridBG.BeginAnimation(OpacityProperty, ani);
         }
-
         private void butLaunchNormal_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
             gridBG.BeginAnimation(OpacityProperty, ani);
         }
-        private int _clientCrashReportCount;
+        private void butLaunchNormal_Click(object sender, RoutedEventArgs e)
+        {
+            LaunchGame(null);
+            MeCore.MainWindow.launchFlyout.IsOpen = false;
+        }
+
+        private void butLaunchBMCL_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            gridBG.Opacity = 0;
+            gridBG.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/play-bmcl.jpg"))) { Stretch = Stretch.UniformToFill };
+            var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+            gridBG.BeginAnimation(OpacityProperty, ani);
+        }
+        private void butLaunchBMCL_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
+            gridBG.BeginAnimation(OpacityProperty, ani);
+        }
+        private void butLaunchBMCL_Click(object sender, RoutedEventArgs e)
+        {
+            LaunchGame(LaunchMode.BmclMode);
+            MeCore.MainWindow.launchFlyout.IsOpen = false;
+        }
+
+        private void butLaunchBaka_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            gridBG.Opacity = 0;
+            gridBG.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/play-bakaxl.jpg"))) { Stretch = Stretch.UniformToFill };
+            var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+            gridBG.BeginAnimation(OpacityProperty, ani);
+        }
+        private void butLaunchBaka_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.25));
+            gridBG.BeginAnimation(OpacityProperty, ani);
+        }
+        private void butLaunchBaka_Click(object sender, RoutedEventArgs e)
+        {
+            LaunchGame(new BakaXLMode());
+            MeCore.MainWindow.launchFlyout.IsOpen = false;
+        }
         public void LaunchGame(LaunchMode mode)
         {
             if (_LaunchOptions != null)
             {
                 _LaunchOptions.Mode = mode;
-                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/play-normal-banner.jpg"))};
+                string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
+                if (mode is BmclLaunchMode)
+                {
+                    uri = "pack://application:,,,/Resources/play-bmcl-banner.jpg";
+                }
+                if (mode is BakaXLMode)
+                {
+                    uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
+                }
+                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri))};
                 var task = new LaunchMCThread(_LaunchOptions);
                 task.StateChange += delegate (string state)
                 {
-                    gui.setTaskStatus(state);
+                    Dispatcher.Invoke(new Action(() => gui.setTaskStatus(state)));
                 };
                 task.TaskCountTime += delegate
                 {
-                    gui.countTime();
+                    Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = false));
+                    Dispatcher.Invoke(new Action(() => gui.countTime()));
                 };
                 task.GameExit += delegate {
-                    gui.stopCountTime().noticeFinished();
+                    Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
+                    Dispatcher.Invoke(new Action(() => gui.stopCountTime().noticeFinished()));
                 };
                 task.GameCrash += delegate (string content, string path) {
                     //new MCCrash(content, path).Show();
                 };
                 addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.Id)).setThread(task).setDetectAlive(false));
             }
-        }
-        private void butLaunchNormal_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchGame(null);
-            MeCore.MainWindow.launchFlyout.IsOpen = false;
         }
 
         private void butPlayQuick_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)

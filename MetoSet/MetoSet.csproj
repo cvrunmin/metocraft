@@ -177,6 +177,15 @@
     <Compile Include="Play.xaml.cs">
       <DependentUpon>Play.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Report\ErrorReport.xaml.cs">
+      <DependentUpon>ErrorReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\MCCrash.xaml.cs">
+      <DependentUpon>MCCrash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Task\TaskDetail.xaml.cs">
+      <DependentUpon>TaskDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Threads\LaunchMCThread.cs" />
     <Compile Include="Resources\UrlReplacer.cs" />
     <Compile Include="Settings.xaml.cs">
@@ -256,6 +265,14 @@
       <Generator>MSBuild:Compile</Generator>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
+    <Page Include="Report\ErrorReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\MCCrash.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -294,9 +311,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Task\TaskDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Task\TaskList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -387,6 +412,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\play-normal-banner.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\download-banner.jpg" />
+    <Resource Include="Resources\download.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play-bakaxl-banner.jpg" />
+    <Resource Include="Resources\play-bakaxl.jpg" />
+    <Resource Include="Resources\play-bmcl-banner.jpg" />
+    <Resource Include="Resources\play-bmcl.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play-bakaxl-logo.jpg" />
+    <Resource Include="Resources\play-bmcl-logo.png" />
+    <Resource Include="Resources\play-normal-logo.png" />
+    <Content Include="Resources\unPackXZ.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
