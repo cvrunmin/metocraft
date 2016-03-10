@@ -174,6 +174,15 @@
     <Compile Include="JsonClass\ForgeVersion.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MeCore.cs" />
+    <Compile Include="Notice\CrashDetail.xaml.cs">
+      <DependentUpon>CrashDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notice\CrashErrorBar.xaml.cs">
+      <DependentUpon>CrashErrorBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notice\Notice.xaml.cs">
+      <DependentUpon>Notice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Play.xaml.cs">
       <DependentUpon>Play.xaml</DependentUpon>
     </Compile>
@@ -198,6 +207,11 @@
       <DependentUpon>TaskList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Threads\MTMCLThread.cs" />
+    <Compile Include="Update\TaskGui.xaml.cs">
+      <DependentUpon>TaskGui.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Update\UpdateJson.cs" />
+    <Compile Include="Update\Updater.cs" />
     <Compile Include="util\GridViewSort.cs" />
     <Compile Include="util\Helper.cs" />
     <Compile Include="Versions\RawVersionListType.cs" />
@@ -253,6 +267,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Download.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notice\CrashDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Notice\CrashErrorBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notice\Notice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -320,6 +346,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Update\TaskGui.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -427,7 +457,7 @@
     <Resource Include="Resources\play-bakaxl-logo.jpg" />
     <Resource Include="Resources\play-bmcl-logo.png" />
     <Resource Include="Resources\play-normal-logo.png" />
-    <Content Include="Resources\unPackXZ.jar" />
+    <EmbeddedResource Include="Resources\unPackXZ.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

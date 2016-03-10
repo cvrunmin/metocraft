@@ -24,6 +24,7 @@ namespace MTMCL.Task
         public readonly TaskListBar task;
         public readonly Grid parent;
         public ImageSource ImgSrc { get; set; }
+        private StringBuilder logbuilder = new StringBuilder();
         public TaskDetail()
         {
             InitializeComponent();
@@ -33,6 +34,10 @@ namespace MTMCL.Task
             this.task = task;
             string uri = ((BitmapImage)task.ImgSrc).UriSource.OriginalString;
             ImgSrc = new BitmapImage(new Uri(uri.Replace("-banner", "")));
+            lblName.Content = task.TaskName;
+            lblState.Content = task.TaskStatus;
+            task.OnLogUpdate += TaskBarLogUpdate;
+            task.OnStateUpdate += TaskBarNameUpdate;
         }
         private void butBack_Click(object sender, RoutedEventArgs e)
         {
@@ -46,13 +51,25 @@ namespace MTMCL.Task
             ani.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
             ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
             MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
-
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            lblTitle.Content = task.TaskName;
-
+            lblName.Content = task.TaskName;
+            foreach (var item in task.Log)
+            {
+                logbuilder.AppendLine(item);
+                listLog.Items.Add(item);
+            }
+            //listLog.Text = logbuilder.ToString();
+        }
+        private void TaskBarLogUpdate(string log) {
+            listLog.Items.Add(log);
+            logbuilder.AppendLine(log);
+            //listLog.Text = logbuilder.ToString();
+        }
+        private void TaskBarNameUpdate(string state) {
+            lblState.Content = state;
         }
     }
 }

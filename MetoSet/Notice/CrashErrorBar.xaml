@@ -1,0 +1,24 @@
+﻿<Button x:Class="MTMCL.Notice.CrashErrorBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL.Notice"
+             mc:Ignorable="d" 
+             d:DesignHeight="75" d:DesignWidth="645" BorderThickness="0" Padding="0">
+    <Button.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Button.Resources>
+    <Button.Background>
+        <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}" Stretch="UniformToFill"/>
+    </Button.Background>
+    <Grid Margin="0" Width="645" Height="75">
+        <Label x:Name="lblName" FontSize="13.333" FontWeight="Bold">
+            <AccessText Text="" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
+        </Label>
+    </Grid>
+</Button>

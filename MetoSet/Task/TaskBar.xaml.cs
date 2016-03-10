@@ -1,5 +1,6 @@
 ﻿using MTMCL.Threads;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Threading;
@@ -25,6 +26,11 @@ namespace MTMCL.Task
         public string TaskName { get; set; }
         public string TaskStatus { get; set; }
         public string Identifier { get; set; }
+        public List<string> Log { get; set; }
+        public delegate void LogUpdate(string log);
+        public event LogUpdate OnLogUpdate;
+        public delegate void StateUpdate(string state);
+        public event StateUpdate OnStateUpdate;
         public TaskListBar()
         {
             InitializeComponent();
@@ -32,6 +38,7 @@ namespace MTMCL.Task
             timer.Enabled = true;
             timer.Interval = 1000;
             timer.Tick += new EventHandler(this.timer_Tick);
+            Log = new List<string>();
         }
         public TaskListBar(Thread task)
         {
@@ -65,6 +72,7 @@ namespace MTMCL.Task
         {
             TaskStatus = status;
             lblTaskStatus.Content = TaskStatus;
+            OnStateUpdate?.Invoke(status);
             return this;
         }
         public bool isFinished() {
@@ -103,7 +111,12 @@ namespace MTMCL.Task
         {
 
         }
-
+        public TaskListBar log(string log)
+        {
+            Log.Add(log);
+            OnLogUpdate?.Invoke(log);
+            return this;
+        }
         public TaskListBar countTime()
         {
             startCount = true;

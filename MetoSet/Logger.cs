@@ -65,6 +65,20 @@ namespace MTMCL
 //                frmLog.WriteLine(str, type);
             }
         }
+        static private string HelpWrite(string str, LogType type = LogType.Info)
+        {
+            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+            StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+            string a = writeInfo(type) + str;
+            sw.WriteLine(a);
+            sw.Close();
+            fs.Close();
+            if (debug)
+            {
+                //                frmLog.WriteLine(str, type);
+            }
+            return a;
+        }
         static private void write(Stream s, LogType type = LogType.Info)
         {
             StreamReader sr = new StreamReader(s);
@@ -80,6 +94,10 @@ namespace MTMCL
         static public void log(string str, LogType type = LogType.Info)
         {
             write(str, type);
+        }
+        static public string HelpLog(string str, LogType type = LogType.Info)
+        {
+            return HelpWrite(str, type);
         }
         static public void log(Config cfg, LogType type = LogType.Info)
         {

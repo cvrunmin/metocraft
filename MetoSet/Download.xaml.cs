@@ -1,6 +1,7 @@
 ﻿using MTMCL.Forge;
 using MTMCL.Lang;
 using MTMCL.Task;
+using MTMCL.util;
 using MTMCL.Versions;
 using System;
 using System.ComponentModel;
@@ -91,7 +92,7 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        //new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message, LangManager.GetLangFromResource("NoConnectionSolve")).Show();
+                        Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString())));
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -100,7 +101,7 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        //new KnownErrorReport(LangManager.GetLangFromResource("RemoteVerFailedTimeout") + " : " + ex.Message, LangManager.GetLangFromResource("NoConnectionSolve")).Show();
+                        Dispatcher.Invoke(()=> MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString())));
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -162,7 +163,6 @@ namespace MTMCL
                         {
                             Logger.log("Success to download client file.");
                             taskbar.noticeFinished();
-                            //Dispatcher.Invoke(new Action(() => MeCore.MainWindow.gridPlay.LoadVersionList()));
                         };
                         downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
                         {
@@ -204,7 +204,7 @@ namespace MTMCL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            //new ErrorReport(ex).Show();
+                            Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), ex.ToWellKnownExceptionString())));
                             taskbar.noticeFailed();
                         }));
                     }

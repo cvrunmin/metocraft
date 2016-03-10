@@ -24,6 +24,7 @@ namespace MTMCL
     {
         System.Windows.Forms.Timer timer;
         public LaunchOptions _LaunchOptions;
+        bool gameSentLaunch;
         public MainWindow()
         {
             //MeCore.NIcon.MainWindow = this;
@@ -48,7 +49,7 @@ namespace MTMCL
         {
             var ani1 = new ThicknessAnimationUsingKeyFrames();
             //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
-            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0,-100,0,200), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -100, 0, 200), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
             //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
@@ -72,7 +73,8 @@ namespace MTMCL
         {
             ChangePage("settings");
         }
-        private async void ChangePage(string type) {
+        private async void ChangePage(string type)
+        {
             MahApps.Metro.Controls.Tile tile;
             System.Windows.Controls.Grid grid;
             switch (type)
@@ -93,6 +95,10 @@ namespace MTMCL
                     tile = butTask;
                     grid = new TaskList();
                     break;
+                case "notice":
+                    tile = butNotice;
+                    grid = new Notice.Notice();
+                    break;
                 default:
                     return;
             }
@@ -101,7 +107,7 @@ namespace MTMCL
             gridLoadingScreen.Background = new SolidColorBrush(Color.FromRgb(((SolidColorBrush)tile.Background).Color.R, ((SolidColorBrush)tile.Background).Color.G, ((SolidColorBrush)tile.Background).Color.B));
             gridLoadingScreen.Visibility = Visibility.Visible;
             var ani = new ThicknessAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMenu.Margin.Left + tile.Margin.Left, gridMenu.Margin.Top + tile.Margin.Top, gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)),KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)),new CubicEase() { EasingMode = EasingMode.EaseInOut}));
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMenu.Margin.Left + tile.Margin.Left, gridMenu.Margin.Top + tile.Margin.Top, gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
             //ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(10), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.05))));
             ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.2)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
             gridLoadingScreen.BeginAnimation(MarginProperty, ani);
@@ -125,7 +131,7 @@ namespace MTMCL
         private void butLaunchNormal_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             gridBG.Opacity = 0;
-            gridBG.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/play-normal.jpg"))) { Stretch = Stretch.UniformToFill};
+            gridBG.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/play-normal.jpg"))) { Stretch = Stretch.UniformToFill };
             var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
             gridBG.BeginAnimation(OpacityProperty, ani);
         }
@@ -179,6 +185,15 @@ namespace MTMCL
         {
             if (_LaunchOptions != null)
             {
+                LaunchGame(_LaunchOptions, mode);
+            }
+        }
+        public void LaunchGame(LaunchOptions options, LaunchMode mode)
+        {
+            gameSentLaunch = true;
+            if (options != null)
+            {
+                _LaunchOptions = options;
                 _LaunchOptions.Mode = mode;
                 string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
                 if (mode is BmclLaunchMode)
@@ -189,7 +204,7 @@ namespace MTMCL
                 {
                     uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
                 }
-                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri))};
+                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri)) };
                 var task = new LaunchMCThread(_LaunchOptions);
                 task.StateChange += delegate (string state)
                 {
@@ -200,17 +215,29 @@ namespace MTMCL
                     Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = false));
                     Dispatcher.Invoke(new Action(() => gui.countTime()));
                 };
-                task.GameExit += delegate {
+                task.GameExit += delegate
+                {
+                    Dispatcher.Invoke(new Action(() => gameSentLaunch = false));
                     Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
                     Dispatcher.Invoke(new Action(() => gui.stopCountTime().noticeFinished()));
                 };
-                task.GameCrash += delegate (string content, string path) {
+                task.OnLogged += delegate (string s) {
+                    Dispatcher.Invoke(new Action(() => gui.log(s)));
+                };
+                task.GameCrash += delegate (string content, string path)
+                {
                     //new MCCrash(content, path).Show();
+                };
+                task.Failed += () => {
+                    Dispatcher.Invoke(() => gui.noticeFailed());
                 };
                 addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.Id)).setThread(task).setDetectAlive(false));
             }
+            else
+            {
+                gameSentLaunch = false;
+            }
         }
-
         private void butPlayQuick_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (butPlayQuick.IsEnabled)
@@ -247,6 +274,7 @@ namespace MTMCL
         }
 
         public Dictionary<string, TaskListBar> taskdict = new Dictionary<string, TaskListBar>();
+        public List<Notice.CrashErrorBar> noticelist = new List<Notice.CrashErrorBar>();
         public void addTask(string identifier, TaskListBar task)
         {
             if (taskdict.ContainsKey(identifier))
@@ -301,7 +329,46 @@ namespace MTMCL
             timer = new System.Windows.Forms.Timer();
             timer.Enabled = true;
             timer.Interval = 1000;
-            timer.Tick += new EventHandler(this.timer_Tick);
+            timer.Tick += new EventHandler(timer_Tick);
+        }
+
+        private void butPlayQuick_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (App.core == null)
+                {
+                    try
+                    {
+                        App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.Config.MCPath, MeCore.Config.Javaw));
+                    }
+                    catch { }
+                }
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.LastPlayVer))
+                {
+                    KMCCC.Launcher.Version version = App.core.GetVersion(MeCore.Config.LastPlayVer);
+                    if (version != null)
+                    {
+                        ACLogin ac = new ACLogin();
+                        ac.ShowDialog();
+                        if (ac.auth != null)
+                        {
+                            LaunchGame(new LaunchOptions
+                            {
+                                Authenticator = ac.auth,
+                                MaxMemory = (int)MeCore.Config.Javaxmx,
+                                Version = version
+                            }, null);
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void butNotice_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage("notice");
         }
     }
 }

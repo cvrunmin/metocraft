@@ -2,6 +2,7 @@
 using MTMCL.Lang;
 using MTMCL.Versions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -147,6 +148,36 @@ namespace MTMCL.util
                         break;
                 }
             }
+        }
+
+        public static string ToWellKnownExceptionString(this Exception ex) {
+            var message = new StringBuilder();
+            message.AppendLine("MTMCL, version " + MeCore.version);
+            message.AppendFormat("Target Site: {0}", ex.TargetSite).AppendLine();
+            message.AppendFormat("Error Type: {0}", ex.GetType()).AppendLine();
+            message.AppendFormat("Messge: {0}", ex.Message).AppendLine();
+            foreach (DictionaryEntry data in ex.Data)
+                message.AppendLine(string.Format("Key:{0}\nValue:{1}", data.Key, data.Value));
+            message.AppendLine("StackTrace");
+            message.AppendLine(ex.StackTrace);
+            var iex = ex;
+            while (iex.InnerException != null)
+            {
+                message.AppendLine("------------Inner Exception------------");
+                iex = iex.InnerException;
+                message.AppendFormat("Target Site: {0}", ex.TargetSite).AppendLine();
+                message.AppendFormat("Error Type: {0}", ex.GetType()).AppendLine();
+                message.AppendFormat("Messge: {0}", ex.Message).AppendLine();
+                foreach (DictionaryEntry data in ex.Data)
+                    message.AppendLine(string.Format("Key:{0}\nValue:{1}", data.Key, data.Value));
+                message.AppendLine("StackTrace");
+                message.AppendLine(iex.StackTrace);
+            }
+            message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
+            var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
+            message.AppendLine(sr.ReadToEnd());
+            sr.Close();
+            return message.ToString();
         }
     }
     static class LibraryHelper

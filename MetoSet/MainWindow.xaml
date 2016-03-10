@@ -11,7 +11,7 @@
         Title="MainWindow" Height="393" Width="651" BorderBrush="Black" Background="White" TitleCaps="False" Icon="Resources/mtmcl.ico" ResizeMode="CanMinimize" ShowMaxRestoreButton="False" Loaded="MetroWindow_Loaded">
     <metro:MetroWindow.Flyouts>
         <metro:FlyoutsControl>
-            <metro:Flyout x:Name="launchFlyout" Theme="Accent" Position="Right" IsOpen="True" IsModal="True" Header="Select Launch Mode">
+            <metro:Flyout x:Name="launchFlyout" Theme="Accent" Position="Right" IsModal="True" Header="Select Launch Mode">
                 <Grid Margin="0,0,0,0">
                     <local:ButtonMenu x:Name="butLaunchNormal" Content="Normal" Height="50" VerticalAlignment="Top" MouseEnter="butLaunchNormal_MouseEnter" MouseLeave="butLaunchNormal_MouseLeave" Click="butLaunchNormal_Click" MenuImage="Resources/play-normal-logo.png">
                         <Button.Background>
@@ -76,14 +76,14 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butNotice" Title="Notice" Margin="210,0,0,0" Width="100" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <metro:Tile x:Name="butNotice" Title="{DynamicResource Notice}" Margin="210,0,0,0" Width="100" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butNotice_Click">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_notification_above}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butPlayQuick" Title="{DynamicResource QuickPlay}" HorizontalAlignment="Left" Margin="420,210,0,0" VerticalAlignment="Top" Width="205" Height="100" MouseEnter="butPlayQuick_MouseEnter" MouseLeave="butPlayQuick_MouseLeave" IsEnabledChanged="butPlayQuick_IsEnabledChanged">
+                    <metro:Tile x:Name="butPlayQuick" Title="{DynamicResource QuickPlay}" HorizontalAlignment="Left" Margin="420,210,0,0" VerticalAlignment="Top" Width="205" Height="100" MouseEnter="butPlayQuick_MouseEnter" MouseLeave="butPlayQuick_MouseLeave" IsEnabledChanged="butPlayQuick_IsEnabledChanged" Click="butPlayQuick_Click">
                         <Grid Height="200" Width="205">
                             <Grid x:Name="butPlayQuick_a" Margin="0,0,0,100">
                                 <Rectangle Height="50" Width="100">
@@ -100,14 +100,21 @@
                             </Grid>
                         </Grid>
                     </metro:Tile>
-                    <metro:Tile x:Name="butGradle" HorizontalAlignment="Left" Margin="420,105,0,0" VerticalAlignment="Top" Width="50" Height="50">
+                    <metro:Tile x:Name="butGradle" HorizontalAlignment="Left" Margin="420,105,0,0" VerticalAlignment="Top" Width="50" Height="50" IsEnabled="False">
                         <Rectangle Height="25" Width="25">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_language_java}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butDL" Title="{DynamicResource Download}" HorizontalAlignment="Left" Margin="210,105,0,0" VerticalAlignment="Top" Width="205" Height="205" Click="butDL_Click">
+                    <metro:Tile x:Name="butDL" Title="{DynamicResource Download}" HorizontalAlignment="Left" Margin="210,105,0,0" VerticalAlignment="Top" Width="205" Height="100" Click="butDL_Click">
+                        <Rectangle Height="50" Width="50">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_disk_download}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
+                    <metro:Tile x:Name="butInstall" Title="Install" HorizontalAlignment="Left" Margin="210,210,0,0" VerticalAlignment="Top" Width="205" Height="100" Click="butDL_Click" IsEnabled="False">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_download}" />

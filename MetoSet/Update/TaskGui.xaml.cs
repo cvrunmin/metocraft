@@ -35,8 +35,8 @@ namespace MTMCL.Update
             App.AboutToExit();
             Thread.Sleep(1000);
             //Process.Start("MTMCL." + _build + ".exe", "-Update");
-            Process.Start(new ProcessStartInfo { FileName = "MTMCL." + _build + ".exe", Arguments = "-Update"});
-            Logger.log(string.Format("MTMCL V1 Ver.{0} exited to upodate", MeCore.version));
+            Process.Start(new ProcessStartInfo { FileName = "MTMCL." + _build + ".exe", Arguments = "-UpdateReplace " + Process.GetCurrentProcess().ProcessName});
+            Logger.log(string.Format("MTMCL V2 Ver.{0} exited to upodate", MeCore.version));
             Close();
             Environment.Exit(0);
         }

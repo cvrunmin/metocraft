@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Resources;
 
 namespace MTMCL.Forge
 {
@@ -276,22 +277,24 @@ namespace MTMCL.Forge
         }
         private static byte[] ReadFully(Stream input)
         {
-            long bufferSize = input.Length < 4096 ? input.Length : 4096;
-            byte[] buffer = new byte[bufferSize];
-            MemoryStream stream = new MemoryStream();
-            int len = 0;
-            do
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
             {
-                len = input.Read(buffer, 0, buffer.Length);
-                if (len > 0)
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    stream.Write(buffer, 0, len);
+                    ms.Write(buffer, 0, read);
                 }
-            } while (len != -1);
-            return stream.ToArray();
+                return ms.ToArray();
+            }
         }
         private void downloadInstalledLibrary(ForgeInstall info, DirectoryInfo dir, List<Artifact> grabbed, List<Artifact> bad)
         {
+            Stream a = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MTMCL.Resources.unPackXZ.jar");
+            Stream s = File.Open("unpacker.jar", FileMode.Create);
+            a.CopyTo(s);
+            s.Close();
+            a.Close();
             foreach (var item in info.versionInfo.libraries)
             {
                 Artifact artifact = new Artifact(item.name);
@@ -313,9 +316,9 @@ namespace MTMCL.Forge
                         continue;
                     }
                     file.Directory.Create();
-                    file.Create();
+                    //file.Create();
                     liburl += artifact.Path;
-                    FileInfo packFile = new FileInfo(file + (file.Name.Remove(file.Name.IndexOf(file.Extension))) + ".pack.xz");
+                    FileInfo packFile = new FileInfo(file + ".pack.xz");
                     if (!downloadFile(artifact.Descriptor, packFile.FullName, liburl + ".pack.xz", null))
                     {
                         if (!downloadFile(artifact.Descriptor, packFile.FullName, liburl, checksums))
@@ -335,14 +338,16 @@ namespace MTMCL.Forge
                     {
                         try
                         {
-                            File.Copy(new Uri("pack://application:,,,/Resources/unPackXZ.jar").AbsolutePath, "unpacker.jar", true);
                             System.Diagnostics.Process process = new System.Diagnostics.Process();
                             process.StartInfo = new System.Diagnostics.ProcessStartInfo() {
+                                UseShellExecute = false,
                                 FileName = MeCore.Config.Javaw,
-                                Arguments = "-jar unpacker.jar -XZFilePath \"" + packFile.FullName + "\" -unXZFilePath \"" + packFile.DirectoryName + "\" -unPackPath \"" + packFile.DirectoryName + "\""
+                                Arguments = "-jar " + "unpacker.jar" + " -XZFilePath \"" + packFile.FullName + "\" -unXZFilePath \"" + packFile.FullName.Replace(".xz", "") + "\" -unPackPath \"" + packFile.FullName.Replace(".pack.xz", "") + "\""
                             };
-                            unpackLibrary(file, File.ReadAllBytes(packFile.FullName));
+                            process.Start();
+                            //unpackLibrary(file, File.ReadAllBytes(packFile.FullName));
                             packFile.Delete();
+                            File.Delete(packFile.FullName.Replace(".xz", ""));
                             if (checksumsValid(file, checksums))
                             {
                                 grabbed.Add(artifact);
@@ -364,7 +369,7 @@ namespace MTMCL.Forge
                     }
                 }
             }
-
+            File.Delete("unpacker.jar");
         }
         private bool checksumsValid(FileInfo file, List<string> sums)
         {

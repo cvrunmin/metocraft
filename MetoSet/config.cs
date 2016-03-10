@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using LitJson;
+using Microsoft.Win32;
 using System;
 using System.Globalization;
 using System.IO;
@@ -37,6 +38,9 @@ namespace MTMCL
         [LitJson.JsonPropertyName("color")]
         public byte[] Color { get; set; }
         [DataMember]
+        [LitJson.JsonPropertyName("color-scheme")]
+        public string ColorScheme { get; set; }
+        [DataMember]
         [LitJson.JsonPropertyName("download-source")]
         public int DownloadSource { get; set; }
         [DataMember]
@@ -48,7 +52,7 @@ namespace MTMCL
         [LitJson.JsonPropertyName("check-update")]
         public bool CheckUpdate { get; set; }
         [DataMember]
-        public string username;
+        public string username { get; set; }
         [DataMember]
         public string token;
         [DataMember]
@@ -70,6 +74,7 @@ namespace MTMCL
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
             Background = "default";
             Color = new byte[] { 255, 255, 255 };
+            ColorScheme = "Green";
             DownloadSource = 0;
             UpdateSource = 0;
             Lang = GetValidLang();
@@ -98,7 +103,7 @@ namespace MTMCL
                 var fs = new FileStream(file, FileMode.Open);
                 var ser = new DataContractSerializer(typeof(Config));
                 ///for json
-                var cfg = LitJson.JsonMapper.ToObject<Config>(new LitJson.JsonReader(new StreamReader(fs)));
+                var cfg = JsonMapper.ToObject<Config>(new LitJson.JsonReader(new StreamReader(fs)));
                 ///for xml
                 //var cfg = (Config)ser.ReadObject(fs);
                 fs.Close();
@@ -135,7 +140,7 @@ namespace MTMCL
                 ser.WriteObject(fs, cfg);*/
                 ///for json
                 System.Text.StringBuilder sbuild = new System.Text.StringBuilder();
-                var jw = new LitJson.JsonWriter(sbuild);
+                var jw = new JsonWriter(sbuild);
                 jw.PrettyPrint = true;
                 LitJson.JsonMapper.ToJson(cfg, jw);
             File.WriteAllText(file, sbuild.ToString(), System.Text.Encoding.UTF8);
@@ -155,6 +160,48 @@ namespace MTMCL
         public void Save(string file)
         {
             Save(this, file);
+        }
+        public void QuickChange(string field, object value) {
+            try
+            {
+                Type type = GetType();
+                System.Reflection.PropertyInfo property = type.GetProperty(field);
+                property.SetValue(this, Convert.ChangeType(value, property.PropertyType));
+                Save();
+            }
+            catch {
+                try
+                {
+                    Type type = GetType();
+                    System.Reflection.PropertyInfo property = type.GetProperty(field,System.Reflection.BindingFlags.IgnoreCase);
+                    property.SetValue(this, Convert.ChangeType(value, property.PropertyType));
+                    Save();
+                }
+                catch {
+                    try
+                    {
+                        Type type = GetType();
+                        System.Reflection.PropertyInfo[] properties = type.GetProperties();
+                        foreach (var property in properties)
+                        {
+                            if (property.IsDefined(typeof(JsonPropertyName), true))
+                            {
+                                if (field.Equals(((JsonPropertyName)property.GetCustomAttributes(typeof(JsonPropertyName), true)[0]).Name))
+                                {
+                                    property.SetValue(this, Convert.ChangeType(value, property.PropertyType));
+                                    Save();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+
+                }
+            }
         }
         public string ToReadableLog() {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();

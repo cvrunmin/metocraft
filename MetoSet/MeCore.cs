@@ -16,7 +16,9 @@ namespace MTMCL
         //public static Server.ServerInfo ServerCfg;
         public static bool IsServerDedicated;
         public static Dictionary<string, object> Language = new Dictionary<string, object>();
+        public static Dictionary<string, ResourceDictionary> Color = new Dictionary<string, ResourceDictionary>();
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
+        public static string DataDirectory = Environment.CurrentDirectory + '\\' + "MTMCL" + '\\';
         private readonly static string Cfgfile = BaseDirectory + "mtmcl_config.json";
         private readonly static string Serverfile = BaseDirectory + "mtmcl_server_config.json";
         public static string DefaultBG = "pack://application:,,,/Resources/bg.png";
@@ -28,7 +30,7 @@ namespace MTMCL
         {
             version = Application.ResourceAssembly.FullName.Split('=')[1];
             version = version.Substring(0, version.IndexOf(','));
-            Logger.log("----------"+DateTime.Now.ToLongTimeString()+" launch log----------");
+            Logger.log("----------" + DateTime.Now.ToLongTimeString() + " launch log----------");
             Logger.log("MTMCL Ver." + version + " launching");
             /*if (File.Exists(Serverfile))
             {
@@ -59,6 +61,7 @@ namespace MTMCL
                 Logger.log(string.Format("loaded {0}", Cfgfile));
                 Logger.log(Config.ToReadableLog());
                 LoadLanguage();
+                LoadColor();
                 //ChangeLanguage(Config.Lang);
             }
             else
@@ -66,6 +69,7 @@ namespace MTMCL
                 Config = new Config();
                 Logger.log("loaded default config");
                 LoadLanguage();
+                LoadColor();
             }
             if (Config.Javaw == "autosearch")
             {
@@ -81,15 +85,15 @@ namespace MTMCL
             //ReleaseCheck();
 #endif
         }
-        /*private static void ReleaseCheck()
+        private static void ReleaseCheck()
         {
             if (Config.CheckUpdate)
             {
                 var updateChecker = new Update.Updater();
                 updateChecker.CheckFinishEvent += UpdateCheckerOnCheckFinishEvent;
             }
-        }*/
-        /*private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
+        }
+        private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
         {
             if (hasUpdate)
             {
@@ -112,7 +116,7 @@ namespace MTMCL
                     }
                 }
             }
-        }*/
+        }
         public static void Invoke(Delegate invoke, object[] argObjects = null)
         {
             Dispatcher.Invoke(invoke, argObjects);
@@ -134,9 +138,9 @@ namespace MTMCL
             lang = LangManager.LoadLangFromResource("pack://application:,,,/Lang/zh-CHT.xaml");
             Language.Add((string)lang["DisplayName"], lang["LangName"]);
             LangManager.Add(lang["LangName"] as string, "pack://application:,,,/Lang/zh-CHT.xaml");
-            if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\Lang"))
+            if (Directory.Exists(DataDirectory + "Lang"))
             {
-                foreach (string langFile in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\Lang", "*.xaml", SearchOption.TopDirectoryOnly))
+                foreach (string langFile in Directory.GetFiles(DataDirectory + "Lang", "*.xaml", SearchOption.TopDirectoryOnly))
                 {
                     lang = LangManager.LoadLangFromResource(langFile);
                     Language.Add((string)lang["DisplayName"], lang["LangName"]);
@@ -145,8 +149,36 @@ namespace MTMCL
             }
             else
             {
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\Lang");
+                Directory.CreateDirectory(DataDirectory + "Lang");
             }
+        }
+        private static void LoadColor()
+        {
+            ResourceDictionary color = new ResourceDictionary();
+            string uri = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/{0}.xaml";
+            for (int i = 0; i < 23; i++)
+            {
+                string s = Enum.GetName(typeof(ColorScheme), i);
+                color.Source = new Uri(string.Format(uri, s));
+                Color.Add(s, color);
+            }
+            if (Directory.Exists(DataDirectory + "Color"))
+            {
+                foreach (string file in Directory.GetFiles(DataDirectory + "Color", "*.xaml", SearchOption.TopDirectoryOnly))
+                {
+                    color.Source = new Uri(file);
+                    Color.Add(Path.GetFileNameWithoutExtension(file), color);
+                    MahApps.Metro.ThemeManager.AddAccent(Path.GetFileNameWithoutExtension(file), color.Source);
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(DataDirectory + "Color");
+            }
+        }
+        private enum ColorScheme
+        {
+            Red, Green, Blue, Purple, Orange, Lime, Emerald, Teal, Cyan, Cobalt, Indigo, Violet, Pink, Magenta, Crimson, Amber, Yellow, Brown, Olive, Steel, Mauve, Taupe, Sienna
         }
         public static void Halt(int code = 0)
         {

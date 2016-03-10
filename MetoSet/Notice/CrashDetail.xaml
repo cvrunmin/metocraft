@@ -1,0 +1,21 @@
+﻿<Grid x:Class="MTMCL.Notice.CrashDetail"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MTMCL.Notice"
+      mc:Ignorable="d" 
+      d:DesignHeight="362" d:DesignWidth="643">
+    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
+        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+    <Label Content="{DynamicResource CrashOrErrorTitle}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+    <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16" ContentStringFormat="{DynamicResource ErrName}"/>
+    <TextBlock x:Name="lblHelp" Margin="0,81,0,0" TextWrapping="Wrap" Text=""/>
+
+</Grid>
+

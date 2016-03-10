@@ -1,4 +1,5 @@
-﻿using MTMCL.Lang;
+﻿using MahApps.Metro;
+using MTMCL.Lang;
 using System;
 using System.IO;
 using System.Linq;
@@ -90,6 +91,7 @@ namespace MTMCL
         {
             PreInit();
             RefreshLangList();
+            RefreshColorList();
             LoadConfig();
         }
         private void PreInit() {
@@ -121,7 +123,16 @@ namespace MTMCL
             }
             comboLang.SelectedItem = LangManager.GetLangFromResource("LangName");
         }
-
+        public void RefreshColorList()
+        {
+            comboColor.Items.Clear();
+            var colors = MeCore.Color;
+            foreach (var color in colors)
+            {
+                comboColor.Items.Add(color.Key);
+            }
+            comboColor.SelectedItem = MeCore.Config.ColorScheme;
+        }
         private void comboLang_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboLang.SelectedItem as string != null)
@@ -169,6 +180,22 @@ namespace MTMCL
             {
                 App.core = KMCCC.Launcher.LauncherCore.Create(new KMCCC.Launcher.LauncherCoreCreationOption(txtboxMP.Text, comboJava.SelectedItem as string));
             }
+        }
+
+        private void comboColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboLang.SelectedItem as string != null)
+                if (MeCore.Color.ContainsKey(comboColor.SelectedItem as string))
+                {
+                    Tuple<AppTheme, Accent> theme = ThemeManager.DetectAppStyle(System.Windows.Application.Current);
+                    ThemeManager.ChangeAppStyle(System.Windows.Application.Current, ThemeManager.GetAccent(comboColor.SelectedItem as string), theme.Item1);
+                    MeCore.Config.QuickChange("ColorScheme", comboColor.SelectedItem);
+                }
+        }
+
+        private void butCheckUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

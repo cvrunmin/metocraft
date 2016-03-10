@@ -21,11 +21,15 @@ namespace MTMCL.Threads
         public delegate void StateChangeEventHandler(string state);
         public delegate void GameExitHandler();
         public delegate void GameLaunched();
+        public delegate void LaunchFail();
         public delegate void GameCrashedHandler(string content, string reportpath);
+        public delegate void Log(string log);
         public event StateChangeEventHandler StateChange;
         public event GameExitHandler GameExit;
         public event GameLaunched TaskCountTime;
         public event GameCrashedHandler GameCrash;
+        public event LaunchFail Failed;
+        public event Log OnLogged;
         private void OnStateChange(string state)
         {
             var handler = StateChange;
@@ -64,7 +68,7 @@ namespace MTMCL.Threads
                             OnStateChange(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float)i / libs.Count()) * 100f).ToString() + "%"));
                             if (!File.Exists(libfile.path))
                             {
-                                Logger.log("Start downloading " + libfile.path, Logger.LogType.Info);
+                                OnLogged?.Invoke(Logger.HelpLog("Start downloading " + libfile.path, Logger.LogType.Info));
                                 Download(libfile);
                             }
                         }
@@ -83,7 +87,7 @@ namespace MTMCL.Threads
                     {
                         if (_clientCrashReportCount != Directory.GetFiles(App.core.GameRootPath + @"\crash-reports").Count())
                         {
-                            Logger.log("found new crash report");
+                            OnLogged?.Invoke(Logger.HelpLog("found new crash report"));
                             var clientCrashReportDir = new DirectoryInfo(App.core.GameRootPath + @"\crash-reports");
                             var lastClientCrashReportPath = "";
                             var lastClientCrashReportModifyTime = DateTime.MinValue;
@@ -98,6 +102,7 @@ namespace MTMCL.Threads
                             var s = crashReportReader.ReadToEnd();
                             Logger.log(s, Logger.LogType.Crash);
                             OnGameCrash(s, lastClientCrashReportPath);
+                            MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("CrashNameFormat"), DateTime.Now.ToShortTimeString()), s)));
                             //MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s, lastClientCrashReportPath).Show()));
                             crashReportReader.Close();
                         }
@@ -110,22 +115,27 @@ namespace MTMCL.Threads
                 switch (result.ErrorType)
                 {
                     case ErrorType.NoJAVA:
-                        //new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("JavaFaultSolve")).Show();
+                        OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("JavaFaultSolve"))));
                         break;
                     case ErrorType.AuthenticationFailed:
-                        MeCore.Dispatcher.Invoke(new Action(()=>new ErrorReport(new NullReferenceException()).Show()));
-                        //new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("AuthFaultSolve")).Show();
+                        OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("AuthFaultSolve"))));
                         break;
                     case ErrorType.OperatorException:
-                        //new KnownErrorReport(result.ErrorMessage).Show();
+                        OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to create operator"));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage)));
                         break;
                     case ErrorType.UncompressingFailed:
-                        //new KnownErrorReport(result.ErrorMessage, Lang.LangManager.GetLangFromResource("LibFaultSolve")).Show();
+                        OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to uncompress native"));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("LibFaultSolve"))));
                         break;
                     case ErrorType.Unknown:
-                        //new KnownErrorReport(result.ErrorMessage).Show();
+                        OnLogged?.Invoke(Logger.HelpLog("error occurred: unknown exception: " + result.Exception));
+                        MeCore.Dispatcher.Invoke(()=> MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage)));
                         break;
                 }
+                Failed?.Invoke();
             }
             else
             {
@@ -133,6 +143,8 @@ namespace MTMCL.Threads
                 //butPlayQuick.IsEnabled = false;
                 //OnStateChange("");
                 TaskCountTime?.Invoke();
+                OnLogged?.Invoke(Logger.HelpLog("game launched"));
+                MeCore.Config.QuickChange("LastPlayVer",_LaunchOptions.Version.Id);
                 //MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + versions[comboVer.SelectedIndex].Id);
             }
         }
@@ -192,7 +204,8 @@ namespace MTMCL.Threads
                 }
                 catch (WebException exception)
                 {
-                    //MeCore.Invoke(new Action(() => new ErrorReport(exception).Show()));
+                    OnLogged?.Invoke(Logger.HelpLog("failed to download library: " + file.name));
+                    MeCore.Dispatcher.Invoke(()=> MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), exception.ToWellKnownExceptionString())));
                     return;
                 }
             }

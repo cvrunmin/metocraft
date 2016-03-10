@@ -45,7 +45,7 @@
             </TabItem>
             <TabItem Header="{DynamicResource DLForge}">
                 <Grid Background="#7FFFFFFF">
-                    <ListView x:Name="listForge" HorizontalAlignment="Left" Width="485" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
+                    <ListView x:Name="listForge" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True" Margin="0,0,150,0">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Ver}" Header="{DynamicResource Version}" Width="110" util:GridViewSort.PropertyName="Ver"/>

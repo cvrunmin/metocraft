@@ -18,6 +18,8 @@
     <s:String x:Key="Close">Close</s:String>
     <s:String x:Key="Restart">Restart</s:String>
     <s:String x:Key="Back">Back</s:String>
+    <s:String x:Key="Log">Log</s:String>
+    <s:String x:Key="Notice">Notice</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">Computer</s:String>
     <s:String x:Key="COMVer">OS Version</s:String>
@@ -37,6 +39,7 @@
     <s:String x:Key="Network">Network</s:String>
     <s:String x:Key="LauncherT">Launcher</s:String>
     <s:String x:Key="Version">Version</s:String>
+    <s:String x:Key="VersionNew">Version: {0}</s:String>
     <!-- /About.xaml -->
     <!-- Settings.xaml -->
     <s:String x:Key="GameSet">Game</s:String>
@@ -101,6 +104,10 @@
     <s:String x:Key="RememberPW">Remember Password</s:String>
     <!-- /ACLogin -->
     <!--Error-->
+    <s:String x:Key="CrashOrErrorTitle">Crash/Error Report</s:String>
+    <s:String x:Key="ErrorNameFormat">{0} Error Report</s:String>
+    <s:String x:Key="CrashNameFormat">{0} Crash Report</s:String>
+    <s:String x:Key="ErrName">Name: {0}</s:String>
     <s:String x:Key="JavaFaultSolve">You could try these methods to solve this problem:[/newline/]1.reinstall Java.[/newline/]2.check the minecraft jar has been corrupt or not.</s:String>
     <s:String x:Key="AuthFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your email and password are correct or not.[/newline/]2.contact the network provider.[/newline/]If you are using custom authenticator, you could try: [/newline/]1.contact the authenticator provider.</s:String>
     <s:String x:Key="LibFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your libraries are intact or not.[/newline/]2.check your libraries are opened by other application or not.[/newline/]If you are using mod pack, you could try: [/newline/]1.check if the mod pack is intact or not.[/newline/]2.check if the mod pack is configured correctly or not.[/newline/]3.contact the mod pack provider.</s:String>
@@ -117,6 +124,9 @@
     <s:String x:Key="MCBBSThread">MCBBS Thread</s:String>
     <!--/Error-->
     <!--Task-->
+    <s:String x:Key="TaskName">Task Name: {0}</s:String>
+    <s:String x:Key="TaskState">Task State: {0}</s:String>
+    <s:String x:Key="TaskDetailTitle">Task Detail</s:String>
     <s:String x:Key="TaskTitle">Task List</s:String>
     <s:String x:Key="TaskLaunch">Launch {0}</s:String>
     <s:String x:Key="SubTaskLaunch">Launching</s:String>

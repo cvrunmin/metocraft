@@ -6,12 +6,13 @@
              xmlns:local="clr-namespace:MTMCL.Task"
              mc:Ignorable="d" 
              d:DesignHeight="362" d:DesignWidth="643" Loaded="Grid_Loaded">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
     <Grid.Background>
         <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}}}" Stretch="UniformToFill"/>
     </Grid.Background>
-    <Grid>
-            
-    </Grid>
     <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
         <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
             <Rectangle.OpacityMask>
@@ -19,5 +20,9 @@
             </Rectangle.OpacityMask>
         </Rectangle>
     </Button>
-    <Label x:Name="lblTitle" Content="" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+    <Label Content="{DynamicResource TaskDetailTitle}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333" Background="#CCFFFFFF"/>
+    <Label Content="{DynamicResource Log}" HorizontalAlignment="Left" Margin="0,81,0,0" VerticalAlignment="Top" FontSize="16" Background="#CCFFFFFF"/>
+    <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="2,45,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource TaskName}" FontSize="16" Background="#CCFFFFFF"/>
+    <Label x:Name="lblState" Content="" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" Grid.Column="1" ContentStringFormat="{DynamicResource TaskState}" FontSize="16" Background="#CCFFFFFF"/>
+    <ListBox x:Name="listLog" Margin="0,117,0,0" Grid.ColumnSpan="2" Background="#CDFFFFFF" FontSize="16"/>
 </Grid>

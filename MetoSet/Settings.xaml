@@ -57,6 +57,18 @@
                     <Label Content="{DynamicResource BG}" HorizontalAlignment="Left" Margin="0,66,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <TextBox x:Name="txtboxBG" HorizontalAlignment="Left" Height="23" Margin="0,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350"/>
                     <Button x:Name="butBGBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="350,96,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Color Scheme" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <ComboBox x:Name="comboColor" HorizontalAlignment="Left" Margin="0,163,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboColor_SelectionChanged"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource About}">
+                <Grid Background="#7FFFFFFF">
+                    <Label Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                    <Label x:Name="lblLauncherVersion" Content="" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
+                    <Label Content="KMCCC" HorizontalAlignment="Left" Margin="0,96,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <Label x:Name="lblKMCCCVersion" Content="" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
+                    <Button x:Name="butCheckUpdate" Content="Check Update" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Click="butCheckUpdate_Click"/>
+
                 </Grid>
             </TabItem>
         </TabControl>

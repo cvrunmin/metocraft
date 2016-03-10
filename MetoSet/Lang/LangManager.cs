@@ -39,15 +39,16 @@ namespace MTMCL.Lang
         {
             if (!Languages.ContainsKey(languageName))
             {
-                Application.Current.Resources = DefaultLanguage;
                 ReplaceDictationaries();
+                Application.Current.Resources.MergedDictionaries.Add(DefaultLanguage);
                 return;
             }
             var langType = Languages[languageName];
             if (langType != null)
             {
-                Application.Current.Resources = langType.Language;
-                ReplaceDictationaries();
+                Application.Current.Resources.MergedDictionaries.Remove(Languages[MeCore.Config.Lang].Language);
+                Application.Current.Resources.MergedDictionaries.Add(langType.Language);
+                //ReplaceDictationaries();
             }
         }
 
