@@ -102,7 +102,7 @@ namespace MTMCL.Threads
                             var s = crashReportReader.ReadToEnd();
                             Logger.log(s, Logger.LogType.Crash);
                             OnGameCrash(s, lastClientCrashReportPath);
-                            MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("CrashNameFormat"), DateTime.Now.ToShortTimeString()), s)));
+                            MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("CrashNameFormat"), DateTime.Now.ToLongTimeString()), s)));
                             //MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s, lastClientCrashReportPath).Show()));
                             crashReportReader.Close();
                         }
@@ -116,23 +116,23 @@ namespace MTMCL.Threads
                 {
                     case ErrorType.NoJAVA:
                         OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
-                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("JavaFaultSolve"))));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("JavaFaultSolve"))));
                         break;
                     case ErrorType.AuthenticationFailed:
                         OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
-                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("AuthFaultSolve"))));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("AuthFaultSolve"))));
                         break;
                     case ErrorType.OperatorException:
                         OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to create operator"));
-                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage)));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage)));
                         break;
                     case ErrorType.UncompressingFailed:
                         OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to uncompress native"));
-                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("LibFaultSolve"))));
+                        MeCore.Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("LibFaultSolve"))));
                         break;
                     case ErrorType.Unknown:
                         OnLogged?.Invoke(Logger.HelpLog("error occurred: unknown exception: " + result.Exception));
-                        MeCore.Dispatcher.Invoke(()=> MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), result.ErrorMessage)));
+                        MeCore.Dispatcher.Invoke(()=> MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage)));
                         break;
                 }
                 Failed?.Invoke();
@@ -205,7 +205,7 @@ namespace MTMCL.Threads
                 catch (WebException exception)
                 {
                     OnLogged?.Invoke(Logger.HelpLog("failed to download library: " + file.name));
-                    MeCore.Dispatcher.Invoke(()=> MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), exception.ToWellKnownExceptionString())));
+                    MeCore.Dispatcher.Invoke(()=> MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), exception.ToWellKnownExceptionString())));
                     return;
                 }
             }

@@ -44,7 +44,7 @@
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
             </Grid.Background>
-            <Grid x:Name="gridBG">
+            <Grid x:Name="gridBG" Opacity="0">
                 <Grid.Background>
                     <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -62,7 +62,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="205" Height="100" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click">
+                    <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="205" Height="100" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_list}" />

@@ -1,0 +1,12 @@
+﻿<Grid x:Class="MTMCL.Update.Update"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:local="clr-namespace:MTMCL.Update"
+      mc:Ignorable="d" 
+      d:DesignHeight="362" d:DesignWidth="643" Background="{DynamicResource AccentColorBrush}">
+    <metro:ProgressRing Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+    <Label x:Name="lblProcess" Content="" HorizontalAlignment="Center" Margin="0,220,0,0" VerticalAlignment="Top" FontSize="16"/>
+</Grid>

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace MTMCL
 {
@@ -196,6 +197,72 @@ namespace MTMCL
         private void butCheckUpdate_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void butBGBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "PNG(*.png)|*.png|JPG(*.jpg, *.jpeg)|*.jpg; *.jpeg|TIFF(*.tif, *.tiff)|*.tif; *.tiff|Bitmap(*.bmp)|*.bmp";
+            dialog.ShowDialog();
+            txtboxBG.Text = dialog.FileName;
+            MeCore.Config.QuickChange("background", dialog.FileName);
+            Render();
+        }
+        private void Render()
+        {
+            if (butBGBrowse.IsEnabled)
+            {
+                try
+                {
+                    if (MeCore.Config.Background.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.Background))
+                    {
+                        MeCore.MainWindow.gridBG.Opacity = 0;
+                        MeCore.MainWindow.gridBG.Background = new ImageBrush
+                        {
+                            ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
+                            Stretch = Stretch.UniformToFill
+                        };
+                        var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                        ani.Completed += delegate
+                        {
+                            MeCore.MainWindow.gridParent.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
+                                Stretch = Stretch.Fill
+                            };
+                            MeCore.MainWindow.gridBG.Opacity = 0;
+                        };
+                        MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
+                    }
+                    else
+                    {
+                        MeCore.MainWindow.gridBG.Opacity = 0;
+                        MeCore.MainWindow.gridBG.Background = new ImageBrush
+                        {
+                            ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
+                            Stretch = Stretch.Fill
+                        };
+                        var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                        ani.Completed += delegate
+                        {
+                            MeCore.MainWindow.gridParent.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
+                                Stretch = Stretch.Fill
+                            };
+                            MeCore.MainWindow.gridBG.Opacity = 0;
+                        };
+                        MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
+                    }
+                }
+                catch (Exception)
+                {
+                    MeCore.Config.Background = "default";
+                    MeCore.Config.Save(null);
+                    MeCore.MainWindow.Close();
+                    System.Windows.Forms.Application.Restart();
+                }
+            }
         }
     }
 }

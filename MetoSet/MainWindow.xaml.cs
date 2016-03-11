@@ -292,10 +292,12 @@ namespace MTMCL
             }
             task.Margin = new Thickness(0);
             taskdict.Add(identifier, task);
+            butTask.Count = taskdict.Count > 0 ? taskdict.Count.ToString() : "";
         }
         public void removeTask(string s, TaskListBar task)
         {
             taskdict.Remove(s);
+            butTask.Count = taskdict.Count > 0 ? taskdict.Count.ToString() : "";
         }
 
         private void butTask_Click(object sender, RoutedEventArgs e)
@@ -369,6 +371,10 @@ namespace MTMCL
         private void butNotice_Click(object sender, RoutedEventArgs e)
         {
             ChangePage("notice");
+        }
+        public void addNotice(Notice.CrashErrorBar notice) {
+            noticelist.Add(notice);
+            butNotice.Count = noticelist.Count > 0 ? noticelist.Count.ToString() : "";
         }
     }
 }

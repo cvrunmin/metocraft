@@ -1,5 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using MTMCL.JsonClass;
+using MTMCL.Lang;
+using MTMCL.util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,7 +64,7 @@ namespace MTMCL.Forge
                 }
                 catch (Exception e)
                 {
-                    //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), info.install.minecraft)).Show()));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), info.install.minecraft)))));
                     zip.Close();
                     return false;
                 }
@@ -89,7 +91,7 @@ namespace MTMCL.Forge
             }
             catch (Exception e)
             {
-                //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()))));
                 zip.Close();
                 return false;
             }
@@ -117,7 +119,7 @@ namespace MTMCL.Forge
             }
             catch (Exception e)
             {
-                //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
                 zip.Close();
                 return false;
             }
@@ -157,13 +159,13 @@ namespace MTMCL.Forge
                 catch (Exception e)
                 {
                     Logger.error(e.StackTrace);
-                    //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
                     return false;
                 }
             }
             catch (Exception e)
             {
-                //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
                 return false;
             }
         }
@@ -187,13 +189,13 @@ namespace MTMCL.Forge
             {
                 if (!libURL.EndsWith(".pack.xz"))
                 {
-                    //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
                 }
                 return false;
             }
             catch (Exception e)
             {
-                //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()))));
                 return false;
             }
         }
@@ -385,7 +387,7 @@ namespace MTMCL.Forge
             }
             catch (Exception e)
             {
-                //MeCore.Invoke(new Action(() => new KnownErrorReport(e.Message, e.StackTrace).Show()));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()))));
                 Logger.log(e);
                 return false;
             }

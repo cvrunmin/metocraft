@@ -92,7 +92,7 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString())));
+                        Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString())));
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -101,7 +101,7 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        Dispatcher.Invoke(()=> MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString())));
+                        Dispatcher.Invoke(()=> MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString())));
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -204,7 +204,7 @@ namespace MTMCL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            Dispatcher.Invoke(() => MeCore.MainWindow.noticelist.Add(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToShortTimeString()), ex.ToWellKnownExceptionString())));
+                            Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString())));
                             taskbar.noticeFailed();
                         }));
                     }

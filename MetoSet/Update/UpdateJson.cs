@@ -10,6 +10,12 @@ namespace MTMCL.Update
     [DataContract]
     public class UpdateJson
     {
+        [LitJson.JsonPropertyName("specific-version")]
+        public SpecificVersion specific_version;
+        public class SpecificVersion {
+            public string latest;
+            public string recommand;
+        }
         [DataMember]
         public Version[] versions;
         [DataContract]
