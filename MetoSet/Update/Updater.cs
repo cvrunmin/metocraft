@@ -24,11 +24,13 @@ namespace MTMCL.Update
         private const string CheckFile2 = @"http://cvrunmin.coding.me/cvrunmin/mtmcl-version.json";
         public bool HasUpdate { get; private set; }
         public string DownloadUrl { get; private set; }
-        public Updater() {
+        public Updater()
+        {
             var thread = new Thread(Run);
             thread.Start();
         }
-        private void Run() {
+        private void Run()
+        {
             try
             {
                 CheckUpdate(MeCore.Config.UpdateSource == 1 ? CheckFile2 : CheckFile);
@@ -48,7 +50,8 @@ namespace MTMCL.Update
 
             }
         }
-        private void CheckUpdate(string url) {
+        private void CheckUpdate(string url)
+        {
             string[] builds = MeCore.version.Split('.');
             var req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = "GET";
@@ -56,47 +59,55 @@ namespace MTMCL.Update
             req.ReadWriteTimeout = 7500;
             var res = (HttpWebResponse)req.GetResponse();
             UpdateJson updatejs = LitJson.JsonMapper.ToObject<UpdateJson>(new LitJson.JsonReader(new StreamReader(res.GetResponseStream())));
-            string[] latest = updatejs.versions[0].version.Split('.');
+
             if (updatejs == null | updatejs.versions.Length == 0)
             {
                 Logger.log("failed to deserialize update json", Logger.LogType.Error);
                 HasUpdate = false;
                 return;
             }
-            if (Convert.ToInt32(builds[0]) < Convert.ToInt32(latest[0]))
+            foreach (var item in updatejs.versions)
             {
-                HasUpdate = true;
-                DownloadUrl = updatejs.versions[0].url;
-                Logger.log("new version found, version is: " + updatejs.versions[0].version);
-                Logger.log("download url is: " + DownloadUrl);
+                if (item.version.Equals(MeCore.Config.SearchLatest ? updatejs.specific_version.latest : updatejs.specific_version.recommand))
+                {
+                    string[] latest = item.version.Split('.');
+                    if (Convert.ToInt32(builds[0]) < Convert.ToInt32(latest[0]))
+                    {
+                        HasUpdate = true;
+                        DownloadUrl = updatejs.versions[0].url;
+                        Logger.log("new major version found, version is: " + updatejs.versions[0].version);
+                        Logger.log("download url is: " + DownloadUrl);
+                    }
+                    else if (Convert.ToInt32(builds[1]) < Convert.ToInt32(latest[1]))
+                    {
+                        HasUpdate = true;
+                        DownloadUrl = updatejs.versions[0].url;
+                        Logger.log("new version found, version is: " + updatejs.versions[0].version);
+                        Logger.log("download url is: " + DownloadUrl);
+                    }
+                    else if (Convert.ToInt32(builds[2]) < Convert.ToInt32(latest[2]))
+                    {
+                        HasUpdate = true;
+                        DownloadUrl = updatejs.versions[0].url;
+                        Logger.log("new minor version found, version is: " + updatejs.versions[0].version);
+                        Logger.log("download url is: " + DownloadUrl);
+                    }
+                    else if (Convert.ToInt32(builds[3]) < Convert.ToInt32(latest[3]))
+                    {
+                        HasUpdate = true;
+                        DownloadUrl = updatejs.versions[0].url;
+                        Logger.log("new build found, version is: " + updatejs.versions[0].version);
+                        Logger.log("download url is: " + DownloadUrl);
+                    }
+                    else
+                    {
+                        HasUpdate = false;
+                        Logger.log("no update.");
+                    }
+                    OnCheckFinishEvent(HasUpdate, DownloadUrl, item.info, Convert.ToInt32(latest[3]));
+                    break;
+                }
             }
-            else if (Convert.ToInt32(builds[1]) < Convert.ToInt32(latest[1]))
-            {
-                HasUpdate = true;
-                DownloadUrl = updatejs.versions[0].url;
-                Logger.log("new minor version found, version is: " + updatejs.versions[0].version);
-                Logger.log("download url is: " + DownloadUrl);
-            }
-            else if (Convert.ToInt32(builds[2]) < Convert.ToInt32(latest[2]))
-            {
-                HasUpdate = true;
-                DownloadUrl = updatejs.versions[0].url;
-                Logger.log("new minor version found, version is: " + updatejs.versions[0].version);
-                Logger.log("download url is: " + DownloadUrl);
-            }
-            else if (Convert.ToInt32(builds[3]) < Convert.ToInt32(latest[3]))
-            {
-                HasUpdate = true;
-                DownloadUrl = updatejs.versions[0].url;
-                Logger.log("new build found, version is: " + updatejs.versions[0].version);
-                Logger.log("download url is: " + DownloadUrl);
-            }
-            else
-            {
-                HasUpdate = false;
-                Logger.log("no update.");
-            }
-            OnCheckFinishEvent(HasUpdate, DownloadUrl, updatejs.versions[0].info, Convert.ToInt32(latest[3]));
         }
     }
 }

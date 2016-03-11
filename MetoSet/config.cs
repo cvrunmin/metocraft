@@ -54,7 +54,8 @@ namespace MTMCL
         [DataMember]
         [LitJson.JsonPropertyName("update-source")]
         public byte UpdateSource { get; set; }
-
+        [DataMember]
+        public bool SearchLatest { get; set; }
         public Config()
         {
             try
@@ -76,6 +77,7 @@ namespace MTMCL
             ExpandTaskGui = true;
             GUID = GetGuid();
             CheckUpdate = true;
+            SearchLatest = false;
         }
         public string GetValidLang() {
             if (CultureInfo.CurrentUICulture.Parent.Name != "zh-CHT" && CultureInfo.CurrentUICulture.Parent.Name != "zh-CHS"
