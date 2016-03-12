@@ -114,8 +114,6 @@ namespace MTMCL
         }
         private static async void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
         {
-            hasUpdate = true;
-
             if (hasUpdate)
             {
                 if (MainWindow != null)
