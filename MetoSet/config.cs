@@ -68,7 +68,7 @@ namespace MTMCL
             }
             catch
             {
-                Javaw = "javaw.exe";
+                Javaw = "undefined";
             }
             MCPath = MeCore.BaseDirectory + ".minecraft";
             Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024);

@@ -102,8 +102,6 @@ namespace MTMCL
 
         private void butMCBBS_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("http://www.mcbbs.net/defendShield/init");
-            System.Threading.Thread.Sleep(2000);
             Process.Start("http://www.mcbbs.net/thread-555314-1-1.html");
             Copy();
         }

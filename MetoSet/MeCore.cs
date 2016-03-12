@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace MTMCL
 {
@@ -73,7 +74,14 @@ namespace MTMCL
             }
             if (Config.Javaw == "autosearch")
             {
-                Config.Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
+                try
+                {
+                    Config.Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
+                }
+                catch (Exception)
+                {
+                    Config.Javaw = "undefined";
+                }
             }
             if (Config.Javaxmx == -1)
             {
@@ -82,10 +90,21 @@ namespace MTMCL
             LangManager.UseLanguage(Config.Lang);
 #if DEBUG
 #else
-            //ReleaseCheck();
+            ReleaseCheck();
 #endif
+            if (Config.Javaw == "undefined")
+            {
+                try
+                {
+                    Config.Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
+                    return;
+                }
+                catch { }
+                MessageBox.Show("NO Java is defined! Are you sure you have installed Java properly?");
+                MessageBox.Show("Minecraft Launching and Minecraft Forge Installing won\'t work until you have installed Java properly");
+            }
         }
-        private static void ReleaseCheck()
+        public static void ReleaseCheck()
         {
             if (Config.CheckUpdate)
             {
@@ -93,26 +112,28 @@ namespace MTMCL
                 updateChecker.CheckFinishEvent += UpdateCheckerOnCheckFinishEvent;
             }
         }
-        private static void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
+        private static async void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
         {
+            hasUpdate = true;
+
             if (hasUpdate)
             {
-                var a = MessageBox.Show(MainWindow, updateinfo,"更新", MessageBoxButton.OKCancel,
-                    MessageBoxImage.Information);
-                if (a == MessageBoxResult.OK)
+                if (MainWindow != null)
                 {
-                    var updater = new Update.TaskGui(updateBuild, updateAddr);
-                    MainWindow.Hide();
-                    updater.setTask("更新MTMCL").ShowDialog();
-                }
-                if (a == MessageBoxResult.No || a == MessageBoxResult.None)
-                {
-                    if (MessageBox.Show(MainWindow, updateinfo, "更新", MessageBoxButton.OKCancel,
-                    MessageBoxImage.Information) == MessageBoxResult.OK)
+                dddd:
+                    if (!MainWindow.IsLoaded)
                     {
-                        var updater = new Update.TaskGui(updateBuild, updateAddr);
-                        MainWindow.Hide();
-                        updater.setTask("更新MTMCL").ShowDialog();
+                        await System.Threading.Tasks.Task.Delay(100);
+                        goto dddd;
+                    }
+                    MessageDialogResult result = await MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("UpdateFound"), updateinfo, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings { AffirmativeButtonText = LangManager.GetLangFromResource("UpdateAccept"), NegativeButtonText = LangManager.GetLangFromResource("UpdateDeny") });
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        MainWindow.gridMain.Visibility = Visibility.Hidden;
+                        MainWindow.gridOthers.Children.Clear();
+                        MainWindow.gridOthers.Visibility = Visibility.Visible;
+                        await System.Threading.Tasks.Task.Delay(1000);
+                        MainWindow.gridOthers.Children.Add(new Update.Update(updateBuild, updateAddr));
                     }
                 }
             }

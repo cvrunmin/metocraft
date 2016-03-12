@@ -114,7 +114,7 @@
     <s:String x:Key="LibFault">Detected missing or corrupted libraries.</s:String>
     <s:String x:Key="MCCrashTitle">[/bold/]Uhoh, it looks like the game has crashed! Sorry for the inconvenience :([/endbold/][/newline/]Using magic and love, we've managed to gather some details about the crash and we will investigate this as soon as we can.[/newline/]You can see the full report below.</s:String>
     <s:String x:Key="MCCrashTitleModded">[/bold/]Uhoh, it looks like the game has crashed! Sorry for the inconvenience :([/endbold/][/newline/]We think your game may be modded, and as such we can't accept this crash report.[/newline/]However, if you do indeed use mods, please send this to the mod authors to take a look at!</s:String>
-    <s:String x:Key="ReportTitle">An unexpected exception has been occurred. Please contact the author.</s:String>
+    <s:String x:Key="ReportTitle">Uhoh, an unexpected exception has been occurred. Please contact the author in order to fix this bug.</s:String>
     <s:String x:Key="NoVersion">No version is found or selected</s:String>
     <s:String x:Key="NoVersionSolve">You could try these methods to solve this problem:[/newline/]1.check your game directory is valid or not.[/newline/]2.check if you have select a version.</s:String>
     <s:String x:Key="ForgeNoVersionSolve">Please make sure you have Minecraft {0} and run it at least once.</s:String>
@@ -165,4 +165,7 @@
     <s:String x:Key="NoCollectingData">Unknown due to no related code in release version MTMCL</s:String>
     <s:String x:Key="On">On</s:String>
     <s:String x:Key="Off">Off</s:String>
+    <s:String x:Key="UpdateFound">Update found</s:String>
+    <s:String x:Key="UpdateAccept">Update Now</s:String>
+    <s:String x:Key="UpdateDeny">Update Later</s:String>
 </ResourceDictionary>

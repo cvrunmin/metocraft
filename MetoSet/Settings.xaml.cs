@@ -97,13 +97,18 @@ namespace MTMCL
         }
         private void PreInit() {
             comboJava.Items.Clear();
-            var javas = KMCCC.Tools.SystemTools.FindValidJava().ToList();
-            foreach (var java in javas)
+            try
             {
-                comboJava.Items.Add(java);
+                var javas = KMCCC.Tools.SystemTools.FindValidJava().ToList();
+                foreach (var java in javas)
+                {
+                    comboJava.Items.Add(java);
+                }
             }
+            catch{ }
             sliderRAM.Maximum = KMCCC.Tools.SystemTools.GetTotalMemory() / 1024 / 1024;
-
+            lblLauncherVersion.Content = MeCore.version;
+            lblKMCCCVersion.Content = KMCCC.Launcher.Reporter.KMCCC_TYPE + " " + KMCCC.Launcher.Reporter.Version;
         }
         private void LoadConfig() {
             comboDLSrc.SelectedIndex = MeCore.Config.DownloadSource;
@@ -113,6 +118,7 @@ namespace MTMCL
             comboJava.SelectedItem = MeCore.Config.Javaw;
             sliderRAM.Value = MeCore.Config.Javaxmx;
             comboLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
+            txtboxBG.Text = MeCore.Config.Background;
         }
         public void RefreshLangList()
         {
@@ -196,73 +202,24 @@ namespace MTMCL
 
         private void butCheckUpdate_Click(object sender, RoutedEventArgs e)
         {
-
+            MeCore.ReleaseCheck();
         }
 
         private void butBGBrowse_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "PNG(*.png)|*.png|JPG(*.jpg, *.jpeg)|*.jpg; *.jpeg|TIFF(*.tif, *.tiff)|*.tif; *.tiff|Bitmap(*.bmp)|*.bmp";
+            dialog.Filter = "PNG(*.png)|*.png|JPG(*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg; *.jpeg; *.jpe; *.jfif|TIFF(*.tif, *.tiff)|*.tif; *.tiff|Bitmap(*.bmp, *.dib)|*.bmp; *.dib|GIF(*.gif)|*.gif|All supported file|*.png; *.jpg; *.jpeg; *.jpe; *.jfif; *.tif; *.tiff; *.bmp; *.dib; *.gif";
             dialog.ShowDialog();
             txtboxBG.Text = dialog.FileName;
             MeCore.Config.QuickChange("background", dialog.FileName);
-            Render();
+            MeCore.MainWindow.Render();
         }
-        private void Render()
+
+        private void butReset_Click(object sender, RoutedEventArgs e)
         {
-            if (butBGBrowse.IsEnabled)
-            {
-                try
-                {
-                    if (MeCore.Config.Background.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.Background))
-                    {
-                        MeCore.MainWindow.gridBG.Opacity = 0;
-                        MeCore.MainWindow.gridBG.Background = new ImageBrush
-                        {
-                            ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
-                            Stretch = Stretch.UniformToFill
-                        };
-                        var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
-                        ani.Completed += delegate
-                        {
-                            MeCore.MainWindow.gridParent.Background = new ImageBrush
-                            {
-                                ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
-                                Stretch = Stretch.Fill
-                            };
-                            MeCore.MainWindow.gridBG.Opacity = 0;
-                        };
-                        MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
-                    }
-                    else
-                    {
-                        MeCore.MainWindow.gridBG.Opacity = 0;
-                        MeCore.MainWindow.gridBG.Background = new ImageBrush
-                        {
-                            ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
-                            Stretch = Stretch.Fill
-                        };
-                        var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
-                        ani.Completed += delegate
-                        {
-                            MeCore.MainWindow.gridParent.Background = new ImageBrush
-                            {
-                                ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
-                                Stretch = Stretch.Fill
-                            };
-                            MeCore.MainWindow.gridBG.Opacity = 0;
-                        };
-                        MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
-                    }
-                }
-                catch (Exception)
-                {
-                    MeCore.Config.Background = "default";
-                    MeCore.Config.Save(null);
-                    MeCore.MainWindow.Close();
-                    System.Windows.Forms.Application.Restart();
-                }
-            }
+            txtboxBG.Text = "default";
+            MeCore.Config.QuickChange("background", "default");
+            MeCore.MainWindow.Render();
         }
     }
 }

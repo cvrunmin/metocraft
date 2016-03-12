@@ -16,7 +16,10 @@
     <s:String x:Key="Save">储存</s:String>
     <s:String x:Key="Reload">重载</s:String>
     <s:String x:Key="Close">关闭</s:String>
+    <s:String x:Key="Restart">重新启动</s:String>
     <s:String x:Key="Back">返回</s:String>
+    <s:String x:Key="Log">日志</s:String>
+    <s:String x:Key="Notice">通知</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">计算机</s:String>
     <s:String x:Key="COMVer">版本</s:String>
@@ -36,8 +39,11 @@
     <s:String x:Key="Network">网络</s:String>
     <s:String x:Key="LauncherT">启动器</s:String>
     <s:String x:Key="Version">版本</s:String>
+    <s:String x:Key="VersionNew">版本：{0}</s:String>
     <!-- /About.xaml -->
     <!-- Settings.xaml -->
+    <s:String x:Key="GameSet">游戏</s:String>
+    <s:String x:Key="LauncherSet">启动器</s:String>
     <s:String x:Key="Language">语言</s:String>
     <s:String x:Key="OfDL">覆写语言</s:String>
     <s:String x:Key="OfDLDesc">如果您想使用的显示语言与Windows语言不同，请在这里选择</s:String>
@@ -74,7 +80,6 @@
     <s:String x:Key="DDLAssets">下载资源</s:String>
     <s:String x:Key="DLForge">Minecraft Forge客户端</s:String>
     <s:String x:Key="DLPack">整合包</s:String>
-    <s:String x:Key="DownLoad">下载</s:String>
     <s:String x:Key="Refresh">刷新</s:String>
     <s:String x:Key="Libs">库</s:String>
     <s:String x:Key="Assets">资源</s:String>
@@ -99,20 +104,29 @@
     <s:String x:Key="RememberPW">记住密码</s:String>
     <!-- /ACLogin -->
     <!--Error-->
+    <s:String x:Key="CrashOrErrorTitle">崩溃/错误报告</s:String>
+    <s:String x:Key="ErrorNameFormat">{0} 错误报告</s:String>
+    <s:String x:Key="CrashNameFormat">{0} 崩溃报告</s:String>
+    <s:String x:Key="ErrName">名称：{0}</s:String>
     <s:String x:Key="JavaFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.重新安装Java[/newline/]2.检查Minecraft Jar是否已经损坏</s:String>
     <s:String x:Key="AuthFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.检查您的电邮与密码是否正确输入[/newline/]2.联络网络供应商[/newline/]如果是自订验证伺服器，您可以尝试：[/newline/]1.联络验证伺服器供应商</s:String>
     <s:String x:Key="LibFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.检查库文件是否完整[/newline/]2.检查库文件是否已在其他应用程式中开启[/newline/]如果正在使用整合包，您可以尝试：[/newline/]1.检查整合包内容是否完整[/newline/]2.检查整合包内容是否正确配置[/newline/]3.联络整合包提供者</s:String>
     <s:String x:Key="LibFault">发现缺失或损坏的库文件</s:String>
     <s:String x:Key="MCCrashTitle">[/bold/]哎呀，看来游戏崩溃了！抱歉为你带来不便:([/endbold/][/newline/]使用魔法和爱，我们已经成功地收集是次崩溃的细节，我们会尽快调查此崩溃[/newline/]你可以在下面查看完整的崩溃报告。</s:String>
     <s:String x:Key="MCCrashTitleModded">[/bold/]哎呀，看来游戏崩溃了！抱歉为你带来不便:([/endbold/][/newline/]我们觉得游戏己被修改，因此我们并不能认受这份崩溃报告[/newline/]不过，如果你确实在使用模组，请将此报告发送给模组作者看看！</s:String>
-    <s:String x:Key="ReportTitle">出现未遇期的例外，请联络作者</s:String>
+    <s:String x:Key="ReportTitle">哎呀，出现未遇期的例外了，请联络作者以便修复此漏洞</s:String>
     <s:String x:Key="NoVersion">没有发现或选择版本</s:String>
     <s:String x:Key="NoVersionSolve">您可以尝试以下方法解决此问题：[/newline/]1.检查游戏目录是否有效。 [/newline/]2.检查是否已经选择版本。</s:String>
     <s:String x:Key="ForgeNoVersionSolve">请确保您拥有Minecraft {0} 以及已经运行最少一次。</s:String>
     <s:String x:Key="NoConnectionSolve">请确保您已经连接到网络且在连接被墙的网络的时候挂上合适的VPN</s:String>
     <s:String x:Key="FormatFaultSolve">请确保 {0} 是正确格式。</s:String>
+    <s:String x:Key="Email">电邮</s:String>
+    <s:String x:Key="MCBBSThread">MCBBS帖子</s:String>
     <!--/Error-->
     <!--Task-->
+    <s:String x:Key="TaskName">任务名称：{0}</s:String>
+    <s:String x:Key="TaskState">任务状态：{0}</s:String>
+    <s:String x:Key="TaskDetailTitle">任务详情</s:String>
     <s:String x:Key="TaskTitle">任务列表</s:String>
     <s:String x:Key="TaskLaunch">启动{0}</s:String>
     <s:String x:Key="SubTaskLaunch">正在启动</s:String>
@@ -133,6 +147,8 @@
     <s:String x:Key="TaskDLModPack">下载整合包</s:String>
     <s:String x:Key="SubTaskDLModPack">下载整合包 {0}%</s:String>
     <s:String x:Key="SubTaskExtractModPack">尝试解压整合包</s:String>
+    <s:String x:Key="TaskUpdating">更新中 {0}</s:String>
+    <s:String x:Key="Restarting">正在重新启动</s:String>
     <!--/Task-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">发现资源文件修改，正在同步</s:String>
@@ -149,4 +165,7 @@
     <s:String x:Key="NoCollectingData">因发行版MTMCL没提供相关代码而未知</s:String>
     <s:String x:Key="On">开</s:String>
     <s:String x:Key="Off">关</s:String>
+    <s:String x:Key="UpdateFound">​​发现更新</s:String>
+    <s:String x:Key="UpdateAccept">立即更新</s:String>
+    <s:String x:Key="UpdateDeny">稍后更新</s:String>
 </ResourceDictionary>

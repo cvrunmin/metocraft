@@ -22,6 +22,10 @@ namespace MTMCL.Forge
             {
                 return false;
             }
+            if (MeCore.Config.Javaw.Equals("undefined"))
+            {
+                return false;
+            }
             ZipFile zip = new ZipFile(target);
             ZipEntry infoentry = zip.GetEntry("install_profile.json");
             ForgeInstall info = LitJson.JsonMapper.ToObject<ForgeInstall>(new LitJson.JsonReader(new StreamReader(zip.GetInputStream(infoentry))));

@@ -31,7 +31,6 @@ namespace MTMCL
             MeCore.MainWindow = this;
             InitializeComponent();
             Title = "MTMCL V2 Ver." + MeCore.version;
-            //Blank.main = this;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -332,6 +331,7 @@ namespace MTMCL
             timer.Enabled = true;
             timer.Interval = 1000;
             timer.Tick += new EventHandler(timer_Tick);
+            Render();
         }
 
         private void butPlayQuick_Click(object sender, RoutedEventArgs e)
@@ -376,5 +376,60 @@ namespace MTMCL
             noticelist.Add(notice);
             butNotice.Count = noticelist.Count > 0 ? noticelist.Count.ToString() : "";
         }
+        public void Render()
+        {
+                try
+                {
+                    if (MeCore.Config.Background.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.Background))
+                    {
+                        MeCore.MainWindow.gridBG.Opacity = 0;
+                        MeCore.MainWindow.gridBG.Background = new ImageBrush
+                        {
+                            ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
+                            Stretch = Stretch.UniformToFill
+                        };
+                        var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                        ani.Completed += async delegate
+                        {
+                            await System.Threading.Tasks.Task.Delay(250);
+                            MeCore.MainWindow.gridParent.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
+                                Stretch = Stretch.UniformToFill
+                            };
+                            MeCore.MainWindow.gridBG.Opacity = 0;
+                        };
+                        MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
+                    }
+                    else
+                    {
+                        MeCore.MainWindow.gridBG.Opacity = 0;
+                        MeCore.MainWindow.gridBG.Background = new ImageBrush
+                        {
+                            ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
+                            Stretch = Stretch.UniformToFill
+                        };
+                        var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                        ani.Completed += async delegate
+                        {
+                            await System.Threading.Tasks.Task.Delay(250);
+                            MeCore.MainWindow.gridParent.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
+                                Stretch = Stretch.UniformToFill
+                            };
+                            MeCore.MainWindow.gridBG.Opacity = 0;
+                        };
+                        MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
+                    }
+                }
+                catch (Exception)
+                {
+                    MeCore.Config.Background = "default";
+                    MeCore.Config.Save(null);
+                    MeCore.MainWindow.Close();
+                    System.Windows.Forms.Application.Restart();
+                }
+            }
     }
 }
