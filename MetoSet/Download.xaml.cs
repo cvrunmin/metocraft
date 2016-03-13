@@ -296,5 +296,75 @@ namespace MTMCL
             DataRowView selectVer = listForge.SelectedItem as DataRowView;
             DownloadForge(selectVer[0] as string);
         }
+
+        private void butDLPack_Click(object sender, RoutedEventArgs e)
+        {
+            TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
+            var thDL = new Thread(new ThreadStart(delegate
+            {
+                try
+                {
+                    MeCore.Invoke(new System.Windows.Forms.MethodInvoker(() =>
+                    {
+                        Uri url = new Uri(txtboxUrl.Text);
+                        if (url == null | string.IsNullOrWhiteSpace(url.AbsoluteUri))
+                        {
+                            throw new InvalidOperationException("null url");
+                        }
+                        var downer = new WebClient();
+                        downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
+                        var filename = "pack.zip";
+                        var filecount = 0;
+                        while (File.Exists(filename))
+                        {
+                            ++filecount;
+                            filename = "pack-" + filecount + ".zip";
+                        }
+                        downer.DownloadProgressChanged += delegate (object sender1, DownloadProgressChangedEventArgs e1)
+                        {
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLModPack"), e1.ProgressPercentage))));
+                        };
+                        downer.DownloadFileCompleted += delegate (object sender1, AsyncCompletedEventArgs e1)
+                        {
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskExtractModPack"))));
+                            new Threads.ModPackProcesser().install(filename);
+                            File.Delete(filename);
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
+                            task.noticeFinished();
+                        };
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLModPack"), 0))));
+                        downer.DownloadFileAsync(url, filename);
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),ex.ToWellKnownExceptionString()))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFail"))));
+                    task.noticeFailed();
+                }
+            }));
+            MeCore.MainWindow.addTask("dl-modpack", task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLModPack")).setDetectAlive(false));
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (MeCore.IsServerDedicated)
+            {
+                LoadServerDeDicatedVersion();
+            }
+        }
+        private void LoadServerDeDicatedVersion()
+        {
+            if (MeCore.Config.Server.NeedServerPack & !string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerPackUrl))
+            {
+                tabDLPack.Visibility = Visibility.Visible;
+                txtboxUrl.Text = MeCore.Config.Server.ServerPackUrl;
+            }
+            if (!MeCore.Config.Server.AllowSelfDownloadClient)
+            {
+                tabDLMC.Visibility = Visibility.Collapsed;
+                tabDLForge.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace MTMCL.Threads
         public LaunchMCThread(LaunchOptions options) {
             _LaunchOptions = options;
         }
-        public Thread Start()
+        public override Thread Start()
         {
             var task = new Thread(Run);
             task.Start();

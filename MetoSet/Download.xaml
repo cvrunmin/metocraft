@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>
-    <Grid>
+    <Grid Loaded="Grid_Loaded">
         <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
             <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
                 <Rectangle.OpacityMask>
@@ -27,7 +27,7 @@
         </Button>
         <Label Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <TabControl x:Name="tabControl" Margin="0,45,0,0">
-            <TabItem Header="{DynamicResource DLMC}">
+            <TabItem x:Name="tabDLMC" Header="{DynamicResource DLMC}">
                 <Grid Background="#7FFFFFFF">
                     <ListView x:Name="listRemoteVer" Margin="0,0,150,0" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
                         <ListView.View>
@@ -43,7 +43,7 @@
                     <Button x:Name="butDLMC" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" FontSize="21.333" Click="butDLMC_Click" HorizontalAlignment="Right" Width="150"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="{DynamicResource DLForge}">
+            <TabItem x:Name="tabDLForge" Header="{DynamicResource DLForge}">
                 <Grid Background="#7FFFFFFF">
                     <ListView x:Name="listForge" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True" Margin="0,0,150,0">
                         <ListView.View>
@@ -57,6 +57,14 @@
                     </ListView>
                     <Button x:Name="butReloadForge" Content="{DynamicResource Reload}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="45" FontSize="21.333" Click="butReloadForge_Click"/>
                     <Button x:Name="butDLForge" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="150" FontSize="21.333" Click="butDLForge_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabDLPack" Header="{DynamicResource DLPack}" Visibility="Collapsed">
+                <Grid>
+                    <Label Content="{DynamicResource Url}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="21.333"/>
+                    <TextBox x:Name="txtboxUrl" Height="23" Margin="0,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
+                    <Button x:Name="butDLPack" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="0,68,0,0" VerticalAlignment="Top" Click="butDLPack_Click"/>
+
                 </Grid>
             </TabItem>
         </TabControl>

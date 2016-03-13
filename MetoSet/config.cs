@@ -1,6 +1,7 @@
 ﻿using LitJson;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -59,7 +60,65 @@ namespace MTMCL
         [LitJson.JsonPropertyName("update-source")]
         public byte UpdateSource { get; set; }
         [DataMember]
+        [JsonPropertyName("search-latest-update")]
         public bool SearchLatest { get; set; }
+        [DataMember]
+        [JsonPropertyName("server-info")]
+        public ServerInfo Server { get; set; }
+        [DataContract]
+        public class ServerInfo {
+            [LitJson.JsonPropertyName("title")]
+            public string Title;
+            [DataMember(Name = "server-name")]
+            [LitJson.JsonPropertyName("server-name")]
+            public string ServerName;
+            [DataMember(Name = "server-ip")]
+            [LitJson.JsonPropertyName("server-ip")]
+            public string ServerIP;
+            [DataMember(Name = "client-name")]
+            [LitJson.JsonPropertyName("client-name")]
+            public string ClientPath;
+            [DataMember(Name = "need-server-pack")]
+            [LitJson.JsonPropertyName("need-server-pack")]
+            public bool NeedServerPack;
+            [DataMember(Name = "server-pack-url", IsRequired = false)]
+            [LitJson.JsonPropertyName("server-pack-url")]
+            public string ServerPackUrl;
+            [DataMember(Name = "allow-redownload-library-and-asset")]
+            [LitJson.JsonPropertyName("allow-redownload-library-and-asset")]
+            public bool AllowReDownloadLibAndAsset;
+            [DataMember(Name = "allow-self-download-client")]
+            [LitJson.JsonPropertyName("allow-self-download-client")]
+            public bool AllowSelfDownloadClient;
+            [DataMember(Name = "lock-background")]
+            [LitJson.JsonPropertyName("lock-background")]
+            public bool LockBackground;
+            [DataMember(Name = "background-path", IsRequired = false)]
+            [LitJson.JsonPropertyName("background-path")]
+            public string BackgroundPath;
+            [DataMember(Name = "auths", IsRequired = false)]
+            [LitJson.JsonPropertyName("auths")]
+            public List<Auth> Auths;
+            public class Auth
+            {
+                [DataMember(Name = "auth-name", IsRequired = true)]
+                [LitJson.JsonPropertyName("auth-name")]
+                public string Name;
+                [DataMember(Name = "auth-url", IsRequired = true)]
+                [LitJson.JsonPropertyName("auth-url")]
+                public string Url;
+            }
+        }
+        public class SavedAuth
+        {
+            [DataMember]
+            [JsonPropertyName("auth-type")]
+            public Type AuthType { get; set; }
+            [JsonPropertyName("display-name")]
+            public string DisplayName { get; set; }
+            [JsonPropertyName("uuid")]
+            public string UUID { get; set; }
+        }
         public Config()
         {
             try
@@ -83,6 +142,7 @@ namespace MTMCL
             GUID = GetGuid();
             CheckUpdate = true;
             SearchLatest = false;
+            Server = null;
         }
         public string GetValidLang() {
             if (CultureInfo.CurrentUICulture.Parent.Name != "zh-CHT" && CultureInfo.CurrentUICulture.Parent.Name != "zh-CHS"

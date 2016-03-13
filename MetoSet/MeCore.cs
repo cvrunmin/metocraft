@@ -21,7 +21,6 @@ namespace MTMCL
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
         public static string DataDirectory = Environment.CurrentDirectory + '\\' + "MTMCL" + '\\';
         private readonly static string Cfgfile = BaseDirectory + "mtmcl_config.json";
-        private readonly static string Serverfile = BaseDirectory + "mtmcl_server_config.json";
         public static string DefaultBG = "pack://application:,,,/Resources/bg.png";
         //public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
@@ -33,29 +32,6 @@ namespace MTMCL
             version = version.Substring(0, version.IndexOf(','));
             Logger.log("----------" + DateTime.Now.ToLongTimeString() + " launch log----------");
             Logger.log("MTMCL Ver." + version + " launching");
-            /*if (File.Exists(Serverfile))
-            {
-                ServerCfg = Server.ServerInfo.Load(Serverfile);
-                if (ServerCfg.Ignore)
-                {
-                    IsServerDedicated = false;
-                    Logger.log("Launching normal version due to failure to read the server config");
-                }
-                else if (App.forceNonDedicate)
-                {
-                    IsServerDedicated = false;
-                    Logger.log("Launching normal version due to the argument");
-                }
-                else
-                {
-                    IsServerDedicated = true;
-                    Logger.log("Launching server-dedicated version");
-                }
-            }
-            else
-            {
-                Logger.log("Launching normal version as the server config file is missing");
-            }*/
             if (File.Exists(Cfgfile))
             {
                 Config = Config.Load(Cfgfile);
@@ -63,7 +39,24 @@ namespace MTMCL
                 Logger.log(Config.ToReadableLog());
                 LoadLanguage();
                 LoadColor();
-                //ChangeLanguage(Config.Lang);
+                if (Config.Server != null)
+                {
+                    if (App.forceNonDedicate)
+                    {
+                        IsServerDedicated = false;
+                        Logger.log("Launching normal version due to the argument");
+                    }
+                    else
+                    {
+                        IsServerDedicated = true;
+                        Logger.log("Launching server-dedicated version");
+                    }
+                }
+                else
+                {
+                    IsServerDedicated = false;
+                    Logger.log("Launching normal version due to null server info");
+                }
             }
             else
             {

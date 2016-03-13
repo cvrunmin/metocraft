@@ -1,7 +1,7 @@
 ﻿namespace MTMCL.Threads
 {
-    public interface MTMCLThread
+    public abstract class MTMCLThread
     {
-        System.Threading.Thread Start();
+        public abstract System.Threading.Thread Start();
     }
 }

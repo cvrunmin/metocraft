@@ -4,6 +4,7 @@
 
     <s:String x:Key="DisplayName">English</s:String>
     <s:String x:Key="LangName">en</s:String>
+    <s:String x:Key="Start">Start</s:String>
     <s:String x:Key="Play">Play</s:String>
     <s:String x:Key="QuickPlay">Quick Play</s:String>
     <s:String x:Key="QuickPlayLabel">Launch!</s:String>

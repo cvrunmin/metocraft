@@ -206,6 +206,7 @@
     <Compile Include="Task\TaskList.xaml.cs">
       <DependentUpon>TaskList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Threads\ModPackProcesser.cs" />
     <Compile Include="Threads\MTMCLThread.cs" />
     <Compile Include="Update\TaskGui.xaml.cs">
       <DependentUpon>TaskGui.xaml</DependentUpon>

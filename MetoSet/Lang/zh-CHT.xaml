@@ -4,6 +4,7 @@
 
     <s:String x:Key="DisplayName">繁體中文</s:String>
     <s:String x:Key="LangName">zh-CHT</s:String>
+    <s:String x:Key="Start">開始</s:String>
     <s:String x:Key="Play">遊玩</s:String>
     <s:String x:Key="QuickPlay">快速啟動</s:String>
     <s:String x:Key="QuickPlayLabel">開始逆行！</s:String>
