@@ -43,9 +43,17 @@ namespace MTMCL
 
         private void Grid_Initialized(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(MeCore.Config.MCPath))
+            string path = MeCore.Config.MCPath;
+            if (MeCore.IsServerDedicated)
             {
-                App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.Config.MCPath, MeCore.Config.Javaw));
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                {
+                    path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                App.core = LauncherCore.Create(new LauncherCoreCreationOption(path, MeCore.Config.Javaw));
                 versions = App.core.GetVersions().ToArray();
                 var dt = new DataTable();
                 dt.Columns.Add("Version");
@@ -82,6 +90,13 @@ namespace MTMCL
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate {
                         var _version = versions[listVer.SelectedIndex];
                         string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.Assets + ".json";
+                        if (MeCore.IsServerDedicated)
+                        {
+                            if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                            {
+                                indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                            }
+                        }
                         if (!File.Exists(indexpath))
                         {
                             FileHelper.CreateDirectoryForFile(indexpath);
@@ -118,7 +133,15 @@ namespace MTMCL
         }
         private bool assetExist(KeyValuePair<string, AssetsEntity> entity)
         {
-            return File.Exists(MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash);
+            string path = MeCore.Config.MCPath;
+            if (MeCore.IsServerDedicated)
+            {
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                {
+                    path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                }
+            }
+            return File.Exists(path + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash);
         }
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -131,6 +154,25 @@ namespace MTMCL
             MeCore.MainWindow._LaunchOptions = new LaunchOptions {
                 Authenticator = login.auth, MaxMemory = (int)MeCore.Config.Javaxmx, Version = versions[listVer.SelectedIndex]
             };
+            if (MeCore.IsServerDedicated)
+            {
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerIP))
+                {
+                    if (MeCore.Config.Server.ServerIP.IndexOf(':') != -1)
+                    {
+                        ushort port = 25565;
+                        if (!ushort.TryParse(MeCore.Config.Server.ServerIP.Substring(MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'), out port))
+                        {
+                            port = 25565;
+                        }
+                        MeCore.MainWindow._LaunchOptions.Server = new ServerInfo
+                        {
+                            Address = MeCore.Config.Server.ServerIP.Substring(0, MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'),
+                            Port = port
+                        };
+                    }
+                }
+            }
             MeCore.MainWindow.launchFlyout.IsOpen = true;
             Back();
         }
@@ -147,6 +189,13 @@ namespace MTMCL
                     Dispatcher.Invoke(new Action(() => _version = versions[listVer.SelectedIndex]));
                 } while (_version == null);
                 string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.Assets + ".json";
+                if (MeCore.IsServerDedicated)
+                {
+                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                    {
+                        indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    }
+                }
                 if (!File.Exists(indexpath))
                 {
                     FileHelper.CreateDirectoryForFile(indexpath);
@@ -169,6 +218,13 @@ namespace MTMCL
                     }));
                     string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                    if (MeCore.IsServerDedicated)
+                    {
+                        if (!string.IsNullOrWhiteSpace( MeCore.Config.Server.ClientPath))
+                        {
+                            file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                        }
+                    }
                     FileHelper.CreateDirectoryForFile(file);
                     try
                     {

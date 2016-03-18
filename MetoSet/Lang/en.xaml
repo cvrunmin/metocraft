@@ -19,8 +19,22 @@
     <s:String x:Key="Close">Close</s:String>
     <s:String x:Key="Restart">Restart</s:String>
     <s:String x:Key="Back">Back</s:String>
+    <s:String x:Key="Next">Next</s:String>
     <s:String x:Key="Log">Log</s:String>
     <s:String x:Key="Notice">Notice</s:String>
+    <!-- Guide -->
+    <s:String x:Key="LangTitle">Let's start by choosing your language</s:String>
+    <s:String x:Key="LangDesc">Launcher language will be selected by the OS display language. If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>
+    <s:String x:Key="LangCs">Choose your language here</s:String>
+    <s:String x:Key="GuideFast">Get going fast</s:String>
+    <s:String x:Key="UseRecommend">Use Express settings</s:String>
+    <s:String x:Key="UseCustom">Customize settings</s:String>
+    <s:String x:Key="FastText">Change these at any time. [/bold/]Select Use Express settings to:[/endbold/][/p/]Setting your game path to default ".minecraft".[/p/]Let the launcher download the Minecraft-related files and the launcher update by Official download source and GitHub update source respectively.[/p/]Set the Javaw.exe path and the maximum memory to the default value.[/p/]Set the launcher graphics to "Fancy".</s:String>
+    <s:String x:Key="AuthTitle">Play quickly</s:String>
+    <s:String x:Key="AuthDesc">Login beforehand can speed up your playing experience.</s:String>
+    <s:String x:Key="AuthForgotPW">Forgot my password</s:String>
+    <s:String x:Key="AuthNotPremium">I don't have paid account</s:String>
+    <s:String x:Key="AuthBadLogin">If you don't have a paid account, you can still play by using Offline mode. However, it's recommended to buy an account to support Mojang.</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">Computer</s:String>
     <s:String x:Key="COMVer">OS Version</s:String>
@@ -47,7 +61,6 @@
     <s:String x:Key="LauncherSet">Launcher</s:String>
     <s:String x:Key="Language">Language</s:String>
     <s:String x:Key="OfDL">Override for Display Language</s:String>
-    <s:String x:Key="OfDLDesc">If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>
     <s:String x:Key="DLSrc">Download Source</s:String>
     <s:String x:Key="UdtSrc">Update Source</s:String>
     <s:String x:Key="BG">Background</s:String>
@@ -151,6 +164,7 @@
     <s:String x:Key="TaskUpdating">Updating {0}</s:String>
     <s:String x:Key="Restarting">Restarting</s:String>
     <!--/Task-->
+    <s:String x:Key="Server">Didicated Launcher Setting</s:String>
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
     <s:String x:Key="SyncAssetsFinish">Assets synced. Please restart the client if they are not working</s:String>
@@ -166,6 +180,8 @@
     <s:String x:Key="NoCollectingData">Unknown due to no related code in release version MTMCL</s:String>
     <s:String x:Key="On">On</s:String>
     <s:String x:Key="Off">Off</s:String>
+    <s:String x:Key="Yes">Yes</s:String>
+    <s:String x:Key="No">No</s:String>
     <s:String x:Key="UpdateFound">Update found</s:String>
     <s:String x:Key="UpdateAccept">Update Now</s:String>
     <s:String x:Key="UpdateDeny">Update Later</s:String>

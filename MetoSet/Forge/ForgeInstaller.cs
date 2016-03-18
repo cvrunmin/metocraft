@@ -29,10 +29,18 @@ namespace MTMCL.Forge
             ZipFile zip = new ZipFile(target);
             ZipEntry infoentry = zip.GetEntry("install_profile.json");
             ForgeInstall info = LitJson.JsonMapper.ToObject<ForgeInstall>(new LitJson.JsonReader(new StreamReader(zip.GetInputStream(infoentry))));
-            DirectoryInfo verroot = new DirectoryInfo(MeCore.Config.MCPath + "\\versions\\");
+            string path = MeCore.Config.MCPath;
+            if (MeCore.IsServerDedicated)
+            {
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                {
+                    path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                }
+            }
+            DirectoryInfo verroot = new DirectoryInfo(path + "\\versions\\");
             DirectoryInfo targetdir = new DirectoryInfo(verroot.FullName + info.install.target + "\\");
             targetdir.Create();
-            DirectoryInfo libdir = new DirectoryInfo(MeCore.Config.MCPath + "\\libraries\\");
+            DirectoryInfo libdir = new DirectoryInfo(path + "\\libraries\\");
             FileInfo verjson = new FileInfo(targetdir + info.install.target + ".json");
             if (!info.versionInfo.isInherited())
             {

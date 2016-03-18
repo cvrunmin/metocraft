@@ -134,6 +134,12 @@ namespace MTMCL.util
                         }
                         break;
                     case "/newline/":
+                    case "/n/":
+                        textblock.Inlines.Add(new System.Windows.Documents.LineBreak());
+                        break;
+                    case "/paragraph/":
+                    case "/p/":
+                        textblock.Inlines.Add(new System.Windows.Documents.LineBreak());
                         textblock.Inlines.Add(new System.Windows.Documents.LineBreak());
                         break;
                     default:

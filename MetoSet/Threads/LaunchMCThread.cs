@@ -165,12 +165,12 @@ namespace MTMCL.Threads
                         url = Resources.UrlReplacer.toGoodLibUrl(file.url);
                     }
                     else {
-                        url = Resources.UrlReplacer.getForgeMaven(file.url) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                        url = Resources.UrlReplacer.getForgeMaven(file.url) + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
                     }
                 }
                 else
                 {
-                    url = url + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                    url = url + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
                 }
 #if DEBUG
                 System.Windows.MessageBox.Show(url);
@@ -192,12 +192,12 @@ namespace MTMCL.Threads
                             url = Resources.UrlReplacer.toGoodLibUrl(file.url, 1);
                         }
                         else {
-                            url = Resources.UrlReplacer.getForgeMaven(file.url, 1) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                            url = Resources.UrlReplacer.getForgeMaven(file.url, 1) + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
                         }
                     }
                     else
                     {
-                        url = url + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                        url = url + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
                     }
                     Logger.log(url);
                     _downer.DownloadFile(Resources.UrlReplacer.toGoodLibUrl(url), file.path);

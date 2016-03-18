@@ -138,6 +138,13 @@ namespace MTMCL
                     var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
                     downpath.Append(selectver).Append("\\");
                     downpath.Append(selectver).Append(".jar");
+                    if (MeCore.IsServerDedicated)
+                    {
+                        if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                        {
+                            downpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                        }
+                    }
                     var downer = new WebClient();
                     downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
                     var downurl = new StringBuilder(MTMCL.Resources.UrlReplacer.getDownloadUrl());

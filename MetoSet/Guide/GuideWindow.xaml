@@ -1,0 +1,14 @@
+﻿<metro:MetroWindow x:Class="MTMCL.Guide.GuideWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:MTMCL.Guide"
+        mc:Ignorable="d"
+        Title="MTMCL Startup Guide" Height="393" Width="651" ResizeMode="CanMinimize" IsMaxRestoreButtonEnabled="False" Icon="/MTMCL;component/mtmcl.ico">
+    <Grid>
+        <Frame x:Name="frameGuide" Content="" NavigationUIVisibility="Hidden"/>
+
+    </Grid>
+</metro:MetroWindow>

@@ -292,7 +292,7 @@ namespace MTMCL.Versions
                     liblist.Add(new LibraryUniversal
                     {
                         name = item.name,
-                        path = Path.Combine(MeCore.Config.MCPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + "-" + item.natives.windows.Replace("${arch}", KMCCC.Tools.SystemTools.GetArch()) + ".jar"),
+                        path = Path.Combine(App.core.GameRootPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + "-" + item.natives.windows.Replace("${arch}", KMCCC.Tools.SystemTools.GetArch()) + ".jar"),
                         url = item.url
                     });
                 }
@@ -301,7 +301,7 @@ namespace MTMCL.Versions
                     liblist.Add(new LibraryUniversal
                     {
                         name = item.name,
-                        path = Path.Combine(MeCore.Config.MCPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + ".jar"),
+                        path = Path.Combine(App.core.GameRootPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + ".jar"),
                         url = item.url
                     });
                 }
@@ -324,7 +324,7 @@ namespace MTMCL.Versions
                         liblist.Add(new LibraryUniversal
                         {
                             name = item.name,
-                            path = Path.Combine(MeCore.Config.MCPath, "libraries", item.download.classifiers.natives_windows.path),
+                            path = Path.Combine(App.core.GameRootPath, "libraries", item.download.classifiers.natives_windows.path),
                             url = item.download.classifiers.natives_windows.url,
                             sha1 = item.download.classifiers.natives_windows.sha1,
                             size = item.download.classifiers.natives_windows.size
@@ -335,7 +335,7 @@ namespace MTMCL.Versions
                         liblist.Add(new LibraryUniversal
                         {
                             name = item.name,
-                            path = Path.Combine(MeCore.Config.MCPath, "libraries", item.download.artifact.path),
+                            path = Path.Combine(App.core.GameRootPath, "libraries", item.download.artifact.path),
                             url = item.download.artifact.url,
                             sha1 = item.download.artifact.sha1,
                             size = item.download.artifact.size

@@ -37,6 +37,13 @@ namespace MTMCL.Assets
                 return;
             }
             string path = Path.Combine(MeCore.Config.MCPath, "assets\\indexes", gameVersion + ".json");
+            if (MeCore.IsServerDedicated)
+            {
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                {
+                    path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                }
+            }
             if (File.Exists(path))
             {
                 var sr = new StreamReader(path);
@@ -48,6 +55,13 @@ namespace MTMCL.Assets
                     foreach (KeyValuePair<string, AssetsEntity> entity in obj)
                     {
                         string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                        if (MeCore.IsServerDedicated)
+                        {
+                            if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                            {
+                                file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                            }
+                        }
                         if (!File.Exists(file))
                         {
                             _init = false;
@@ -61,6 +75,13 @@ namespace MTMCL.Assets
                                 break;
                             }
                             string finfile = Path.Combine(MeCore.Config.MCPath, "assets\\virtual\\legacy", entity.Key);
+                            if (MeCore.IsServerDedicated)
+                            {
+                                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                                {
+                                    finfile = finfile.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                                }
+                            }
                             if (File.Exists(finfile))
                             {
                                 continue;

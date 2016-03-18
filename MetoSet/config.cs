@@ -65,6 +65,9 @@ namespace MTMCL
         [DataMember]
         [JsonPropertyName("server-info")]
         public ServerInfo Server { get; set; }
+        [DataMember]
+        [JsonPropertyName("saved-auths")]
+        public List<SavedAuth> SavedAuths { get; set; }
         [DataContract]
         public class ServerInfo {
             [LitJson.JsonPropertyName("title")]
@@ -84,9 +87,6 @@ namespace MTMCL
             [DataMember(Name = "server-pack-url", IsRequired = false)]
             [LitJson.JsonPropertyName("server-pack-url")]
             public string ServerPackUrl;
-            [DataMember(Name = "allow-redownload-library-and-asset")]
-            [LitJson.JsonPropertyName("allow-redownload-library-and-asset")]
-            public bool AllowReDownloadLibAndAsset;
             [DataMember(Name = "allow-self-download-client")]
             [LitJson.JsonPropertyName("allow-self-download-client")]
             public bool AllowSelfDownloadClient;
@@ -109,13 +109,16 @@ namespace MTMCL
                 public string Url;
             }
         }
+        [DataContract]
         public class SavedAuth
         {
             [DataMember]
             [JsonPropertyName("auth-type")]
             public Type AuthType { get; set; }
+            [DataMember]
             [JsonPropertyName("display-name")]
             public string DisplayName { get; set; }
+            [DataMember]
             [JsonPropertyName("uuid")]
             public string UUID { get; set; }
         }

@@ -14,6 +14,7 @@ namespace MTMCL
     {
         public static string version;
         public static Config Config;
+        public static bool needGuide = false;
         //public static Server.ServerInfo ServerCfg;
         public static bool IsServerDedicated;
         public static Dictionary<string, object> Language = new Dictionary<string, object>();
@@ -32,11 +33,13 @@ namespace MTMCL
             version = version.Substring(0, version.IndexOf(','));
             Logger.log("----------" + DateTime.Now.ToLongTimeString() + " launch log----------");
             Logger.log("MTMCL Ver." + version + " launching");
+            Logger.log("Appdata: " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
             if (File.Exists(Cfgfile))
             {
                 Config = Config.Load(Cfgfile);
                 Logger.log(string.Format("loaded {0}", Cfgfile));
                 Logger.log(Config.ToReadableLog());
+                
                 LoadLanguage();
                 LoadColor();
                 if (Config.Server != null)
@@ -60,6 +63,7 @@ namespace MTMCL
             }
             else
             {
+                needGuide = true;
                 Config = new Config();
                 Logger.log("loaded default config");
                 LoadLanguage();

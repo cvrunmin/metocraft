@@ -19,8 +19,22 @@
     <s:String x:Key="Close">關閉</s:String>
     <s:String x:Key="Restart">重新啟動</s:String>
     <s:String x:Key="Back">返回</s:String>
+    <s:String x:Key="Next">繼續</s:String>
     <s:String x:Key="Log">日誌</s:String>
     <s:String x:Key="Notice">通知</s:String>
+    <!-- Guide -->
+    <s:String x:Key="LangTitle">選擇您的語言</s:String>
+    <s:String x:Key="LangDesc">啟動器語言會自動設定為系統顯示語言。如果您想使用的顯示語言與系統顯示語言不同，請在這裡選擇</s:String>
+    <s:String x:Key="LangCs">在此選擇您的語言</s:String>
+    <s:String x:Key="GuideFast">快速開始</s:String>
+    <s:String x:Key="UseRecommend">使用快速設定</s:String>
+    <s:String x:Key="UseCustom">自訂設定</s:String>
+    <s:String x:Key="FastText">隨時可變更這些設定。[/bold/]選取[使用快速設定]即可:[/endbold/][/p/]設定遊戲路徑至默認".minecraft"。[/p/]讓啟動器分別在官方下載源以及GitHub更新源下載Minecraft相關文件及啟動器更新文件。[/p/]設定Javaw.exe路徑以及最大記憶體至默認值。[/p/]設定啟動器顯示設定至「體驗優先」。</s:String>
+    <s:String x:Key="AuthTitle">快速啟動</s:String>
+    <s:String x:Key="AuthDesc">提前登錄可加速您的遊玩體驗。</s:String>
+    <s:String x:Key="AuthForgotPW">忘記密碼</s:String>
+    <s:String x:Key="AuthNotPremium">我沒有正版帳號</s:String>
+    <s:String x:Key="AuthBadLogin">如果您沒有正版帳號，您仍可以以離線模式進行遊戲。不過，我們建議購買一個正版帳號以支持Mojang。</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">電腦</s:String>
     <s:String x:Key="COMVer">版本</s:String>

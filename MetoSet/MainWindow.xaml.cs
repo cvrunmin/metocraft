@@ -31,6 +31,12 @@ namespace MTMCL
             MeCore.MainWindow = this;
             InitializeComponent();
             Title = "MTMCL V2 Ver." + MeCore.version;
+            MeCore.needGuide = true;
+            if (MeCore.needGuide)
+            {
+                new Guide.GuideWindow(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)).Show();
+                Close();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -97,6 +103,10 @@ namespace MTMCL
                 case "notice":
                     tile = butNotice;
                     grid = new Notice.Notice();
+                    break;
+                case "server":
+                    tile = butServer;
+                    grid = new Server.Server();
                     break;
                 default:
                     return;
@@ -327,6 +337,10 @@ namespace MTMCL
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            if (MeCore.IsServerDedicated)
+            {
+                LoadServerDeDicatedVersion();
+            }
             timer = new System.Windows.Forms.Timer();
             timer.Enabled = true;
             timer.Interval = 1000;
@@ -342,7 +356,7 @@ namespace MTMCL
                 {
                     try
                     {
-                        App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.Config.MCPath, MeCore.Config.Javaw));
+                        App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.IsServerDedicated ? (string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath) ? ".minecraft" : MeCore.Config.Server.ClientPath) : MeCore.Config.MCPath, MeCore.Config.Javaw));
                     }
                     catch { }
                 }
@@ -355,12 +369,30 @@ namespace MTMCL
                         ac.ShowDialog();
                         if (ac.auth != null)
                         {
-                            LaunchGame(new LaunchOptions
+                            LaunchOptions option = new LaunchOptions
                             {
                                 Authenticator = ac.auth,
                                 MaxMemory = (int)MeCore.Config.Javaxmx,
                                 Version = version
-                            }, null);
+                            };
+                            if (MeCore.IsServerDedicated)
+                            {
+                                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerIP))
+                                {
+                                    if (MeCore.Config.Server.ServerIP.IndexOf(':') != -1)
+                                    {
+                                        ushort port = 25565;
+                                        if (!ushort.TryParse(MeCore.Config.Server.ServerIP.Substring(MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'), out port)) {
+                                            port = 25565;
+                                        }
+                                        option.Server = new ServerInfo {
+                                            Address = MeCore.Config.Server.ServerIP.Substring(0, MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'),
+                                            Port = port
+                                        };
+                                    }
+                                }
+                            }
+                            LaunchGame(option, null);
                         }
                     }
                 }
@@ -376,11 +408,24 @@ namespace MTMCL
             noticelist.Add(notice);
             butNotice.Count = noticelist.Count > 0 ? noticelist.Count.ToString() : "";
         }
+        private void LoadServerDeDicatedVersion()
+        {
+            Title = !string.IsNullOrWhiteSpace(MeCore.Config.Server.Title) ? MeCore.Config.Server.Title + ", powered by MTMCL" : Title;
+            if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.BackgroundPath))
+            {
+                MeCore.DefaultBG = MeCore.Config.Server.BackgroundPath;
+            }
+        }
         public void Render()
         {
+            bool lockedBG = false;
+            if (MeCore.Config.Server != null)
+            {
+                lockedBG = MeCore.Config.Server.LockBackground;
+            }
                 try
                 {
-                    if (MeCore.Config.Background.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.Background))
+                    if (MeCore.Config.Background.Equals("default", StringComparison.InvariantCultureIgnoreCase) | string.IsNullOrWhiteSpace(MeCore.Config.Background) | lockedBG)
                     {
                         MeCore.MainWindow.gridBG.Opacity = 0;
                         MeCore.MainWindow.gridBG.Background = new ImageBrush
@@ -431,5 +476,10 @@ namespace MTMCL
                     System.Windows.Forms.Application.Restart();
                 }
             }
+
+        private void butServer_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage("server");
+        }
     }
 }

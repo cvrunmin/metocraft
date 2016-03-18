@@ -170,6 +170,24 @@
     <Compile Include="Forge\ForgeDLThread.cs" />
     <Compile Include="Forge\ForgeInstaller.cs" />
     <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="Guide\GuideWindow.xaml.cs">
+      <DependentUpon>GuideWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideAuth.xaml.cs">
+      <DependentUpon>PageGuideAuth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideAuthBadLogin.xaml.cs">
+      <DependentUpon>PageGuideAuthBadLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideAuthTry.xaml.cs">
+      <DependentUpon>PageGuideAuthTry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideFast.xaml.cs">
+      <DependentUpon>PageGuideFast.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideLang.xaml.cs">
+      <DependentUpon>PageGuideLang.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JsonClass\ForgeInstall.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
     <Compile Include="Logger.cs" />
@@ -191,6 +209,9 @@
     </Compile>
     <Compile Include="Report\MCCrash.xaml.cs">
       <DependentUpon>MCCrash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Server\Server.xaml.cs">
+      <DependentUpon>Server.xaml</DependentUpon>
     </Compile>
     <Compile Include="Task\TaskDetail.xaml.cs">
       <DependentUpon>TaskDetail.xaml</DependentUpon>
@@ -274,6 +295,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Guide\GuideWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\PageGuideAuth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\PageGuideAuthBadLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\PageGuideAuthTry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\PageGuideFast.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\PageGuideLang.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Notice\CrashDetail.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -333,6 +378,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Server\Server.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -107,6 +107,13 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
+                    <metro:Tile x:Name="butServer" HorizontalAlignment="Left" Margin="420,155,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butServer_Click">
+                        <Rectangle Height="25" Width="25">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_server}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </metro:Tile>
                     <metro:Tile x:Name="butDL" Title="{DynamicResource Download}" HorizontalAlignment="Left" Margin="210,105,0,0" VerticalAlignment="Top" Width="205" Height="100" Click="butDL_Click">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>

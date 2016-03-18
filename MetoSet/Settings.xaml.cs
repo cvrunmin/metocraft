@@ -94,6 +94,10 @@ namespace MTMCL
             RefreshLangList();
             RefreshColorList();
             LoadConfig();
+            if (MeCore.IsServerDedicated)
+            {
+                LoadServerDeDicatedVersion();
+            }
         }
         private void PreInit() {
             comboJava.Items.Clear();
@@ -220,6 +224,21 @@ namespace MTMCL
             txtboxBG.Text = "default";
             MeCore.Config.QuickChange("background", "default");
             MeCore.MainWindow.Render();
+        }
+        private void LoadServerDeDicatedVersion()
+        {
+            if (MeCore.Config.Server.LockBackground)
+            {
+                txtboxBG.IsEnabled = butBGBrowse.IsEnabled = butReset.IsEnabled = false;
+            }
+            if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.BackgroundPath))
+            {
+                MeCore.DefaultBG = MeCore.Config.Server.BackgroundPath;
+            }
+            if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+            {
+                txtboxMP.IsEnabled = butBrowse.IsEnabled = false;
+            }
         }
     }
 }
