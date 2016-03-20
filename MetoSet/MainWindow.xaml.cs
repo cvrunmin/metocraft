@@ -1,4 +1,5 @@
 ﻿using KMCCC.Launcher;
+using MahApps.Metro;
 using MTMCL.Task;
 using MTMCL.Threads;
 using MTMCL.util;
@@ -31,9 +32,10 @@ namespace MTMCL
             MeCore.MainWindow = this;
             InitializeComponent();
             Title = "MTMCL V2 Ver." + MeCore.version;
-            MeCore.needGuide = true;
             if (MeCore.needGuide)
             {
+                MeCore.needGuide = false;
+                MeCore.Config.QuickChange("requiredGuide", false);
                 new Guide.GuideWindow(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)).Show();
                 Close();
             }
@@ -346,6 +348,7 @@ namespace MTMCL
             timer.Interval = 1000;
             timer.Tick += new EventHandler(timer_Tick);
             Render();
+            RenderColor();
         }
 
         private void butPlayQuick_Click(object sender, RoutedEventArgs e)
@@ -415,6 +418,10 @@ namespace MTMCL
             {
                 MeCore.DefaultBG = MeCore.Config.Server.BackgroundPath;
             }
+        }
+        public void RenderColor() {
+            Tuple<AppTheme, Accent> theme = ThemeManager.DetectAppStyle(System.Windows.Application.Current);
+            ThemeManager.ChangeAppStyle(System.Windows.Application.Current, ThemeManager.GetAccent(MeCore.Config.ColorScheme), theme.Item1);
         }
         public void Render()
         {

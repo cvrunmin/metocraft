@@ -69,6 +69,10 @@ namespace MTMCL
                 LoadLanguage();
                 LoadColor();
             }
+            if (Config.requiredGuide)
+            {
+                needGuide = true;
+            }
             if (Config.Javaw == "autosearch")
             {
                 try

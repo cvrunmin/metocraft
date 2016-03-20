@@ -1,0 +1,45 @@
+﻿<Page x:Class="MTMCL.Guide.PageGuideSlow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MTMCL.Guide"
+      xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="362" d:DesignWidth="643"
+      Title="MTMCL Startup Guide">
+
+    <Grid>
+        <Label Content="{DynamicResource UseCustom}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+        <ScrollViewer Margin="0,52,0,48">
+            <Grid Height="597" Margin="0,-100,0,0">
+                <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="512" LargeChange="128" Custom:SliderHelper.EnableMouseWheel="MouseHover" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged"/>
+                <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" Custom:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
+                <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click" Style="{StaticResource AccentedSquareButtonStyle}" Custom:ButtonHelper.PreserveTextCase="True"/>
+                <Rectangle x:Name="rectMPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,83,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{StaticResource appbar_check}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Label Content="{DynamicResource UseJ}" HorizontalAlignment="Left" Margin="0,114,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <ComboBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" SelectionChanged="comboJava_SelectionChanged"/>
+                <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
+                <Label Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="0,236,0,0"/>
+                <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="0,266,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboDLSrc_SelectionChanged">
+                    <ComboBoxItem Content="Official" HorizontalAlignment="Left" Width="348"/>
+                    <ComboBoxItem Content="BMCLAPI" HorizontalAlignment="Left" Width="348"/>
+                </ComboBox>
+                <Label Content="{DynamicResource UdtSrc}" HorizontalAlignment="Left" Margin="0,297,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <ComboBox x:Name="comboUdtSrc" HorizontalAlignment="Left" Margin="2,327,0,0" VerticalAlignment="Top" Width="348" SelectionChanged="comboUdtSrc_SelectionChanged">
+                    <ComboBoxItem Content="GitHub" HorizontalAlignment="Left" Width="346"/>
+                    <ComboBoxItem Content="Coding" HorizontalAlignment="Left" Width="346"/>
+                </ComboBox>
+            </Grid>
+        </ScrollViewer>
+        <Button x:Name="butNext" Content="{DynamicResource Next}" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" Custom:ControlsHelper.ContentCharacterCasing="Normal" Width="75" Style="{StaticResource AccentedSquareButtonStyle}" Click="butNext_Click"/>
+        <Button x:Name="butBack" Content="{DynamicResource Back}" Margin="0,0,90,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" Custom:ControlsHelper.ContentCharacterCasing="Normal" Width="75" Style="{StaticResource AccentedSquareButtonStyle}" Click="butBack_Click"/>
+    </Grid>
+</Page>

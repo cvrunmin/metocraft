@@ -11,9 +11,22 @@ using System.Windows;
 
 namespace MTMCL
 {
+    public enum EnumGraphic
+    {
+        Fast = 0,
+        Fancy = 1,
+        BakaXL = 2,
+        EffectiveFirst = 0,
+        ExperienceFirst = 1,
+        Duang = 2
+    }
     [DataContract]
     public class Config : ICloneable
     {
+        [DataMember]
+        public EnumGraphic graphic { get; set; }
+        [DataMember]
+        public bool requiredGuide { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("javapath")]
         public string Javaw { get; set; }
@@ -114,7 +127,7 @@ namespace MTMCL
         {
             [DataMember]
             [JsonPropertyName("auth-type")]
-            public Type AuthType { get; set; }
+            public string AuthType { get; set; }
             [DataMember]
             [JsonPropertyName("display-name")]
             public string DisplayName { get; set; }
@@ -124,6 +137,7 @@ namespace MTMCL
         }
         public Config()
         {
+            requiredGuide = true;
             try
             {
                 Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
@@ -146,6 +160,7 @@ namespace MTMCL
             CheckUpdate = true;
             SearchLatest = false;
             Server = null;
+            SavedAuths = new List<SavedAuth>();
         }
         public string GetValidLang() {
             if (CultureInfo.CurrentUICulture.Parent.Name != "zh-CHT" && CultureInfo.CurrentUICulture.Parent.Name != "zh-CHS"
@@ -260,9 +275,50 @@ namespace MTMCL
                             }
                         }
                     }
-                    catch (Exception)
+                    catch
                     {
-                        throw;
+                        try
+                        {
+                            Type type = GetType();
+                            System.Reflection.FieldInfo property = type.GetField(field);
+                            property.SetValue(this, Convert.ChangeType(value, property.FieldType));
+                            Save();
+                        }
+                        catch
+                        {
+                            try
+                            {
+                                Type type = GetType();
+                                System.Reflection.FieldInfo property = type.GetField(field, System.Reflection.BindingFlags.IgnoreCase);
+                                property.SetValue(this, Convert.ChangeType(value, property.FieldType));
+                                Save();
+                            }
+                            catch
+                            {
+                                try
+                                {
+                                    Type type = GetType();
+                                    System.Reflection.FieldInfo[] properties = type.GetFields();
+                                    foreach (var property in properties)
+                                    {
+                                        if (property.IsDefined(typeof(JsonPropertyName), true))
+                                        {
+                                            if (field.Equals(((JsonPropertyName)property.GetCustomAttributes(typeof(JsonPropertyName), true)[0]).Name))
+                                            {
+                                                property.SetValue(this, Convert.ChangeType(value, property.FieldType));
+                                                Save();
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    throw;
+                                }
+
+                            }
+                        }
                     }
 
                 }

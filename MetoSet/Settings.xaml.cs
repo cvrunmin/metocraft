@@ -198,9 +198,8 @@ namespace MTMCL
             if (comboLang.SelectedItem as string != null)
                 if (MeCore.Color.ContainsKey(comboColor.SelectedItem as string))
                 {
-                    Tuple<AppTheme, Accent> theme = ThemeManager.DetectAppStyle(System.Windows.Application.Current);
-                    ThemeManager.ChangeAppStyle(System.Windows.Application.Current, ThemeManager.GetAccent(comboColor.SelectedItem as string), theme.Item1);
                     MeCore.Config.QuickChange("ColorScheme", comboColor.SelectedItem);
+                    MeCore.MainWindow.RenderColor();
                 }
         }
 

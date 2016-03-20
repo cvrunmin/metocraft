@@ -21,10 +21,11 @@ namespace MTMCL.Guide
     public partial class PageGuideAuthTry
     {
         KMCCC.Authentication.AuthenticationInfo info;
+        KMCCC.Authentication.IAuthenticator author;
         public PageGuideAuthTry(KMCCC.Authentication.IAuthenticator author)
         {
             InitializeComponent();
-            GetInfo(author);
+            GetInfo(this.author = author);
 
         }
         private async void GetInfo(KMCCC.Authentication.IAuthenticator author) {
@@ -53,7 +54,9 @@ namespace MTMCL.Guide
 
         private void butNext_Click(object sender, RoutedEventArgs e)
         {
-
+            MeCore.Config.SavedAuths.Add(new Config.SavedAuth { AuthType = author.Type, DisplayName = info.DisplayName, UUID = info.AccessToken.ToString() });
+            MeCore.Config.Save();
+            NavigationService.Navigate(new Uri("Guide\\PageGuideFinish.xaml", UriKind.Relative));
         }
 
         private void butBack_Click(object sender, RoutedEventArgs e)

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MTMCL Startup Guide" Height="393" Width="651" ResizeMode="CanMinimize" IsMaxRestoreButtonEnabled="False" Icon="/MTMCL;component/mtmcl.ico">
     <Grid>
-        <Frame x:Name="frameGuide" Content="" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="frameGuide" Content="" NavigationUIVisibility="Hidden" Navigated="frameGuide_Navigated"/>
 
     </Grid>
 </metro:MetroWindow>

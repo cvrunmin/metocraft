@@ -179,6 +179,12 @@
     <Compile Include="Guide\PageGuideAuthBadLogin.xaml.cs">
       <DependentUpon>PageGuideAuthBadLogin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Guide\PageGuideEnd.xaml.cs">
+      <DependentUpon>PageGuideEnd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideFinish.xaml.cs">
+      <DependentUpon>PageGuideFinish.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Guide\PageGuideAuthTry.xaml.cs">
       <DependentUpon>PageGuideAuthTry.xaml</DependentUpon>
     </Compile>
@@ -187,6 +193,9 @@
     </Compile>
     <Compile Include="Guide\PageGuideLang.xaml.cs">
       <DependentUpon>PageGuideLang.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideSlow.xaml.cs">
+      <DependentUpon>PageGuideSlow.xaml</DependentUpon>
     </Compile>
     <Compile Include="JsonClass\ForgeInstall.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
@@ -307,6 +316,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Guide\PageGuideEnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\PageGuideFinish.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Guide\PageGuideAuthTry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -316,6 +333,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guide\PageGuideLang.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\PageGuideSlow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
