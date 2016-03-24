@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MTMCL.util
 {
-    static class FileHelper
+    public static class FileHelper
     {
         static public void dircopy(string from, string to)
         {
@@ -99,7 +99,7 @@ namespace MTMCL.util
         }
 
     }
-    static class TimeHelper
+    public static class TimeHelper
     {
         static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         static readonly double MaxUnixSeconds = (DateTime.MaxValue - UnixEpoch).TotalSeconds;
@@ -111,7 +111,7 @@ namespace MTMCL.util
                : UnixEpoch.AddSeconds(unixTimeStamp);
         }
     }
-    static class ContentHelper
+    public static class ContentHelper
     {
         public static void AddContentFromSpecficString(this System.Windows.Controls.TextBlock textblock, string spstring)
         {
@@ -154,6 +154,7 @@ namespace MTMCL.util
                         break;
                 }
             }
+
         }
 
         public static string ToWellKnownExceptionString(this Exception ex) {
@@ -185,8 +186,62 @@ namespace MTMCL.util
             sr.Close();
             return message.ToString();
         }
+        public static char[] RandomizeABCNO(int? seed = null)
+        {
+            Random rand = seed != null ? new Random((int)seed) : new Random();
+            List<char> alist = new List<char>();
+            while (alist.Count < 62)
+            {
+                char c = (char)(rand.Next(75) + 48);
+                if (char.IsLetterOrDigit(c))
+                {
+                    if (!alist.Contains(c))
+                    {
+                        alist.Add(c);
+                    }
+                }
+            }
+            return alist.ToArray();
+        }
+        public static readonly char[] refer = new char[] {
+                'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+                'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                '0','1','2','3','4','5','6','7','8','9'
+            };
+        public static string Encrystal(this string src)
+        {
+            char[] encode = RandomizeABCNO();
+
+            char[] enchant = new char[src.Length];
+            for (int i = 0; i < encode.Length; i++)
+            {
+                int j = -1;
+                while ((j = src.IndexOf(refer[i], j == -1 ? 0 : j)) != -1)
+                {
+                    enchant[j] = encode[i];
+                    j++;
+                }
+            }
+            return Encoding.Default.GetString(Encoding.Default.GetBytes(encode)) + Encoding.Default.GetString(Encoding.Default.GetBytes(enchant));
+        }
+        public static string Decrystal(this string src)
+        {
+            char[] encode = src.Substring(0, 62).ToCharArray();
+            string yummystring = src.Substring(62);
+            char[] enchant = new char[yummystring.Length];
+            for (int i = 0; i < refer.Length; i++)
+            {
+                int j = -1;
+                while ((j = yummystring.IndexOf(encode[i], j == -1 ? 0 : j)) != -1)
+                {
+                    enchant[j] = refer[i];
+                    j++;
+                }
+            }
+            return Encoding.Default.GetString(Encoding.Default.GetBytes(enchant));
+        }
     }
-    static class LibraryHelper
+    public static class LibraryHelper
     {
         public static bool CheckLibrary(this KMCCC.Launcher.Version version)
         {

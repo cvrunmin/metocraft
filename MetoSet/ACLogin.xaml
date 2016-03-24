@@ -45,7 +45,7 @@
             <Button x:Name="butLoginM" Content="{DynamicResource Login}" Margin="0,0,217,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butLoginM_Click" BorderThickness="2" FontSize="16"/>
             <metro:ToggleSwitch x:Name="butRM2" Header="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,236,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
             <metro:ToggleSwitch x:Name="butCheckTwitch" Header="{DynamicResource ETwitch}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
-            <metro:ToggleSwitch x:Name="butRPW" Header="{DynamicResource RememberPW}" HorizontalAlignment="Left" Margin="10,302,0,0" VerticalAlignment="Top" IsEnabled="False" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
+            <metro:ToggleSwitch x:Name="butRPW" Header="{DynamicResource RememberPW}" HorizontalAlignment="Left" Margin="10,302,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
         </Grid>
     </Grid>
 </metro:MetroWindow>

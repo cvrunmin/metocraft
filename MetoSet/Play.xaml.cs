@@ -53,7 +53,7 @@ namespace MTMCL
             }
             if (!string.IsNullOrWhiteSpace(path))
             {
-                App.core = LauncherCore.Create(new LauncherCoreCreationOption(path, MeCore.Config.Javaw));
+                App.core = LauncherCore.Create(new LauncherCoreCreationOption(path, MeCore.Config.Javaw, new KMCCC.Modules.JVersion.NewJVersionLocator()));
                 versions = App.core.GetVersions().ToArray();
                 var dt = new DataTable();
                 dt.Columns.Add("Version");
@@ -145,14 +145,28 @@ namespace MTMCL
         }
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
-            var login = new ACLogin();
-            login.ShowDialog();
-            if (login.auth == null)
+            KMCCC.Authentication.IAuthenticator auth;
+            if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+            {
+                ACSelect ac = new ACSelect();
+                ac.ShowDialog();
+                auth = ac.auth;
+            }
+            else
+            {
+                Config.SavedAuth dauth;
+                MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
+                auth = dauth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) as KMCCC.Authentication.IAuthenticator : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = new Guid(dauth.AccessToken), UUID = new Guid(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
+            }
+            /*ACLogin ac = new ACLogin();
+            ac.ShowDialog();
+            auth = ac.auth;*/
+            if (auth == null)
             {
                 return;
             }
             MeCore.MainWindow._LaunchOptions = new LaunchOptions {
-                Authenticator = login.auth, MaxMemory = (int)MeCore.Config.Javaxmx, Version = versions[listVer.SelectedIndex]
+                Authenticator = auth, MaxMemory = (int)MeCore.Config.Javaxmx, Version = versions[listVer.SelectedIndex]
             };
             if (MeCore.IsServerDedicated)
             {

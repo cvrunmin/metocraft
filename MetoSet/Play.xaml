@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MTMCL"
              xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Play"
              mc:Ignorable="d" 
-             d:DesignHeight="362" d:DesignWidth="643" Initialized="Grid_Initialized">
+             d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,7 +26,7 @@
         </Button>
         <Label x:Name="lblTitle" Content="{DynamicResource Play}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <Label Content="{DynamicResource PlayVer}" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <ListView x:Name="listVer" Margin="0,75,322,0" SelectionChanged="listVer_SelectionChanged" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True">
+        <ListView x:Name="listVer" Margin="0,75,0,0" SelectionChanged="listVer_SelectionChanged" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Width="338">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn DisplayMemberBinding="{Binding Version}" Header="{DynamicResource Version}" Width="150"/>
@@ -34,7 +34,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TabControl Margin="0,45,0,0" HorizontalAlignment="Right" Width="322">
+        <TabControl Margin="338,45,0,0">
             <TabItem Header="{DynamicResource Libs}" Custom:ControlsHelper.HeaderFontSize="16">
                 <Grid Background="#7FFFFFFF">
                     <ListView x:Name="listLib" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True">

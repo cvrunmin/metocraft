@@ -56,10 +56,10 @@ namespace MTMCL
         {
             var ani1 = new ThicknessAnimationUsingKeyFrames();
             //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
-            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -100, 0, 200), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -105, 0, 210), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
             //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
             butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
         }
@@ -68,10 +68,10 @@ namespace MTMCL
         {
             var ani1 = new ThicknessAnimationUsingKeyFrames();
             //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -75, 0, 175), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
             //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 25, 0, 75), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 100, 0, 0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
             butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
         }
@@ -254,11 +254,11 @@ namespace MTMCL
             if (butPlayQuick.IsEnabled)
             {
                 var ani1 = new ThicknessAnimationUsingKeyFrames();
-                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
                 var ani2 = new ThicknessAnimationUsingKeyFrames();
-                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -100, 0, 200), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -105, 0, 210), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
                 var ani3 = new ThicknessAnimationUsingKeyFrames();
-                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 100, 0, 0), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
                 butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
                 butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
                 butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
@@ -267,12 +267,12 @@ namespace MTMCL
             {
                 var ani1 = new ThicknessAnimationUsingKeyFrames();
                 //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
-                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 100, 0, 0), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
+                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
                 var ani2 = new ThicknessAnimationUsingKeyFrames();
                 //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 100), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
+                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
                 var ani3 = new ThicknessAnimationUsingKeyFrames();
-                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 200, 0, -100), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 210, 0, -105), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
                 butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
                 butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
                 butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
@@ -359,7 +359,7 @@ namespace MTMCL
                 {
                     try
                     {
-                        App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.IsServerDedicated ? (string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath) ? ".minecraft" : MeCore.Config.Server.ClientPath) : MeCore.Config.MCPath, MeCore.Config.Javaw));
+                        App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.IsServerDedicated ? (string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath) ? ".minecraft" : MeCore.Config.Server.ClientPath) : MeCore.Config.MCPath, MeCore.Config.Javaw, new KMCCC.Modules.JVersion.NewJVersionLocator()));
                     }
                     catch { }
                 }
@@ -368,13 +368,27 @@ namespace MTMCL
                     KMCCC.Launcher.Version version = App.core.GetVersion(MeCore.Config.LastPlayVer);
                     if (version != null)
                     {
-                        ACLogin ac = new ACLogin();
+                        KMCCC.Authentication.IAuthenticator auth;
+                        if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+                        {
+                            ACSelect ac = new ACSelect();
+                            ac.ShowDialog();
+                            auth = ac.auth;
+                        }
+                        else
+                        {
+                            Config.SavedAuth dauth;
+                            MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
+                            auth = dauth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = Guid.Parse(dauth.AccessToken), UUID = Guid.Parse(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
+                        }
+                        /*ACLogin ac = new ACLogin();
                         ac.ShowDialog();
-                        if (ac.auth != null)
+                        auth = ac.auth;*/
+                        if (auth != null)
                         {
                             LaunchOptions option = new LaunchOptions
                             {
-                                Authenticator = ac.auth,
+                                Authenticator = auth,
                                 MaxMemory = (int)MeCore.Config.Javaxmx,
                                 Version = version
                             };

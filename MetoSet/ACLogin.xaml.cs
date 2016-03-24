@@ -15,9 +15,12 @@ namespace MTMCL
         public string UN;
         public string PW;
         public KMCCC.Authentication.IAuthenticator auth;
-        public ACLogin()
+        public KMCCC.Authentication.AuthenticationInfo info;
+        public readonly bool requiredPreLogin;
+        public ACLogin(bool requiredPreLogin = false)
         {
             InitializeComponent();
+            this.requiredPreLogin = requiredPreLogin;
         }
 
         private void butOffline_Click(object sender, RoutedEventArgs e)
@@ -41,6 +44,11 @@ namespace MTMCL
         private void butLoginOff_Click(object sender, RoutedEventArgs e)
         {
             auth = new KMCCC.Authentication.OfflineAuthenticator(txtBoxUN.Text);
+            if (requiredPreLogin)
+            {
+                info = auth.Do();
+                auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = info.DisplayName, AccessToken = info.AccessToken, UUID = info.UUID, UserType = info.UserType, Properties = info.Properties });
+            }
             if ((bool)butRM1.IsChecked)
             {
                 MeCore.Config.username = txtBoxUN.Text;
@@ -57,11 +65,29 @@ namespace MTMCL
 
         private void butLoginM_Click(object sender, RoutedEventArgs e)
         {
-            auth = new KMCCC.Authentication.YggdrasilLogin(txtBoxUNE.Text, pwbox.Password, (bool)butCheckTwitch.IsChecked);
+            auth = new KMCCC.Authentication.YggdrasilDebuggableLogin(txtBoxUNE.Text, pwbox.Password, (bool)butCheckTwitch.IsChecked);
+            if (requiredPreLogin)
+            {
+                info = auth.Do();
+                auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.YggdrasilDebuggableRefresh(info.AccessToken, true, Guid.Parse(MeCore.Config.GUID));
+            }
             if ((bool)butRM2.IsChecked)
             {
                 MeCore.Config.username = txtBoxUNE.Text;
                 MeCore.Config.Save(null);
+            }
+            else
+            {
+                MeCore.Config.QuickChange("username", "");
+            }
+            if ((bool)butRPW.IsChecked)
+            {
+                MeCore.Config.ScoreStringToOver50(pwbox.Password);
+                MeCore.Config.Save(null);
+            }
+            else
+            {
+                MeCore.Config.QuickChange("password", "");
             }
             Close();
         }
@@ -70,11 +96,11 @@ namespace MTMCL
         {
             Close();
         }
-        /*private void CreateCustomAuth() {
-            if (MeCore.ServerCfg.Auths.Count != 0)
+        private void CreateCustomAuth() {
+            if (MeCore.Config.Server.Auths.Count != 0)
             {
                 short i = 0;
-                foreach (var item in MeCore.ServerCfg.Auths)
+                foreach (var item in MeCore.Config.Server.Auths)
                 {
                     ++i;
                     Grid gridCustomAuth = new Grid();
@@ -142,6 +168,11 @@ namespace MTMCL
                     butlogin.Style = (Style)Resources["NormalButton"];
                     butlogin.Click += delegate (object sender, RoutedEventArgs e) {
                         auth = new KMCCC.Authentication.YggdrasilLogin(txtboxune.Text, pwbox.Password, false, item.Url);
+                        if (requiredPreLogin)
+                        {
+                            info = auth.Do();
+                            auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.YggdrasilRefresh(info.AccessToken, false, item.Url);
+                        }
                         Close();
                     };
                     gridCustomAuth.Children.Add(butlogin);
@@ -164,12 +195,21 @@ namespace MTMCL
                 }
             }
         }
-        */
+        
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (MeCore.IsServerDedicated)
             {
-                //CreateCustomAuth();
+                CreateCustomAuth();
+            }
+            if (!string.IsNullOrWhiteSpace(MeCore.Config.username))
+            {
+                txtBoxUN.Text = MeCore.Config.username;
+                txtBoxUNE.Text = MeCore.Config.username;
+            }
+            if (!string.IsNullOrWhiteSpace(MeCore.Config.GetOver50String()))
+            {
+                pwbox.Password = MeCore.Config.GetOver50String();
             }
         }
     }

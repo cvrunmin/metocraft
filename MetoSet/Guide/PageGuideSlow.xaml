@@ -7,16 +7,16 @@
       xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
       d:DesignHeight="362" d:DesignWidth="643"
-      Title="MTMCL Startup Guide">
+      Title="MTMCL Startup Guide" Initialized="Grid_Initialized">
 
     <Grid>
         <Label Content="{DynamicResource UseCustom}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <ScrollViewer Margin="0,52,0,48">
-            <Grid Height="597" Margin="0,-100,0,0">
+            <Grid Height="597" Margin="0">
                 <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                 <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="512" LargeChange="128" Custom:SliderHelper.EnableMouseWheel="MouseHover" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged"/>
                 <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
-                <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" Custom:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
+                <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" Custom:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged"/>
                 <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click" Style="{StaticResource AccentedSquareButtonStyle}" Custom:ButtonHelper.PreserveTextCase="True"/>
                 <Rectangle x:Name="rectMPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,83,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
                     <Rectangle.OpacityMask>

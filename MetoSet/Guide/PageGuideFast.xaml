@@ -14,7 +14,7 @@
         <Button x:Name="butUse" Content="{DynamicResource UseRecommend}" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" metro:ControlsHelper.ContentCharacterCasing="Normal" Width="162" Style="{StaticResource AccentedSquareButtonStyle}" Click="butUse_Click"/>
         <Button x:Name="butBack" Content="{DynamicResource Back}" Margin="0,0,177,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" metro:ControlsHelper.ContentCharacterCasing="Normal" Width="162" Style="{StaticResource AccentedSquareButtonStyle}" Click="butBack_Click"/>
         <TextBlock x:Name="lblInfo" Margin="10,53,10,48" TextWrapping="Wrap" Text="" FontSize="13.333"/>
-        <Button x:Name="butCustom" Content="{DynamicResource UseCustom}" Margin="10,0,0,10" metro:ControlsHelper.ContentCharacterCasing="Normal" Style="{StaticResource AccentedSquareButtonStyle}" FontSize="13.333" HorizontalAlignment="Left" Width="128" Height="38" VerticalAlignment="Bottom"/>
+        <Button x:Name="butCustom" Content="{DynamicResource UseCustom}" Margin="10,0,0,10" metro:ControlsHelper.ContentCharacterCasing="Normal" Style="{StaticResource AccentedSquareButtonStyle}" FontSize="13.333" HorizontalAlignment="Left" Width="128" Height="38" VerticalAlignment="Bottom" Click="butCustom_Click"/>
 
     </Grid>
 </Page>

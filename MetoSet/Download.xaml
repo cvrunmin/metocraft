@@ -7,7 +7,7 @@
     xmlns:util="clr-namespace:Wpf.Util"
              xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Download"
              mc:Ignorable="d" 
-             d:DesignHeight="362" d:DesignWidth="643">
+             d:DesignHeight="380" d:DesignWidth="675">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -55,8 +55,10 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="butReloadForge" Content="{DynamicResource Reload}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="45" FontSize="21.333" Click="butReloadForge_Click"/>
-                    <Button x:Name="butDLForge" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="150" FontSize="21.333" Click="butDLForge_Click"/>
+                    <Button x:Name="butReloadForge" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="45" Click="butReloadForge_Click">
+                        <AccessText Text="{DynamicResource Reload}" FontSize="16" TextWrapping="WrapWithOverflow" TextAlignment="Center"></AccessText>
+                    </Button>
+                    <Button x:Name="butDLForge" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="150" FontSize="16" Click="butDLForge_Click"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabDLPack" Header="{DynamicResource DLPack}" Visibility="Collapsed">

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MTMCL"
                  xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="362" d:DesignWidth="643" Initialized="Grid_Initialized">
+             d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -33,6 +33,8 @@
                     <ComboBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" SelectionChanged="comboJava_SelectionChanged"/>
                     <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
+                    <Label Content="Auth Used" HorizontalAlignment="Left" Margin="0,236,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="94,236,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="{DynamicResource Download}">

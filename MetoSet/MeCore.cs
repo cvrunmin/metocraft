@@ -60,6 +60,16 @@ namespace MTMCL
                     IsServerDedicated = false;
                     Logger.log("Launching normal version due to null server info");
                 }
+                if (string.IsNullOrWhiteSpace(Config.MCPath))
+                {
+                    Logger.log("Minecraft path is null or whitespace. Guide is required.");
+                    needGuide = true;
+                }
+                if (string.IsNullOrWhiteSpace(Config.Javaw))
+                {
+                    Logger.log("javaw.exe path is null or whitespace. Guide is required.");
+                    needGuide = true;
+                }
             }
             else
             {

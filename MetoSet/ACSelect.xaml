@@ -1,0 +1,40 @@
+﻿<metro:MetroWindow x:Class="MTMCL.ACSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:MTMCL"
+        mc:Ignorable="d"
+        Title="ACLogin" Height="492" Width="471" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ButtonStyle.xaml"/>
+                <!--<ResourceDictionary Source="ControlStyle.xaml"/>-->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid x:Name="gridMain" Background="White">
+        <Grid x:Name="gridMenu">
+            <Label x:Name="lblTitle" Content="{DynamicResource ACTitle}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+            <Button x:Name="butClose" Content="{DynamicResource Close}" Margin="0,0,10,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butClose_Click" BorderThickness="2" FontSize="16"/>
+            <ScrollViewer Margin="0,52,0,62" VerticalScrollBarVisibility="Auto">
+                <WrapPanel x:Name="gridscrolllist" Orientation="Vertical"/>
+            </ScrollViewer>
+            <ToggleButton x:Name="toggleDetele" Width="50"
+              Height="50"
+              Margin="0,0,217,0"
+              Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ToggleButton_Click">
+                <Rectangle
+               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Width="30" Height="30">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                         Visual="{DynamicResource appbar_user_delete}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </ToggleButton>
+        </Grid>
+    </Grid>
+</metro:MetroWindow>

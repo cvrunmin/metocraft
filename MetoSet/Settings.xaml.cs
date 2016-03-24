@@ -189,7 +189,7 @@ namespace MTMCL
         {
             if (CouldMC)
             {
-                App.core = KMCCC.Launcher.LauncherCore.Create(new KMCCC.Launcher.LauncherCoreCreationOption(txtboxMP.Text, comboJava.SelectedItem as string));
+                App.core = KMCCC.Launcher.LauncherCore.Create(new KMCCC.Launcher.LauncherCoreCreationOption(txtboxMP.Text, comboJava.SelectedItem as string, new KMCCC.Modules.JVersion.NewJVersionLocator()));
             }
         }
 
@@ -238,6 +238,11 @@ namespace MTMCL
             {
                 txtboxMP.IsEnabled = butBrowse.IsEnabled = false;
             }
+        }
+
+        private void butAuth_Click(object sender, RoutedEventArgs e)
+        {
+            new ACSelect().ShowDialog();
         }
     }
 }

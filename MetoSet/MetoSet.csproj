@@ -154,6 +154,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ACSelect.xaml.cs">
+      <DependentUpon>ACSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ACLogin.xaml.cs">
       <DependentUpon>ACLogin.xaml</DependentUpon>
     </Compile>
@@ -199,6 +202,9 @@
     </Compile>
     <Compile Include="JsonClass\ForgeInstall.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
+    <Compile Include="KMCCCExtend\NewJVersionLocator.cs" />
+    <Compile Include="KMCCCExtend\NewYggdrasilClient.cs" />
+    <Compile Include="KMCCCExtend\NewYggdrasil.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MeCore.cs" />
     <Compile Include="Notice\CrashDetail.xaml.cs">
@@ -292,6 +298,10 @@
     <Compile Include="Zip\ZipInputStream.cs" />
     <Compile Include="Zip\ZipNameTransform.cs" />
     <Compile Include="Zip\ZipOutputStream.cs" />
+    <Page Include="ACSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ACLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

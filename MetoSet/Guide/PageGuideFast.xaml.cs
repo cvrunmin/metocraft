@@ -28,5 +28,10 @@ namespace MTMCL.Guide
         {
             NavigationService.Navigate(new Uri("Guide\\PageGuideAuth.xaml", UriKind.Relative));
         }
+
+        private void butCustom_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("Guide\\PageGuideSlow.xaml", UriKind.Relative));
+        }
     }
 }

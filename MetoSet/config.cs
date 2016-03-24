@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.Serialization;
+using System.Text;
+using MTMCL.util;
 using System.Windows;
 
 namespace MTMCL
@@ -49,9 +51,6 @@ namespace MTMCL
         [LitJson.JsonPropertyName("background")]
         public string Background { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("color")]
-        public byte[] Color { get; set; }
-        [DataMember]
         [LitJson.JsonPropertyName("color-scheme")]
         public string ColorScheme { get; set; }
         [DataMember]
@@ -68,6 +67,8 @@ namespace MTMCL
         [DataMember]
         public string username { get; set; }
         [DataMember]
+        public string password { get; private set; }
+        [DataMember]
         public string token;
         [DataMember]
         [LitJson.JsonPropertyName("update-source")]
@@ -80,7 +81,10 @@ namespace MTMCL
         public ServerInfo Server { get; set; }
         [DataMember]
         [JsonPropertyName("saved-auths")]
-        public List<SavedAuth> SavedAuths { get; set; }
+        public Dictionary<string, SavedAuth> SavedAuths { get; set; }
+        [DataMember]
+        [JsonPropertyName("default-auth")]
+        public string DefaultAuth { get; set; }
         [DataContract]
         public class ServerInfo {
             [LitJson.JsonPropertyName("title")]
@@ -132,8 +136,17 @@ namespace MTMCL
             [JsonPropertyName("display-name")]
             public string DisplayName { get; set; }
             [DataMember]
+            [JsonPropertyName("access-token")]
+            public string AccessToken { get; set; }
+            [DataMember]
             [JsonPropertyName("uuid")]
             public string UUID { get; set; }
+            [DataMember]
+            [JsonPropertyName("properies")]
+            public string Properies { get; set; }
+            [DataMember]
+            [JsonPropertyName("user-type")]
+            public string UserType { get; set; }
         }
         public Config()
         {
@@ -146,11 +159,10 @@ namespace MTMCL
             {
                 Javaw = "undefined";
             }
-            MCPath = MeCore.BaseDirectory + ".minecraft";
+            MCPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft");
             Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024);
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
             Background = "default";
-            Color = new byte[] { 255, 255, 255 };
             ColorScheme = "Green";
             DownloadSource = 0;
             UpdateSource = 0;
@@ -160,7 +172,13 @@ namespace MTMCL
             CheckUpdate = true;
             SearchLatest = false;
             Server = null;
-            SavedAuths = new List<SavedAuth>();
+            SavedAuths = new Dictionary<string, SavedAuth>();
+        }
+        public string GetOver50String() {
+            return string.IsNullOrWhiteSpace(password) ? password : Encoding.Default.GetString(Convert.FromBase64String(password)).Decrystal();
+        }
+        public void ScoreStringToOver50(string score) {
+            password = string.IsNullOrWhiteSpace(score) ? score : Convert.ToBase64String(Encoding.Default.GetBytes(score.Encrystal()));
         }
         public string GetValidLang() {
             if (CultureInfo.CurrentUICulture.Parent.Name != "zh-CHT" && CultureInfo.CurrentUICulture.Parent.Name != "zh-CHS"
@@ -336,7 +354,7 @@ namespace MTMCL
             sb.AppendLine("Last Played Version: " + LastPlayVer);
             sb.AppendLine("GUID" + GUID);
             sb.AppendLine("Background: " + Background);
-            sb.AppendLine("Color: " + Color[0] + ", " + Color[1] + ", " + Color[2]);
+            sb.AppendLine("Color Scheme: " + ColorScheme);
             sb.AppendLine("Expand Task Gui on loading: " + ExpandTaskGui);
             sb.AppendLine("Check update: " + CheckUpdate);
             return sb.ToString();

@@ -54,9 +54,17 @@ namespace MTMCL.Guide
 
         private void butNext_Click(object sender, RoutedEventArgs e)
         {
-            MeCore.Config.SavedAuths.Add(new Config.SavedAuth { AuthType = author.Type, DisplayName = info.DisplayName, UUID = info.AccessToken.ToString() });
-            MeCore.Config.Save();
-            NavigationService.Navigate(new Uri("Guide\\PageGuideFinish.xaml", UriKind.Relative));
+            try
+            {
+                MeCore.Config.SavedAuths.Add(info.DisplayName, new Config.SavedAuth { AuthType = author.Type, DisplayName = info.DisplayName, AccessToken = info.AccessToken.ToString(), UUID = info.UUID.ToString(), Properies = info.Properties, UserType = info.UserType });
+                MeCore.Config.Save();
+                NavigationService.Navigate(new Uri("Guide\\PageGuideFinish.xaml", UriKind.Relative));
+            }
+            catch
+            {
+                MessageBox.Show("repeated username.");
+            }
+
         }
 
         private void butBack_Click(object sender, RoutedEventArgs e)

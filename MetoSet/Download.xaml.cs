@@ -222,7 +222,7 @@ namespace MTMCL
         readonly ForgeVersionList _forgeVer = new ForgeVersionList();
         private void butReloadForge_Click(object sender, RoutedEventArgs e)
         {
-            butReloadForge.Content = LangManager.GetLangFromResource("RemoteVerGetting");
+            ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("RemoteVerGetting");
             butReloadForge.IsEnabled = false;
             RefreshForgeVersionList();
         }
@@ -246,7 +246,7 @@ namespace MTMCL
             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
             {
                 listForge.DataContext = dt;
-                butReloadForge.Content = LangManager.GetLangFromResource("Reload");
+                ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("Reload");
                 butReloadForge.IsEnabled = true;
             }));
         }
