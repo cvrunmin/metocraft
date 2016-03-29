@@ -124,6 +124,10 @@
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ManagedXZ, Version=0.3.5905.35830, Culture=neutral, PublicKeyToken=3c2ba886793fba01, processorArchitecture=MSIL">
+      <HintPath>..\packages\ManagedXZ.0.3.0\lib\net40\ManagedXZ.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
@@ -144,10 +148,6 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
-    <Reference Include="XZ.NET, Version=1.2.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\XZ.NET.1.2.2\lib\XZ.NET.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -538,12 +538,6 @@
     <Resource Include="Resources\others.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Play\" />
   </ItemGroup>
   <ItemGroup>
@@ -577,6 +571,12 @@
     <Resource Include="Resources\error-banner.jpg" />
     <Resource Include="Resources\error.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
@@ -588,7 +588,9 @@
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 封裝。請啟用 NuGet 封裝還原，以下載該封裝。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets'))" />
   </Target>
+  <Import Project="..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets" Condition="Exists('..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

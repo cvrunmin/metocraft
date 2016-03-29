@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MTMCL"
-                 xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
     <Grid.Resources>
@@ -20,7 +20,7 @@
             <TabItem Header="{DynamicResource GameSet}">
                 <Grid Background="#7FFFFFFF">
                     <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
-                    <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="256" LargeChange="128" metro:SliderHelper.EnableMouseWheel="MouseHover" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged"/>
+                    <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="256" LargeChange="128" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged" metro:SliderHelper.EnableMouseWheel="MouseHover"/>
                     <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" metro:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
                     <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click"/>

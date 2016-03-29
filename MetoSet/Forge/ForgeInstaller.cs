@@ -10,7 +10,6 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Media.Imaging;
-using System.Windows.Resources;
 
 namespace MTMCL.Forge
 {
@@ -349,9 +348,7 @@ namespace MTMCL.Forge
                     {
                         try
                         {
-                            unpackLibrary(packFile, file, File.ReadAllBytes(packFile.FullName));
-                            packFile.Delete();
-                            File.Delete(packFile.FullName.Replace(".xz", ""));
+                            unpackLibrary(packFile, file);
                             if (checksumsValid(file, checksums))
                             {
                                 grabbed.Add(artifact);
@@ -450,16 +447,16 @@ namespace MTMCL.Forge
                 return false;
             }
         }
-        private void unpackLibrary(FileInfo input, FileInfo output, byte[] data)
+        private async void unpackLibrary(FileInfo input, FileInfo output)
         {
             if (output.Exists)
             {
                 output.Delete();
             }
-
-            byte[] decompressed = ReadFully(new XZ.NET.XZInputStream(new MemoryStream(data)));
-            string end = new string(Encoding.UTF8.GetChars(decompressed), decompressed.Length - 4, 4);
-            if (!end.Equals("SIGN"))
+            Stream s = input.OpenRead();
+            byte[] decompressed = ReadFully(new ManagedXZ.XZDecompressStream(s));
+            string end = new string(Encoding.UTF8.GetChars(decompressed));
+            if (!end.EndsWith("SIGN"))
             {
                 return;
             }
@@ -476,7 +473,7 @@ namespace MTMCL.Forge
             byte[] checksums = new byte[len];
             Array.Copy(decompressed, decompressed.Length - len - 8, checksums, 0, len);
             decompressed = null;
-            data = null;
+            s.Close();
             GC.Collect();
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             process.StartInfo = new System.Diagnostics.ProcessStartInfo()
@@ -486,7 +483,7 @@ namespace MTMCL.Forge
                 Arguments = "-jar " + "unpacker.jar" + " -XZFilePath \"" + input.FullName + "\" -unXZFilePath \"" + input.FullName.Replace(".xz", "") + "\" -unPackPath \"" + output.FullName.Replace(".pack.xz", "") + "\""
             };
             process.Start();
-            System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);
+            process.WaitForExit();
             FileStream jarBytes = new FileStream(output.FullName, FileMode.Open);
             ZipOutputStream jos = new ZipOutputStream(jarBytes);
 
@@ -498,6 +495,8 @@ namespace MTMCL.Forge
 
             jos.Close();
             jarBytes.Close();
+            input.Delete();
+            File.Delete(input.FullName.Replace(".xz", ""));
         }
     }
 }
