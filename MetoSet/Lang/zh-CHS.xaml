@@ -151,6 +151,9 @@
     <s:String x:Key="TaskUpdating">更新中 {0}</s:String>
     <s:String x:Key="Restarting">正在重新启动</s:String>
     <!--/Task-->
+    <!--Install-->
+    <s:String x:Key="Install">安装</s:String>
+    <!--/Install-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">发现资源文件修改，正在同步</s:String>
     <s:String x:Key="SyncAssetsFinish">同步资源文件完毕，若未生效，请重启客户端</s:String>

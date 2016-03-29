@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid x:Name="gridMain" Background="White">
+    <Grid x:Name="gridMain">
         <Grid x:Name="gridMenu">
             <Label x:Name="lblTitle" Content="{DynamicResource ACTitle}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Button x:Name="butClose" Content="{DynamicResource Close}" Margin="0,0,10,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butClose_Click" BorderThickness="2" FontSize="16"/>

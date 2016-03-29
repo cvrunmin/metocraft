@@ -16,13 +16,12 @@
         </ResourceDictionary>
     </Grid.Resources>
     <Grid Initialized="Grid_Initialized">
-        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
-            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
                 <Rectangle.OpacityMask>
                     <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
-
         </Button>
         <Label x:Name="lblTitle" Content="{DynamicResource Play}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <Label Content="{DynamicResource PlayVer}" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16"/>

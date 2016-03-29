@@ -154,6 +154,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Accents\AccentWindow.xaml.cs">
+      <DependentUpon>AccentWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ACSelect.xaml.cs">
       <DependentUpon>ACSelect.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,9 @@
     <Compile Include="Forge\ForgeDLThread.cs" />
     <Compile Include="Forge\ForgeInstaller.cs" />
     <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="Gradle\GridGradle.xaml.cs">
+      <DependentUpon>GridGradle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Guide\GuideWindow.xaml.cs">
       <DependentUpon>GuideWindow.xaml</DependentUpon>
     </Compile>
@@ -199,6 +205,9 @@
     </Compile>
     <Compile Include="Guide\PageGuideSlow.xaml.cs">
       <DependentUpon>PageGuideSlow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Install\Install.xaml.cs">
+      <DependentUpon>Install.xaml</DependentUpon>
     </Compile>
     <Compile Include="JsonClass\ForgeInstall.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
@@ -252,6 +261,7 @@
     </Compile>
     <Compile Include="Update\UpdateJson.cs" />
     <Compile Include="Update\Updater.cs" />
+    <Compile Include="Accents\AccentHelper.cs" />
     <Compile Include="util\GridViewSort.cs" />
     <Compile Include="util\Helper.cs" />
     <Compile Include="Versions\RawVersionListType.cs" />
@@ -298,6 +308,10 @@
     <Compile Include="Zip\ZipInputStream.cs" />
     <Compile Include="Zip\ZipNameTransform.cs" />
     <Compile Include="Zip\ZipOutputStream.cs" />
+    <Page Include="Accents\AccentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ACSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -311,6 +325,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Download.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gradle\GridGradle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -347,6 +365,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guide\PageGuideSlow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Install\Install.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -546,6 +568,14 @@
     <Resource Include="Resources\play-bmcl-logo.png" />
     <Resource Include="Resources\play-normal-logo.png" />
     <EmbeddedResource Include="Resources\unPackXZ.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\mccrash-banner.jpg" />
+    <Resource Include="Resources\mccrash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\error-banner.jpg" />
+    <Resource Include="Resources\error.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

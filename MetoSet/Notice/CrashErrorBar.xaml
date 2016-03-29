@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MTMCL.Notice"
              xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Notice.CrashErrorBar"
              mc:Ignorable="d" 
-             d:DesignHeight="75" d:DesignWidth="645" BorderThickness="0" Padding="0" Style="{DynamicResource ButtonStyle}">
+             d:DesignHeight="75" d:DesignWidth="661" BorderThickness="0" Padding="0" Style="{DynamicResource ButtonStyle}">
     <Button.Resources>
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Custom:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
@@ -55,7 +55,7 @@
     <Button.Background>
         <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Stretch="UniformToFill"/>
     </Button.Background>
-    <Grid Margin="0" Width="645" Height="75">
+    <Grid Margin="0" Width="661" Height="75">
         <Label Content="{Binding ErrorName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal"/>
     </Grid>
 </Button>

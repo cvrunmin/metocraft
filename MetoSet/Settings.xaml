@@ -20,7 +20,7 @@
             <TabItem Header="{DynamicResource GameSet}">
                 <Grid Background="#7FFFFFFF">
                     <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
-                    <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="512" LargeChange="128" metro:SliderHelper.EnableMouseWheel="MouseHover" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged"/>
+                    <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="256" LargeChange="128" metro:SliderHelper.EnableMouseWheel="MouseHover" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged"/>
                     <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" metro:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
                     <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click"/>
@@ -33,8 +33,8 @@
                     <ComboBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" SelectionChanged="comboJava_SelectionChanged"/>
                     <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
-                    <Label Content="Auth Used" HorizontalAlignment="Left" Margin="0,236,0,0" VerticalAlignment="Top" FontSize="16"/>
-                    <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="94,236,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click"/>
+                    <Label Content="Auth Used" HorizontalAlignment="Left" Margin="0,236,0,0" VerticalAlignment="Top" FontSize="16" Visibility="Collapsed"/>
+                    <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="94,236,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click" Visibility="Collapsed"/>
                 </Grid>
             </TabItem>
             <TabItem Header="{DynamicResource Download}">
@@ -62,6 +62,7 @@
                     <Label Content="Color Scheme" HorizontalAlignment="Left" Margin="0,155,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <ComboBox x:Name="comboColor" HorizontalAlignment="Left" Margin="0,191,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboColor_SelectionChanged"/>
                     <Button x:Name="butReset" Content="{DynamicResource Reset}" HorizontalAlignment="Left" Margin="80,122,0,0" VerticalAlignment="Top" Width="75" Click="butReset_Click"/>
+                    <metro:ToggleSwitch x:Name="toggleReverse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,222,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="Reverse Color" IsCheckedChanged="toggleReverse_IsCheckedChanged"/>
                 </Grid>
             </TabItem>
             <TabItem Header="{DynamicResource About}">
@@ -75,13 +76,12 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
-            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
                 <Rectangle.OpacityMask>
                     <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
-
         </Button>
         <Label x:Name="lblTitle" Content="{DynamicResource Setting}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
     </Grid>

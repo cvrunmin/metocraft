@@ -6,16 +6,19 @@
       xmlns:local="clr-namespace:MTMCL.Notice"
       mc:Ignorable="d" 
       d:DesignHeight="362" d:DesignWidth="643">
-    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
-        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+    <Grid.Background>
+        <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrashDetail}}}"/>
+    </Grid.Background>
+    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
             </Rectangle.OpacityMask>
         </Rectangle>
     </Button>
-    <Label Content="{DynamicResource CrashOrErrorTitle}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
-    <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16" ContentStringFormat="{DynamicResource ErrName}"/>
-    <TextBlock x:Name="lblHelp" Margin="0,81,0,0" TextWrapping="Wrap" Text=""/>
+    <Label Content="{DynamicResource CrashOrErrorTitle}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333" Background="{DynamicResource AccentColorBrush3}"/>
+    <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16" ContentStringFormat="{DynamicResource ErrName}" Background="{DynamicResource AccentColorBrush3}"/>
+    <TextBlock x:Name="lblHelp" Margin="0,81,0,0" TextWrapping="Wrap" Text="" Background="{DynamicResource AccentColorBrush3}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
 </Grid>
 

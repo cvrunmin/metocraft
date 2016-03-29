@@ -16,18 +16,18 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid x:Name="gridMain" Background="White">
+    <Grid x:Name="gridMain">
         <Grid x:Name="gridMenu">
             <Label x:Name="lblTitle" Content="{DynamicResource ACTitle}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Button x:Name="butClose" Content="{DynamicResource Close}" Margin="0,0,10,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="202" Click="butClose_Click" BorderThickness="2" FontSize="16"/>
             <ScrollViewer HorizontalAlignment="Left" Height="350" Margin="0,52,0,0" VerticalAlignment="Top" Width="452" VerticalScrollBarVisibility="Auto">
                 <Grid x:Name="gridscrolllist">
-                    <local:ButtonMenu x:Name="butOffline" Content="{DynamicResource Offline}" Margin="0,0,-17,0" VerticalAlignment="Top" Height="60" Click="butOffline_Click" Style="{DynamicResource ButtonMeListSolid}" ListType="True" Background="White" MenuImage="Resources/offline.png" FontSize="16"/>
-                    <local:ButtonMenu x:Name="butMojang" Content="{DynamicResource Mojang}" Margin="0,60,-17,0" VerticalAlignment="Top" Height="60" Click="butMojang_Click" Style="{DynamicResource ButtonMeListSolid}" ListType="True" Background="White" MenuImage="Resources/mojang.png" FontSize="16"/>
+                    <local:ButtonMenu x:Name="butOffline" Content="{DynamicResource Offline}" Margin="0,0,-17,0" VerticalAlignment="Top" Height="60" Click="butOffline_Click" Style="{DynamicResource ButtonMeListSolid}" ListType="True" MenuImage="Resources/offline.png" FontSize="16" Background="Transparent"/>
+                    <local:ButtonMenu x:Name="butMojang" Content="{DynamicResource Mojang}" Margin="0,60,-17,0" VerticalAlignment="Top" Height="60" Click="butMojang_Click" Style="{DynamicResource ButtonMeListSolid}" ListType="True" MenuImage="Resources/mojang.png" FontSize="16" Background="Transparent"/>
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <Grid x:Name="gridOff" Background="White" Visibility="Collapsed">
+        <Grid x:Name="gridOff" Visibility="Collapsed">
             <Label x:Name="lblTitleOff" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Label x:Name="lblUN" Content="{DynamicResource UName}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
             <TextBox x:Name="txtBoxUN" Height="30" Margin="10,70,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>
@@ -35,7 +35,7 @@
             <Button x:Name="butLoginOff" Content="{DynamicResource Login}" Margin="0,0,217,10" HorizontalAlignment="Right" Width="202" Height="32" VerticalAlignment="Bottom" Click="butLoginOff_Click" BorderThickness="2" FontSize="16"/>
             <metro:ToggleSwitch x:Name="butRM1" Header="{DynamicResource RememberMe}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}"/>
         </Grid>
-        <Grid x:Name="gridMojang" Background="White" Visibility="Collapsed">
+        <Grid x:Name="gridMojang" Visibility="Collapsed">
             <Label x:Name="lblTitleM" Content="{DynamicResource Login}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
             <Label x:Name="lblUNE" Content="{DynamicResource UNEM}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
             <TextBox x:Name="txtBoxUNE" Height="30" Margin="10,75,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"/>

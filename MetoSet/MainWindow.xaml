@@ -100,14 +100,14 @@
                             </Grid>
                         </Grid>
                     </metro:Tile>
-                    <metro:Tile x:Name="butGradle" HorizontalAlignment="Left" Margin="440,110,0,0" VerticalAlignment="Top" Width="50" Height="50" IsEnabled="False">
+                    <metro:Tile x:Name="butGradle" HorizontalAlignment="Left" Margin="440,110,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butGradle_Click">
                         <Rectangle Height="25" Width="25">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_language_java}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butServer" HorizontalAlignment="Left" Margin="440,165,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butServer_Click">
+                    <metro:Tile x:Name="butServer" HorizontalAlignment="Left" Margin="440,165,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butServer_Click" IsEnabled="False">
                         <Rectangle Height="25" Width="25">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_server}" />
@@ -121,7 +121,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </metro:Tile>
-                    <metro:Tile x:Name="butInstall" Title="Install" HorizontalAlignment="Left" Margin="220,220,0,0" VerticalAlignment="Top" Width="215" Height="105" Click="butDL_Click" IsEnabled="False">
+                    <metro:Tile x:Name="butInstall" Title="{DynamicResource Install}" HorizontalAlignment="Left" Margin="220,220,0,0" VerticalAlignment="Top" Width="215" Height="105" Click="butInstall_Click">
                         <Rectangle Height="50" Width="50">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_download}" />

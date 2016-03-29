@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 
 namespace MTMCL.Forge
@@ -76,19 +77,19 @@ namespace MTMCL.Forge
                 }
                 catch (Exception e)
                 {
-                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), info.install.minecraft)))));
-                    zip.Close();
-                    return false;
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), info.install.minecraft)) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                    //zip.Close();
+                    //return false;
                 }
             }
             FileInfo lib = info.install.GetLibraryPath(libdir);
             List<Artifact> bad = new List<Artifact>();
             downloadInstalledLibrary(info, libdir, grabbed, bad);
-            if (bad.Count > 0)
+            /*if (bad.Count > 0)
             {
                 zip.Close();
                 return false;
-            }
+            }*/
             if (!lib.Directory.Exists)
             {
                 lib.Directory.Create();
@@ -103,9 +104,9 @@ namespace MTMCL.Forge
             }
             catch (Exception e)
             {
-                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()))));
-                zip.Close();
-                return false;
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                //zip.Close();
+                //return false;
             }
             try
             {
@@ -131,9 +132,9 @@ namespace MTMCL.Forge
             }
             catch (Exception e)
             {
-                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
-                zip.Close();
-                return false;
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                //zip.Close();
+                //return false;
             }
             zip.Close();
             return true;
@@ -144,7 +145,7 @@ namespace MTMCL.Forge
         {
             try
             {
-                Uri _url = new Uri(url);
+                Uri _url = new Uri(Resources.UrlReplacer.getForgeMaven(url));
                 WebClient connect = new WebClient();
                 //HttpWebRequest connect = WebRequest.CreateHttp(_url);
                 connect.DownloadFile(url, file);
@@ -171,13 +172,13 @@ namespace MTMCL.Forge
                 catch (Exception e)
                 {
                     Logger.error(e.StackTrace);
-                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                     return false;
                 }
             }
             catch (Exception e)
             {
-                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 return false;
             }
         }
@@ -185,29 +186,25 @@ namespace MTMCL.Forge
         {
             try
             {
-                Uri url = new Uri(libURL);
-                WebClient connect = new WebClient();
-                connect.DownloadFile(url, libPath);
-                if (checksumsValid(new FileInfo(libPath), checksums))
+                Uri url = new Uri(Resources.UrlReplacer.getForgeMaven(libURL));
+                using (WebClient connect = new WebClient())
                 {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                    connect.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
+                    connect.DownloadFile(url, libPath);
+                    return checksumsValid(new FileInfo(libPath), checksums);
+                } 
             }
             catch (FileNotFoundException e)
             {
                 if (!libURL.EndsWith(".pack.xz"))
                 {
-                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()))));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 }
                 return false;
             }
             catch (Exception e)
             {
-                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()))));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 return false;
             }
         }
@@ -333,7 +330,7 @@ namespace MTMCL.Forge
                     //file.Create();
                     liburl += artifact.Path;
                     FileInfo packFile = new FileInfo(file + ".pack.xz");
-                    if (!downloadFile(artifact.Descriptor, packFile.FullName, liburl + ".pack.xz", null))
+                    if (!downloadFile(artifact.Descriptor, liburl.StartsWith("http://files.minecraftforge.net/maven") ? packFile.FullName : file.FullName, liburl.StartsWith("http://files.minecraftforge.net/maven") ? liburl + ".pack.xz" : liburl, null))
                     {
                         if (!downloadFile(artifact.Descriptor, packFile.FullName, liburl, checksums))
                         {
@@ -352,14 +349,7 @@ namespace MTMCL.Forge
                     {
                         try
                         {
-                            System.Diagnostics.Process process = new System.Diagnostics.Process();
-                            process.StartInfo = new System.Diagnostics.ProcessStartInfo() {
-                                UseShellExecute = false,
-                                FileName = MeCore.Config.Javaw,
-                                Arguments = "-jar " + "unpacker.jar" + " -XZFilePath \"" + packFile.FullName + "\" -unXZFilePath \"" + packFile.FullName.Replace(".xz", "") + "\" -unPackPath \"" + packFile.FullName.Replace(".pack.xz", "") + "\""
-                            };
-                            process.Start();
-                            //unpackLibrary(file, File.ReadAllBytes(packFile.FullName));
+                            unpackLibrary(packFile, file, File.ReadAllBytes(packFile.FullName));
                             packFile.Delete();
                             File.Delete(packFile.FullName.Replace(".xz", ""));
                             if (checksumsValid(file, checksums))
@@ -399,7 +389,7 @@ namespace MTMCL.Forge
             }
             catch (Exception e)
             {
-                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()))));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 Logger.log(e);
                 return false;
             }
@@ -460,7 +450,7 @@ namespace MTMCL.Forge
                 return false;
             }
         }
-        private void unpackLibrary(FileInfo output, byte[] data)
+        private void unpackLibrary(FileInfo input, FileInfo output, byte[] data)
         {
             if (output.Exists)
             {
@@ -480,25 +470,26 @@ namespace MTMCL.Forge
                     ((decompressed[x - 7] & 0xFF) << 8) |
                     ((decompressed[x - 6] & 0xFF) << 16) |
                     ((decompressed[x - 5] & 0xFF) << 24);
-            FileInfo temp = new FileInfo(Path.Combine(Path.GetTempPath(), "art.pack"));
             Logger.log("  Signed");
             Logger.log("  Checksum Length: " + len);
             Logger.log("  Total Length:    " + (decompressed.Length - len - 8));
-            Logger.log("  Temp File:       " + temp.FullName);
             byte[] checksums = new byte[len];
             Array.Copy(decompressed, decompressed.Length - len - 8, checksums, 0, len);
-            FileStream o = new FileStream(temp.FullName, FileMode.Open);
-            o.Write(decompressed, 0, decompressed.Length - len - 8);
-            o.Close();
             decompressed = null;
             data = null;
             GC.Collect();
-
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo = new System.Diagnostics.ProcessStartInfo()
+            {
+                UseShellExecute = false,
+                FileName = MeCore.Config.Javaw,
+                Arguments = "-jar " + "unpacker.jar" + " -XZFilePath \"" + input.FullName + "\" -unXZFilePath \"" + input.FullName.Replace(".xz", "") + "\" -unPackPath \"" + output.FullName.Replace(".pack.xz", "") + "\""
+            };
+            process.Start();
+            System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);
             FileStream jarBytes = new FileStream(output.FullName, FileMode.Open);
             ZipOutputStream jos = new ZipOutputStream(jarBytes);
 
-            //Pack200.newUnpacker().unpack(temp, jos);
-            CopyEntry(temp, jos);
             ZipEntry checksumsFile = new ZipEntry("checksums.sha1");
             checksumsFile.DateTime = DateTime.FromFileTime(0);
             jos.PutNextEntry(checksumsFile);
@@ -507,7 +498,6 @@ namespace MTMCL.Forge
 
             jos.Close();
             jarBytes.Close();
-            temp.Delete();
         }
     }
 }

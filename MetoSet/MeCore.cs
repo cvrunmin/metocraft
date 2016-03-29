@@ -206,6 +206,13 @@ namespace MTMCL
                 Directory.CreateDirectory(DataDirectory + "Color");
             }
         }
+        internal static void Refresh() {
+            Language.Clear();
+            LangManager.Clear();
+            Color.Clear();
+            LoadLanguage();
+            LoadColor();
+        }
         private enum ColorScheme
         {
             Red, Green, Blue, Purple, Orange, Lime, Emerald, Teal, Cyan, Cobalt, Indigo, Violet, Pink, Magenta, Crimson, Amber, Yellow, Brown, Olive, Steel, Mauve, Taupe, Sienna

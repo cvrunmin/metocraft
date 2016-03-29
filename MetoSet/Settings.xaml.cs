@@ -123,6 +123,7 @@ namespace MTMCL
             sliderRAM.Value = MeCore.Config.Javaxmx;
             comboLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
             txtboxBG.Text = MeCore.Config.Background;
+            toggleReverse.IsChecked = MeCore.Config.reverseColor;
         }
         public void RefreshLangList()
         {
@@ -142,7 +143,26 @@ namespace MTMCL
             {
                 comboColor.Items.Add(color.Key);
             }
+            comboColor.Items.Add("Create New Color Scheme");
             comboColor.SelectedItem = MeCore.Config.ColorScheme;
+        }
+        private void comboColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboColor.SelectedItem as string != null)
+            {
+                if (comboColor.SelectedItem as string == "Create New Color Scheme")
+                {
+                    new Accents.AccentWindow().ShowDialog();
+                    MeCore.Refresh();
+                    RefreshLangList();
+                    RefreshColorList();
+                }
+                if (MeCore.Color.ContainsKey(comboColor.SelectedItem as string))
+                {
+                    MeCore.Config.QuickChange("ColorScheme", comboColor.SelectedItem);
+                    MeCore.MainWindow.RenderColor();
+                }
+            }
         }
         private void comboLang_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -193,16 +213,6 @@ namespace MTMCL
             }
         }
 
-        private void comboColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (comboLang.SelectedItem as string != null)
-                if (MeCore.Color.ContainsKey(comboColor.SelectedItem as string))
-                {
-                    MeCore.Config.QuickChange("ColorScheme", comboColor.SelectedItem);
-                    MeCore.MainWindow.RenderColor();
-                }
-        }
-
         private void butCheckUpdate_Click(object sender, RoutedEventArgs e)
         {
             MeCore.ReleaseCheck();
@@ -213,11 +223,41 @@ namespace MTMCL
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "PNG(*.png)|*.png|JPG(*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg; *.jpeg; *.jpe; *.jfif|TIFF(*.tif, *.tiff)|*.tif; *.tiff|Bitmap(*.bmp, *.dib)|*.bmp; *.dib|GIF(*.gif)|*.gif|All supported file|*.png; *.jpg; *.jpeg; *.jpe; *.jfif; *.tif; *.tiff; *.bmp; *.dib; *.gif";
             dialog.ShowDialog();
+            if (string.IsNullOrWhiteSpace(dialog.FileName))
+            {
+                return;
+            }
             txtboxBG.Text = dialog.FileName;
             MeCore.Config.QuickChange("background", dialog.FileName);
             MeCore.MainWindow.Render();
+            CheckDarkness(dialog.FileName);
         }
+        private async void CheckDarkness(string path) {
+            try
+            {
+                toggleReverse.IsChecked = await System.Threading.Tasks.Task.Run(new Func<bool>(() => {
+                    System.Drawing.Bitmap map = new System.Drawing.Bitmap(path);
+                    System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, map.Width, map.Height);
+                    System.Drawing.Imaging.BitmapData data = map.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, map.PixelFormat);
+                    IntPtr ptr = data.Scan0;
+                    int bytes = data.Stride * map.Height;
+                    byte[] rgb = new byte[bytes];
+                    System.Runtime.InteropServices.Marshal.Copy(ptr, rgb, 0, bytes);
+                    float average = 0;
+                    for (int i = 0; i < rgb.Length; i++)
+                    {
+                        average += rgb[i];
+                    }
+                    average /= rgb.Length;
+                    return average <= 127;
+                }));
+            }
+            catch (Exception)
+            {
+                toggleReverse.IsChecked = false;
+            }
 
+        }
         private void butReset_Click(object sender, RoutedEventArgs e)
         {
             txtboxBG.Text = "default";
@@ -243,6 +283,12 @@ namespace MTMCL
         private void butAuth_Click(object sender, RoutedEventArgs e)
         {
             new ACSelect().ShowDialog();
+        }
+
+        private void toggleReverse_IsCheckedChanged(object sender, EventArgs e)
+        {
+            ThemeManager.ChangeAppTheme(System.Windows.Application.Current, (bool)toggleReverse.IsChecked ? "BaseDark" : "BaseLight");
+            MeCore.Config.QuickChange("reverseColor", toggleReverse.IsChecked);
         }
     }
 }

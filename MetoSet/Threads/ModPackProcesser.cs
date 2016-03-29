@@ -4,6 +4,7 @@ using MTMCL.Lang;
 using MTMCL.util;
 using System;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace MTMCL.Threads
 {
@@ -55,7 +56,7 @@ namespace MTMCL.Threads
             }
             catch (Exception ex)
             {
-                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()))));
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
 
             }
             finally

@@ -17,13 +17,12 @@
         </ResourceDictionary>
     </Grid.Resources>
     <Grid Loaded="Grid_Loaded">
-        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Black" Click="butBack_Click">
-            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="Black">
+        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
                 <Rectangle.OpacityMask>
                     <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
-
         </Button>
         <Label Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <TabControl x:Name="tabControl" Margin="0,45,0,0">

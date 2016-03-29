@@ -85,12 +85,14 @@ namespace MTMCL
         [DataMember]
         [JsonPropertyName("default-auth")]
         public string DefaultAuth { get; set; }
+        [JsonPropertyName("reverse-color")]
+        public bool reverseColor { get; set; }
         [DataContract]
         public class ServerInfo {
-            [LitJson.JsonPropertyName("title")]
+            [JsonPropertyName("title")]
             public string Title;
             [DataMember(Name = "server-name")]
-            [LitJson.JsonPropertyName("server-name")]
+            [JsonPropertyName("server-name")]
             public string ServerName;
             [DataMember(Name = "server-ip")]
             [LitJson.JsonPropertyName("server-ip")]
@@ -167,6 +169,7 @@ namespace MTMCL
             DownloadSource = 0;
             UpdateSource = 0;
             Lang = GetValidLang();
+            reverseColor = false;
             ExpandTaskGui = true;
             GUID = GetGuid();
             CheckUpdate = true;

@@ -20,6 +20,9 @@ namespace MTMCL.Lang
             Languages.Add(languageName, new LangType(languageName, languageUrl));
 
         }
+        static public void Clear() {
+            Languages.Clear();
+        }
         static public string GetLangFromResource(string key)
         {
             if (Application.Current.Resources.Contains(key))

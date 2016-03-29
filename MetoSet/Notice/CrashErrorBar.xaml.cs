@@ -22,7 +22,7 @@ namespace MTMCL.Notice
     {
         public string ErrorName { get; set; }
         public string ErrorContent { get; set; }
-        public ImageSource ImgSrc { get { return new BitmapImage(new Uri("pack://application:,,,/Resources/play-bakaxl-banner.jpg")); } set { } }
+        public ImageSource ImgSrc { get; set; }
         public CrashErrorBar()
         {
             InitializeComponent();

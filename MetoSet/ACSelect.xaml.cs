@@ -37,7 +37,7 @@ namespace MTMCL
                     //butcustomauth.Margin = new Thickness(0, 60 * i, -17, 0);
                     butcustomauth.Width = 465;
                     butcustomauth.Height = 60;
-                    butcustomauth.Background = new SolidColorBrush(Colors.White);
+                    butcustomauth.Background = new SolidColorBrush(Colors.Transparent);
                     butcustomauth.VerticalAlignment = VerticalAlignment.Top;
                     butcustomauth.Style = (Style)Resources["ButtonMeListSolid"];
                     butcustomauth.ListType = true;
@@ -54,7 +54,7 @@ namespace MTMCL
                 //butcustomauth.Margin = new Thickness(0, 60 * i, -17, 0);
                 butcreateauth.Width = 465;
                 butcreateauth.Height = 60;
-                butcreateauth.Background = new SolidColorBrush(Colors.White);
+                butcreateauth.Background = new SolidColorBrush(Colors.Transparent);
                 butcreateauth.VerticalAlignment = VerticalAlignment.Top;
                 butcreateauth.Style = (Style)Resources["ButtonMeListSolid"];
                 butcreateauth.ListType = true;
@@ -120,7 +120,7 @@ namespace MTMCL
             {
                 if (!((ButtonMenu)item).Name.Equals("butCreateAuth"))
                 {
-                    var ani = new ColorAnimation(!((bool)toggleDetele.IsChecked) ? Colors.Red : Colors.White, ((bool)toggleDetele.IsChecked) ? Colors.Red : Colors.White, TimeSpan.FromSeconds(0.125));
+                    var ani = new ColorAnimation(!((bool)toggleDetele.IsChecked) ? Colors.Red : Colors.Transparent, ((bool)toggleDetele.IsChecked) ? Colors.Red : Colors.Transparent, TimeSpan.FromSeconds(0.125));
                     ((SolidColorBrush)((ButtonMenu)item).Background).BeginAnimation(SolidColorBrush.ColorProperty, ani);
                 }
             }

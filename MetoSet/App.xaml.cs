@@ -30,6 +30,22 @@ namespace MTMCL
                 Environment.Exit(3);
                 return;
             }
+            if (Array.IndexOf(e.Args, "-NotServer") != -1)
+            {
+                forceNonDedicate = true;
+            }
+            if (e.Args.Length == 0)   // 判断debug模式
+                Logger.debug = false;
+            else
+                if (Array.IndexOf(e.Args, "-Debug") != -1)
+                Logger.debug = true;
+            Logger.start();
+#if DEBUG
+#else
+            Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+#endif
             if (Array.IndexOf(e.Args, "-Update") != -1)
             {
                 var index = Array.IndexOf(e.Args, "-Update");
@@ -79,13 +95,6 @@ namespace MTMCL
                     }
                 }
             }
-#if DEBUG
-#else
-            Dispatcher.UnhandledException += Dispatcher_UnhandledException;
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-#endif
-
             WebRequest.DefaultWebProxy = null;  //禁用默认代理
             base.OnStartup(e);
         }

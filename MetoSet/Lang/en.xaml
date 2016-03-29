@@ -164,6 +164,9 @@
     <s:String x:Key="TaskUpdating">Updating {0}</s:String>
     <s:String x:Key="Restarting">Restarting</s:String>
     <!--/Task-->
+    <!--Install-->
+    <s:String x:Key="Install">Install</s:String>
+    <!--/Install-->
     <s:String x:Key="Server">Didicated Launcher Setting</s:String>
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
@@ -185,4 +188,5 @@
     <s:String x:Key="UpdateFound">Update found</s:String>
     <s:String x:Key="UpdateAccept">Update Now</s:String>
     <s:String x:Key="UpdateDeny">Update Later</s:String>
+    <s:String x:Key="UnFinish">This is a blank page.</s:String>
 </ResourceDictionary>

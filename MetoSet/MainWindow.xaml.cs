@@ -32,13 +32,13 @@ namespace MTMCL
             MeCore.MainWindow = this;
             InitializeComponent();
             Title = "MTMCL V2 Ver." + MeCore.version;
-            if (MeCore.needGuide)
+            /*if (MeCore.needGuide)
             {
                 MeCore.needGuide = false;
                 MeCore.Config.QuickChange("requiredGuide", false);
                 new Guide.GuideWindow(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)).Show();
                 Close();
-            }
+            }*/
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -109,6 +109,14 @@ namespace MTMCL
                 case "server":
                     tile = butServer;
                     grid = new Server.Server();
+                    break;
+                case "install":
+                    tile = butInstall;
+                    grid = new Install.GridInstall();
+                    break;
+                case "gradle":
+                    tile = butGradle;
+                    grid = new Gradle.GridGradle();
                     break;
                 default:
                     return;
@@ -239,6 +247,14 @@ namespace MTMCL
                 {
                     //new MCCrash(content, path).Show();
                 };
+                task.OnAuthUpdate += delegate (KMCCC.Authentication.AuthenticationInfo info)
+                {
+                    try
+                    {
+                        MeCore.Config.SavedAuths[info.DisplayName].AccessToken = info.AccessToken.ToString();
+                    }
+                    catch (Exception) { }
+                };
                 task.Failed += () => {
                     Dispatcher.Invoke(() => gui.noticeFailed());
                 };
@@ -349,6 +365,7 @@ namespace MTMCL
             timer.Tick += new EventHandler(timer_Tick);
             Render();
             RenderColor();
+            ThemeManager.ChangeAppTheme(System.Windows.Application.Current, (bool)MeCore.Config.reverseColor ? "BaseDark" : "BaseLight");
         }
 
         private void butPlayQuick_Click(object sender, RoutedEventArgs e)
@@ -369,7 +386,7 @@ namespace MTMCL
                     if (version != null)
                     {
                         KMCCC.Authentication.IAuthenticator auth;
-                        if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+                        /*if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
                         {
                             ACSelect ac = new ACSelect();
                             ac.ShowDialog();
@@ -380,10 +397,10 @@ namespace MTMCL
                             Config.SavedAuth dauth;
                             MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
                             auth = dauth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = Guid.Parse(dauth.AccessToken), UUID = Guid.Parse(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
-                        }
-                        /*ACLogin ac = new ACLogin();
+                        }*/
+                        ACLogin ac = new ACLogin();
                         ac.ShowDialog();
-                        auth = ac.auth;*/
+                        auth = ac.auth;
                         if (auth != null)
                         {
                             LaunchOptions option = new LaunchOptions
@@ -493,7 +510,6 @@ namespace MTMCL
                 {
                     MeCore.Config.Background = "default";
                     MeCore.Config.Save(null);
-                    MeCore.MainWindow.Close();
                     System.Windows.Forms.Application.Restart();
                 }
             }
@@ -501,6 +517,16 @@ namespace MTMCL
         private void butServer_Click(object sender, RoutedEventArgs e)
         {
             ChangePage("server");
+        }
+
+        private void butInstall_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage("install");
+        }
+
+        private void butGradle_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage("gradle");
         }
     }
 }
