@@ -48,6 +48,10 @@ namespace MTMCL.Gradle
             }
         }
         private void executeCommand(string cmd) {
+            if (string.IsNullOrWhiteSpace(txtPath.Text))
+            {
+                return;
+            }
             cmd = cmd.Replace("gradlew.bat", "").Replace("gradlew", "");
             //disableCMD();
             listOutput.Items.Clear();

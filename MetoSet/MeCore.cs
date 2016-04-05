@@ -14,6 +14,7 @@ namespace MTMCL
     {
         public static string version;
         public static Config Config;
+        public static Resources.BGHistory bghistory;
         public static bool needGuide = false;
         //public static Server.ServerInfo ServerCfg;
         public static bool IsServerDedicated;

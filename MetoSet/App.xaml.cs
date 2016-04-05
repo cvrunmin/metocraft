@@ -107,8 +107,10 @@ namespace MTMCL
         void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             e.SetObserved();
-            var crash = new ErrorReport(e.Exception);
-            crash.Show();
+            MeCore.Invoke(new Action(()=> {
+                var crash = new ErrorReport(e.Exception);
+                crash.Show();
+            }));
         }
 
         private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

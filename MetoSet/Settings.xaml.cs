@@ -156,6 +156,7 @@ namespace MTMCL
                     MeCore.Refresh();
                     RefreshLangList();
                     RefreshColorList();
+                    LoadConfig();
                 }
                 if (MeCore.Color.ContainsKey(comboColor.SelectedItem as string))
                 {
@@ -229,6 +230,15 @@ namespace MTMCL
             }
             txtboxBG.Text = dialog.FileName;
             MeCore.Config.QuickChange("background", dialog.FileName);
+            if (MeCore.bghistory == null)
+            {
+                MeCore.bghistory = MTMCL.Resources.BGHistory.Load();
+            }
+            if (MeCore.bghistory == null)
+            {
+                MeCore.bghistory = new Resources.BGHistory();
+            }
+            MeCore.bghistory.AddAndSave(dialog.FileName);
             MeCore.MainWindow.Render();
             CheckDarkness(dialog.FileName);
         }
@@ -263,6 +273,7 @@ namespace MTMCL
             txtboxBG.Text = "default";
             MeCore.Config.QuickChange("background", "default");
             MeCore.MainWindow.Render();
+            toggleReverse.IsChecked = false;
         }
         private void LoadServerDeDicatedVersion()
         {
@@ -289,6 +300,16 @@ namespace MTMCL
         {
             ThemeManager.ChangeAppTheme(System.Windows.Application.Current, (bool)toggleReverse.IsChecked ? "BaseDark" : "BaseLight");
             MeCore.Config.QuickChange("reverseColor", toggleReverse.IsChecked);
+        }
+
+        private void butSelect_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Resources.BGWindow();
+            dialog.ShowDialog();
+            txtboxBG.Text = dialog.uri;
+            MeCore.Config.QuickChange("background", dialog.uri);
+            MeCore.MainWindow.Render();
+            CheckDarkness(dialog.uri);
         }
     }
 }

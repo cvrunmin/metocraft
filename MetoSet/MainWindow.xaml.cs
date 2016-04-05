@@ -121,27 +121,37 @@ namespace MTMCL
                 default:
                     return;
             }
+            gridOthers.Children.Clear();
             ((Rectangle)gridLoadingScreen.Children[0]).Fill = ((Rectangle)tile.GetValue(ContentProperty)).Fill;
-            gridLoadingScreen.Margin = new Thickness(gridMenu.Margin.Left + tile.Margin.Left, gridMenu.Margin.Top + tile.Margin.Top, gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top));
+            gridLoadingScreen.Margin = new Thickness(gridMain.Margin.Left + gridMenu.Margin.Left + tile.Margin.Left, gridMain.Margin.Top + gridMenu.Margin.Top + tile.Margin.Top, gridMain.Margin.Right + gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMain.Margin.Bottom + gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top));
             gridLoadingScreen.Background = new SolidColorBrush(Color.FromRgb(((SolidColorBrush)tile.Background).Color.R, ((SolidColorBrush)tile.Background).Color.G, ((SolidColorBrush)tile.Background).Color.B));
             gridLoadingScreen.Visibility = Visibility.Visible;
             var ani = new ThicknessAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMenu.Margin.Left + tile.Margin.Left, gridMenu.Margin.Top + tile.Margin.Top, gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
-            //ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(10), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.05))));
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMain.Margin.Left + gridMenu.Margin.Left + tile.Margin.Left, gridMain.Margin.Top + gridMenu.Margin.Top + tile.Margin.Top, gridMain.Margin.Right + gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMain.Margin.Bottom + gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
             ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.2)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
             gridLoadingScreen.BeginAnimation(MarginProperty, ani);
             await System.Threading.Tasks.Task.Delay(1000);
-            gridOthers.Children.Clear();
-            gridOthers.Children.Add(grid);
-            gridOthers.Visibility = Visibility.Visible;
             gridMain.Visibility = Visibility.Collapsed;
             gridLoadingScreen.Visibility = Visibility.Collapsed;
+            gridOthers.Visibility = Visibility.Visible;
+            gridOthers.Children.Add(grid);
             var ani2 = new DoubleAnimationUsingKeyFrames();
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
             gridOthers.BeginAnimation(OpacityProperty, ani2);
         }
-
+        private void SwitchBetweenHomeAndMenu(bool toHome) {
+            var aniHome1 = new DoubleAnimation(toHome ? 1 : 0, TimeSpan.FromSeconds(0.25));
+            var aniHome2 = new ThicknessAnimationUsingKeyFrames();
+            aniHome2.KeyFrames.Add(new EasingThicknessKeyFrame(toHome ? new Thickness(0) : new Thickness(0, 410, 0, -410), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut}));
+            var aniMenu1 = new ThicknessAnimationUsingKeyFrames();
+            aniMenu1.KeyFrames.Add( new EasingThicknessKeyFrame( !toHome ? new Thickness(0) : new Thickness(0, 410, 0, -410), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut}));
+            var aniMenu2 = new DoubleAnimation(!toHome ? 1 : 0, TimeSpan.FromSeconds(0.25));
+            gridMa.BeginAnimation(MarginProperty, aniMenu1);
+            gridMa.BeginAnimation(OpacityProperty, aniMenu2);
+            gridHome.BeginAnimation(OpacityProperty, aniHome1);
+            gridHome.BeginAnimation(MarginProperty, aniHome2);
+        }
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
             ChangePage("play");
@@ -527,6 +537,47 @@ namespace MTMCL
         private void butGradle_Click(object sender, RoutedEventArgs e)
         {
             ChangePage("gradle");
+        }
+
+        private void quickbutTask_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchBetweenHomeAndMenu(false);
+            butTask_Click(sender, e);
+        }
+
+        private void butHome_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchBetweenHomeAndMenu(gridHome.Opacity == 0);
+        }
+
+        private void quickbutNotice_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchBetweenHomeAndMenu(false);
+            butNotice_Click(sender, e);
+        }
+
+        private void quickbutPlay_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchBetweenHomeAndMenu(false);
+            butPlay_Click(sender, e);
+        }
+
+        private void quickbutGradle_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchBetweenHomeAndMenu(false);
+            butGradle_Click(sender, e);
+        }
+
+        private void quickbutSetting_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchBetweenHomeAndMenu(false);
+            butSetting_Click(sender, e);
+        }
+
+        private void quickbutDL_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchBetweenHomeAndMenu(false);
+            butDL_Click(sender, e);
         }
     }
 }

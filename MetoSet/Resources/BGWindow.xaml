@@ -1,0 +1,23 @@
+﻿<metro:MetroWindow x:Class="MTMCL.Resources.BGWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:MTMCL.Resources"
+        mc:Ignorable="d"
+        Title="BGWindow" Height="300" Width="500" Initialized="MetroWindow_Initialized">
+    <Grid>
+        <ScrollViewer Margin="0,30,0,0">
+            <WrapPanel x:Name="panelBG">
+                <local:PreviewItem Description="Default" Click="BGButton_Click">
+                    <local:PreviewItem.ImgSrc>
+                        <BitmapImage UriSource="bg.png"/>
+                    </local:PreviewItem.ImgSrc>
+                </local:PreviewItem>
+            </WrapPanel>
+        </ScrollViewer>
+        <Label Content="Select your background" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14.667"/>
+
+    </Grid>
+</metro:MetroWindow>

@@ -133,6 +133,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -233,6 +234,13 @@
     </Compile>
     <Compile Include="Report\MCCrash.xaml.cs">
       <DependentUpon>MCCrash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\BGWindow.xaml.cs">
+      <DependentUpon>BGWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\NewPreviewItem.cs" />
+    <Compile Include="Resources\PreviewItem.xaml.cs">
+      <DependentUpon>PreviewItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Server\Server.xaml.cs">
       <DependentUpon>Server.xaml</DependentUpon>
@@ -401,6 +409,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\BGWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Icons-usful.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -431,6 +443,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\PreviewItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Server\Server.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

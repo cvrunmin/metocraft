@@ -63,6 +63,7 @@
                     <ComboBox x:Name="comboColor" HorizontalAlignment="Left" Margin="0,191,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboColor_SelectionChanged"/>
                     <Button x:Name="butReset" Content="{DynamicResource Reset}" HorizontalAlignment="Left" Margin="80,122,0,0" VerticalAlignment="Top" Width="75" Click="butReset_Click"/>
                     <metro:ToggleSwitch x:Name="toggleReverse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,222,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="Reverse Color" IsCheckedChanged="toggleReverse_IsCheckedChanged"/>
+                    <Button x:Name="butSelect" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="160,122,0,0" VerticalAlignment="Top" Width="75" Click="butSelect_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="{DynamicResource About}">
