@@ -311,5 +311,10 @@ namespace MTMCL
             MeCore.MainWindow.Render();
             CheckDarkness(dialog.uri);
         }
+
+        private void toggleLatest_IsCheckedChanged(object sender, EventArgs e)
+        {
+            MeCore.Config.QuickChange("SearchLatest", (bool)toggleLatest.IsChecked);
+        }
     }
 }

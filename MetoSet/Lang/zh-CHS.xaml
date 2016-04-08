@@ -21,6 +21,19 @@
     <s:String x:Key="Back">返回</s:String>
     <s:String x:Key="Log">日志</s:String>
     <s:String x:Key="Notice">通知</s:String>
+    <!--Guide-->
+    <s:String x:Key="LangTitle">选择您的语言</s:String>
+    <s:String x:Key="LangDesc">启动器语言会自动设定为系统显示语言。如果您想使用的显示语言与系统显示语言不同，请在这里选择</s:String>
+    <s:String x:Key="LangCs">在此选择您的语言</s:String>
+    <s:String x:Key="GuideFast">快速开始</s:String>
+    <s:String x:Key="UseRecommend">使用快速设定</s:String>
+    <s:String x:Key="UseCustom">自订设定</s:String>
+    <s:String x:Key="FastText">随时可变更这些设定。 [/bold/]选取[使用快速设定]即可:[/endbold/][/p/]设定游戏路径至默认".minecraft"。 [/p/]让启动器分别在官方下载源以及GitHub更新源下载Minecraft相关文件及启动器更新文件。 [/p/]设定Javaw.exe路径以及最大记忆体至默认值。 [/p/]设定启动器显示设定至「体验优先」。</s:String>
+    <s:String x:Key="AuthTitle">快速启动</s:String>
+    <s:String x:Key="AuthDesc">提前登录可加速您的游玩体验。</s:String>
+    <s:String x:Key="AuthForgotPW">忘记密码</s:String>
+    <s:String x:Key="AuthNotPremium">我没有正版帐号</s:String>
+    <s:String x:Key="AuthBadLogin">如果您没有正版帐号，您仍可以以离线模式进行游戏。不过，我们建议购买一个正版帐号以支持Mojang。</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">计算机</s:String>
     <s:String x:Key="COMVer">版本</s:String>
@@ -52,7 +65,9 @@
     <s:String x:Key="UdtSrc">更新源</s:String>
     <s:String x:Key="BG">启动器背景</s:String>
     <s:String x:Key="Color">启动器颜色</s:String>
+    <s:String x:Key="ColorMirror">反转颜色</s:String>
     <s:String x:Key="ExpandTaskTitle">启动时打开任务介面</s:String>
+    <s:String x:Key="SearchLatest">搜寻最新版本</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">环境</s:String>

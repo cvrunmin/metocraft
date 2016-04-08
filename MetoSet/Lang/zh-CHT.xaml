@@ -66,7 +66,9 @@
     <s:String x:Key="UdtSrc">更新源</s:String>
     <s:String x:Key="BG">啟動器背景</s:String>
     <s:String x:Key="Color">啟動器顏色</s:String>
+    <s:String x:Key="ColorMirror">反轉顏色</s:String>
     <s:String x:Key="ExpandTaskTitle">啟動時打開任務介面</s:String>
+    <s:String x:Key="SearchLatest">搜尋最新版本</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">環境</s:String>
@@ -186,4 +188,5 @@
     <s:String x:Key="UpdateFound">發現更新</s:String>
     <s:String x:Key="UpdateAccept">立即更新</s:String>
     <s:String x:Key="UpdateDeny">稍後更新</s:String>
+    <s:String x:Key="Preview">預覽</s:String>
 </ResourceDictionary>

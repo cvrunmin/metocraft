@@ -61,5 +61,7 @@ namespace MTMCL.Resources
                 SetValue(DescriptionProperty, value);
             }
         }
+
+        public Uri uri { get; set; }
     }
 }

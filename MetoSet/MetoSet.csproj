@@ -235,10 +235,12 @@
     <Compile Include="Report\MCCrash.xaml.cs">
       <DependentUpon>MCCrash.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\BGPreviewWindow.xaml.cs">
+      <DependentUpon>BGPreviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\BGWindow.xaml.cs">
       <DependentUpon>BGWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\NewPreviewItem.cs" />
     <Compile Include="Resources\PreviewItem.xaml.cs">
       <DependentUpon>PreviewItem.xaml</DependentUpon>
     </Compile>
@@ -408,6 +410,10 @@
     <Page Include="Report\MCCrash.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\BGPreviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\BGWindow.xaml">
       <SubType>Designer</SubType>

@@ -65,7 +65,9 @@
     <s:String x:Key="UdtSrc">Update Source</s:String>
     <s:String x:Key="BG">Background</s:String>
     <s:String x:Key="Color">Color</s:String>
+    <s:String x:Key="ColorMirror">Reverse Color</s:String>
     <s:String x:Key="ExpandTaskTitle">Expand task gui on opening launcher</s:String>
+    <s:String x:Key="SearchLatest">Search latest version</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>
@@ -189,4 +191,5 @@
     <s:String x:Key="UpdateAccept">Update Now</s:String>
     <s:String x:Key="UpdateDeny">Update Later</s:String>
     <s:String x:Key="UnFinish">This is a blank page.</s:String>
+    <s:String x:Key="Preview">Preview</s:String>
 </ResourceDictionary>
