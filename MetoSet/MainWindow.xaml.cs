@@ -141,13 +141,17 @@ namespace MTMCL
             gridOthers.BeginAnimation(OpacityProperty, ani2);
         }
         private void SwitchBetweenHomeAndMenu(bool toHome) {
-            var aniHome1 = new DoubleAnimation(toHome ? 1 : 0, TimeSpan.FromSeconds(0.25));
+            gridMa.Visibility = Visibility.Visible;
+            var aniHome1 = new DoubleAnimation(toHome ? 1 : 0, TimeSpan.FromSeconds(0.15));
             var aniHome2 = new ThicknessAnimationUsingKeyFrames();
-            aniHome2.KeyFrames.Add(new EasingThicknessKeyFrame(toHome ? new Thickness(0) : new Thickness(0, 410, 0, -410), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut}));
+            aniHome2.KeyFrames.Add(new EasingThicknessKeyFrame(toHome ? new Thickness(0) : new Thickness(0, 410, 0, -410), TimeSpan.FromSeconds(0.15), new CubicEase() { EasingMode = EasingMode.EaseInOut}));
             var aniMenu1 = new ThicknessAnimationUsingKeyFrames();
-            aniMenu1.KeyFrames.Add( new EasingThicknessKeyFrame( !toHome ? new Thickness(0) : new Thickness(0, 410, 0, -410), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut}));
-            var aniMenu2 = new DoubleAnimation(!toHome ? 1 : 0, TimeSpan.FromSeconds(0.25));
-            gridMa.BeginAnimation(MarginProperty, aniMenu1);
+            aniMenu1.KeyFrames.Add( new EasingThicknessKeyFrame( !toHome ? new Thickness(0) : new Thickness(0, 410, 0, -410), TimeSpan.FromSeconds(0.15), new CubicEase() { EasingMode = EasingMode.EaseInOut}));
+            var aniMenu2 = new DoubleAnimation(!toHome ? 1 : 0, TimeSpan.FromSeconds(0.15));
+            aniMenu2.Completed += delegate {
+                gridMa.Visibility = toHome ? Visibility.Collapsed : Visibility.Visible;
+            };
+            //gridMa.BeginAnimation(MarginProperty, aniMenu1);
             gridMa.BeginAnimation(OpacityProperty, aniMenu2);
             gridHome.BeginAnimation(OpacityProperty, aniHome1);
             gridHome.BeginAnimation(MarginProperty, aniHome2);
