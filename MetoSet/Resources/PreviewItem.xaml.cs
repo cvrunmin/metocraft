@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -63,5 +64,24 @@ namespace MTMCL.Resources
         }
 
         public Uri uri { get; set; }
+
+        private void button_Loaded(object sender, RoutedEventArgs e)
+        {
+            int i = System.Windows.Forms.TextRenderer.MeasureText(txtPreview.Text, new System.Drawing.Font(txtPreview.FontFamily.Source, (float)txtPreview.FontSize)).Width;
+            if (i > lblPreview.ActualWidth)
+            {
+                var a = new Storyboard() { RepeatBehavior = RepeatBehavior.Forever};
+                var b = new ThicknessAnimationUsingKeyFrames();
+                b.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, 0, -(i - lblPreview.ActualWidth), 0), TimeSpan.FromSeconds(0)));
+                b.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(-(i - lblPreview.ActualWidth), 0, 0, 0), TimeSpan.FromSeconds(5/2)));
+                b.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(-(i - lblPreview.ActualWidth), 0, 0, 0), TimeSpan.FromSeconds(10/2)));
+                b.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, 0, -(i - lblPreview.ActualWidth), 0), TimeSpan.FromSeconds(15/2)));
+                b.KeyFrames.Add(new LinearThicknessKeyFrame(new Thickness(0, 0, -(i - lblPreview.ActualWidth), 0), TimeSpan.FromSeconds(20/2)));
+                a.Children.Add(b);
+                Storyboard.SetTarget(b, txtPreview);
+                Storyboard.SetTargetProperty(b, new PropertyPath("Margin"));
+                //txtPreview.BeginStoryboard(a, HandoffBehavior.Compose);
+            }
+        }
     }
 }

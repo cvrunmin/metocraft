@@ -54,27 +54,35 @@ namespace MTMCL.Resources
                 }
                 foreach (var item in MeCore.bghistory.uri)
                 {
-                    var pi = new PreviewItem() { ImgSrc = new BitmapImage(new Uri(item)), Description = item.Substring(item.LastIndexOf('\\')) };
-                    pi.Click += BGButton_Click;
-                    pi.uri = new Uri(item);
-                    var menu = new ContextMenu();
-                    var b1 = new MenuItem();
-                    b1.Header = Lang.LangManager.GetLangFromResource("Select");
-                    b1.Click += MenuItemSelect_Click;
-                    var b2 = new MenuItem();
-                    b2.Header = Lang.LangManager.GetLangFromResource("Preview");
-                    b2.Click += MenuItemPreview_Click;
-                    menu.Items.Add(b1);
-                    menu.Items.Add(b2);
-                    pi.ContextMenu = menu;
-                    panelBG.Children.Add(pi);
+                    AddPreviewItem(item);
                 }
+                AddPreviewItem("pack://application:,,,/Resources/easteregg-marble.jpg", "6ce2|5b50|73a9|624b|6a5f");
+                AddPreviewItem("pack://application:,,,/Resources/easteregg-sudou-kayo.png", "9996|85e4|798d|4e16");
             }
             catch{
 
             }
         }
-
+        private void AddPreviewItem(string uri) {
+            AddPreviewItem(uri, uri.Substring(uri.LastIndexOf('\\') + 1));
+        }
+        private void AddPreviewItem(string uri, string desc)
+        {
+            var pi = new PreviewItem() { ImgSrc = new BitmapImage(new Uri(uri)), Description = desc };
+            pi.Click += BGButton_Click;
+            pi.uri = new Uri(uri);
+            var menu = new ContextMenu();
+            var b1 = new MenuItem();
+            b1.Header = Lang.LangManager.GetLangFromResource("Select");
+            b1.Click += MenuItemSelect_Click;
+            var b2 = new MenuItem();
+            b2.Header = Lang.LangManager.GetLangFromResource("Preview");
+            b2.Click += MenuItemPreview_Click;
+            menu.Items.Add(b1);
+            menu.Items.Add(b2);
+            pi.ContextMenu = menu;
+            panelBG.Children.Add(pi);
+        }
         private void MenuItemSelect_Click(object sender, RoutedEventArgs e)
         {
             if (sender is MenuItem)

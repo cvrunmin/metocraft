@@ -139,10 +139,13 @@ namespace MTMCL
                     MessageDialogResult result = await MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("UpdateFound"), updateinfo, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings { AffirmativeButtonText = LangManager.GetLangFromResource("UpdateAccept"), NegativeButtonText = LangManager.GetLangFromResource("UpdateDeny") });
                     if (result == MessageDialogResult.Affirmative)
                     {
-                        MainWindow.gridMain.Visibility = Visibility.Hidden;
+                        MainWindow.gridMain.Visibility = Visibility.Collapsed;
+                        MainWindow.gridHome.Visibility = Visibility.Collapsed;
+                        MainWindow.butHome.Visibility = Visibility.Collapsed;
                         MainWindow.gridOthers.Children.Clear();
                         MainWindow.gridOthers.Visibility = Visibility.Visible;
-                        await System.Threading.Tasks.Task.Delay(1000);
+                        MainWindow.gridOthers.Margin = new Thickness(0);
+                        await System.Threading.Tasks.Task.Delay(500);
                         MainWindow.gridOthers.Children.Add(new Update.Update(updateBuild, updateAddr));
                     }
                 }

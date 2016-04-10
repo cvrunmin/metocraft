@@ -7,7 +7,7 @@
             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Name="button"
     x:Class="MTMCL.Resources.PreviewItem"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="150" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Style="{DynamicResource ButtonStyle}">
+             d:DesignHeight="150" d:DesignWidth="150" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Style="{DynamicResource ButtonStyle}" Loaded="button_Loaded">
     <Button.Resources>
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Custom:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
@@ -54,9 +54,13 @@
         </Style>
     </Button.Resources>
     <Grid Width="150" Height="150">
-        <Image x:Name="imagePreview" Margin="5,5,5,24" Source="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}"/>
-        <Label x:Name="lblPreview" HorizontalAlignment="Center" Margin="5,126,5,0">
-            <AccessText TextAlignment="Center" Text="{Binding Description, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="10.667"/>
+        <Grid x:Name="imagePreview" Margin="5,5,5,24">
+            <Grid.Background>
+                <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" Stretch="UniformToFill" TileMode="Tile"/>
+            </Grid.Background>
+        </Grid>
+        <Label x:Name="lblPreview" Margin="0,126,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <AccessText x:Name="txtPreview" TextAlignment="Center" Text="{Binding Description, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="12" TextOptions.TextHintingMode="Animated"/>
         </Label>
 
     </Grid>

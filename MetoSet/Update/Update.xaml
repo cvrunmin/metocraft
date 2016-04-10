@@ -6,7 +6,7 @@
       xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MTMCL.Update"
       mc:Ignorable="d" 
-      d:DesignHeight="362" d:DesignWidth="643" Background="{DynamicResource AccentColorBrush}">
+      d:DesignHeight="409" d:DesignWidth="735" Background="{DynamicResource AccentColorBrush}">
     <metro:ProgressRing Foreground="{DynamicResource IdealForegroundColorBrush}"/>
-    <Label x:Name="lblProcess" Content="" HorizontalAlignment="Center" Margin="0,220,0,0" VerticalAlignment="Top" FontSize="16"/>
+    <Label x:Name="lblProcess" Content="" HorizontalAlignment="Center" Margin="0,240,0,0" VerticalAlignment="Top" FontSize="16"/>
 </Grid>

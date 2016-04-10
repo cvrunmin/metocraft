@@ -599,6 +599,10 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\easteregg-marble.jpg" />
+    <Resource Include="Resources\easteregg-sudou-kayo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

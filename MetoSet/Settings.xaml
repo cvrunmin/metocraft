@@ -76,7 +76,12 @@
                     <Label Content="KMCCC" HorizontalAlignment="Left" Margin="0,96,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <Label x:Name="lblKMCCCVersion" Content="" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
                     <Button x:Name="butCheckUpdate" Content="Check Update" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Click="butCheckUpdate_Click"/>
-
+                    <Label HorizontalAlignment="Left" Margin="0,157,0,0" VerticalAlignment="Top" Padding="0">
+                        <AccessText Text="Picture easteregg-sudou-kayo.png is captured form Youtube video Tt31439XObA made by MarioGaGabriel" TextWrapping="WrapWithOverflow"></AccessText>
+                    </Label>
+                    <Label HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Padding="0" Visibility="Collapsed">
+                        <AccessText Text="©2014-2017 cvronmin" TextWrapping="WrapWithOverflow"></AccessText>
+                    </Label>
                 </Grid>
             </TabItem>
         </TabControl>

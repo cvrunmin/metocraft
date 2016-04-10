@@ -16,7 +16,11 @@
             </ResourceDictionary>
         </Grid.Resources>
         <Label Content="Preview" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"/>
-        <Image x:Name="imgPreview" Margin="0,37,0,0"/>
+        <Grid x:Name="imgPreview" Margin="0,37,0,0">
+            <Grid.Background>
+                <ImageBrush TileMode="Tile" Stretch="UniformToFill"/>
+            </Grid.Background>
+        </Grid>
         <Button x:Name="butSelect" Content="{DynamicResource Select}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" Click="butSelect_Click" Margin="0,0,80,0"/>
         <Button x:Name="butClose" Content="{DynamicResource Close}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" Click="butClose_Click"/>
 

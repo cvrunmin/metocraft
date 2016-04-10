@@ -23,7 +23,7 @@ namespace MTMCL.Resources
         public BGPreviewWindow(Uri uri)
         {
             InitializeComponent();
-            imgPreview.Source = new BitmapImage(uri);
+            ((ImageBrush)imgPreview.Background).ImageSource = new BitmapImage(uri);
         }
 
         private void butSelect_Click(object sender, RoutedEventArgs e)

@@ -176,9 +176,9 @@
                 </Grid>
             </Grid>
             <metro:Tile x:Name="butHome" HorizontalAlignment="Left" Margin="0,379,0,0" Width="30" Padding="0" Height="30" Click="butHome_Click">
-                <Rectangle Fill="Black" StrokeThickness="0" Width="25" Height="25">
+                <Rectangle Fill="Black" StrokeThickness="0" Width="20" Height="20">
                     <Rectangle.OpacityMask>
-                        <VisualBrush Visual="{StaticResource appbar_home}"/>
+                        <VisualBrush Visual="{StaticResource appbar_os_windows_8}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </metro:Tile>
