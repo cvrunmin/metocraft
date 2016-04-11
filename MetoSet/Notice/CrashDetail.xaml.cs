@@ -33,7 +33,7 @@ namespace MTMCL.Notice
             this.parent = parent;
             this.task = task;
             string uri = ((BitmapImage)task.ImgSrc).UriSource.OriginalString;
-            ImgSrc = new BitmapImage(new Uri(uri.Replace("-banner", "")));
+            //ImgSrc = new BitmapImage(new Uri(uri.Replace("-banner", "")));
             lblName.Content = task.ErrorName;
             lblHelp.AddContentFromSpecficString(task.ErrorContent);
         }

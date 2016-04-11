@@ -115,6 +115,11 @@ namespace MTMCL
                 MessageBox.Show("NO Java is defined! Are you sure you have installed Java properly?");
                 MessageBox.Show("Minecraft Launching and Minecraft Forge Installing won\'t work until you have installed Java properly");
             }
+#if DEBUG
+            KMCCC.Launcher.Reporter.SetClientName("MTMCL " + version + "-EAT-BUGXL");
+#else
+            KMCCC.Launcher.Reporter.SetClientName("MTMCL " + version);
+#endif
         }
         public static void ReleaseCheck()
         {

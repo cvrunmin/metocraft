@@ -15,6 +15,7 @@ namespace MTMCL.Resources
     public partial class BGWindow
     {
         public string uri { get; private set; }
+        public Stream steam { get; private set; }
         public BGWindow()
         {
             InitializeComponent();
@@ -23,8 +24,9 @@ namespace MTMCL.Resources
             if (sender is PreviewItem)
             {
                 var a = ((BitmapImage)((PreviewItem)sender).ImgSrc);
-                if (a.ToString().Equals("pack://application:,,,/MTMCL;component/resources/bg.png"))
+                if (a.ToString().StartsWith("pack://application:,,,/"))
                 {
+                    steam = Application.GetResourceStream(a.UriSource).Stream;
                     uri = a.ToString();
                 }
                 else/* if (a.UriSource.IsWellFormedOriginalString())*/

@@ -56,6 +56,6 @@
         <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Stretch="UniformToFill"/>
     </Button.Background>
     <Grid Margin="0" Width="661" Height="75">
-        <Label Content="{Binding ErrorName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal"/>
+        <Label Content="{Binding ErrorName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" Background="{DynamicResource AccentColorBrush4}"/>
     </Grid>
 </Button>

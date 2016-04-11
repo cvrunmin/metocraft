@@ -47,7 +47,8 @@ namespace MTMCL
             MeCore.Config.MCPath = txtboxMP.Text;
             MeCore.Config.Save();
         }
-        private void ChangeMCPathState() {
+        private void ChangeMCPathState()
+        {
             try
             {
                 if (!Directory.Exists(Directory.GetDirectoryRoot(txtboxMP.Text)))
@@ -99,7 +100,8 @@ namespace MTMCL
                 LoadServerDeDicatedVersion();
             }
         }
-        private void PreInit() {
+        private void PreInit()
+        {
             comboJava.Items.Clear();
             try
             {
@@ -109,12 +111,13 @@ namespace MTMCL
                     comboJava.Items.Add(java);
                 }
             }
-            catch{ }
+            catch { }
             sliderRAM.Maximum = KMCCC.Tools.SystemTools.GetTotalMemory() / 1024 / 1024;
             lblLauncherVersion.Content = MeCore.version;
             lblKMCCCVersion.Content = KMCCC.Launcher.Reporter.KMCCC_TYPE + " " + KMCCC.Launcher.Reporter.Version;
         }
-        private void LoadConfig() {
+        private void LoadConfig()
+        {
             comboDLSrc.SelectedIndex = MeCore.Config.DownloadSource;
             comboUdtSrc.SelectedIndex = MeCore.Config.UpdateSource;
             txtboxMP.Text = MeCore.Config.MCPath;
@@ -242,10 +245,12 @@ namespace MTMCL
             MeCore.MainWindow.Render();
             CheckDarkness(dialog.FileName);
         }
-        private async void CheckDarkness(string path) {
+        private async void CheckDarkness(string path)
+        {
             try
             {
-                toggleReverse.IsChecked = await System.Threading.Tasks.Task.Run(new Func<bool>(() => {
+                toggleReverse.IsChecked = await System.Threading.Tasks.Task.Run(new Func<bool>(() =>
+                {
                     System.Drawing.Bitmap map = new System.Drawing.Bitmap(path);
                     System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, map.Width, map.Height);
                     System.Drawing.Imaging.BitmapData data = map.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, map.PixelFormat);
@@ -266,7 +271,33 @@ namespace MTMCL
             {
                 toggleReverse.IsChecked = false;
             }
-
+        }
+        private async void CheckDarkness(Stream stream)
+        {
+            try
+            {
+                toggleReverse.IsChecked = await System.Threading.Tasks.Task.Run(new Func<bool>(() =>
+                {
+                    System.Drawing.Bitmap map = new System.Drawing.Bitmap(stream);
+                    System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, map.Width, map.Height);
+                    System.Drawing.Imaging.BitmapData data = map.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, map.PixelFormat);
+                    IntPtr ptr = data.Scan0;
+                    int bytes = data.Stride * map.Height;
+                    byte[] rgb = new byte[bytes];
+                    System.Runtime.InteropServices.Marshal.Copy(ptr, rgb, 0, bytes);
+                    float average = 0;
+                    for (int i = 0; i < rgb.Length; i++)
+                    {
+                        average += rgb[i];
+                    }
+                    average /= rgb.Length;
+                    return average <= 127;
+                }));
+            }
+            catch (Exception)
+            {
+                toggleReverse.IsChecked = false;
+            }
         }
         private void butReset_Click(object sender, RoutedEventArgs e)
         {
@@ -309,7 +340,12 @@ namespace MTMCL
             txtboxBG.Text = dialog.uri;
             MeCore.Config.QuickChange("background", dialog.uri);
             MeCore.MainWindow.Render();
-            CheckDarkness(dialog.uri);
+            if (dialog.steam != null)
+            {
+                CheckDarkness(dialog.steam);
+            }
+            else
+                CheckDarkness(dialog.uri);
         }
 
         private void toggleLatest_IsCheckedChanged(object sender, EventArgs e)

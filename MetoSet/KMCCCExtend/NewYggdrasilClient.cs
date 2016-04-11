@@ -109,8 +109,10 @@ namespace KMCCC.Modules.Yggdrasil
                     UpdateFomrResponse(response);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Error = e.GetType().ToString();
+                    ErrorMessage = e.Message;
                     return false;
                 }
             }

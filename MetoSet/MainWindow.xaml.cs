@@ -80,7 +80,7 @@ namespace MTMCL
         {
             ChangePage("settings");
         }
-        private async void ChangePage(string type)
+        private async void ChangePage(string type, bool required0Margin = false)
         {
             MahApps.Metro.Controls.Tile tile;
             System.Windows.Controls.Grid grid;
@@ -135,6 +135,7 @@ namespace MTMCL
             gridLoadingScreen.Visibility = Visibility.Collapsed;
             gridOthers.Visibility = Visibility.Visible;
             gridOthers.Children.Add(grid);
+            gridOthers.Margin = required0Margin ? new Thickness(0) : new Thickness(30, 0, 30, 30);
             var ani2 = new DoubleAnimationUsingKeyFrames();
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
@@ -343,7 +344,7 @@ namespace MTMCL
 
         private void butTask_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("tasklist");
+            ChangePage("tasklist", true);
         }
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -400,7 +401,7 @@ namespace MTMCL
                     if (version != null)
                     {
                         KMCCC.Authentication.IAuthenticator auth;
-                        /*if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+                        if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
                         {
                             ACSelect ac = new ACSelect();
                             ac.ShowDialog();
@@ -411,10 +412,10 @@ namespace MTMCL
                             Config.SavedAuth dauth;
                             MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
                             auth = dauth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = Guid.Parse(dauth.AccessToken), UUID = Guid.Parse(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
-                        }*/
-                        ACLogin ac = new ACLogin();
+                        }
+                        /*ACLogin ac = new ACLogin();
                         ac.ShowDialog();
-                        auth = ac.auth;
+                        auth = ac.auth;*/
                         if (auth != null)
                         {
                             LaunchOptions option = new LaunchOptions
@@ -450,7 +451,7 @@ namespace MTMCL
 
         private void butNotice_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("notice");
+            ChangePage("notice", true);
         }
         public void addNotice(Notice.CrashErrorBar notice) {
             noticelist.Add(notice);
