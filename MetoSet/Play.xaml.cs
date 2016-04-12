@@ -62,7 +62,9 @@ namespace MTMCL
                 {
                     dt.Rows.Add(new object[] { version.Id, version.Type });
                 }
+                listVer.SelectedIndex = -1;
                 listVer.DataContext = dt;
+                listVer.SelectedIndex = -1;
             }
         }
         List<LibraryUniversal> libs = new List<LibraryUniversal>();

@@ -267,7 +267,7 @@ namespace MTMCL
             {
                 Type type = GetType();
                 System.Reflection.PropertyInfo property = type.GetProperty(field);
-                property.SetValue(this, Convert.ChangeType(value, property.PropertyType));
+                property.SetValue(this, Convert.ChangeType(value, property.PropertyType),null);
                 Save();
             }
             catch {
@@ -275,7 +275,7 @@ namespace MTMCL
                 {
                     Type type = GetType();
                     System.Reflection.PropertyInfo property = type.GetProperty(field,System.Reflection.BindingFlags.IgnoreCase);
-                    property.SetValue(this, Convert.ChangeType(value, property.PropertyType));
+                    property.SetValue(this, Convert.ChangeType(value, property.PropertyType),null);
                     Save();
                 }
                 catch {
@@ -289,7 +289,7 @@ namespace MTMCL
                             {
                                 if (field.Equals(((JsonPropertyName)property.GetCustomAttributes(typeof(JsonPropertyName), true)[0]).Name))
                                 {
-                                    property.SetValue(this, Convert.ChangeType(value, property.PropertyType));
+                                    property.SetValue(this, Convert.ChangeType(value, property.PropertyType),null);
                                     Save();
                                     break;
                                 }

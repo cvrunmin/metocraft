@@ -38,7 +38,7 @@ namespace MTMCL.Update
             _client.Dispose();
             App.AboutToExit();
             lblProcess.Content = Lang.LangManager.GetLangFromResource("Restarting");
-            await System.Threading.Tasks.Task.Delay(1500);
+            await TaskEx.Delay(1500);
             //Process.Start("MTMCL." + _build + ".exe", "-Update");
             Process.Start(new ProcessStartInfo { FileName = "MTMCL." + _build + ".exe", Arguments = "-UpdateReplace " + Process.GetCurrentProcess().ProcessName });
             Logger.log(string.Format("MTMCL V2 Ver.{0} exited to upodate", MeCore.version));

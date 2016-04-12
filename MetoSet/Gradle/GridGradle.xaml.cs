@@ -68,14 +68,14 @@ namespace MTMCL.Gradle
             pro.OutputDataReceived += (sender, e) => {
                 if (e.Data != null)
                 {
-                    Dispatcher.Invoke(()=> listOutput.Items.Add(e.Data));
+                    Dispatcher.Invoke(new Action(()=> listOutput.Items.Add(e.Data)));
                 }
             };
             pro.BeginErrorReadLine();
             pro.ErrorDataReceived += (sender, e) => {
                 if (e.Data != null)
                 {
-                    Dispatcher.Invoke(() => listOutput.Items.Add(e.Data));
+                    Dispatcher.Invoke(new Action(() => listOutput.Items.Add(e.Data)));
                 }
             };
             System.Threading.Tasks.Task.Factory.StartNew(pro.WaitForExit).ContinueWith(e => enableCMD());

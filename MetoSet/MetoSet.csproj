@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MTMCL</RootNamespace>
     <AssemblyName>MTMCL</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -117,19 +117,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KMCCC.Pro, Version=0.9.5.3, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\KMCCC.Pro.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net40\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ManagedXZ, Version=0.3.5905.35830, Culture=neutral, PublicKeyToken=3c2ba886793fba01, processorArchitecture=MSIL">
       <HintPath>..\packages\ManagedXZ.0.3.0\lib\net40\ManagedXZ.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -137,13 +148,28 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
@@ -180,33 +206,6 @@
     <Compile Include="Gradle\GridGradle.xaml.cs">
       <DependentUpon>GridGradle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guide\GuideWindow.xaml.cs">
-      <DependentUpon>GuideWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideAuth.xaml.cs">
-      <DependentUpon>PageGuideAuth.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideAuthBadLogin.xaml.cs">
-      <DependentUpon>PageGuideAuthBadLogin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideEnd.xaml.cs">
-      <DependentUpon>PageGuideEnd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideFinish.xaml.cs">
-      <DependentUpon>PageGuideFinish.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideAuthTry.xaml.cs">
-      <DependentUpon>PageGuideAuthTry.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideFast.xaml.cs">
-      <DependentUpon>PageGuideFast.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideLang.xaml.cs">
-      <DependentUpon>PageGuideLang.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guide\PageGuideSlow.xaml.cs">
-      <DependentUpon>PageGuideSlow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Install\Install.xaml.cs">
       <DependentUpon>Install.xaml</DependentUpon>
     </Compile>
@@ -231,9 +230,6 @@
     </Compile>
     <Compile Include="Report\ErrorReport.xaml.cs">
       <DependentUpon>ErrorReport.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Report\MCCrash.xaml.cs">
-      <DependentUpon>MCCrash.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\BGPreviewWindow.xaml.cs">
       <DependentUpon>BGPreviewWindow.xaml</DependentUpon>
@@ -263,9 +259,6 @@
     </Compile>
     <Compile Include="Threads\ModPackProcesser.cs" />
     <Compile Include="Threads\MTMCLThread.cs" />
-    <Compile Include="Update\TaskGui.xaml.cs">
-      <DependentUpon>TaskGui.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Update\Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
     </Compile>
@@ -342,42 +335,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guide\GuideWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideAuth.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideAuthBadLogin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideEnd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideFinish.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideAuthTry.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideFast.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideLang.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guide\PageGuideSlow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Install\Install.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -404,10 +361,6 @@
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
     <Page Include="Report\ErrorReport.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Report\MCCrash.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -477,10 +430,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Update\TaskGui.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Update\Update.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -516,21 +465,6 @@
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="screenLaunch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="SplashScreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\mojang.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\offline.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\bg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -557,66 +491,45 @@
     <Resource Include="Resources\mtmcl.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\others.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Play\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\play-normal.jpg" />
-    <Resource Include="Resources\quick-play.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\play-normal-banner.jpg" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Resources\bg.png" />
     <Resource Include="Resources\download-banner.jpg" />
     <Resource Include="Resources\download.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\play-bakaxl-banner.jpg" />
-    <Resource Include="Resources\play-bakaxl.jpg" />
-    <Resource Include="Resources\play-bmcl-banner.jpg" />
-    <Resource Include="Resources\play-bmcl.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\play-bakaxl-logo.jpg" />
-    <Resource Include="Resources\play-bmcl-logo.png" />
-    <Resource Include="Resources\play-normal-logo.png" />
-    <EmbeddedResource Include="Resources\unPackXZ.jar" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\mccrash-banner.jpg" />
-    <Resource Include="Resources\mccrash.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\error-banner.jpg" />
-    <Resource Include="Resources\error.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\easteregg-marble.jpg" />
     <Resource Include="Resources\easteregg-sudou-kayo.png" />
+    <Resource Include="Resources\error-banner.jpg" />
+    <Resource Include="Resources\error.jpg" />
+    <Resource Include="Resources\mccrash.jpg" />
+    <Resource Include="Resources\mccrash-banner.jpg" />
+    <Resource Include="Resources\mojang.png" />
+    <Resource Include="Resources\offline.png" />
+    <Resource Include="Resources\others.png" />
+    <Resource Include="Resources\play-bakaxl-banner.jpg" />
+    <Resource Include="Resources\play-bakaxl-logo.jpg" />
+    <Resource Include="Resources\play-bakaxl.jpg" />
+    <Resource Include="Resources\play-bmcl-banner.jpg" />
+    <Resource Include="Resources\play-bmcl-logo.png" />
+    <Resource Include="Resources\play-bmcl.jpg" />
+    <Resource Include="Resources\play-normal-banner.jpg" />
+    <Resource Include="Resources\play-normal-logo.png" />
+    <Resource Include="Resources\play-normal.jpg" />
+    <Content Include="Resources\unPackXZ.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 封裝。請啟用 NuGet 封裝還原，以下載該封裝。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
   </Target>
   <Import Project="..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets" Condition="Exists('..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

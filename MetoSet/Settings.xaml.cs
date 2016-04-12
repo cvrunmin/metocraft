@@ -249,7 +249,7 @@ namespace MTMCL
         {
             try
             {
-                toggleReverse.IsChecked = await System.Threading.Tasks.Task.Run(new Func<bool>(() =>
+                toggleReverse.IsChecked = await System.Threading.Tasks.TaskEx.Run(new Func<bool>(() =>
                 {
                     System.Drawing.Bitmap map = new System.Drawing.Bitmap(path);
                     System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, map.Width, map.Height);
@@ -276,7 +276,7 @@ namespace MTMCL
         {
             try
             {
-                toggleReverse.IsChecked = await System.Threading.Tasks.Task.Run(new Func<bool>(() =>
+                toggleReverse.IsChecked = await System.Threading.Tasks.TaskEx.Run(new Func<bool>(() =>
                 {
                     System.Drawing.Bitmap map = new System.Drawing.Bitmap(stream);
                     System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, map.Width, map.Height);

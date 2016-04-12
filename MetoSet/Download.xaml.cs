@@ -64,7 +64,7 @@ namespace MTMCL
                         butReloadMC.Content = LangManager.GetLangFromResource("RemoteVerGetting");
                         if (MeCore.Config.DownloadSource == 1)
                         {
-                            await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(1));
+                            await System.Threading.Tasks.TaskEx.Delay(TimeSpan.FromSeconds(1));
                         }
                     }));
                     var getJsonAns = (HttpWebResponse)getJson.GetResponse();
@@ -92,7 +92,7 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg"))}));
+                        Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg"))})));
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -101,7 +101,7 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        Dispatcher.Invoke(()=> MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) }));
+                        Dispatcher.Invoke(new Action(()=> MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -131,7 +131,7 @@ namespace MTMCL
                     {
                         if (MeCore.Config.DownloadSource == 1)
                         {
-                            await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(1));
+                            await System.Threading.Tasks.TaskEx.Delay(TimeSpan.FromSeconds(1));
                         }
                     }));
                     var selectver = selectVer[0] as string;
@@ -185,7 +185,7 @@ namespace MTMCL
                             taskbar.noticeFailed();
                             return;
                         }
-                        await System.Threading.Tasks.Task.Delay(TimeSpan.FromMilliseconds(500));
+                        await System.Threading.Tasks.TaskEx.Delay(TimeSpan.FromMilliseconds(500));
                         var sr = new StreamReader(downjsonpath);
                         VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(sr);
                         sr.Close();
@@ -211,7 +211,7 @@ namespace MTMCL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            Dispatcher.Invoke(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) }));
+                            Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                             taskbar.noticeFailed();
                         }));
                     }

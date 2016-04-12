@@ -65,14 +65,14 @@ namespace MTMCL.Assets
                         if (!File.Exists(file))
                         {
                             _init = false;
-                            break;
+                            continue;
                         }
                         try
                         {
                             if (!FileHelper.IfFileVaild(file, entity.Value.size))
                             {
                                 _init = false;
-                                break;
+                                continue;
                             }
                             string finfile = Path.Combine(MeCore.Config.MCPath, "assets\\virtual\\legacy", entity.Key);
                             if (MeCore.IsServerDedicated)

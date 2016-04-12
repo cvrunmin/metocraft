@@ -138,7 +138,7 @@ namespace MTMCL
                 dddd:
                     if (!MainWindow.IsLoaded)
                     {
-                        await System.Threading.Tasks.Task.Delay(100);
+                        await System.Threading.Tasks.TaskEx.Delay(100);
                         goto dddd;
                     }
                     MessageDialogResult result = await MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("UpdateFound"), updateinfo, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings { AffirmativeButtonText = LangManager.GetLangFromResource("UpdateAccept"), NegativeButtonText = LangManager.GetLangFromResource("UpdateDeny") });
@@ -150,7 +150,7 @@ namespace MTMCL
                         MainWindow.gridOthers.Children.Clear();
                         MainWindow.gridOthers.Visibility = Visibility.Visible;
                         MainWindow.gridOthers.Margin = new Thickness(0);
-                        await System.Threading.Tasks.Task.Delay(500);
+                        await System.Threading.Tasks.TaskEx.Delay(500);
                         MainWindow.gridOthers.Children.Add(new Update.Update(updateBuild, updateAddr));
                     }
                 }

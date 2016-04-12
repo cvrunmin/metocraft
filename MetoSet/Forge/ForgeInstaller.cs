@@ -447,7 +447,7 @@ namespace MTMCL.Forge
                 return false;
             }
         }
-        private async void unpackLibrary(FileInfo input, FileInfo output)
+        private void unpackLibrary(FileInfo input, FileInfo output)
         {
             if (output.Exists)
             {

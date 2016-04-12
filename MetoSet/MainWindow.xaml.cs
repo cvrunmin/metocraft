@@ -130,7 +130,7 @@ namespace MTMCL
             ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMain.Margin.Left + gridMenu.Margin.Left + tile.Margin.Left, gridMain.Margin.Top + gridMenu.Margin.Top + tile.Margin.Top, gridMain.Margin.Right + gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMain.Margin.Bottom + gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
             ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.2)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
             gridLoadingScreen.BeginAnimation(MarginProperty, ani);
-            await System.Threading.Tasks.Task.Delay(1000);
+            await System.Threading.Tasks.TaskEx.Delay(1000);
             gridMain.Visibility = Visibility.Collapsed;
             gridLoadingScreen.Visibility = Visibility.Collapsed;
             gridOthers.Visibility = Visibility.Visible;
@@ -271,7 +271,7 @@ namespace MTMCL
                     catch (Exception) { }
                 };
                 task.Failed += () => {
-                    Dispatcher.Invoke(() => gui.noticeFailed());
+                    Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
                 };
                 addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.Id)).setThread(task).setDetectAlive(false));
             }
@@ -401,7 +401,7 @@ namespace MTMCL
                     if (version != null)
                     {
                         KMCCC.Authentication.IAuthenticator auth;
-                        if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+                        /*if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
                         {
                             ACSelect ac = new ACSelect();
                             ac.ShowDialog();
@@ -412,10 +412,10 @@ namespace MTMCL
                             Config.SavedAuth dauth;
                             MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
                             auth = dauth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = Guid.Parse(dauth.AccessToken), UUID = Guid.Parse(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
-                        }
-                        /*ACLogin ac = new ACLogin();
+                        }*/
+                        ACLogin ac = new ACLogin();
                         ac.ShowDialog();
-                        auth = ac.auth;*/
+                        auth = ac.auth;
                         if (auth != null)
                         {
                             LaunchOptions option = new LaunchOptions
@@ -489,7 +489,7 @@ namespace MTMCL
                         var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
                         ani.Completed += async delegate
                         {
-                            await System.Threading.Tasks.Task.Delay(250);
+                            await System.Threading.Tasks.TaskEx.Delay(250);
                             MeCore.MainWindow.gridParent.Background = new ImageBrush
                             {
                                 ImageSource = new BitmapImage(new Uri(MeCore.DefaultBG)),
@@ -510,7 +510,7 @@ namespace MTMCL
                         var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
                         ani.Completed += async delegate
                         {
-                            await System.Threading.Tasks.Task.Delay(250);
+                            await System.Threading.Tasks.TaskEx.Delay(250);
                             MeCore.MainWindow.gridParent.Background = new ImageBrush
                             {
                                 ImageSource = new BitmapImage(new Uri(MeCore.Config.Background)),
