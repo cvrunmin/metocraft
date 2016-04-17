@@ -108,6 +108,7 @@ namespace MTMCL.Threads
                             MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("CrashNameFormat"), DateTime.Now.ToLongTimeString()), s) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/mccrash-banner.jpg")) })));
                             //MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s, lastClientCrashReportPath).Show()));
                             crashReportReader.Close();
+                            _clientCrashReportCount = Directory.Exists(App.core.GameRootPath + @"\crash-reports") ? Directory.GetFiles(App.core.GameRootPath + @"\crash-reports").Count() : 0;
                         }
                     }
                 }

@@ -63,7 +63,13 @@
                     <Label Content="{DynamicResource LaVer}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <Label x:Name="lblSelectVer" Content="" HorizontalAlignment="Left" Margin="130,0,0,0" VerticalAlignment="Top" FontSize="16"/>
                     <Button x:Name="butPlay" Content="{DynamicResource PlayPlay}" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Width="200" Click="butPlay_Click" Height="40"/>
-                    <Button x:Name="butDLAssets" Content="{DynamicResource DDLAssets}" HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" Width="200" Height="40" Click="butDLAssets_Click"/>
+                    <Button x:Name="butDLAssets" Content="{DynamicResource DDLAssets}" HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" Width="200" Height="40" Click="butDLAssets_Click">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{DynamicResource ReDownload}" ToolTip="{DynamicResource ReDLTooltip}" Click="butRDLAsset_Click"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                 </Grid>
             </TabItem>
         </TabControl>

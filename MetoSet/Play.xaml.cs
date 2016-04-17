@@ -263,12 +263,85 @@ namespace MTMCL
                         {
                             Logger.log(ex.Response.ResponseUri.ToString());
                             Logger.error(ex);
-                            //new KnownErrorReport(ex.Message, LangManager.GetLangFromResource("NoConnectionSolve")).Show();
                         }));
                     }
                 }
             }));
             MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskDLAssets")));
+        }
+        private void butRDLAsset_Click(object sender, RoutedEventArgs e)
+        {
+            TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
+            var thGet = new Thread(new ThreadStart(delegate
+            {
+                WebClient _downer = new WebClient();
+                KMCCC.Launcher.Version _version = null;
+                do
+                {
+                    Dispatcher.Invoke(new Action(() => _version = versions[listVer.SelectedIndex]));
+                } while (_version == null);
+                string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.Assets + ".json";
+                if (MeCore.IsServerDedicated)
+                {
+                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                    {
+                        indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    }
+                }
+                if (!File.Exists(indexpath))
+                {
+                    FileHelper.CreateDirectoryForFile(indexpath);
+                    string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.Assets + ".json"));
+                    StreamWriter sw = new StreamWriter(indexpath);
+                    LitJson.JsonWriter jw = new LitJson.JsonWriter(sw);
+                    jw.PrettyPrint = true;
+                    LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<Assets.AssetIndex>(result), jw);
+                    sw.Close();
+                }
+                var sr = new StreamReader(indexpath);
+                AssetIndex assets = LitJson.JsonMapper.ToObject<Assets.AssetIndex>(sr);
+                int i = 0;
+                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
+                {
+                    i++;
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        task.setTaskStatus(((float)i / assets.objects.Count * 100).ToString() + "%");
+                    }));
+                    string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
+                    string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                    if (MeCore.IsServerDedicated)
+                    {
+                        if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                        {
+                            file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                        }
+                    }
+                    FileHelper.CreateDirectoryForFile(file);
+                    try
+                    {
+                        if (FileHelper.IfFileVaild(file, entity.Value.size)) File.Delete(file);
+                        _downer.DownloadFile(new Uri(url), file);
+                        Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
+                        if (i == assets.objects.Count)
+                        {
+                            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                            {
+                                Logger.log("assets重新下载完毕");
+                            }));
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        {
+                            Logger.log(ex.Response.ResponseUri.ToString());
+                            Logger.error(ex);
+                        }));
+                    }
+                }
+            }));
+            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")));
         }
     }
 }
