@@ -155,14 +155,14 @@ namespace MTMCL
             requiredGuide = true;
             try
             {
-                Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
+                Javaw = GetJavaDir() ?? "javaw.exe";
             }
             catch
             {
                 Javaw = "undefined";
             }
             MCPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft");
-            Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4 / 1024 / 1024);
+            Javaxmx = (GetMemory() / 4);
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
             Background = "default";
             ColorScheme = "Green";
@@ -366,6 +366,72 @@ namespace MTMCL
         public static string GetGuid()
         {
             return Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// 读取注册表，寻找安装的java路径
+        /// </summary>
+        /// <returns>javaw.exe路径</returns>
+        public static string GetJavaDir()
+        {
+            try
+            {
+                RegistryKey reg = Registry.LocalMachine;
+                var openSubKey = reg.OpenSubKey("SOFTWARE");
+                if (openSubKey != null)
+                {
+                    var registryKey = openSubKey.OpenSubKey("JavaSoft");
+                    if (registryKey != null)
+                        reg = registryKey.OpenSubKey("Java Runtime Environment");
+                }
+                if (reg != null)
+                    foreach (string ver in reg.GetSubKeyNames())
+                    {
+                        try
+                        {
+                            RegistryKey command = reg.OpenSubKey(ver);
+                            if (command != null)
+                            {
+                                string str = command.GetValue("JavaHome").ToString();
+                                if (str != "")
+                                    return str + @"\bin\javaw.exe";
+                            }
+                        }
+                        catch { return null; }
+                    }
+                return null;
+            }
+            catch { return null; }
+
+        }
+        /// <summary>
+        /// 获取系统物理内存大小
+        /// </summary>
+        /// <returns>系统物理内存大小，支持64bit,单位MB</returns>
+        public static ulong GetMemory()
+        {
+            try
+            {
+                double capacity = 0.0;
+                var cimobject1 = new ManagementClass("Win32_PhysicalMemory");
+                ManagementObjectCollection moc1 = cimobject1.GetInstances();
+                foreach (var o in moc1)
+                {
+                    var mo1 = (ManagementObject)o;
+                    capacity += ((Math.Round(long.Parse(mo1.Properties["Capacity"].Value.ToString()) / 1024 / 1024.0, 1)));
+                }
+                moc1.Dispose();
+                cimobject1.Dispose();
+                ulong qmem = Convert.ToUInt64(capacity.ToString(CultureInfo.InvariantCulture));
+                return qmem;
+            }
+            catch (System.Runtime.InteropServices.COMException ex)
+            {
+                Logger.error("Failed to get the physical memory");
+                Logger.error(ex);
+                return ulong.MaxValue;
+
+            }
         }
     }
 }

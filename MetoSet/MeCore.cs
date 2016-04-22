@@ -86,40 +86,22 @@ namespace MTMCL
             }
             if (Config.Javaw == "autosearch")
             {
-                try
-                {
-                    Config.Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
-                }
-                catch (Exception)
-                {
-                    Config.Javaw = "undefined";
-                }
+                    Config.Javaw = Config.GetJavaDir() ?? "javaw.exe";
             }
             if (Config.Javaxmx == -1)
             {
-                Config.Javaxmx = (KMCCC.Tools.SystemTools.GetTotalMemory() / 4) / 1024 / 1024;
+                Config.Javaxmx = Config.GetMemory() / 4;
             }
             LangManager.UseLanguage(Config.Lang);
 #if DEBUG
 #else
             ReleaseCheck();
 #endif
-            if (Config.Javaw == "undefined")
-            {
-                try
-                {
-                    Config.Javaw = KMCCC.Tools.SystemTools.FindValidJava().First();
-                    return;
-                }
-                catch { }
-                MessageBox.Show("NO Java is defined! Are you sure you have installed Java properly?");
-                MessageBox.Show("Minecraft Launching and Minecraft Forge Installing won\'t work until you have installed Java properly");
-            }
-#if DEBUG
+/*#if DEBUG
             KMCCC.Launcher.Reporter.SetClientName("MTMCL " + version + "-EAT-BUGXL");
 #else
             KMCCC.Launcher.Reporter.SetClientName("MTMCL " + version);
-#endif
+#endif*/
         }
         public static void ReleaseCheck()
         {

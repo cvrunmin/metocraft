@@ -1,8 +1,6 @@
-﻿using KMCCC.Launcher;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
 using System;
 
 namespace MTMCL.Versions
@@ -195,6 +193,8 @@ namespace MTMCL.Versions
         public int size { get; set; }
         public string path { get; set; }
         public string url { get; set; }
+        public bool isNative { get; set; }
+        public SimplifyVersionJson.Library.Extract extract { get; set; }
     }
 
     public static class VersionJsonController
@@ -249,7 +249,7 @@ namespace MTMCL.Versions
             LitJson.JsonMapper.ToJson(json, jsonwriter);
             writer.Close();
         }
-        public static List<LibraryUniversal> ToUniversalLibrary(this List<Library> libs)
+        /*public static List<LibraryUniversal> ToUniversalLibrary(this List<Library> libs)
         {
             List<LibraryUniversal> liblist = new List<LibraryUniversal>();
             foreach (var item in libs)
@@ -276,7 +276,7 @@ namespace MTMCL.Versions
                 });
             }
             return liblist;
-        }
+        }*/
         public static List<LibraryUniversal> ToUniversalLibrary(this SimplifyVersionJson.Library[] libs)
         {
             List<LibraryUniversal> liblist = new List<LibraryUniversal>();
@@ -292,8 +292,10 @@ namespace MTMCL.Versions
                     liblist.Add(new LibraryUniversal
                     {
                         name = item.name,
-                        path = Path.Combine(App.core.GameRootPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + "-" + item.natives.windows.Replace("${arch}", KMCCC.Tools.SystemTools.GetArch()) + ".jar"),
-                        url = item.url
+                        path = Path.Combine(MeCore.Config.MCPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + "-" + item.natives.windows.Replace("${arch}", Environment.Is64BitOperatingSystem ? "64" : "32") + ".jar"),
+                        url = item.url,
+                        isNative = true,
+                        extract = item.extract
                     });
                 }
                 else
@@ -301,7 +303,7 @@ namespace MTMCL.Versions
                     liblist.Add(new LibraryUniversal
                     {
                         name = item.name,
-                        path = Path.Combine(App.core.GameRootPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + ".jar"),
+                        path = Path.Combine(MeCore.Config.MCPath, "libraries", name[0].Replace(".", "\\"), name[1], name[2], name[1] + "-" + name[2] + ".jar"),
                         url = item.url
                     });
                 }
@@ -324,10 +326,12 @@ namespace MTMCL.Versions
                         liblist.Add(new LibraryUniversal
                         {
                             name = item.name,
-                            path = Path.Combine(App.core.GameRootPath, "libraries", item.download.classifiers.natives_windows.path),
+                            path = Path.Combine(MeCore.Config.MCPath, "libraries", item.download.classifiers.natives_windows.path),
                             url = item.download.classifiers.natives_windows.url,
                             sha1 = item.download.classifiers.natives_windows.sha1,
-                            size = item.download.classifiers.natives_windows.size
+                            size = item.download.classifiers.natives_windows.size,
+                            isNative = true,
+                            extract = item.extract
                         });
                     }
                     else if (item.download.artifact != null)
@@ -335,7 +339,7 @@ namespace MTMCL.Versions
                         liblist.Add(new LibraryUniversal
                         {
                             name = item.name,
-                            path = Path.Combine(App.core.GameRootPath, "libraries", item.download.artifact.path),
+                            path = Path.Combine(MeCore.Config.MCPath, "libraries", item.download.artifact.path),
                             url = item.download.artifact.url,
                             sha1 = item.download.artifact.sha1,
                             size = item.download.artifact.size

@@ -13,7 +13,7 @@ namespace MTMCL
     /// </summary>
     public partial class ACSelect : MetroWindow
     {
-        public KMCCC.Authentication.IAuthenticator auth;
+        public Launch.Login.IAuth auth;
         public ACSelect()
         {
             InitializeComponent();

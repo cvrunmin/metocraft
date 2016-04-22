@@ -13,12 +13,12 @@ namespace MTMCL.Assets
     {
         private readonly WebClient _downloader = new WebClient();
         bool _init = true;
-        readonly KMCCC.Launcher.Version _ver;
+        readonly Versions.VersionJson _ver;
         Dictionary<string, string> _downloadUrlPathPair = new Dictionary<string, string>();
         private readonly string _urlDownloadBase;
         private readonly string _urlResourceBase;
         public Dictionary<string, AssetsEntity> obj;
-        public Assets(KMCCC.Launcher.Version ver, string urlDownloadBase = null, string urlResourceBase = null)
+        public Assets(Versions.VersionJson ver, string urlDownloadBase = null, string urlResourceBase = null)
         {
             _ver = ver;
             _urlDownloadBase = urlDownloadBase ?? Resources.UrlReplacer.getDownloadUrl();
@@ -30,7 +30,7 @@ namespace MTMCL.Assets
 
         private void Run()
         {
-            string gameVersion = _ver.Assets;
+            string gameVersion = _ver.assets;
             if (string.IsNullOrWhiteSpace(gameVersion) | gameVersion != "legacy")
             {
                 Logger.log("version isn\'t legacy, return.");

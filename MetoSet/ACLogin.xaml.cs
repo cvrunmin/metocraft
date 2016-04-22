@@ -14,8 +14,8 @@ namespace MTMCL
     {
         public string UN;
         public string PW;
-        public KMCCC.Authentication.IAuthenticator auth;
-        public KMCCC.Authentication.AuthenticationInfo info;
+        public Launch.Login.IAuth auth;
+        public Launch.Login.AuthInfo info;
         public readonly bool requiredPreLogin;
         public ACLogin(bool requiredPreLogin = false)
         {
@@ -43,11 +43,11 @@ namespace MTMCL
 
         private void butLoginOff_Click(object sender, RoutedEventArgs e)
         {
-            auth = new KMCCC.Authentication.OfflineAuthenticator(txtBoxUN.Text);
+            auth = new Launch.Login.OfflineAuth(txtBoxUN.Text);
             if (requiredPreLogin)
             {
-                info = auth.Do();
-                auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = info.DisplayName, AccessToken = info.AccessToken, UUID = info.UUID, UserType = info.UserType, Properties = info.Properties });
+                info = auth.Login();
+                //auth = !string.IsNullOrWhiteSpace(info.ErrorMsg) ? null : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = info.DisplayName, AccessToken = info.AccessToken, UUID = info.UUID, UserType = info.UserType, Properties = info.Properties });
             }
             if ((bool)butRM1.IsChecked)
             {
@@ -65,11 +65,11 @@ namespace MTMCL
 
         private void butLoginM_Click(object sender, RoutedEventArgs e)
         {
-            auth = new KMCCC.Authentication.YggdrasilDebuggableLogin(txtBoxUNE.Text, pwbox.Password, (bool)butCheckTwitch.IsChecked);
+            auth = new Launch.Login.YggdrasilLoginAuth(txtBoxUNE.Text, pwbox.Password);
             if (requiredPreLogin)
             {
-                info = auth.Do();
-                auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.YggdrasilDebuggableRefresh(info.AccessToken, true, Guid.Parse(MeCore.Config.GUID));
+                info = auth.Login();
+                auth = !string.IsNullOrWhiteSpace(info.ErrorMsg) ? null : new Launch.Login.YggdrasilRefreshAuth(info.Session.ToString("N"));
             }
             if ((bool)butRM2.IsChecked)
             {
@@ -167,11 +167,11 @@ namespace MTMCL
                     butlogin.BorderThickness = new Thickness(2);
                     butlogin.Style = (Style)Resources["NormalButton"];
                     butlogin.Click += delegate (object sender, RoutedEventArgs e) {
-                        auth = new KMCCC.Authentication.YggdrasilLogin(txtboxune.Text, pwbox.Password, false, item.Url);
+                        auth = new Launch.Login.YggdrasilLoginAuth(txtboxune.Text, pwbox.Password,new Launch.Login.YggdrasilHelper(item.Url));
                         if (requiredPreLogin)
                         {
-                            info = auth.Do();
-                            auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.YggdrasilRefresh(info.AccessToken, false, item.Url);
+                            info = auth.Login();
+                            //auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.YggdrasilRefresh(info.AccessToken, false, item.Url);
                         }
                         Close();
                     };

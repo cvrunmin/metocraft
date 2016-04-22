@@ -1,15 +1,9 @@
-﻿using KMCCC.Launcher;
-using MTMCL.Lang;
-using MTMCL.Versions;
+﻿using MTMCL.Versions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MTMCL.util
 {
@@ -243,22 +237,14 @@ namespace MTMCL.util
     }
     public static class LibraryHelper
     {
-        public static bool CheckLibrary(this KMCCC.Launcher.Version version)
+        public static bool CheckLibrary(this VersionJson version)
         {
             try
             {
-                var libs = version.Libraries.Select(lib => App.core.GetLibPath(lib));
-                var natives = version.Natives.Select(native => App.core.GetNativePath(native));
-                foreach (string libflie in libs)
+                var libs = version.libraries;
+                foreach (var libflie in libs)
                 {
-                    if (!File.Exists(libflie))
-                    {
-                        return false;
-                    }
-                }
-                foreach (string libflie in natives)
-                {
-                    if (!File.Exists(libflie))
+                    if (!File.Exists(System.IO.Path.Combine(MeCore.Config.MCPath,libflie.name)))
                     {
                         return false;
                     }

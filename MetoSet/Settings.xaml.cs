@@ -103,7 +103,7 @@ namespace MTMCL
         private void PreInit()
         {
             comboJava.Items.Clear();
-            try
+            /*try
             {
                 var javas = KMCCC.Tools.SystemTools.FindValidJava().ToList();
                 foreach (var java in javas)
@@ -111,10 +111,10 @@ namespace MTMCL
                     comboJava.Items.Add(java);
                 }
             }
-            catch { }
-            sliderRAM.Maximum = KMCCC.Tools.SystemTools.GetTotalMemory() / 1024 / 1024;
+            catch { }*/
+            sliderRAM.Maximum = Config.GetMemory();
             lblLauncherVersion.Content = MeCore.version;
-            lblKMCCCVersion.Content = KMCCC.Launcher.Reporter.KMCCC_TYPE + " " + KMCCC.Launcher.Reporter.Version;
+            //lblKMCCCVersion.Content = KMCCC.Launcher.Reporter.KMCCC_TYPE + " " + KMCCC.Launcher.Reporter.Version;
         }
         private void LoadConfig()
         {
@@ -213,7 +213,7 @@ namespace MTMCL
         {
             if (CouldMC)
             {
-                App.core = KMCCC.Launcher.LauncherCore.Create(new KMCCC.Launcher.LauncherCoreCreationOption(txtboxMP.Text, comboJava.SelectedItem as string, new KMCCC.Modules.JVersion.NewJVersionLocator()));
+                //App.core = KMCCC.Launcher.LauncherCore.Create(new KMCCC.Launcher.LauncherCoreCreationOption(txtboxMP.Text, comboJava.SelectedItem as string, new KMCCC.Modules.JVersion.NewJVersionLocator()));
             }
         }
 
@@ -324,7 +324,7 @@ namespace MTMCL
 
         private void butAuth_Click(object sender, RoutedEventArgs e)
         {
-            new ACSelect().ShowDialog();
+            //new ACSelect().ShowDialog();
         }
 
         private void toggleReverse_IsCheckedChanged(object sender, EventArgs e)

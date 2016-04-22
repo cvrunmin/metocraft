@@ -1,16 +1,9 @@
-﻿using KMCCC.Launcher;
-using MahApps.Metro;
+﻿using MahApps.Metro;
 using MTMCL.Task;
 using MTMCL.Threads;
-using MTMCL.util;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -24,7 +17,7 @@ namespace MTMCL
     public partial class MainWindow
     {
         System.Windows.Forms.Timer timer;
-        public LaunchOptions _LaunchOptions;
+        public Launch.LaunchGameInfo _LaunchOptions;
         bool gameSentLaunch;
         public MainWindow()
         {
@@ -176,7 +169,7 @@ namespace MTMCL
         }
         private void butLaunchNormal_Click(object sender, RoutedEventArgs e)
         {
-            LaunchGame(null);
+            LaunchGame();
             MeCore.MainWindow.launchFlyout.IsOpen = false;
         }
 
@@ -194,7 +187,7 @@ namespace MTMCL
         }
         private void butLaunchBMCL_Click(object sender, RoutedEventArgs e)
         {
-            LaunchGame(LaunchMode.BmclMode);
+            LaunchGame(/*LaunchMode.BmclMode*/);
             MeCore.MainWindow.launchFlyout.IsOpen = false;
         }
 
@@ -212,32 +205,32 @@ namespace MTMCL
         }
         private void butLaunchBaka_Click(object sender, RoutedEventArgs e)
         {
-            LaunchGame(new BakaXLMode());
+            LaunchGame(/*new BakaXLMode()*/);
             MeCore.MainWindow.launchFlyout.IsOpen = false;
         }
-        public void LaunchGame(LaunchMode mode)
+        public void LaunchGame(/*LaunchMode mode*/)
         {
             if (_LaunchOptions != null)
             {
-                LaunchGame(_LaunchOptions, mode);
+                LaunchGame(_LaunchOptions/*, mode*/);
             }
         }
-        public void LaunchGame(LaunchOptions options, LaunchMode mode)
+        public void LaunchGame(Launch.LaunchGameInfo options)
         {
             gameSentLaunch = true;
             if (options != null)
             {
                 _LaunchOptions = options;
-                _LaunchOptions.Mode = mode;
+                //_LaunchOptions.Mode = mode;
                 string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
-                if (mode is BmclLaunchMode)
+                /*if (mode is BmclLaunchMode)
                 {
                     uri = "pack://application:,,,/Resources/play-bmcl-banner.jpg";
                 }
                 if (mode is BakaXLMode)
                 {
                     uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
-                }
+                }*/
                 TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri)) };
                 var task = new LaunchMCThread(_LaunchOptions);
                 task.StateChange += delegate (string state)
@@ -262,18 +255,18 @@ namespace MTMCL
                 {
                     //new MCCrash(content, path).Show();
                 };
-                task.OnAuthUpdate += delegate (KMCCC.Authentication.AuthenticationInfo info)
+                /*task.OnAuthUpdate += delegate (KMCCC.Authentication.AuthenticationInfo info)
                 {
                     try
                     {
                         MeCore.Config.SavedAuths[info.DisplayName].AccessToken = info.AccessToken.ToString();
                     }
                     catch (Exception) { }
-                };
+                };*/
                 task.Failed += () => {
                     Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
                 };
-                addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.Id)).setThread(task).setDetectAlive(false));
+                addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.id)).setThread(task).setDetectAlive(false));
             }
             else
             {
@@ -380,27 +373,27 @@ namespace MTMCL
             timer.Tick += new EventHandler(timer_Tick);
             Render();
             RenderColor();
-            ThemeManager.ChangeAppTheme(System.Windows.Application.Current, (bool)MeCore.Config.reverseColor ? "BaseDark" : "BaseLight");
+            ThemeManager.ChangeAppTheme(Application.Current, (bool)MeCore.Config.reverseColor ? "BaseDark" : "BaseLight");
         }
 
         private void butPlayQuick_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (App.core == null)
+                /*if (App.core == null)
                 {
                     try
                     {
                         App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.IsServerDedicated ? (string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath) ? ".minecraft" : MeCore.Config.Server.ClientPath) : MeCore.Config.MCPath, MeCore.Config.Javaw, new KMCCC.Modules.JVersion.NewJVersionLocator()));
                     }
                     catch { }
-                }
+                }*/
                 if (!string.IsNullOrWhiteSpace(MeCore.Config.LastPlayVer))
                 {
-                    KMCCC.Launcher.Version version = App.core.GetVersion(MeCore.Config.LastPlayVer);
+                    Versions.VersionJson version = Versions.VersionReader.GetVersion(MeCore.Config.MCPath, MeCore.Config.LastPlayVer);
                     if (version != null)
                     {
-                        KMCCC.Authentication.IAuthenticator auth;
+                        Launch.Login.IAuth auth;
                         /*if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
                         {
                             ACSelect ac = new ACSelect();
@@ -418,37 +411,36 @@ namespace MTMCL
                         auth = ac.auth;
                         if (auth != null)
                         {
-                            LaunchOptions option = new LaunchOptions
-                            {
-                                Authenticator = auth,
-                                MaxMemory = (int)MeCore.Config.Javaxmx,
-                                Version = version
-                            };
-                            if (MeCore.IsServerDedicated)
-                            {
-                                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerIP))
-                                {
-                                    if (MeCore.Config.Server.ServerIP.IndexOf(':') != -1)
-                                    {
-                                        ushort port = 25565;
-                                        if (!ushort.TryParse(MeCore.Config.Server.ServerIP.Substring(MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'), out port)) {
-                                            port = 25565;
-                                        }
-                                        option.Server = new ServerInfo {
-                                            Address = MeCore.Config.Server.ServerIP.Substring(0, MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'),
-                                            Port = port
-                                        };
-                                    }
-                                }
-                            }
-                            LaunchGame(option, null);
+                            Launch.LaunchGameInfo option = Launch.LaunchGameInfo.CreateInfo(MeCore.Config.MCPath, auth, version,MeCore.Config.Javaw, (int)MeCore.Config.Javaxmx, CreateServerInfo());
+                            LaunchGame(option);
                         }
                     }
                 }
             }
             catch { }
         }
-
+        private Launch.ServerInfo CreateServerInfo() {
+            if (MeCore.IsServerDedicated)
+            {
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerIP))
+                {
+                    if (MeCore.Config.Server.ServerIP.IndexOf(':') != -1)
+                    {
+                        ushort port = 25565;
+                        if (!ushort.TryParse(MeCore.Config.Server.ServerIP.Substring(MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'), out port))
+                        {
+                            port = 25565;
+                        }
+                        return new Launch.ServerInfo
+                        {
+                            Ip = MeCore.Config.Server.ServerIP.Substring(0, MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'),
+                            Port = port
+                        };
+                    }
+                }
+            }
+            return null;
+        }
         private void butNotice_Click(object sender, RoutedEventArgs e)
         {
             ChangePage("notice", true);
@@ -467,7 +459,7 @@ namespace MTMCL
         }
         public void RenderColor() {
             Tuple<AppTheme, Accent> theme = ThemeManager.DetectAppStyle(System.Windows.Application.Current);
-            ThemeManager.ChangeAppStyle(System.Windows.Application.Current, ThemeManager.GetAccent(MeCore.Config.ColorScheme), theme.Item1);
+            ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(MeCore.Config.ColorScheme), theme.Item1);
         }
         public void Render()
         {

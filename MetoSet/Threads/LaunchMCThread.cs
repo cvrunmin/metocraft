@@ -1,4 +1,4 @@
-﻿using KMCCC.Launcher;
+﻿using ICSharpCode.SharpZipLib.Zip;
 using MTMCL.Lang;
 using MTMCL.util;
 using MTMCL.Versions;
@@ -16,16 +16,16 @@ namespace MTMCL.Threads
 {
     public class LaunchMCThread : MTMCLThread
     {
-        private readonly LaunchOptions _LaunchOptions;
+        private readonly Launch.LaunchGameInfo _LaunchOptions;
         private int _clientCrashReportCount;
-
+        private System.Diagnostics.Process process = new System.Diagnostics.Process();
         public delegate void StateChangeEventHandler(string state);
         public delegate void GameExitHandler();
         public delegate void GameLaunched();
         public delegate void LaunchFail();
         public delegate void GameCrashedHandler(string content, string reportpath);
         public delegate void Log(string log);
-        public delegate void UpdateAuth(KMCCC.Authentication.AuthenticationInfo info);
+        public delegate void UpdateAuth(Launch.Login.AuthInfo info);
         public event UpdateAuth OnAuthUpdate;
         public event StateChangeEventHandler StateChange;
         public event GameExitHandler GameExit;
@@ -43,7 +43,7 @@ namespace MTMCL.Threads
             var handler = GameCrash;
             if (handler != null) MeCore.Invoke(new Action(() => handler(content, path)));
         }
-        public LaunchMCThread(LaunchOptions options) {
+        public LaunchMCThread(Launch.LaunchGameInfo options) {
             _LaunchOptions = options;
         }
         public override Thread Start()
@@ -61,7 +61,7 @@ namespace MTMCL.Threads
                 try
                 {
                     List<LibraryUniversal> libs = new List<LibraryUniversal>();
-                    VersionJson lib = LitJson.JsonMapper.ToObject<VersionJson>(new LitJson.JsonReader(new StreamReader(App.core.GetVersionJsonPath(_LaunchOptions.Version))));
+                    VersionJson lib = _LaunchOptions.Version;
                     libs = lib.libraries.ToUniversalLibrary();
                         WebClient _downer = new WebClient();
                         int i = 0;
@@ -79,19 +79,44 @@ namespace MTMCL.Threads
                 catch { }
             }
             new Assets.Assets(_LaunchOptions.Version);
-            await TaskEx.Delay(1000);
-            App.core.GameExit += delegate (LaunchHandle handle, int code)
+            //await TaskEx.Delay(1000);
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            Launch.Login.AuthInfo ai = _LaunchOptions.Auth.Login();
+            if (!ai.Pass | !string.IsNullOrWhiteSpace(ai.ErrorMsg))
+            {
+                OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
+                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ai.ErrorMsg, LangManager.GetLangFromResource("AuthFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                return;
+            }
+            args.Add("auth_access_token", ai.Session.ToString());
+            args.Add("auth_session", ai.Session.ToString());
+            args.Add("auth_player_name", ai.DisplayName);
+            args.Add("version_name", _LaunchOptions.Version.id);
+            args.Add("game_directory", ".");
+            args.Add("game_assets", "assets");
+            args.Add("assets_root", "assets");
+            args.Add("assets_index_name", _LaunchOptions.Version.assets);
+            args.Add("auth_uuid", ai.UUID.ToString());
+            args.Add("user_properties", ai.Prop);
+            args.Add("user_type", ai.UserType);
+
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.FileName = _LaunchOptions.JavaPath;
+            process.StartInfo.Arguments = Launch.LaunchHandler.CreateArgument(_LaunchOptions, args, MeCore.Config.ExtraJvmArg);
+            process.StartInfo.WorkingDirectory = _LaunchOptions.MCPath;
+            process.Exited += delegate (object sender, EventArgs e)
             {
                 GameExit?.Invoke();
                 //Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
-                if (code != 0)
+                if (process.ExitCode != 0)
                 {
-                    if (Directory.Exists(App.core.GameRootPath + @"\crash-reports"))
+                    if (Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports"))
                     {
-                        if (_clientCrashReportCount != Directory.GetFiles(App.core.GameRootPath + @"\crash-reports").Count())
+                        if (_clientCrashReportCount != Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count())
                         {
                             OnLogged?.Invoke(Logger.HelpLog("found new crash report"));
-                            var clientCrashReportDir = new DirectoryInfo(App.core.GameRootPath + @"\crash-reports");
+                            var clientCrashReportDir = new DirectoryInfo(_LaunchOptions.MCPath + @"\crash-reports");
                             var lastClientCrashReportPath = "";
                             var lastClientCrashReportModifyTime = DateTime.MinValue;
                             foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
@@ -108,31 +133,72 @@ namespace MTMCL.Threads
                             MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("CrashNameFormat"), DateTime.Now.ToLongTimeString()), s) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/mccrash-banner.jpg")) })));
                             //MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s, lastClientCrashReportPath).Show()));
                             crashReportReader.Close();
-                            _clientCrashReportCount = Directory.Exists(App.core.GameRootPath + @"\crash-reports") ? Directory.GetFiles(App.core.GameRootPath + @"\crash-reports").Count() : 0;
+                            _clientCrashReportCount = Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports") ? Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count() : 0;
                         }
                     }
                 }
             };
-            var result = App.core.Launch(_LaunchOptions);
-            if (!result.Success)
+            try
+            {
+                foreach (var lib in _LaunchOptions.Version.libraries.ToUniversalLibrary())
+                {
+                    var zipfile = new ZipInputStream(File.OpenRead(lib.path));
+                    ZipEntry theEntry;
+                    while ((theEntry = zipfile.GetNextEntry()) != null)
+                    {
+                        bool exc = false;
+                        if (lib.extract != null)
+                        {
+                            if (lib.extract.exclude != null)
+                            {
+                                if (lib.extract.exclude.Any(excfile => theEntry.Name.Contains(excfile)))
+                                {
+                                    exc = true;
+                                }
+                            }
+                        }
+                        if (exc) continue;
+                        var filepath = new StringBuilder(Path.Combine(_LaunchOptions.MCPath, "$natives"));
+                        filepath.Append("\\").Append(theEntry.Name);
+                        FileStream fileWriter = File.Create(filepath.ToString());
+                        var data = new byte[2048];
+                        while (true)
+                        {
+                            int size = zipfile.Read(data, 0, data.Length);
+                            if (size > 0)
+                            {
+                                fileWriter.Write(data, 0, size);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        fileWriter.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to uncompress native"));
+                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString(), LangManager.GetLangFromResource("LibFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+            }
+            
+            if (!File.Exists(_LaunchOptions.JavaPath))
+            {
+                OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
+                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), new FileNotFoundException("javaw.exe not found", _LaunchOptions.JavaPath).ToWellKnownExceptionString(), LangManager.GetLangFromResource("JavaFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                return;
+            }
+            process.Start();
+            await System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);
+            /*if (!result.Success)
             {
                 switch (result.ErrorType)
                 {
-                    case ErrorType.NoJAVA:
-                        OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
-                        MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice( new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("JavaFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
-                        break;
-                    case ErrorType.AuthenticationFailed:
-                        OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
-                        MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("AuthFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
-                        break;
                     case ErrorType.OperatorException:
                         OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to create operator"));
                         MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
-                        break;
-                    case ErrorType.UncompressingFailed:
-                        OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to uncompress native"));
-                        MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), result.ErrorMessage, LangManager.GetLangFromResource("LibFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                         break;
                     case ErrorType.Unknown:
                         OnLogged?.Invoke(Logger.HelpLog("error occurred: unknown exception: " + result.Exception));
@@ -142,16 +208,16 @@ namespace MTMCL.Threads
                 Failed?.Invoke();
             }
             else
-            {
-                _clientCrashReportCount = Directory.Exists(App.core.GameRootPath + @"\crash-reports") ? Directory.GetFiles(App.core.GameRootPath + @"\crash-reports").Count() : 0;
+            {*/
+                _clientCrashReportCount = Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports") ? Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count() : 0;
                 //butPlayQuick.IsEnabled = false;
                 //OnStateChange("");
                 TaskCountTime?.Invoke();
                 OnLogged?.Invoke(Logger.HelpLog("game launched"));
-                OnAuthUpdate?.Invoke(result.Handle.Info);
-                MeCore.Config.QuickChange("LastPlayVer",_LaunchOptions.Version.Id);
+                //OnAuthUpdate?.Invoke(result.Handle.Info);
+                MeCore.Config.QuickChange("LastPlayVer",_LaunchOptions.Version.id);
                 //MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + versions[comboVer.SelectedIndex].Id);
-            }
+            //}
         }
         private void Download(LibraryUniversal file)
         {
@@ -170,12 +236,12 @@ namespace MTMCL.Threads
                         url = Resources.UrlReplacer.toGoodLibUrl(file.url);
                     }
                     else {
-                        url = Resources.UrlReplacer.getForgeMaven(file.url) + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
+                        url = Resources.UrlReplacer.getForgeMaven(file.url) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                     }
                 }
                 else
                 {
-                    url = url + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
+                    url = url + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                 }
 #if DEBUG
                 System.Windows.MessageBox.Show(url);
@@ -197,12 +263,12 @@ namespace MTMCL.Threads
                             url = Resources.UrlReplacer.toGoodLibUrl(file.url, 1);
                         }
                         else {
-                            url = Resources.UrlReplacer.getForgeMaven(file.url, 1) + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
+                            url = Resources.UrlReplacer.getForgeMaven(file.url, 1) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                         }
                     }
                     else
                     {
-                        url = url + file.path.Remove(0, App.core.GameRootPath.Length + 11).Replace("\\", "/");
+                        url = url + file.path.Remove(0,MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                     }
                     Logger.log(url);
                     _downer.DownloadFile(Resources.UrlReplacer.toGoodLibUrl(url), file.path);

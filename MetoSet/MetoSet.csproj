@@ -116,11 +116,6 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KMCCC.Pro, Version=0.9.5.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\KMCCC.Pro.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net40\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -153,6 +148,7 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Net" />
     <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
@@ -184,16 +180,12 @@
     <Compile Include="Accents\AccentWindow.xaml.cs">
       <DependentUpon>AccentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ACSelect.xaml.cs">
-      <DependentUpon>ACSelect.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ACLogin.xaml.cs">
       <DependentUpon>ACLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="assets\AssetIndex.cs" />
     <Compile Include="assets\assets.cs" />
     <Compile Include="assets\AssetsEntity.cs" />
-    <Compile Include="BakaXLMode.cs" />
     <Compile Include="ButtonMenu.cs" />
     <Compile Include="config.cs" />
     <Compile Include="Download.xaml.cs">
@@ -211,9 +203,22 @@
     </Compile>
     <Compile Include="JsonClass\ForgeInstall.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
-    <Compile Include="KMCCCExtend\NewJVersionLocator.cs" />
-    <Compile Include="KMCCCExtend\NewYggdrasilClient.cs" />
-    <Compile Include="KMCCCExtend\NewYggdrasil.cs" />
+    <Compile Include="Launch\LaunchGameInfo.cs" />
+    <Compile Include="Launch\LaunchHandler.cs" />
+    <Compile Include="Launch\Login\AuthInfo.cs" />
+    <Compile Include="Launch\Login\IAuth.cs" />
+    <Compile Include="Launch\Login\OfflineAuth.cs" />
+    <Compile Include="Launch\Login\Yggdrasil.cs" />
+    <Compile Include="LitJson\IJsonWrapper.cs" />
+    <Compile Include="LitJson\JsonData.cs" />
+    <Compile Include="LitJson\JsonException.cs" />
+    <Compile Include="LitJson\JsonMapper.cs" />
+    <Compile Include="LitJson\JsonMockWrapper.cs" />
+    <Compile Include="LitJson\JsonPropertyName.cs" />
+    <Compile Include="LitJson\JsonReader.cs" />
+    <Compile Include="LitJson\JsonWriter.cs" />
+    <Compile Include="LitJson\Lexer.cs" />
+    <Compile Include="LitJson\ParserToken.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MeCore.cs" />
     <Compile Include="Notice\CrashDetail.xaml.cs">
@@ -270,6 +275,7 @@
     <Compile Include="Versions\RawVersionListType.cs" />
     <Compile Include="Versions\RemoteVerType.cs" />
     <Compile Include="Versions\VersionJson.cs" />
+    <Compile Include="Versions\VersionReader.cs" />
     <Compile Include="Zip\Checksums\Adler32.cs" />
     <Compile Include="Zip\Checksums\CRC32.cs" />
     <Compile Include="Zip\Checksums\IChecksum.cs" />
@@ -314,10 +320,6 @@
     <Page Include="Accents\AccentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ACSelect.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="ACLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
