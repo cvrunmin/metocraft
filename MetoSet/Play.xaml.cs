@@ -59,11 +59,20 @@ namespace MTMCL
                 dt.Columns.Add("Type");
                 foreach (var version in versions)
                 {
-                    dt.Rows.Add(new object[] { version.id, version.type });
+                    dt.Rows.Add(version.id, version.type);
                 }
                 listVer.SelectedIndex = -1;
                 listVer.DataContext = dt;
                 listVer.SelectedIndex = -1;
+            }
+            if (versions == null)
+            {
+                gridNoVersion.Visibility = Visibility.Visible;
+                return;
+            }
+            if (versions.Length == 0)
+            {
+                gridNoVersion.Visibility = Visibility.Visible;
             }
         }
         List<LibraryUniversal> libs = new List<LibraryUniversal>();
@@ -307,7 +316,7 @@ namespace MTMCL
                     i++;
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        task.setTaskStatus(((float)i / assets.objects.Count * 100).ToString() + "%");
+                        task.setTaskStatus((float)i / assets.objects.Count * 100 + "%");
                     }));
                     string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
                     string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
@@ -343,6 +352,11 @@ namespace MTMCL
                 }
             }));
             MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")));
+        }
+
+        private void butGoDLMC_Click(object sender, RoutedEventArgs e)
+        {
+            MeCore.MainWindow.ChangePage("download");
         }
     }
 }

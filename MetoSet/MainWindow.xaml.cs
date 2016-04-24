@@ -73,7 +73,7 @@ namespace MTMCL
         {
             ChangePage("settings");
         }
-        private async void ChangePage(string type, bool required0Margin = false)
+        internal async void ChangePage(string type, bool required0Margin = false)
         {
             MahApps.Metro.Controls.Tile tile;
             System.Windows.Controls.Grid grid;
@@ -128,7 +128,7 @@ namespace MTMCL
             gridLoadingScreen.Visibility = Visibility.Collapsed;
             gridOthers.Visibility = Visibility.Visible;
             gridOthers.Children.Add(grid);
-            gridOthers.Margin = required0Margin ? new Thickness(0) : new Thickness(30, 0, 30, 30);
+            gridOthers.Margin = /*required0Margin ? new Thickness(0) :*/ new Thickness(30, 0, 30, 30);
             var ani2 = new DoubleAnimationUsingKeyFrames();
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
@@ -390,7 +390,7 @@ namespace MTMCL
                 }*/
                 if (!string.IsNullOrWhiteSpace(MeCore.Config.LastPlayVer))
                 {
-                    Versions.VersionJson version = Versions.VersionReader.GetVersion(MeCore.Config.MCPath, MeCore.Config.LastPlayVer);
+                    Versions.VersionJson version = Versions.VersionReader.GetFurtherVersion(MeCore.Config.MCPath, MeCore.Config.LastPlayVer);
                     if (version != null)
                     {
                         Launch.Login.IAuth auth;

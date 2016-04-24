@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using MTMCL.util;
 
 namespace MTMCL.Launch.Login
 {
@@ -42,12 +43,9 @@ namespace MTMCL.Launch.Login
             {
                 HttpWebRequest auth = (HttpWebRequest)WebRequest.Create(helper.Authenticate);
                 auth.Method = "POST";
+                auth.ContentType = "application/json";
                 Request ag = new Request(Email, Password);
-                MemoryStream agJsonStream = new MemoryStream();
-                LitJson.JsonMapper.ToJson(ag, new LitJson.JsonWriter(new StreamWriter(agJsonStream)));
-                //agJsonSerialiaer.WriteObject(agJsonStream, ag);
-                agJsonStream.Position = 0;
-                string logindata = (new StreamReader(agJsonStream)).ReadToEnd();
+                string logindata = LitJson.JsonMapper.ToJson(ag);
                 byte[] postdata = Encoding.UTF8.GetBytes(logindata);
                 auth.ContentLength = postdata.LongLength;
                 Stream poststream = auth.GetRequestStream();
@@ -55,10 +53,7 @@ namespace MTMCL.Launch.Login
                 poststream.Close();
                 HttpWebResponse authans = (HttpWebResponse)auth.GetResponse();
                 StreamReader ResponseStream = new StreamReader(authans.GetResponseStream());
-                string ResponseJson = ResponseStream.ReadToEnd();
-                MemoryStream ResponseJsonStream = new MemoryStream(Encoding.UTF8.GetBytes(ResponseJson));
-                ResponseJsonStream.Position = 0;
-                Response response = LitJson.JsonMapper.ToObject<Response>(new LitJson.JsonReader(new StreamReader(ResponseJsonStream)));
+                Response response = LitJson.JsonMapper.ToObject<Response>(new LitJson.JsonReader(ResponseStream));
                 /*if (Response.getClientToken() != NewLogin.ClientToken)
                 {
                     LI.Suc = false;
@@ -66,9 +61,11 @@ namespace MTMCL.Launch.Login
                     return LI;
                 }*/
                 AI.Pass = true;
-                AI.DisplayName = response.selectedProfile.name;
+                if (response.selectedProfile != null) {
+                    AI.DisplayName = response.selectedProfile.name;
+                    AI.UUID = Guid.Parse(response.selectedProfile.id);
+                }
                 AI.Session = Guid.Parse(response.accessToken);
-                AI.UUID = Guid.Parse(response.selectedProfile.id);
                 if (response.user != null)
                 {
                     AI.UserType = response.user.legacy ? "legacy" : "mojang";
@@ -97,7 +94,7 @@ namespace MTMCL.Launch.Login
             catch (Exception ex)
             {
                 AI.Pass = false;
-                AI.ErrorMsg = ex.Message;
+                AI.ErrorMsg = ex.ToWellKnownExceptionString();
                 return AI;
             }
 
@@ -121,12 +118,9 @@ namespace MTMCL.Launch.Login
             {
                 HttpWebRequest auth = (HttpWebRequest)WebRequest.Create(helper.Refresh);
                 auth.Method = "POST";
+                auth.ContentType = "application/json";
                 RefreshRequest ag = new RefreshRequest(AccessToken);
-                MemoryStream agJsonStream = new MemoryStream();
-                LitJson.JsonMapper.ToJson(ag, new LitJson.JsonWriter(new StreamWriter(agJsonStream)));
-                //agJsonSerialiaer.WriteObject(agJsonStream, ag);
-                agJsonStream.Position = 0;
-                string logindata = (new StreamReader(agJsonStream)).ReadToEnd();
+                string logindata = LitJson.JsonMapper.ToJson(ag);
                 byte[] postdata = Encoding.UTF8.GetBytes(logindata);
                 auth.ContentLength = postdata.LongLength;
                 Stream poststream = auth.GetRequestStream();
@@ -134,22 +128,22 @@ namespace MTMCL.Launch.Login
                 poststream.Close();
                 HttpWebResponse authans = (HttpWebResponse)auth.GetResponse();
                 StreamReader ResponseStream = new StreamReader(authans.GetResponseStream());
-                string ResponseJson = ResponseStream.ReadToEnd();
-                MemoryStream ResponseJsonStream = new MemoryStream(Encoding.UTF8.GetBytes(ResponseJson));
-                ResponseJsonStream.Position = 0;
-                Response response = LitJson.JsonMapper.ToObject<Response>(new LitJson.JsonReader(new StreamReader(ResponseJsonStream)));
+                Response response = LitJson.JsonMapper.ToObject<Response>(new LitJson.JsonReader(ResponseStream));
                 /*if (Response.getClientToken() != NewLogin.ClientToken)
                 {
                     LI.Suc = false;
                     LI.Errinfo = "客户端标识和服务器返回不符，这是个不常见的错误，就算是正版启动器这里也没做任何处理，只是报了这么个错。";
                     return LI;
                 }*/
+                if (response.selectedProfile != null) {
+                    AI.DisplayName = response.selectedProfile.name;
+                    AI.UUID = Guid.Parse(response.selectedProfile.id);
+                }
                 AI.Pass = true;
-                AI.DisplayName = response.selectedProfile.name;
-                AI.UUID = Guid.Parse(response.selectedProfile.id);
+                AI.Session = Guid.Parse(response.accessToken);
                 if (response.user != null)
                 {
-                    AI.UserType = response.user.legacy ? "legacy" : "mojang";
+                    AI.UserType = response.user.legacy ? "Legacy" : "Mojang";
                     AI.Prop = response.user.properties != null ? LitJson.JsonMapper.ToJson(response.user.properties) : "{}";
                 }
                 else
@@ -183,10 +177,10 @@ namespace MTMCL.Launch.Login
         [IgnoreDataMember]
         public static Agent MINECRAFT = new Agent("Minecraft", 1);
         [DataMember]
-        private string name;
+        public string name { get; set; }
         [DataMember]
-        private int version;
-
+        public int version { get; set; }
+        public Agent() { }
         public Agent(string v1, int v2)
         {
             name = v1;
@@ -194,21 +188,25 @@ namespace MTMCL.Launch.Login
         }
     }
     public class Request {
-        public Agent agent { get; private set; }
-        public string username { get; private set; }
-        public string password { get; private set; }
-        public string clientToken { get; private set; }
-        public bool requestUser { get; private set; }
+        public Agent agent { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
+        public string clientToken { get; set; }
+        public bool requestUser { get; set; }
         public Request(string un, string pw) {
-            agent = Agent.MINECRAFT;username = un; password = pw; clientToken = Guid.NewGuid().ToString("N");requestUser = true;
+            agent = Agent.MINECRAFT;
+            username = un;
+            password = pw;
+            clientToken = MeCore.Config.GUID;
+            requestUser = true;
         }
     }
     public class RefreshRequest
     {
-        public Agent agent { get; private set; }
-        public string accessToken { get; private set; }
-        public string clientToken { get; private set; }
-        public bool requestUser { get; private set; }
+        public Agent agent { get; set; }
+        public string accessToken { get; set; }
+        public string clientToken { get; set; }
+        public bool requestUser { get; set; }
         public RefreshRequest(string at)
         {
             agent = Agent.MINECRAFT; accessToken = at; clientToken = Guid.NewGuid().ToString("N"); requestUser = true;
@@ -237,9 +235,9 @@ namespace MTMCL.Launch.Login
     }
     public class GameProfile
     {
-        public string id { get; private set; }
-        public string name { get; private set; }
-
+        public string id { get; set; }
+        public string name { get; set; }
+        public GameProfile() { }
         public GameProfile(string id, string name)
         {
             if (string.IsNullOrWhiteSpace(id) && string.IsNullOrWhiteSpace(name))

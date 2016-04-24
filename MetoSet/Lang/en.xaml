@@ -80,6 +80,8 @@
     <s:String x:Key="MCPath_NotExist">This directory doesn't exist (will be created when downloading Minecraft client)</s:String>
     <s:String x:Key="MCPath_NotValid">This directory doesn't contain "versions" folder (will be created when downloading Minecraft client)</s:String>
     <s:String x:Key="MCPath_Catched">Error occurred when checking the directory</s:String>
+    <s:String x:Key="JavaPath_NotExist">This file doesn't exist</s:String>
+    <s:String x:Key="JavaPath_Catched">Error occurred when checking the file</s:String>
     <s:String x:Key="UseJ">Using Java</s:String>
     <s:String x:Key="ExArg">Extra Jvm Argument</s:String>
     <s:String x:Key="VerInfo">Version Info</s:String>
@@ -90,6 +92,7 @@
     <s:String x:Key="GameLaunched">Game Launched</s:String>
     <!-- /Play -->
     <!-- DL -->
+    <s:String x:Key="GoDL">To Download Page</s:String>
     <s:String x:Key="DLMC">Minecraft Vanilla Client</s:String>
     <s:String x:Key="DLLib">Library</s:String>
     <s:String x:Key="DLAssets">Assets</s:String>

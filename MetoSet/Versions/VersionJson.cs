@@ -25,6 +25,8 @@ namespace MTMCL.Versions
         [DataMember]
         public string type;
         [DataMember]
+        public string inheritsFrom;
+        [DataMember]
         public AssetIndex assetIndex;
         [DataMember]
         public Downloads downloads;
@@ -106,6 +108,8 @@ namespace MTMCL.Versions
         public string time;
         [DataMember]
         public string type;
+        [DataMember]
+        public string inheritsFrom;
         [DataMember]
         public AssetIndex assetIndex;
         [DataMember]

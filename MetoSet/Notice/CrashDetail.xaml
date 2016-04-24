@@ -18,7 +18,9 @@
     </Button>
     <Label Content="{DynamicResource CrashOrErrorTitle}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333" Background="{DynamicResource AccentColorBrush3}"/>
     <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16" ContentStringFormat="{DynamicResource ErrName}" Background="{DynamicResource AccentColorBrush3}"/>
-    <TextBlock x:Name="lblHelp" Margin="0,81,0,0" TextWrapping="Wrap" Text="" Background="{DynamicResource AccentColorBrush3}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+    <ScrollViewer Margin="0,81,0,0" >
+        <TextBlock x:Name="lblHelp" TextWrapping="Wrap" Text="" Background="{DynamicResource AccentColorBrush3}"/>
+    </ScrollViewer>
 
 </Grid>
 

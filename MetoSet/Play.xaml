@@ -2,9 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MTMCL"
-             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Play"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Play"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
     <Grid.Resources>
@@ -56,6 +55,16 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Grid x:Name="gridNoIndex" Background="#BFFFFFFF" Visibility="Collapsed">
+                        <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="Assets Index cannot be found" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <Label Content="and cannot be downloaded also" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="butRDLAI" Content="{DynamicResource ReDownload}" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top"/>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="{DynamicResource Play}" Custom:ControlsHelper.HeaderFontSize="16">
@@ -73,5 +82,15 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <Grid x:Name="gridNoVersion" Margin="0,45,0,0" Background="#BFFFFFFF" Visibility="Collapsed">
+            <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+            <Label Content="No Minecraft version is found" Margin="0,149,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16"/>
+            <Label Content="somehow the core is masked, making itself not being like a Minecraft core" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="butGoDLMC" Content="{DynamicResource GoDL}" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top" Click="butGoDLMC_Click"/>
+        </Grid>
     </Grid>
 </Grid>

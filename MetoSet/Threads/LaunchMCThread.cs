@@ -86,25 +86,29 @@ namespace MTMCL.Threads
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
                 MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ai.ErrorMsg, LangManager.GetLangFromResource("AuthFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                Failed?.Invoke();
                 return;
             }
-            args.Add("auth_access_token", ai.Session.ToString());
-            args.Add("auth_session", ai.Session.ToString());
+            args.Add("auth_access_token", ai.Session.ToString().Replace("-", ""));
+            args.Add("auth_session", ai.Session.ToString().Replace("-", ""));
             args.Add("auth_player_name", ai.DisplayName);
             args.Add("version_name", _LaunchOptions.Version.id);
             args.Add("game_directory", ".");
             args.Add("game_assets", "assets");
             args.Add("assets_root", "assets");
             args.Add("assets_index_name", _LaunchOptions.Version.assets);
-            args.Add("auth_uuid", ai.UUID.ToString());
+            args.Add("auth_uuid", ai.UUID.ToString().Replace("-", ""));
             args.Add("user_properties", ai.Prop);
             args.Add("user_type", ai.UserType);
+            args.Add("version_type", "MTMCL_" +  MeCore.version);
 
-            process.StartInfo.CreateNoWindow = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = _LaunchOptions.JavaPath;
             process.StartInfo.Arguments = Launch.LaunchHandler.CreateArgument(_LaunchOptions, args, MeCore.Config.ExtraJvmArg);
             process.StartInfo.WorkingDirectory = _LaunchOptions.MCPath;
+            Logger.HelpLog(process.StartInfo.WorkingDirectory);
+            Logger.HelpLog(process.StartInfo.FileName);
+            Logger.HelpLog(process.StartInfo.Arguments);
             process.Exited += delegate (object sender, EventArgs e)
             {
                 GameExit?.Invoke();
@@ -142,39 +146,43 @@ namespace MTMCL.Threads
             {
                 foreach (var lib in _LaunchOptions.Version.libraries.ToUniversalLibrary())
                 {
-                    var zipfile = new ZipInputStream(File.OpenRead(lib.path));
-                    ZipEntry theEntry;
-                    while ((theEntry = zipfile.GetNextEntry()) != null)
-                    {
-                        bool exc = false;
-                        if (lib.extract != null)
+                    if (lib.isNative) {
+                        Logger.HelpLog("Uncompress zip: " + lib.path);
+                        var zipfile = new ZipInputStream(File.OpenRead(lib.path));
+                        ZipEntry theEntry;
+                        while ((theEntry = zipfile.GetNextEntry()) != null)
                         {
-                            if (lib.extract.exclude != null)
+                            bool exc = false;
+                            if (lib.extract != null)
                             {
-                                if (lib.extract.exclude.Any(excfile => theEntry.Name.Contains(excfile)))
+                                if (lib.extract.exclude != null)
                                 {
-                                    exc = true;
+                                    if (lib.extract.exclude.Any(excfile => theEntry.Name.Contains(excfile)))
+                                    {
+                                        exc = true;
+                                    }
                                 }
                             }
-                        }
-                        if (exc) continue;
-                        var filepath = new StringBuilder(Path.Combine(_LaunchOptions.MCPath, "$natives"));
-                        filepath.Append("\\").Append(theEntry.Name);
-                        FileStream fileWriter = File.Create(filepath.ToString());
-                        var data = new byte[2048];
-                        while (true)
-                        {
-                            int size = zipfile.Read(data, 0, data.Length);
-                            if (size > 0)
+                            if (exc) continue;
+                            var filepath = new StringBuilder(Path.Combine(_LaunchOptions.MCPath, "$natives"));
+                            filepath.Append("\\").Append(theEntry.Name);
+                            Logger.HelpLog("Uncompressing object: " + filepath.ToString());
+                            FileStream fileWriter = File.Create(filepath.ToString());
+                            var data = new byte[2048];
+                            while (true)
                             {
-                                fileWriter.Write(data, 0, size);
+                                int size = zipfile.Read(data, 0, data.Length);
+                                if (size > 0)
+                                {
+                                    fileWriter.Write(data, 0, size);
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
-                            else
-                            {
-                                break;
-                            }
+                            fileWriter.Close();
                         }
-                        fileWriter.Close();
                     }
                 }
             }
@@ -182,17 +190,19 @@ namespace MTMCL.Threads
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to uncompress native"));
                 MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString(), LangManager.GetLangFromResource("LibFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                Failed?.Invoke();
+                return;
             }
             
             if (!File.Exists(_LaunchOptions.JavaPath))
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
                 MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), new FileNotFoundException("javaw.exe not found", _LaunchOptions.JavaPath).ToWellKnownExceptionString(), LangManager.GetLangFromResource("JavaFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                Failed?.Invoke();
                 return;
             }
-            process.Start();
-            await System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);
-            /*if (!result.Success)
+            try {
+                /*if (!result.Success)
             {
                 switch (result.ErrorType)
                 {
@@ -215,9 +225,17 @@ namespace MTMCL.Threads
                 TaskCountTime?.Invoke();
                 OnLogged?.Invoke(Logger.HelpLog("game launched"));
                 //OnAuthUpdate?.Invoke(result.Handle.Info);
-                MeCore.Config.QuickChange("LastPlayVer",_LaunchOptions.Version.id);
+                MeCore.Config.QuickChange("LastPlayVer", _LaunchOptions.Version.id);
                 //MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + versions[comboVer.SelectedIndex].Id);
-            //}
+                //}
+                process.EnableRaisingEvents = true;
+                process.Start();
+                await System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);
+            }
+            catch (Exception e) {
+                Logger.log(e);
+            }
+
         }
         private void Download(LibraryUniversal file)
         {

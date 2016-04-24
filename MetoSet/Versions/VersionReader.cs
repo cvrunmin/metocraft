@@ -8,6 +8,38 @@ namespace MTMCL.Versions
 {
     public static class VersionReader
     {
+        public static VersionJson GetFurtherVersion(string MCPath, string version) {
+            VersionJson shadow = GetVersion(MCPath, version);
+            if (string.IsNullOrWhiteSpace(shadow.inheritsFrom)) {
+                return shadow;
+            }
+            VersionJson deep = GetFurtherVersion(MCPath, shadow.inheritsFrom);
+            if (string.IsNullOrWhiteSpace(shadow.assets))
+                shadow.assets = deep.assets ?? "legacy";
+            if (string.IsNullOrWhiteSpace(shadow.mainClass))
+                shadow.mainClass = deep.mainClass;
+            if (string.IsNullOrWhiteSpace(shadow.minecraftArguments))
+                shadow.minecraftArguments = deep.minecraftArguments;
+             shadow.libraries.Concat(deep.libraries);
+            return shadow;
+        }
+        public static VersionJson GetFurtherVersion(string MCPath, VersionJson version)
+        {
+            VersionJson shadow = version;
+            if (string.IsNullOrWhiteSpace(shadow.inheritsFrom))
+            {
+                return shadow;
+            }
+            VersionJson deep = GetFurtherVersion(MCPath, shadow.inheritsFrom);
+            if (string.IsNullOrWhiteSpace(shadow.assets))
+                shadow.assets = deep.assets ?? "legacy";
+            if (string.IsNullOrWhiteSpace(shadow.mainClass))
+                shadow.mainClass = deep.mainClass;
+            if (string.IsNullOrWhiteSpace(shadow.minecraftArguments))
+                shadow.minecraftArguments = deep.minecraftArguments;
+            shadow.libraries.Concat(deep.libraries);
+            return shadow;
+        }
         public static VersionJson GetVersion(string MCPath, string version) {
             try
             {
@@ -45,7 +77,7 @@ namespace MTMCL.Versions
                             string ver = "";
                             if (File.Exists(ver = Path.Combine(item, item.Substring(item.LastIndexOf('\\') + 1) + ".json")))
                             {
-                                list.Add(LitJson.JsonMapper.ToObject<VersionJson>(new LitJson.JsonReader(new StreamReader(File.OpenRead(ver)))));
+                                list.Add(GetFurtherVersion(MCPath, LitJson.JsonMapper.ToObject<VersionJson>(new LitJson.JsonReader(new StreamReader(File.OpenRead(ver))))));
                             }
                         }
                     }

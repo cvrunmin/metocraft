@@ -88,7 +88,28 @@ namespace MTMCL
                 ValidMC = false; CouldMC = false;
             }
         }
-
+        private void ChangeJavaPathState()
+        {
+            try
+            {
+                if (!File.Exists(comboJava.Text))
+                {
+                    rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                    rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
+                    rectJPState.ToolTip = LangManager.GetLangFromResource("MCPath_NotExist");
+                    return;
+                }
+                rectJPState.Fill = new SolidColorBrush(Color.FromRgb(0, 0x99, 0));
+                rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_check"] };
+                rectJPState.ToolTip = null;
+            }
+            catch
+            {
+                rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
+                rectJPState.ToolTip = LangManager.GetLangFromResource("MCPath_Catched");
+            }
+        }
         private void Grid_Initialized(object sender, EventArgs e)
         {
             PreInit();
@@ -102,19 +123,9 @@ namespace MTMCL
         }
         private void PreInit()
         {
-            comboJava.Items.Clear();
-            /*try
-            {
-                var javas = KMCCC.Tools.SystemTools.FindValidJava().ToList();
-                foreach (var java in javas)
-                {
-                    comboJava.Items.Add(java);
-                }
-            }
-            catch { }*/
             sliderRAM.Maximum = Config.GetMemory();
             lblLauncherVersion.Content = MeCore.version;
-            //lblKMCCCVersion.Content = KMCCC.Launcher.Reporter.KMCCC_TYPE + " " + KMCCC.Launcher.Reporter.Version;
+            lblKMCCCVersion.Content = "Deprecated";
         }
         private void LoadConfig()
         {
@@ -122,7 +133,7 @@ namespace MTMCL
             comboUdtSrc.SelectedIndex = MeCore.Config.UpdateSource;
             txtboxMP.Text = MeCore.Config.MCPath;
             txtboxArg.Text = MeCore.Config.ExtraJvmArg;
-            comboJava.SelectedItem = MeCore.Config.Javaw;
+            comboJava.Text = MeCore.Config.Javaw;
             sliderRAM.Value = MeCore.Config.Javaxmx;
             comboLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
             txtboxBG.Text = MeCore.Config.Background;
@@ -191,10 +202,10 @@ namespace MTMCL
             MeCore.Config.Save();
         }
 
-        private void comboJava_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboJava_SelectionChanged(object sender, TextChangedEventArgs e)
         {
-            MeCore.Config.Javaw = (string)comboJava.SelectedItem;
-            MeCore.Config.Save();
+            MeCore.Config.QuickChange("Javaw", comboJava.Text);
+            ChangeJavaPathState();
         }
 
         private void sliderRAM_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -351,6 +362,14 @@ namespace MTMCL
         private void toggleLatest_IsCheckedChanged(object sender, EventArgs e)
         {
             MeCore.Config.QuickChange("SearchLatest", (bool)toggleLatest.IsChecked);
+        }
+
+        private void butJavawBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            FileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "javaw.exe | javaw.exe";
+            dialog.ShowDialog();
+            comboJava.Text = dialog.FileName;
         }
     }
 }
