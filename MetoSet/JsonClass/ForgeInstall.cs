@@ -48,7 +48,7 @@ namespace MTMCL.JsonClass
                 public string[] checksums;
             }
             public bool isInherited() {
-                return (!string.IsNullOrWhiteSpace(inheritsFrom)) | (!string.IsNullOrWhiteSpace(jar));
+                return (!string.IsNullOrWhiteSpace(inheritsFrom)) & (!string.IsNullOrWhiteSpace(jar));
             }
         }
     }

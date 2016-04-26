@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace MTMCL
 {
@@ -314,25 +315,38 @@ namespace MTMCL
         {
             if (taskdict.ContainsKey(identifier))
             {
-                //return;
-                task.noticeExisted();
-                string _identifier = identifier + "exist";
-                int i = 0;
-                while (taskdict.ContainsKey(_identifier))
+                if (taskdict[identifier].isFinished())
                 {
-                    ++i;
-                    _identifier = identifier + "exist" + i;
+                    string _identifier = identifier + "_";
+                    int ie = 0;
+                    while (taskdict.ContainsKey(_identifier))
+                    {
+                        ie++;
+                        _identifier = identifier + ie;
+                    }
+                    identifier = _identifier;
                 }
+                else
+                {
+                    task.noticeExisted();
+                    string _identifier = identifier + "exist";
+                    int i = 0;
+                    while (taskdict.ContainsKey(_identifier))
+                    {
+                        i++;
+                        _identifier = identifier + "exist" + i;
+                    }
                 identifier = _identifier;
+                }
             }
             task.Margin = new Thickness(0);
             taskdict.Add(identifier, task);
-            butTask.Count = taskdict.Count > 0 ? taskdict.Count.ToString() : "";
+            butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
         }
         public void removeTask(string s, TaskListBar task)
         {
             taskdict.Remove(s);
-            butTask.Count = taskdict.Count > 0 ? taskdict.Count.ToString() : "";
+            butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
         }
 
         private void butTask_Click(object sender, RoutedEventArgs e)
@@ -341,7 +355,8 @@ namespace MTMCL
         }
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (taskdict.Count != 0)
+            butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
+            /*if (taskdict.Count != 0)
             {
                 Dictionary<string, TaskListBar> deletable = new Dictionary<string, TaskListBar>();
                 foreach (var task in taskdict)
@@ -358,7 +373,7 @@ namespace MTMCL
                         removeTask(task.Key, task.Value);
                     }
                 }
-            }
+            }*/
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)

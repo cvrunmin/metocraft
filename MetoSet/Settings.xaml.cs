@@ -125,7 +125,6 @@ namespace MTMCL
         {
             sliderRAM.Maximum = Config.GetMemory();
             lblLauncherVersion.Content = MeCore.version;
-            lblKMCCCVersion.Content = "Deprecated";
         }
         private void LoadConfig()
         {

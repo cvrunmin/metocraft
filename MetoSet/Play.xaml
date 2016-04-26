@@ -61,9 +61,18 @@
                                 <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Label Content="Assets Index cannot be found" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
-                        <Label Content="and cannot be downloaded also" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
-                        <Button x:Name="butRDLAI" Content="{DynamicResource ReDownload}" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top"/>
+                        <Label Content="{DynamicResource UnableAI1}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <Label Content="{DynamicResource UnableAI2}" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="butRDLAI" Content="{DynamicResource ReDownload}" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top" Click="butRDLAI_Click"/>
+                    </Grid>
+                    <Grid x:Name="gridRefreshing" Background="#BFFFFFFF">
+                        <Custom:ProgressRing Margin="0,69,0,0" Height="70" Width="70" VerticalAlignment="Top"/>
+                        <Rectangle Fill="Black" Height="40" Margin="0,84,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="15">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_information}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="{DynamicResource Refreshing}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -88,8 +97,8 @@
                     <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
-            <Label Content="No Minecraft version is found" Margin="0,149,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16"/>
-            <Label Content="somehow the core is masked, making itself not being like a Minecraft core" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
+            <Label Content="{DynamicResource NoVersionFound1}" Margin="0,149,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16"/>
+            <Label Content="{DynamicResource NoVersionFound2}" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
             <Button x:Name="butGoDLMC" Content="{DynamicResource GoDL}" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top" Click="butGoDLMC_Click"/>
         </Grid>
     </Grid>

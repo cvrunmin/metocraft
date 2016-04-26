@@ -7,6 +7,7 @@ namespace MTMCL.Launch.Login
 {
     public interface IAuth
     {
+        string Type { get; }
         AuthInfo Login();
     }
 }

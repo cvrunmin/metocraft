@@ -49,6 +49,8 @@ namespace MTMCL
         }
         private void ReloadVanillaVersion() {
             butReloadMC.IsEnabled = false;
+            gridMCRFail.Visibility = Visibility.Collapsed;
+            gridMCRing.Visibility = Visibility.Visible;
             listRemoteVer.DataContext = null;
             var rawJson = new DataContractJsonSerializer(typeof(RawVersionListType));
             var getJson = (HttpWebRequest)WebRequest.Create(MTMCL.Resources.UrlReplacer.getVersionsUrl());
@@ -64,7 +66,7 @@ namespace MTMCL
                         butReloadMC.Content = LangManager.GetLangFromResource("RemoteVerGetting");
                         if (MeCore.Config.DownloadSource == 1)
                         {
-                            await System.Threading.Tasks.TaskEx.Delay(TimeSpan.FromSeconds(1));
+                            await TaskEx.Delay(TimeSpan.FromSeconds(1));
                         }
                     }));
                     var getJsonAns = (HttpWebResponse)getJson.GetResponse();
@@ -82,6 +84,7 @@ namespace MTMCL
                         }
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
+                        gridMCRing.Visibility = Visibility.Collapsed;
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                         listRemoteVer.DataContext = dt;
@@ -92,7 +95,9 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg"))})));
+                        gridMCRing.Visibility = Visibility.Collapsed;
+                        gridMCRFail.Visibility = Visibility.Visible;
+                        Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -101,7 +106,19 @@ namespace MTMCL
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        Dispatcher.Invoke(new Action(()=> MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                        gridMCRing.Visibility = Visibility.Collapsed;
+                        gridMCRFail.Visibility = Visibility.Visible;
+                        MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) });
+                        butReloadMC.Content = LangManager.GetLangFromResource("Reload");
+                        butReloadMC.IsEnabled = true;
+                    }));
+                }
+                catch (Exception ex) {
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                    {
+                        gridMCRing.Visibility = Visibility.Collapsed;
+                        gridMCRFail.Visibility = Visibility.Visible;
+                        MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat")), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) });
                         butReloadMC.Content = LangManager.GetLangFromResource("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -131,7 +148,7 @@ namespace MTMCL
                     {
                         if (MeCore.Config.DownloadSource == 1)
                         {
-                            await System.Threading.Tasks.TaskEx.Delay(TimeSpan.FromSeconds(1));
+                            await TaskEx.Delay(TimeSpan.FromSeconds(1));
                         }
                     }));
                     var selectver = selectVer[0] as string;
@@ -168,14 +185,14 @@ namespace MTMCL
                     {
                         downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                         {
-                            Logger.log("Success to download client file.");
+                            taskbar.log(Logger.HelpLog("Success to download client file."));
                             taskbar.noticeFinished();
                         };
                         downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
                         {
                             Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
                         };
-                        Logger.log("download:" + downjsonfile);
+                        taskbar.log(Logger.HelpLog("Start download file from url " + downjsonfile));
                         try
                         {
                             downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
@@ -185,7 +202,9 @@ namespace MTMCL
                             taskbar.noticeFailed();
                             return;
                         }
-                        await System.Threading.Tasks.TaskEx.Delay(TimeSpan.FromMilliseconds(500));
+                        taskbar.log(Logger.HelpLog("Finish downloading file " + downjsonfile));
+                        await TaskEx.Delay(TimeSpan.FromMilliseconds(500));
+                        taskbar.log(Logger.HelpLog(string.Format("Start reading json of version {0} for further downloading", selectver)));
                         var sr = new StreamReader(downjsonpath);
                         VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(sr);
                         sr.Close();
@@ -204,7 +223,7 @@ namespace MTMCL
                             }
 
                         }
-                        Logger.log("download:" + downurl.ToString());
+                        taskbar.log(Logger.HelpLog("Start download file from url " + downurl.ToString()));
                         downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
                     }
                     catch (Exception ex)
@@ -224,6 +243,8 @@ namespace MTMCL
         {
             ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("RemoteVerGetting");
             butReloadForge.IsEnabled = false;
+            gridMFRFail.Visibility = Visibility.Collapsed;
+            gridMFRing.Visibility = Visibility.Visible;
             RefreshForgeVersionList();
         }
         private void RefreshForgeVersionList()
@@ -238,14 +259,30 @@ namespace MTMCL
             dt.Columns.Add("MCVer");
             dt.Columns.Add("Time", typeof(DateTime));
             dt.Columns.Add("Tag");
-            if (_forgeVer.GetNew() != null)
+            var fl = _forgeVer.GetNew();
+            if (fl == null) {
+                Dispatcher.Invoke(new Action(() => {
+                    gridMFRing.Visibility = Visibility.Collapsed;
+                    gridMFRFail.Visibility = Visibility.Visible;
+                }));
+            }
+            if (fl.Length == 0)
+            {
+                Dispatcher.Invoke(new Action(() => {
+                    gridMFRing.Visibility = Visibility.Collapsed;
+                    gridMFRFail.Visibility = Visibility.Visible;
+                }));
+            }
+            else {
                 foreach (object[] t in _forgeVer.GetNew())
                 {
-                    dt.Rows.Add(new object[] { t[0], t[1], t[2], t[3] });
+                    dt.Rows.Add(t[0], t[1], t[2], t[3]);
                 }
+            }
             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
             {
                 listForge.DataContext = dt;
+                gridMFRing.Visibility = Visibility.Collapsed;
                 ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("Reload");
                 butReloadForge.IsEnabled = true;
             }));
@@ -278,18 +315,22 @@ namespace MTMCL
                 {
                     try
                     {
+                        task.log(Logger.HelpLog("Trying to install forge"));
                         MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
                         new ForgeInstaller().install(filename);
                         File.Delete(filename);
+                        task.log(Logger.HelpLog("Installation finished"));
                         MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
                         task.noticeFinished();
                     }
                     catch (Exception ex)
                     {
+                        task.log(Logger.HelpLog("Installation failed"));
                         Logger.log(ex);
                         task.noticeFailed();
                     }
                 };
+                task.log(Logger.HelpLog("Start downloading forge installer"));
                 MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), "0"))));
                 downer.DownloadFileAsync(url, filename);
             }));

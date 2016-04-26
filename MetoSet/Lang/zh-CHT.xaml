@@ -61,7 +61,6 @@
     <s:String x:Key="LauncherSet">啟動器</s:String>
     <s:String x:Key="Language">語言</s:String>
     <s:String x:Key="OfDL">覆寫語言</s:String>
-    <s:String x:Key="OfDLDesc">如果您想使用的顯示語言與Windows語言不同，請在這裡選擇</s:String>
     <s:String x:Key="DLSrc">下載源</s:String>
     <s:String x:Key="UdtSrc">更新源</s:String>
     <s:String x:Key="BG">啟動器背景</s:String>
@@ -101,6 +100,7 @@
     <s:String x:Key="DLForge">Minecraft Forge客戶端</s:String>
     <s:String x:Key="DLPack">整合包</s:String>
     <s:String x:Key="Refresh">刷新</s:String>
+    <s:String x:Key="Refreshing">刷新中</s:String>
     <s:String x:Key="Libs">庫</s:String>
     <s:String x:Key="Assets">資源</s:String>
     <s:String x:Key="Exist">存在</s:String>
@@ -142,6 +142,12 @@
     <s:String x:Key="FormatFaultSolve">請確保 {0} 是正確格式。</s:String>
     <s:String x:Key="Email">電郵</s:String>
     <s:String x:Key="MCBBSThread">MCBBS帖子</s:String>
+    <s:String x:Key="NoVersionFound1">找不到Minecraft版本</s:String>
+    <s:String x:Key="NoVersionFound2">不知為何核心們長得不像一個Minecraft核心</s:String>
+    <s:String x:Key="UnableAI1">找不到Assets列表</s:String>
+    <s:String x:Key="UnableAI2">且無法下載</s:String>
+    <s:String x:Key="RVerFail1">無法刷新坂本列表</s:String>
+    <s:String x:Key="RVerFail2">是有人剪斷網線，還是伺服器離線呢？</s:String>
     <!--/Error-->
     <!--Task-->
     <s:String x:Key="TaskName">任務名稱：{0}</s:String>
@@ -172,6 +178,7 @@
     <!--/Task-->
     <!--Install-->
     <s:String x:Key="Install">安裝</s:String>
+    <s:String x:Key="Path">路徑</s:String>
     <!--/Install-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">發現資源文件修改，正在同步</s:String>

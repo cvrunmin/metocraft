@@ -6,6 +6,15 @@ namespace MTMCL.Launch.Login
     public class OfflineAuth : IAuth
     {
         public string UN { get; private set; }
+
+        public string Type
+        {
+            get
+            {
+                return "Offline";
+            }
+        }
+
         public OfflineAuth(string UN) {
             this.UN = UN;
         }

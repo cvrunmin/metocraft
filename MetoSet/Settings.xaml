@@ -79,8 +79,6 @@
                 <Grid Background="#7FFFFFFF">
                     <Label Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <Label x:Name="lblLauncherVersion" Content="" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
-                    <Label Content="KMCCC" HorizontalAlignment="Left" Margin="0,96,0,0" VerticalAlignment="Top" FontSize="16"/>
-                    <Label x:Name="lblKMCCCVersion" Content="" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
                     <Button x:Name="butCheckUpdate" Content="Check Update" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Click="butCheckUpdate_Click"/>
                     <Label HorizontalAlignment="Left" Margin="0,157,0,0" VerticalAlignment="Top" Padding="0">
                         <AccessText Text="Picture easteregg-sudou-kayo.png is captured form Youtube video Tt31439XObA made by MarioGaGabriel" TextWrapping="WrapWithOverflow"></AccessText>

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.Serialization.Json;
+using System.Threading;
 using System.Windows.Controls;
 
 namespace MTMCL.Forge
@@ -18,9 +19,27 @@ namespace MTMCL.Forge
             ForgeChangeLogUrl = new Dictionary<string, string>();
         public void GetVersion()
         {
-            var webClient = new WebClient();
+            _forge = null;
+            var getJson = (HttpWebRequest)WebRequest.Create(Resources.UrlReplacer.getForgeMaven("http://files.minecraftforge.net/maven/net/minecraftforge/forge/json"));
+            getJson.Timeout = 10000;
+            getJson.ReadWriteTimeout = 10000;
+            getJson.UserAgent = "MTMCL" + MeCore.version;
+            var thGet = new Thread(new ThreadStart(delegate
+            {
+                try {
+                    var getJsonAns = (HttpWebResponse)getJson.GetResponse();
+                    MeCore.Dispatcher.Invoke(new Action(()=> _forge = LitJson.JsonMapper.ToObject<ForgeVersion>(new LitJson.JsonReader(new System.IO.StreamReader(getJsonAns.GetResponseStream())))));
+                    Logger.log("获取Forge列表成功");
+                } catch(Exception e) {
+                    Logger.log("获取forge列表失败");
+                    Logger.error(e);
+                }
+                ForgePageReadyEvent?.Invoke();
+            }));
+            thGet.Start();
+                /*var webClient = new WebClient();
             webClient.DownloadStringAsync(new Uri(Resources.UrlReplacer.getForgeMaven("http://files.minecraftforge.net/maven/net/minecraftforge/forge/json")));
-            webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;
+            webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;*/
         }
 
         private void WebClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -41,6 +60,7 @@ namespace MTMCL.Forge
 
         public object[] GetNew()
         {
+            if (_forge == null) return new object[] { };
             ArrayList arrayList = new ArrayList(_forge.promos.Count);
             ForgeVersion forge = _forge;
             foreach (var item in forge.promos) {

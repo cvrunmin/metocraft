@@ -6,7 +6,14 @@
       xmlns:local="clr-namespace:MTMCL.Install"
       mc:Ignorable="d" 
       d:DesignHeight="380" d:DesignWidth="675">
-
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
     <Grid>
         <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
             <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
@@ -16,6 +23,21 @@
             </Rectangle>
         </Button>
         <Label Content="{DynamicResource Install}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
-        <Label x:Name="lblUnFinish" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Content="{DynamicResource UnFinish}" FontSize="21.333"/>
+        <TabControl Margin="0,45,0,0">
+            <TabItem Header="Minecraft Forge">
+                <Grid Background="#7FFFFFFF">
+                    <TextBlock Text="Attention: this function is only for forge installer. Neither the Installer-win, nor the Universal" VerticalAlignment="Top" FontSize="16" TextWrapping="WrapWithOverflow"/>
+                    <Label Content="{DynamicResource Path}" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtPathF" Height="23" Margin="0,158,75,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <Button x:Name="butInstallF" Content="{DynamicResource Install}" HorizontalAlignment="Left" Margin="0,184,0,0" VerticalAlignment="Top" Width="75" Click="butInstallF_Click"/>
+                    <Button x:Name="butBF" Content="{DynamicResource Browse}" Margin="0,158,0,0" VerticalAlignment="Top" Height="26" HorizontalAlignment="Right" Width="75" Click="butBF_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="LiteLoader">
+                <Grid Background="#7FFFFFFF">
+                    <Label HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Content="{DynamicResource UnFinish}" FontSize="21.333"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Grid>

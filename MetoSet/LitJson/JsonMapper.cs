@@ -847,17 +847,21 @@ namespace LitJson
             writer.WriteObjectStart ();
             foreach (PropertyMetadata p_data in props) {
                 if (p_data.IsField) {
-                    writer.WritePropertyName (p_data.Name);
-                    WriteValue (((FieldInfo) p_data.Info).GetValue (obj),
-                                writer, writer_is_private, depth + 1);
+                    if (((FieldInfo)p_data.Info).GetValue(obj) != null) {
+                        writer.WritePropertyName(p_data.Name);
+                        WriteValue(((FieldInfo)p_data.Info).GetValue(obj),
+                                    writer, writer_is_private, depth + 1);
+                    }
                 }
                 else {
                     PropertyInfo p_info = (PropertyInfo) p_data.Info;
 
                     if (p_info.CanRead) {
-                        writer.WritePropertyName (p_data.Name);
-                        WriteValue (p_info.GetValue (obj, null),
-                                    writer, writer_is_private, depth + 1);
+                        if (p_info.GetValue(obj, null) != null) {
+                            writer.WritePropertyName(p_data.Name);
+                            WriteValue(p_info.GetValue(obj, null),
+                                        writer, writer_is_private, depth + 1);
+                        }
                     }
                 }
             }

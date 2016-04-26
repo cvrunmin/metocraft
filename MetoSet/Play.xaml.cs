@@ -94,52 +94,58 @@ namespace MTMCL
                 dtlib.Rows.Add(new object[] { libfile.name, FileHelper.IfFileVaild(libfile.path) });
             }
             listLib.DataContext = dtlib;
-            await System.Threading.Tasks.Task.Factory.StartNew(new Action(delegate
-             {
-                 Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                 {
-                     var _version = versions[listVer.SelectedIndex];
-                     string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.assets + ".json";
-                     if (MeCore.IsServerDedicated)
-                     {
-                         if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                         {
-                             indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                         }
-                     }
-                     if (!File.Exists(indexpath))
-                     {
-                         FileHelper.CreateDirectoryForFile(indexpath);
-                         string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
-                         StreamWriter sw = new StreamWriter(indexpath);
-                         LitJson.JsonWriter jw = new LitJson.JsonWriter(sw);
-                         jw.PrettyPrint = true;
-                         LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<Assets.AssetIndex>(result), jw);
-                         sw.Close();
-                     }
-                     var sr = new StreamReader(indexpath);
-                     AssetIndex assets = LitJson.JsonMapper.ToObject<Assets.AssetIndex>(sr);
-                     Logger.log(assets.objects.Count.ToString(CultureInfo.InvariantCulture), " assets in total");
-                     try
-                     {
-                         var dt = new DataTable();
-                         dt.Columns.Add("Assets");
-                         dt.Columns.Add("Exist");
-                         foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
-                         {
-                             dt.Rows.Add(new object[] { entity.Key, assetExist(entity).ToString() });
-                         }
-                         listAsset.DataContext = dt;
-                     }
-                     catch
-                     {
-
-                     }
-                 }));
-
-             }));
+            await System.Threading.Tasks.Task.Factory.StartNew(RefreshAsset);
             lblSelectVer.Content = version.id;
             //}
+        }
+        private void RefreshAsset()
+        {
+            try
+            {
+                Dispatcher.Invoke(new Action(() => {
+                    gridNoIndex.Visibility = Visibility.Collapsed;
+                    gridRefreshing.Visibility = Visibility.Visible;
+                }));
+                VersionJson _version = null;
+                Dispatcher.Invoke(new Action(() => _version = versions[listVer.SelectedIndex]));
+                string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.assets + ".json";
+                if (MeCore.IsServerDedicated)
+                {
+                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                    {
+                        indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    }
+                }
+                if (!File.Exists(indexpath))
+                {
+                    FileHelper.CreateDirectoryForFile(indexpath);
+                    string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
+                    StreamWriter sw = new StreamWriter(indexpath);
+                    LitJson.JsonWriter jw = new LitJson.JsonWriter(sw);
+                    jw.PrettyPrint = true;
+                    LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<Assets.AssetIndex>(result), jw);
+                    sw.Close();
+                }
+                var sr = new StreamReader(indexpath);
+                AssetIndex assets = LitJson.JsonMapper.ToObject<AssetIndex>(sr);
+                Logger.log(assets.objects.Count.ToString(CultureInfo.InvariantCulture), " assets in total");
+                var dt = new DataTable();
+                dt.Columns.Add("Assets");
+                dt.Columns.Add("Exist");
+                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
+                {
+                    dt.Rows.Add( entity.Key, assetExist(entity));
+                }
+                Dispatcher.Invoke(new Action(() => listAsset.DataContext = dt));
+                Dispatcher.Invoke(new Action(()=> gridRefreshing.Visibility = Visibility.Collapsed));
+            }
+            catch
+            {
+                Dispatcher.Invoke(new Action(() => {
+                    gridNoIndex.Visibility = Visibility.Visible;
+                    gridRefreshing.Visibility = Visibility.Collapsed;
+                }));
+            }
         }
         private bool assetExist(KeyValuePair<string, AssetsEntity> entity)
         {
@@ -224,16 +230,17 @@ namespace MTMCL
                 }
                 if (!File.Exists(indexpath))
                 {
+                    task.log(Logger.HelpLog("Assets Index is missing, try downloading"));
                     FileHelper.CreateDirectoryForFile(indexpath);
                     string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
                     StreamWriter sw = new StreamWriter(indexpath);
                     LitJson.JsonWriter jw = new LitJson.JsonWriter(sw);
                     jw.PrettyPrint = true;
-                    LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<Assets.AssetIndex>(result), jw);
+                    LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<AssetIndex>(result), jw);
                     sw.Close();
                 }
                 var sr = new StreamReader(indexpath);
-                AssetIndex assets = LitJson.JsonMapper.ToObject<Assets.AssetIndex>(sr);
+                AssetIndex assets = LitJson.JsonMapper.ToObject<AssetIndex>(sr);
                 int i = 0;
                 foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
                 {
@@ -254,15 +261,21 @@ namespace MTMCL
                     FileHelper.CreateDirectoryForFile(file);
                     try
                     {
-                        if (FileHelper.IfFileVaild(file, entity.Value.size)) continue;
+                        if (FileHelper.IfFileVaild(file, entity.Value.size)) {
+                            task.log(Logger.HelpLog(string.Format("{0} exists, skip it", entity.Key)));
+                            continue;
+                        }
                         //Downloader.DownloadFileAsync(new Uri(Url), File,Url);
+                        task.log(Logger.HelpLog(string.Format("Start downloading {0}", entity.Key)));
                         _downer.DownloadFile(new Uri(url), file);
-                        Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
+                        task.log(Logger.HelpLog(string.Format("Finish downloading {0}, Progress {1}", entity.Key, i.ToString(CultureInfo.InvariantCulture)+ "/"+ assets.objects.Count.ToString(CultureInfo.InvariantCulture))));
+                        //Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
                         if (i == assets.objects.Count)
                         {
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
-                                Logger.log("assets下载完毕");
+                                task.log(Logger.HelpLog("Finish downloading assets"));
+                                //Logger.log("assets下载完毕");
                                 //MeCore.NIcon.ShowBalloonTip(3000, LangManager.GetLangFromResource("SyncAssetsFinish"));
                             }));
                         }
@@ -300,6 +313,7 @@ namespace MTMCL
                 }
                 if (!File.Exists(indexpath))
                 {
+                    task.log(Logger.HelpLog("Assets Index is missing, try downloading"));
                     FileHelper.CreateDirectoryForFile(indexpath);
                     string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
                     StreamWriter sw = new StreamWriter(indexpath);
@@ -330,14 +344,20 @@ namespace MTMCL
                     FileHelper.CreateDirectoryForFile(file);
                     try
                     {
-                        if (FileHelper.IfFileVaild(file, entity.Value.size)) File.Delete(file);
+                        if (FileHelper.IfFileVaild(file, entity.Value.size)) {
+                            task.log(Logger.HelpLog(string.Format("{0} exists, delete it", entity.Key)));
+                            File.Delete(file);
+                        }
+                        task.log(Logger.HelpLog(string.Format("Start downloading {0}", entity.Key)));
                         _downer.DownloadFile(new Uri(url), file);
-                        Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
+                        task.log(Logger.HelpLog(string.Format("Finish downloading {0}, Progress {1}", entity.Key, i.ToString(CultureInfo.InvariantCulture) + "/" + assets.objects.Count.ToString(CultureInfo.InvariantCulture))));
+                        //Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
                         if (i == assets.objects.Count)
                         {
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
-                                Logger.log("assets重新下载完毕");
+                                task.log(Logger.HelpLog("Finish redownloading assets"));
+                                //Logger.log("assets重新下载完毕");
                             }));
                         }
                     }
@@ -357,6 +377,11 @@ namespace MTMCL
         private void butGoDLMC_Click(object sender, RoutedEventArgs e)
         {
             MeCore.MainWindow.ChangePage("download");
+        }
+
+        private async void butRDLAI_Click(object sender, RoutedEventArgs e)
+        {
+            await System.Threading.Tasks.Task.Factory.StartNew(RefreshAsset);
         }
     }
 }

@@ -100,6 +100,7 @@
     <s:String x:Key="DLForge">Minecraft Forge Client</s:String>
     <s:String x:Key="DLPack">Mod Pack</s:String>
     <s:String x:Key="Refresh">Refresh</s:String>
+    <s:String x:Key="Refreshing">Refreshing</s:String>
     <s:String x:Key="Libs">Libraries</s:String>
     <s:String x:Key="Assets">Assets</s:String>
     <s:String x:Key="Exist">Existed</s:String>
@@ -141,6 +142,12 @@
     <s:String x:Key="FormatFaultSolve">Please make sure {0} is in correct format.</s:String>
     <s:String x:Key="Email">Email</s:String>
     <s:String x:Key="MCBBSThread">MCBBS Thread</s:String>
+    <s:String x:Key="NoVersionFound1">No Minecraft version is found</s:String>
+    <s:String x:Key="NoVersionFound2">Somehow the cores doesn't like a Minecraft core</s:String>
+    <s:String x:Key="UnableAI1">Assets Index cannot be found</s:String>
+    <s:String x:Key="UnableAI2">and cannot be downloaded also</s:String>
+    <s:String x:Key="RVerFail1">Failed to refresh Version List</s:String>
+    <s:String x:Key="RVerFail2">Does anyone cut the cable, or the server offline?</s:String>
     <!--/Error-->
     <!--Task-->
     <s:String x:Key="TaskName">Task Name: {0}</s:String>
@@ -171,6 +178,7 @@
     <!--/Task-->
     <!--Install-->
     <s:String x:Key="Install">Install</s:String>
+    <s:String x:Key="Path">Path</s:String>
     <!--/Install-->
     <s:String x:Key="Server">Didicated Launcher Setting</s:String>
     <!-- Other -->

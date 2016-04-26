@@ -183,6 +183,9 @@
     <Compile Include="ACLogin.xaml.cs">
       <DependentUpon>ACLogin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ACSelect.xaml.cs">
+      <DependentUpon>ACSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="assets\AssetIndex.cs" />
     <Compile Include="assets\assets.cs" />
     <Compile Include="assets\AssetsEntity.cs" />
@@ -195,6 +198,7 @@
     <Compile Include="Forge\ForgeDLThread.cs" />
     <Compile Include="Forge\ForgeInstaller.cs" />
     <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="Install\UnexpectedInstallerException.cs" />
     <Compile Include="Gradle\GridGradle.xaml.cs">
       <DependentUpon>GridGradle.xaml</DependentUpon>
     </Compile>
@@ -322,6 +326,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ACLogin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ACSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -514,7 +522,7 @@
     <Resource Include="Resources\play-normal-banner.jpg" />
     <Resource Include="Resources\play-normal-logo.png" />
     <Resource Include="Resources\play-normal.jpg" />
-    <Content Include="Resources\unPackXZ.jar" />
+    <EmbeddedResource Include="Resources\unPackXZ.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

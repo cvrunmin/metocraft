@@ -19,6 +19,7 @@
     <s:String x:Key="Close">关闭</s:String>
     <s:String x:Key="Restart">重新启动</s:String>
     <s:String x:Key="Back">返回</s:String>
+    <s:String x:Key="Next">继续</s:String>
     <s:String x:Key="Log">日志</s:String>
     <s:String x:Key="Notice">通知</s:String>
     <!--Guide-->
@@ -60,7 +61,6 @@
     <s:String x:Key="LauncherSet">启动器</s:String>
     <s:String x:Key="Language">语言</s:String>
     <s:String x:Key="OfDL">覆写语言</s:String>
-    <s:String x:Key="OfDLDesc">如果您想使用的显示语言与Windows语言不同，请在这里选择</s:String>
     <s:String x:Key="DLSrc">下载源</s:String>
     <s:String x:Key="UdtSrc">更新源</s:String>
     <s:String x:Key="BG">启动器背景</s:String>
@@ -80,6 +80,8 @@
     <s:String x:Key="MCPath_NotExist">不存在此路径（将在下载Minecraft客户端时一并创建）</s:String>
     <s:String x:Key="MCPath_NotValid">此路径不存在"versions"文件夹（将在下载Minecraft客户端时一并创建）</s:String>
     <s:String x:Key="MCPath_Catched">检查路径时发生错误</s:String>
+    <s:String x:Key="JavaPath_NotExist">此文件不存在</s:String>
+    <s:String x:Key="JavaPath_Catched">检查文件时发生错误</s:String>
     <s:String x:Key="UseJ">使用的Java</s:String>
     <s:String x:Key="ExArg">额外Jvm参数</s:String>
     <s:String x:Key="VerInfo">版本信息</s:String>
@@ -90,6 +92,7 @@
     <s:String x:Key="GameLaunched">游戏已启动</s:String>
     <!-- /Play -->
     <!-- DL -->
+    <s:String x:Key="GoDL">前往下载页面</s:String>
     <s:String x:Key="DLMC">Minecraft原版客户端</s:String>
     <s:String x:Key="DLLib">库</s:String>
     <s:String x:Key="DLAssets">资源</s:String>
@@ -97,6 +100,7 @@
     <s:String x:Key="DLForge">Minecraft Forge客户端</s:String>
     <s:String x:Key="DLPack">整合包</s:String>
     <s:String x:Key="Refresh">刷新</s:String>
+    <s:String x:Key="Refreshing">刷新中</s:String>
     <s:String x:Key="Libs">库</s:String>
     <s:String x:Key="Assets">资源</s:String>
     <s:String x:Key="Exist">存在</s:String>
@@ -138,6 +142,12 @@
     <s:String x:Key="FormatFaultSolve">请确保 {0} 是正确格式。</s:String>
     <s:String x:Key="Email">电邮</s:String>
     <s:String x:Key="MCBBSThread">MCBBS帖子</s:String>
+    <s:String x:Key="NoVersionFound1">找不到Minecraft版本</s:String>
+    <s:String x:Key="NoVersionFound2">不知为何核心们长得不像一个Minecraft核心</s:String>
+    <s:String x:Key="UnableAI1">找不到Assets列表</s:String>
+    <s:String x:Key="UnableAI2">且无法下载</s:String>
+    <s:String x:Key="RVerFail1">无法刷新坂本列表</s:String>
+    <s:String x:Key="RVerFail2">是有人剪断网线，还是服务器离线呢？</s:String>
     <!--/Error-->
     <!--Task-->
     <s:String x:Key="TaskName">任务名称：{0}</s:String>
@@ -168,6 +178,7 @@
     <!--/Task-->
     <!--Install-->
     <s:String x:Key="Install">安装</s:String>
+    <s:String x:Key="Path">路径</s:String>
     <!--/Install-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">发现资源文件修改，正在同步</s:String>
@@ -187,4 +198,5 @@
     <s:String x:Key="UpdateFound">​​发现更新</s:String>
     <s:String x:Key="UpdateAccept">立即更新</s:String>
     <s:String x:Key="UpdateDeny">稍后更新</s:String>
+    <s:String x:Key="Preview">预览</s:String>
 </ResourceDictionary>

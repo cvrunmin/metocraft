@@ -29,6 +29,15 @@ namespace MTMCL.Launch.Login
         public string Email { get; private set; }
         public string Password { get; private set; }
         public YggdrasilHelper helper { get; private set; }
+
+        public string Type
+        {
+            get
+            {
+                return "Yggdrasil";
+            }
+        }
+
         public YggdrasilLoginAuth(string em, string pw) : this(em,pw,YggdrasilHelper.instance) {        }
         public YggdrasilLoginAuth(string em, string pw, YggdrasilHelper helper)
         {
@@ -68,12 +77,12 @@ namespace MTMCL.Launch.Login
                 AI.Session = Guid.Parse(response.accessToken);
                 if (response.user != null)
                 {
-                    AI.UserType = response.user.legacy ? "legacy" : "mojang";
+                    AI.UserType = response.user.legacy ? "Legacy" : "Mojang";
                     AI.Prop = response.user.properties != null ? LitJson.JsonMapper.ToJson(response.user.properties) : "{}";
                 }
                 else
                 {
-                    AI.UserType = "mojang";AI.Prop = "{}";
+                    AI.UserType = "Mojang";AI.Prop = "{}";
                 }
                 //AI.c = NewLogin.ClientToken;
                 /*DataContractSerializer OtherInfoSerializer = new DataContractSerializer(typeof(SortedList));
@@ -105,6 +114,15 @@ namespace MTMCL.Launch.Login
     {
         public string AccessToken { get; private set; }
         public YggdrasilHelper helper { get; private set; }
+
+        public string Type
+        {
+            get
+            {
+                return "Yggdrasil";
+            }
+        }
+
         public YggdrasilRefreshAuth(string at) : this(at,YggdrasilHelper.instance) { }
         public YggdrasilRefreshAuth(string at, YggdrasilHelper helper)
         {
@@ -148,7 +166,7 @@ namespace MTMCL.Launch.Login
                 }
                 else
                 {
-                    AI.UserType = "mojang"; AI.Prop = "{}";
+                    AI.UserType = "Mojang"; AI.Prop = "{}";
                 }
                 //AI.c = NewLogin.ClientToken;
                 /*DataContractSerializer OtherInfoSerializer = new DataContractSerializer(typeof(SortedList));

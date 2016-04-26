@@ -59,14 +59,14 @@ namespace MTMCL.Task
             foreach (var item in task.Log)
             {
                 logbuilder.AppendLine(item);
-                listLog.Items.Add(item);
+                //listLog.Items.Add(item);
             }
-            //listLog.Text = logbuilder.ToString();
+            listLog.Text = logbuilder.ToString();
         }
         private void TaskBarLogUpdate(string log) {
-            listLog.Items.Add(log);
+            //listLog.Items.Add(log);
             logbuilder.AppendLine(log);
-            //listLog.Text = logbuilder.ToString();
+            listLog.Text = logbuilder.ToString();
         }
         private void TaskBarNameUpdate(string state) {
             lblState.Content = state;

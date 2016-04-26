@@ -20,7 +20,7 @@ namespace MTMCL.Versions
                 shadow.mainClass = deep.mainClass;
             if (string.IsNullOrWhiteSpace(shadow.minecraftArguments))
                 shadow.minecraftArguments = deep.minecraftArguments;
-             shadow.libraries.Concat(deep.libraries);
+             shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray<VersionJson.Library>();
             return shadow;
         }
         public static VersionJson GetFurtherVersion(string MCPath, VersionJson version)

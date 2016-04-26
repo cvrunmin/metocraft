@@ -784,8 +784,10 @@ namespace LitJson
                 writer.WriteObjectStart ();
 
                 foreach (DictionaryEntry entry in ((IDictionary) obj)) {
-                    writer.WritePropertyName ((string) entry.Key);
-                    WriteJson ((JsonData) entry.Value, writer);
+                    if (entry.Value != null) {
+                        writer.WritePropertyName((string)entry.Key);
+                        WriteJson((JsonData)entry.Value, writer);
+                    }
                 }
                 writer.WriteObjectEnd ();
 

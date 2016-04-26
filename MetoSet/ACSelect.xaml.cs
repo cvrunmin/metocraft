@@ -32,7 +32,7 @@ namespace MTMCL
                 {
                     ButtonMenu butcustomauth = new ButtonMenu();
                     butcustomauth.Content = item.Value.DisplayName;
-                    butcustomauth.MenuImage = new BitmapImage(new Uri(item.Value.AuthType.Equals("KMCCC.Yggdrasil") ? "Resources/mojang.png" : (item.Value.AuthType.Equals("KMCCC.Offline") ? "Resources/offline.png" : "Resources/others.png"), UriKind.Relative));
+                    butcustomauth.MenuImage = new BitmapImage(new Uri(item.Value.AuthType.Equals("Yggdrasil") ? "Resources/mojang.png" : (item.Value.AuthType.Equals("Offline") ? "Resources/offline.png" : "Resources/others.png"), UriKind.Relative));
                     butcustomauth.FontSize = 16;
                     //butcustomauth.Margin = new Thickness(0, 60 * i, -17, 0);
                     butcustomauth.Width = 465;
@@ -65,7 +65,7 @@ namespace MTMCL
                         ac.ShowDialog();
                         if (ac.info != null && ac.auth != null)
                         {
-                            MeCore.Config.SavedAuths.Add(ac.info.DisplayName, new Config.SavedAuth { AuthType = ac.auth.Type, DisplayName = ac.info.DisplayName, AccessToken = ac.info.AccessToken.ToString(), UUID = ac.info.UUID.ToString(), Properies = ac.info.Properties, UserType = ac.info.UserType });
+                            MeCore.Config.SavedAuths.Add(ac.info.DisplayName, new Config.SavedAuth { AuthType = ac.auth.Type, DisplayName = ac.info.DisplayName, AccessToken = ac.info.Session.ToString(), UUID = ac.info.UUID.ToString(), Properies = ac.info.Prop, UserType = ac.info.UserType });
                             MeCore.Config.Save();
                             CreateCustomAuth();
                         }
@@ -73,7 +73,7 @@ namespace MTMCL
                 };
                 gridscrolllist.Children.Add(butcreateauth);
         }
-        private void AuthButton_Click(object sender, RoutedEventArgs e) {
+        private async void AuthButton_Click(object sender, RoutedEventArgs e) {
             if (e.Source is ButtonMenu)
             {
                 if ((bool)toggleDetele.IsChecked)
@@ -99,12 +99,13 @@ namespace MTMCL
                         MeCore.Config.DefaultAuth = "";
                     }
                     MeCore.Config.Save();
+                    await System.Threading.Tasks.TaskEx.Delay(2000);
                     CreateCustomAuth();
                     return;
                 }
                 Config.SavedAuth auth; string name = ((ButtonMenu)e.Source).Content as string;
                 MeCore.Config.SavedAuths.TryGetValue(name, out auth);
-                this.auth = auth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(auth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = name, AccessToken = new Guid(auth.AccessToken), UUID = new Guid(auth.UUID), UserType = auth.UserType, Properties = auth.Properies }) as KMCCC.Authentication.IAuthenticator;
+                this.auth = auth.AuthType.Equals("Yggdrasil") ? new  Launch.Login.YggdrasilRefreshAuth(Guid.Parse(auth.AccessToken).ToString()) : new Launch.Login.OfflineAuth(name) as Launch.Login.IAuth;
                 MeCore.Config.QuickChange("default-auth", name);
                 Close();
             }

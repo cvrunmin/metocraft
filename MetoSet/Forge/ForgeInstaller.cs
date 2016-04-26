@@ -18,125 +18,147 @@ namespace MTMCL.Forge
         private List<Artifact> grabbed;
         public bool install(string target)
         {
-            if (!File.Exists(target))
+            try
             {
-                return false;
-            }
-            if (MeCore.Config.Javaw.Equals("undefined"))
-            {
-                return false;
-            }
-            ZipFile zip = new ZipFile(target);
-            ZipEntry infoentry = zip.GetEntry("install_profile.json");
-            ForgeInstall info = LitJson.JsonMapper.ToObject<ForgeInstall>(new LitJson.JsonReader(new StreamReader(zip.GetInputStream(infoentry))));
-            string path = MeCore.Config.MCPath;
-            if (MeCore.IsServerDedicated)
-            {
-                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                if (!File.Exists(target))
                 {
-                    path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    return false;
                 }
-            }
-            DirectoryInfo verroot = new DirectoryInfo(path + "\\versions\\");
-            DirectoryInfo targetdir = new DirectoryInfo(verroot.FullName + info.install.target + "\\");
-            targetdir.Create();
-            DirectoryInfo libdir = new DirectoryInfo(path + "\\libraries\\");
-            FileInfo verjson = new FileInfo(targetdir + info.install.target + ".json");
-            if (!info.versionInfo.isInherited())
-            {
-                FileInfo verjar = new FileInfo(targetdir + info.install.target + ".jar");
-                FileInfo mcjar = new FileInfo(verroot + info.install.minecraft + "\\" + info.install.minecraft + ".jar");
-                try
+                if (MeCore.Config.Javaw.Equals("undefined"))
                 {
-                    bool requiredelete = false;
-                    if (!mcjar.Exists)
+                    return false;
+                }
+                if (!target.EndsWith(".jar"))
+                {
+                    throw new UnexpectedInstallerException(target, "Target file doesn\'t end with .jar");
+                }
+                ZipFile zip = new ZipFile(target);
+                ZipEntry infoentry = zip.GetEntry("install_profile.json");
+                if (infoentry == null) throw new UnexpectedInstallerException(target, "Target file doesn't a valid installer");
+                ForgeInstall info = LitJson.JsonMapper.ToObject<ForgeInstall>(new LitJson.JsonReader(new StreamReader(zip.GetInputStream(infoentry))));
+                string path = MeCore.Config.MCPath;
+                if (MeCore.IsServerDedicated)
+                {
+                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
                     {
-                        mcjar.Create();
-                        requiredelete = true;
-                        string url = Resources.UrlReplacer.getDownloadUrl() + "versions/" + info.install.minecraft + "/" + info.install.minecraft + ".jar";
-                        if (!downloadFileETag(url, mcjar.FullName))
+                        path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    }
+                }
+                DirectoryInfo verroot = new DirectoryInfo(path + "\\versions\\");
+                DirectoryInfo targetdir = new DirectoryInfo(verroot.FullName + info.install.target + "\\");
+                targetdir.Create();
+                DirectoryInfo libdir = new DirectoryInfo(path + "\\libraries\\");
+                FileInfo verjson = new FileInfo(targetdir + info.install.target + ".json");
+                if (!info.versionInfo.isInherited())
+                {
+                    FileInfo verjar = new FileInfo(targetdir + info.install.target + ".jar");
+                    FileInfo mcjar = new FileInfo(verroot + info.install.minecraft + "\\" + info.install.minecraft + ".jar");
+                    try
+                    {
+                        bool requiredelete = false;
+                        if (!mcjar.Exists)
+                        {
+                            mcjar.Create();
+                            requiredelete = true;
+                            string url = Resources.UrlReplacer.getDownloadUrl() + "versions/" + info.install.minecraft + "/" + info.install.minecraft + ".jar";
+                            if (!downloadFileETag(url, mcjar.FullName))
+                            {
+                                mcjar.Delete();
+                                zip.Close();
+                                return false;
+                            }
+                        }
+                        if (!verjar.Exists) {
+                            if (info.install.stripMeta)
+                            {
+                                CopyAndStrip(mcjar.FullName, verjar.FullName);
+                            }
+                            else
+                            {
+                                File.Copy(mcjar.FullName, verjar.FullName);
+                            }
+                        }
+                        if (requiredelete)
                         {
                             mcjar.Delete();
-                            zip.Close();
-                            return false;
                         }
                     }
-                    if (info.install.stripMeta)
+                    catch (Exception e)
                     {
-                        CopyAndStrip(mcjar.FullName, verjar.FullName);
+                        MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), info.install.minecraft)) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                        //zip.Close();
+                        //return false;
                     }
-                    else
-                    {
-                        File.Copy(mcjar.FullName, verjar.FullName);
-                    }
-                    if (requiredelete)
-                    {
-                        mcjar.Delete();
-                    }
+                }
+                FileInfo lib = info.install.GetLibraryPath(libdir);
+                List<Artifact> bad = new List<Artifact>();
+                downloadInstalledLibrary(info, libdir, grabbed, bad);
+                /*if (bad.Count > 0)
+                {
+                    zip.Close();
+                    return false;
+                }*/
+                if (!lib.Directory.Exists)
+                {
+                    lib.Directory.Create();
+                }
+                try
+                {
+                    TextWriter writer = new StreamWriter(verjson.Create(), Encoding.UTF8);
+                    LitJson.JsonWriter jsonwriter = new LitJson.JsonWriter(writer);
+                    jsonwriter.PrettyPrint = true;
+                    LitJson.JsonMapper.ToJson(info.versionInfo, jsonwriter);
+                    writer.Close();
                 }
                 catch (Exception e)
                 {
-                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), info.install.minecraft)) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                     //zip.Close();
                     //return false;
                 }
-            }
-            FileInfo lib = info.install.GetLibraryPath(libdir);
-            List<Artifact> bad = new List<Artifact>();
-            downloadInstalledLibrary(info, libdir, grabbed, bad);
-            /*if (bad.Count > 0)
-            {
-                zip.Close();
-                return false;
-            }*/
-            if (!lib.Directory.Exists)
-            {
-                lib.Directory.Create();
-            }
-            try
-            {
-                TextWriter writer = new StreamWriter(verjson.Create(), Encoding.UTF8);
-                LitJson.JsonWriter jsonwriter = new LitJson.JsonWriter(writer);
-                jsonwriter.PrettyPrint = true;
-                LitJson.JsonMapper.ToJson(info.versionInfo, jsonwriter);
-                writer.Close();
-            }
-            catch (Exception e)
-            {
-                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()),e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
-                //zip.Close();
-                //return false;
-            }
-            try
-            {
-                ZipEntry entry = zip.GetEntry(info.install.filePath);
-                Stream ins = zip.GetInputStream(entry);
-                FileStream stream = File.Create(lib.FullName);
-                int size = 4096;
-                byte[] data = new byte[4096];
-                while (true)
+                try
                 {
-                    size = ins.Read(data, 0, data.Length);
-                    if (size > 0)
+                    ZipEntry entry = zip.GetEntry(info.install.filePath);
+                    Stream ins = zip.GetInputStream(entry);
+                    FileStream stream = File.Create(lib.FullName);
+                    int size = 4096;
+                    byte[] data = new byte[4096];
+                    while (true)
                     {
-                        stream.Write(data, 0, size);
+                        size = ins.Read(data, 0, data.Length);
+                        if (size > 0)
+                        {
+                            stream.Write(data, 0, size);
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    else
-                    {
-                        break;
-                    }
+                    stream.Close();
+                    ins.Close();
                 }
-                stream.Close();
-                ins.Close();
+                catch (Exception e)
+                {
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                    //zip.Close();
+                    //return false;
+                }
+                zip.Close();
+                return true;
             }
-            catch (Exception e)
-            {
+            catch (UnexpectedInstallerException e) {
                 MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
-                //zip.Close();
-                //return false;
+                return false;
             }
-            zip.Close();
-            return true;
+            catch (ZipException e)
+            {
+                throw new UnexpectedInstallerException(target, "Failed to read the jar", e);
+            }
+            catch (Exception e) {
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                return false;
+            }
         }
 
         string etag;

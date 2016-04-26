@@ -6,10 +6,6 @@
              xmlns:local="clr-namespace:MTMCL.Task"
              mc:Ignorable="d" 
              d:DesignHeight="362" d:DesignWidth="643" Loaded="Grid_Loaded">
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
     <Grid.Background>
         <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}}}" Stretch="UniformToFill"/>
     </Grid.Background>
@@ -23,6 +19,8 @@
     <Label Content="{DynamicResource TaskDetailTitle}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333" Background="{DynamicResource AccentColorBrush4}"/>
     <Label Content="{DynamicResource Log}" HorizontalAlignment="Left" Margin="0,81,0,0" VerticalAlignment="Top" FontSize="16" Background="{DynamicResource AccentColorBrush4}"/>
     <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="2,45,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource TaskName}" FontSize="16" Background="{DynamicResource AccentColorBrush4}"/>
-    <Label x:Name="lblState" Content="" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" Grid.Column="1" ContentStringFormat="{DynamicResource TaskState}" FontSize="16" Background="{DynamicResource AccentColorBrush4}"/>
-    <ListBox x:Name="listLog" Margin="0,117,0,0" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush4}" FontSize="16"/>
+    <Label x:Name="lblState" Content="" Margin="0,45,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource TaskState}" FontSize="16" Background="{DynamicResource AccentColorBrush4}" HorizontalAlignment="Right"/>
+    <ScrollViewer Margin="0,117,0,0" >
+        <TextBlock x:Name="listLog" Background="{DynamicResource AccentColorBrush3}"/>
+    </ScrollViewer>
 </Grid>
