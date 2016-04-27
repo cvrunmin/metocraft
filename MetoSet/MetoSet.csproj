@@ -209,6 +209,7 @@
     <Compile Include="JsonClass\ForgeVersion.cs" />
     <Compile Include="Launch\LaunchGameInfo.cs" />
     <Compile Include="Launch\LaunchHandler.cs" />
+    <Compile Include="Launch\LaunchMode.cs" />
     <Compile Include="Launch\Login\AuthInfo.cs" />
     <Compile Include="Launch\Login\IAuth.cs" />
     <Compile Include="Launch\Login\OfflineAuth.cs" />

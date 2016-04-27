@@ -9,12 +9,18 @@ namespace MTMCL.util
 {
     public static class FileHelper
     {
-        static public void dircopy(string from, string to)
+        static public void dircopy(string from, string to, bool force = false)
         {
             DirectoryInfo dir = new DirectoryInfo(from);
             if (!Directory.Exists(to))
             {
                 Directory.CreateDirectory(to);
+            }
+            else {
+                if (force)
+                {
+                    Directory.Delete(to, true);
+                }
             }
             foreach (DirectoryInfo sondir in dir.GetDirectories())
             {
@@ -24,6 +30,30 @@ namespace MTMCL.util
             {
                 File.Copy(file.FullName, to + "\\" + file.Name, true);
             }
+        }
+        static public void dirmove(string to, string from, bool force = false)
+        {
+            DirectoryInfo dir = new DirectoryInfo(from);
+            if (!Directory.Exists(to))
+            {
+                Directory.CreateDirectory(to);
+            }
+            else
+            {
+                if (force)
+                {
+                    Directory.Delete(to, true);
+                }
+            }
+            foreach (DirectoryInfo sondir in dir.GetDirectories())
+            {
+                dircopy(sondir.FullName, to + "\\" + sondir.Name);
+            }
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                File.Copy(file.FullName, to + "\\" + file.Name, true);
+            }
+            Directory.Delete(from, true);
         }
 
         static public bool IfFileVaild(string Path, long Length = -1)

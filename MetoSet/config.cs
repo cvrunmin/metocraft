@@ -39,8 +39,10 @@ namespace MTMCL
         [LitJson.JsonPropertyName("javaXmx")]
         public double Javaxmx { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("lastversion")]
+        [JsonPropertyName("lastversion")]
         public string LastPlayVer { get; set; }
+        [JsonPropertyName("lastlaunchmode")]
+        public string LastLaunchMode { get; set; }
         [DataMember]
         [LitJson.JsonPropertyName("jvmarg")]
         public string ExtraJvmArg { get; set; }

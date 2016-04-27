@@ -100,7 +100,7 @@ namespace MTMCL.Threads
             args.Add("user_properties", ai.Prop);
             args.Add("user_type", ai.UserType);
             args.Add("version_type", "MTMCL_" +  MeCore.version);
-
+            _LaunchOptions.Mode.Do(_LaunchOptions, ref args);
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = _LaunchOptions.JavaPath;
             process.StartInfo.Arguments = Launch.LaunchHandler.CreateArgument(_LaunchOptions, args, MeCore.Config.ExtraJvmArg);
@@ -110,6 +110,7 @@ namespace MTMCL.Threads
             Logger.HelpLog(process.StartInfo.Arguments);
             process.Exited += delegate (object sender, EventArgs e)
             {
+                _LaunchOptions.Mode.DoAfter(_LaunchOptions);
                 GameExit?.Invoke();
                 //Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
                 if (process.ExitCode != 0)
@@ -219,14 +220,11 @@ namespace MTMCL.Threads
             else
             {*/
                 _clientCrashReportCount = Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports") ? Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count() : 0;
-                //butPlayQuick.IsEnabled = false;
-                //OnStateChange("");
                 TaskCountTime?.Invoke();
                 OnLogged?.Invoke(Logger.HelpLog("game launched"));
                 //OnAuthUpdate?.Invoke(result.Handle.Info);
                 MeCore.Config.QuickChange("LastPlayVer", _LaunchOptions.Version.id);
-                //MeCore.NIcon.ShowBalloonTip(3000, "Successful to launch " + versions[comboVer.SelectedIndex].Id);
-                //}
+                MeCore.Config.QuickChange("LastLaunchMode", _LaunchOptions.Mode.ModeType);
                 process.EnableRaisingEvents = true;
                 process.Start();
                 await System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);

@@ -14,6 +14,7 @@ namespace MTMCL.Launch
         public int JavaXmx { get; private set; }
         public WindowSize Size { get; private set; }
         public ServerInfo Server { get; private set; }
+        public LaunchMode Mode { get; private set; }
         private LaunchGameInfo(string MCPath, Login.IAuth auth, Versions.VersionJson ver, string java, int xmx, WindowSize size, ServerInfo info) {
             Auth = auth;
             Version = ver;
@@ -38,6 +39,11 @@ namespace MTMCL.Launch
         public static LaunchGameInfo CreateInfo(string path,Login.IAuth auth, Versions.VersionJson ver, string java, int xmx, WindowSize size, ServerInfo server)
         {
             return new LaunchGameInfo(path,auth, ver, java, xmx, size, server);
+        }
+        public LaunchGameInfo SetMode(LaunchMode mode)
+        {
+            Mode = mode;
+            return this;
         }
     }
     public class WindowSize

@@ -78,8 +78,6 @@ namespace MTMCL
         List<LibraryUniversal> libs = new List<LibraryUniversal>();
         private async void listVer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /* if (App.core != null)
-             {*/
             var version = versions[listVer.SelectedIndex];
             var dtlib = new DataTable();
             dtlib.Columns.Add("Lib");
@@ -96,7 +94,6 @@ namespace MTMCL
             listLib.DataContext = dtlib;
             await System.Threading.Tasks.Task.Factory.StartNew(RefreshAsset);
             lblSelectVer.Content = version.id;
-            //}
         }
         private void RefreshAsset()
         {
@@ -172,7 +169,7 @@ namespace MTMCL
             {
                 Config.SavedAuth dauth;
                 MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
-                auth = dauth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) as KMCCC.Authentication.IAuthenticator : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = new Guid(dauth.AccessToken), UUID = new Guid(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
+                auth = dauth.AuthType.Equals("Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) as KMCCC.Authentication.IAuthenticator : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = new Guid(dauth.AccessToken), UUID = new Guid(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
             }*/
             ACLogin ac = new ACLogin();
             ac.ShowDialog();

@@ -9,6 +9,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Linq;
+using MTMCL.Launch;
 
 namespace MTMCL
 {
@@ -170,7 +171,7 @@ namespace MTMCL
         }
         private void butLaunchNormal_Click(object sender, RoutedEventArgs e)
         {
-            LaunchGame();
+            LaunchGame(LaunchMode.Normal);
             MeCore.MainWindow.launchFlyout.IsOpen = false;
         }
 
@@ -188,7 +189,7 @@ namespace MTMCL
         }
         private void butLaunchBMCL_Click(object sender, RoutedEventArgs e)
         {
-            LaunchGame(/*LaunchMode.BmclMode*/);
+            LaunchGame(LaunchMode.BMCL);
             MeCore.MainWindow.launchFlyout.IsOpen = false;
         }
 
@@ -206,32 +207,32 @@ namespace MTMCL
         }
         private void butLaunchBaka_Click(object sender, RoutedEventArgs e)
         {
-            LaunchGame(/*new BakaXLMode()*/);
+            LaunchGame(LaunchMode.BakaXL);
             MeCore.MainWindow.launchFlyout.IsOpen = false;
         }
-        public void LaunchGame(/*LaunchMode mode*/)
+        public void LaunchGame(LaunchMode mode)
         {
             if (_LaunchOptions != null)
             {
-                LaunchGame(_LaunchOptions/*, mode*/);
+                LaunchGame(_LaunchOptions, mode);
             }
         }
-        public void LaunchGame(Launch.LaunchGameInfo options)
+        public void LaunchGame(LaunchGameInfo options, LaunchMode mode)
         {
             gameSentLaunch = true;
             if (options != null)
             {
                 _LaunchOptions = options;
-                //_LaunchOptions.Mode = mode;
+                _LaunchOptions.SetMode(mode);
                 string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
-                /*if (mode is BmclLaunchMode)
+                if (mode is BMCLLaunchMode)
                 {
                     uri = "pack://application:,,,/Resources/play-bmcl-banner.jpg";
                 }
-                if (mode is BakaXLMode)
+                if (mode is BakaXLLaunchMode)
                 {
                     uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
-                }*/
+                }
                 TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri)) };
                 var task = new LaunchMCThread(_LaunchOptions);
                 task.StateChange += delegate (string state)
@@ -426,15 +427,15 @@ namespace MTMCL
                         auth = ac.auth;
                         if (auth != null)
                         {
-                            Launch.LaunchGameInfo option = Launch.LaunchGameInfo.CreateInfo(MeCore.Config.MCPath, auth, version,MeCore.Config.Javaw, (int)MeCore.Config.Javaxmx, CreateServerInfo());
-                            LaunchGame(option);
+                            LaunchGameInfo option = LaunchGameInfo.CreateInfo(MeCore.Config.MCPath, auth, version,MeCore.Config.Javaw, (int)MeCore.Config.Javaxmx, CreateServerInfo());
+                            LaunchGame(option, LaunchMode.GetMode(MeCore.Config.LastLaunchMode));
                         }
                     }
                 }
             }
             catch { }
         }
-        private Launch.ServerInfo CreateServerInfo() {
+        private ServerInfo CreateServerInfo() {
             if (MeCore.IsServerDedicated)
             {
                 if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerIP))
