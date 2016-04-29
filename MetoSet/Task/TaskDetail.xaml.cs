@@ -66,7 +66,7 @@ namespace MTMCL.Task
         private void TaskBarLogUpdate(string log) {
             //listLog.Items.Add(log);
             logbuilder.AppendLine(log);
-            listLog.Text = logbuilder.ToString();
+            Dispatcher.Invoke(new Action(()=> listLog.Text = logbuilder.ToString()));
         }
         private void TaskBarNameUpdate(string state) {
             lblState.Content = state;
