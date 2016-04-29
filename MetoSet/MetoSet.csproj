@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="JsonClass\ForgeInstall.cs" />
     <Compile Include="JsonClass\ForgeVersion.cs" />
+    <Compile Include="JsonClass\LiteLoaderInstall.cs" />
     <Compile Include="Launch\LaunchGameInfo.cs" />
     <Compile Include="Launch\LaunchHandler.cs" />
     <Compile Include="Launch\LaunchMode.cs" />
