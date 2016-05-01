@@ -9,19 +9,7 @@
         Title="BGWindow" Height="300" Width="500" Initialized="MetroWindow_Initialized">
     <Grid>
         <ScrollViewer Margin="0,30,0,0">
-            <WrapPanel x:Name="panelBG">
-                <local:PreviewItem x:Name="itemDefault" Description="Default" Click="BGButton_Click">
-                    <local:PreviewItem.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{DynamicResource Select}" Click="MenuItemSelect_Click"/>
-                            <MenuItem Header="{DynamicResource Preview}" Click="MenuItemPreview_Click"/>
-                        </ContextMenu>
-                    </local:PreviewItem.ContextMenu>
-                    <local:PreviewItem.ImgSrc>
-                        <BitmapImage UriSource="bg.png"/>
-                    </local:PreviewItem.ImgSrc>
-                </local:PreviewItem>
-            </WrapPanel>
+            <WrapPanel x:Name="panelBG"/>
         </ScrollViewer>
         <Label Content="Select your background" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14.667"/>
 

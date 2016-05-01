@@ -1,4 +1,5 @@
 ﻿using MTMCL.util;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,76 +31,81 @@ namespace MTMCL.Assets
 
         private void Run()
         {
-            string gameVersion = _ver.assets;
-            if (string.IsNullOrWhiteSpace(gameVersion) | gameVersion != "legacy")
-            {
-                Logger.log("version isn\'t legacy, return.");
-                return;
-            }
-            string path = Path.Combine(MeCore.Config.MCPath, "assets\\indexes", gameVersion + ".json");
-            if (MeCore.IsServerDedicated)
-            {
-                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+            try {
+                string gameVersion = _ver.assets;
+                if (string.IsNullOrWhiteSpace(gameVersion) | gameVersion != "legacy")
                 {
-                    path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    Logger.log("version isn\'t legacy, return.");
+                    return;
                 }
-            }
-            if (File.Exists(path))
-            {
-                var sr = new StreamReader(path);
-                var assetsObject = LitJson.JsonMapper.ToObject<AssetIndex>(sr.ReadToEnd());
-                obj = assetsObject.objects;
-                Logger.log("共", obj.Count.ToString(CultureInfo.InvariantCulture), "项assets");
-                if (assetsObject._virtual)
+                string path = Path.Combine(MeCore.Config.MCPath, "assets\\indexes", gameVersion + ".json");
+                if (MeCore.IsServerDedicated)
                 {
-                    foreach (KeyValuePair<string, AssetsEntity> entity in obj)
+                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
                     {
-                        string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
-                        if (MeCore.IsServerDedicated)
+                        path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    }
+                }
+                if (File.Exists(path))
+                {
+                    var sr = new StreamReader(path);
+                    var assetsObject = JsonConvert.DeserializeObject<AssetIndex>(File.ReadAllText(path));
+                    obj = assetsObject.objects;
+                    Logger.log("共", obj.Count.ToString(CultureInfo.InvariantCulture), "项assets");
+                    if (assetsObject._virtual)
+                    {
+                        foreach (KeyValuePair<string, AssetsEntity> entity in obj)
                         {
-                            if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                            {
-                                file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                            }
-                        }
-                        if (!File.Exists(file))
-                        {
-                            _init = false;
-                            continue;
-                        }
-                        try
-                        {
-                            if (!FileHelper.IfFileVaild(file, entity.Value.size))
-                            {
-                                _init = false;
-                                continue;
-                            }
-                            string finfile = Path.Combine(MeCore.Config.MCPath, "assets\\virtual\\legacy", entity.Key);
+                            string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
                             if (MeCore.IsServerDedicated)
                             {
                                 if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
                                 {
-                                    finfile = finfile.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                                    file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
                                 }
                             }
-                            if (File.Exists(finfile))
+                            if (!File.Exists(file))
                             {
+                                _init = false;
                                 continue;
                             }
-                            FileHelper.CreateDirectoryForFile(finfile);
-                            File.Copy(file, finfile);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.error(ex);
+                            try
+                            {
+                                if (!FileHelper.IfFileVaild(file, entity.Value.size))
+                                {
+                                    _init = false;
+                                    continue;
+                                }
+                                string finfile = Path.Combine(MeCore.Config.MCPath, "assets\\virtual\\legacy", entity.Key);
+                                if (MeCore.IsServerDedicated)
+                                {
+                                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                                    {
+                                        finfile = finfile.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                                    }
+                                }
+                                if (File.Exists(finfile))
+                                {
+                                    continue;
+                                }
+                                FileHelper.CreateDirectoryForFile(finfile);
+                                File.Copy(file, finfile);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.error(ex);
+                            }
                         }
                     }
+                    if (!_init)
+                    {
+                        Logger.log("load and fix assets failed");
+                    }
                 }
-                if (!_init)
-                {
-                    Logger.log("load and fix assets failed");
-                }
+            } catch {
+                Logger.log("load assets index failed");
             }
+            
         }
     }
 }

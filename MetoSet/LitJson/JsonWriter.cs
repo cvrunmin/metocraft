@@ -445,11 +445,11 @@ namespace LitJson
             PutString (property_name);
 
             if (pretty_print) {
-                if (property_name.Length > context.Padding)
+                /*if (property_name.Length > context.Padding)
                     context.Padding = property_name.Length;
 
                 for (int i = context.Padding - property_name.Length;
-                     i >= 0; i--)
+                     i >= 0; i--)*/
                     writer.Write (' ');
 
                 writer.Write (": ");

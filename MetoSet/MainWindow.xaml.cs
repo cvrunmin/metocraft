@@ -20,7 +20,6 @@ namespace MTMCL
     {
         System.Windows.Forms.Timer timer;
         public Launch.LaunchGameInfo _LaunchOptions;
-        bool gameSentLaunch;
         public MainWindow()
         {
             //MeCore.NIcon.MainWindow = this;
@@ -51,10 +50,10 @@ namespace MTMCL
         {
             var ani1 = new ThicknessAnimationUsingKeyFrames();
             //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
-            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -105, 0, 210), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -105, 0, 210), TimeSpan.FromSeconds(0.25), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
             //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
             butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
         }
@@ -63,10 +62,10 @@ namespace MTMCL
         {
             var ani1 = new ThicknessAnimationUsingKeyFrames();
             //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -75, 0, 175), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
             //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 25, 0, 75), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+            ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
             butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
         }
@@ -122,8 +121,8 @@ namespace MTMCL
             gridLoadingScreen.Background = new SolidColorBrush(Color.FromRgb(((SolidColorBrush)tile.Background).Color.R, ((SolidColorBrush)tile.Background).Color.G, ((SolidColorBrush)tile.Background).Color.B));
             gridLoadingScreen.Visibility = Visibility.Visible;
             var ani = new ThicknessAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMain.Margin.Left + gridMenu.Margin.Left + tile.Margin.Left, gridMain.Margin.Top + gridMenu.Margin.Top + tile.Margin.Top, gridMain.Margin.Right + gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMain.Margin.Bottom + gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
-            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.2)), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(gridMain.Margin.Left + gridMenu.Margin.Left + tile.Margin.Left, gridMain.Margin.Top + gridMenu.Margin.Top + tile.Margin.Top, gridMain.Margin.Right + gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMain.Margin.Bottom + gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top)), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), new ExponentialEase() { EasingMode = EasingMode.EaseInOut, Exponent = 9 }));
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.2)), new ExponentialEase() { EasingMode = EasingMode.EaseInOut, Exponent = 9 }));
             gridLoadingScreen.BeginAnimation(MarginProperty, ani);
             await System.Threading.Tasks.TaskEx.Delay(1000);
             gridMain.Visibility = Visibility.Collapsed;
@@ -219,7 +218,6 @@ namespace MTMCL
         }
         public void LaunchGame(LaunchGameInfo options, LaunchMode mode)
         {
-            gameSentLaunch = true;
             if (options != null)
             {
                 _LaunchOptions = options;
@@ -246,7 +244,6 @@ namespace MTMCL
                 };
                 task.GameExit += delegate
                 {
-                    Dispatcher.Invoke(new Action(() => gameSentLaunch = false));
                     Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
                     Dispatcher.Invoke(new Action(() => gui.stopCountTime().noticeFinished()));
                 };
@@ -269,10 +266,6 @@ namespace MTMCL
                     Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
                 };
                 addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.id)).setThread(task).setDetectAlive(false));
-            }
-            else
-            {
-                gameSentLaunch = false;
             }
         }
         private void butPlayQuick_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)

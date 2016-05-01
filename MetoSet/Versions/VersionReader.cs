@@ -15,12 +15,22 @@ namespace MTMCL.Versions
             }
             VersionJson deep = GetFurtherVersion(MCPath, shadow.inheritsFrom);
             if (string.IsNullOrWhiteSpace(shadow.assets))
+            {
                 shadow.assets = deep.assets ?? "legacy";
+            }
             if (string.IsNullOrWhiteSpace(shadow.mainClass))
+            {
                 shadow.mainClass = deep.mainClass;
+            }
             if (string.IsNullOrWhiteSpace(shadow.minecraftArguments))
+            {
                 shadow.minecraftArguments = deep.minecraftArguments;
-             shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray<VersionJson.Library>();
+            }
+            if (string.IsNullOrWhiteSpace(shadow.jar))
+            {
+                shadow.jar = deep.jar;
+            }
+             shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray();
             return shadow;
         }
         public static VersionJson GetFurtherVersion(string MCPath, VersionJson version)
@@ -32,12 +42,22 @@ namespace MTMCL.Versions
             }
             VersionJson deep = GetFurtherVersion(MCPath, shadow.inheritsFrom);
             if (string.IsNullOrWhiteSpace(shadow.assets))
+            {
                 shadow.assets = deep.assets ?? "legacy";
+            }
             if (string.IsNullOrWhiteSpace(shadow.mainClass))
+            {
                 shadow.mainClass = deep.mainClass;
+            }
             if (string.IsNullOrWhiteSpace(shadow.minecraftArguments))
+            {
                 shadow.minecraftArguments = deep.minecraftArguments;
-            shadow.libraries.Concat(deep.libraries);
+            }
+            if (string.IsNullOrWhiteSpace(shadow.jar))
+            {
+                shadow.jar = deep.jar;
+            }
+            shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray();
             return shadow;
         }
         public static VersionJson GetVersion(string MCPath, string version) {
@@ -50,7 +70,7 @@ namespace MTMCL.Versions
                     {
                         if (Directory.Exists(Path.Combine(MCPath, version)))
                         {
-                            return LitJson.JsonMapper.ToObject<VersionJson>(new LitJson.JsonReader(new StreamReader(File.OpenRead(Path.Combine(MCPath, version, version + ".json")))));
+                            return Newtonsoft.Json.JsonConvert.DeserializeObject<VersionJson>(File.ReadAllText(Path.Combine(MCPath, version, version + ".json")));
                         }
                     }
                 }
@@ -77,7 +97,7 @@ namespace MTMCL.Versions
                             string ver = "";
                             if (File.Exists(ver = Path.Combine(item, item.Substring(item.LastIndexOf('\\') + 1) + ".json")))
                             {
-                                list.Add(GetFurtherVersion(MCPath, LitJson.JsonMapper.ToObject<VersionJson>(new LitJson.JsonReader(new StreamReader(File.OpenRead(ver))))));
+                                list.Add(GetFurtherVersion(MCPath, Newtonsoft.Json.JsonConvert.DeserializeObject<VersionJson>(File.ReadAllText(ver))));
                             }
                         }
                     }

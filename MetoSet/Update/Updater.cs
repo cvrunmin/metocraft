@@ -58,7 +58,7 @@ namespace MTMCL.Update
             req.Timeout = 7500;
             req.ReadWriteTimeout = 7500;
             var res = (HttpWebResponse)req.GetResponse();
-            UpdateJson updatejs = LitJson.JsonMapper.ToObject<UpdateJson>(new LitJson.JsonReader(new StreamReader(res.GetResponseStream())));
+            UpdateJson updatejs = Newtonsoft.Json.JsonConvert.DeserializeObject<UpdateJson>(new StreamReader(res.GetResponseStream()).ReadToEnd());
 
             if (updatejs == null | updatejs.versions.Length == 0)
             {

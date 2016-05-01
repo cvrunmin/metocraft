@@ -18,30 +18,34 @@
     <Grid>
         <TabControl x:Name="tabControl" TabStripPlacement="Left" Margin="0,40,0,0">
             <TabItem Header="{DynamicResource GameSet}">
-                <Grid Background="#7FFFFFFF">
-                    <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
-                    <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="256" LargeChange="128" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged" metro:SliderHelper.EnableMouseWheel="MouseHover"/>
-                    <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
-                    <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" metro:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
-                    <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click"/>
-                    <Rectangle x:Name="rectMPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,83,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_check}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <Label Content="{DynamicResource UseJ}" HorizontalAlignment="Left" Margin="0,114,0,0" VerticalAlignment="Top" FontSize="16"/>
-                    <TextBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" TextChanged="comboJava_SelectionChanged"/>
-                    <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
-                    <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
-                    <Label Content="Auth Used" HorizontalAlignment="Left" Margin="0,236,0,0" VerticalAlignment="Top" FontSize="16" Visibility="Collapsed"/>
-                    <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="94,236,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click" Visibility="Collapsed"/>
-                    <Button x:Name="butJavawBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,144,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butJavawBrowse_Click"/>
-                    <Rectangle x:Name="rectJPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,144,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_check}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Grid>
+                <ScrollViewer>
+                    <Grid Background="#7FFFFFFF">
+                        <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                        <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="256" LargeChange="128" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged" metro:SliderHelper.EnableMouseWheel="MouseHover"/>
+                        <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" metro:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
+                        <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click"/>
+                        <Rectangle x:Name="rectMPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,83,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_check}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="{DynamicResource UseJ}" HorizontalAlignment="Left" Margin="0,114,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <TextBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" TextChanged="comboJava_SelectionChanged"/>
+                        <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleLL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,231,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmLL}" IsCheckedChanged="toggleLL_IsCheckedChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleModded" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,292,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmModded}" IsCheckedChanged="toggleModded_IsCheckedChanged"/>
+                        <Label Content="Auth Used" HorizontalAlignment="Left" Margin="0,236,0,0" VerticalAlignment="Top" FontSize="16" Visibility="Collapsed"/>
+                        <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="94,236,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click" Visibility="Collapsed"/>
+                        <Button x:Name="butJavawBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,144,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butJavawBrowse_Click"/>
+                        <Rectangle x:Name="rectJPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,144,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_check}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="{DynamicResource Download}">
                 <Grid Background="#7FFFFFFF">
@@ -79,7 +83,7 @@
                 <Grid Background="#7FFFFFFF">
                     <Label Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <Label x:Name="lblLauncherVersion" Content="" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
-                    <Button x:Name="butCheckUpdate" Content="Check Update" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Click="butCheckUpdate_Click"/>
+                    <Button x:Name="butCheckUpdate" Content="{DynamicResource CheckUpdate}" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Click="butCheckUpdate_Click"/>
                     <Label HorizontalAlignment="Left" Margin="0,157,0,0" VerticalAlignment="Top" Padding="0">
                         <AccessText Text="Picture easteregg-sudou-kayo.png is captured form Youtube video Tt31439XObA made by MarioGaGabriel" TextWrapping="WrapWithOverflow"></AccessText>
                     </Label>

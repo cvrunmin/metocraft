@@ -1,5 +1,4 @@
-﻿using LitJson;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +9,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using MTMCL.util;
 using System.Windows;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace MTMCL
 {
@@ -30,41 +31,41 @@ namespace MTMCL
         [DataMember]
         public bool requiredGuide { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("javapath")]
+        [JsonProperty("javapath")]
         public string Javaw { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("minecraftpath")]
+        [JsonProperty("minecraftpath")]
         public string MCPath { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("javaXmx")]
+        [JsonProperty("javaXmx")]
         public double Javaxmx { get; set; }
         [DataMember]
-        [JsonPropertyName("lastversion")]
+        [JsonProperty("lastversion")]
         public string LastPlayVer { get; set; }
-        [JsonPropertyName("lastlaunchmode")]
+        [JsonProperty("lastlaunchmode")]
         public string LastLaunchMode { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("jvmarg")]
+        [JsonProperty("jvmarg")]
         public string ExtraJvmArg { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("language")]
+        [JsonProperty("language")]
         public string Lang { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("background")]
+        [JsonProperty("background")]
         public string Background { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("color-scheme")]
+        [JsonProperty("color-scheme")]
         public string ColorScheme { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("download-source")]
+        [JsonProperty("download-source")]
         public int DownloadSource { get; set; }
         [DataMember]
         public string GUID { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("expand-task-gui")]
+        [JsonProperty("expand-task-gui")]
         public bool ExpandTaskGui { get; set; }
         [DataMember]
-        [LitJson.JsonPropertyName("check-update")]
+        [JsonProperty("check-update")]
         public bool CheckUpdate { get; set; }
         [DataMember]
         public string username { get; set; }
@@ -73,60 +74,60 @@ namespace MTMCL
         [DataMember]
         public string token;
         [DataMember]
-        [LitJson.JsonPropertyName("update-source")]
+        [JsonProperty("update-source")]
         public byte UpdateSource { get; set; }
         [DataMember]
-        [JsonPropertyName("search-latest-update")]
+        [JsonProperty("search-latest-update")]
         public bool SearchLatest { get; set; }
         [DataMember]
-        [JsonPropertyName("server-info")]
+        [JsonProperty("server-info")]
         public ServerInfo Server { get; set; }
         [DataMember]
-        [JsonPropertyName("saved-auths")]
+        [JsonProperty("saved-auths")]
         public Dictionary<string, SavedAuth> SavedAuths { get; set; }
         [DataMember]
-        [JsonPropertyName("default-auth")]
+        [JsonProperty("default-auth")]
         public string DefaultAuth { get; set; }
-        [JsonPropertyName("reverse-color")]
+        [JsonProperty("reverse-color")]
         public bool reverseColor { get; set; }
         [DataContract]
         public class ServerInfo {
-            [JsonPropertyName("title")]
+            [JsonProperty("title")]
             public string Title;
             [DataMember(Name = "server-name")]
-            [JsonPropertyName("server-name")]
+            [JsonProperty("server-name")]
             public string ServerName;
             [DataMember(Name = "server-ip")]
-            [LitJson.JsonPropertyName("server-ip")]
+            [JsonProperty("server-ip")]
             public string ServerIP;
             [DataMember(Name = "client-name")]
-            [LitJson.JsonPropertyName("client-name")]
+            [JsonProperty("client-name")]
             public string ClientPath;
             [DataMember(Name = "need-server-pack")]
-            [LitJson.JsonPropertyName("need-server-pack")]
+            [JsonProperty("need-server-pack")]
             public bool NeedServerPack;
             [DataMember(Name = "server-pack-url", IsRequired = false)]
-            [LitJson.JsonPropertyName("server-pack-url")]
+            [JsonProperty("server-pack-url")]
             public string ServerPackUrl;
             [DataMember(Name = "allow-self-download-client")]
-            [LitJson.JsonPropertyName("allow-self-download-client")]
+            [JsonProperty("allow-self-download-client")]
             public bool AllowSelfDownloadClient;
             [DataMember(Name = "lock-background")]
-            [LitJson.JsonPropertyName("lock-background")]
+            [JsonProperty("lock-background")]
             public bool LockBackground;
             [DataMember(Name = "background-path", IsRequired = false)]
-            [LitJson.JsonPropertyName("background-path")]
+            [JsonProperty("background-path")]
             public string BackgroundPath;
             [DataMember(Name = "auths", IsRequired = false)]
-            [LitJson.JsonPropertyName("auths")]
+            [JsonProperty("auths")]
             public List<Auth> Auths;
             public class Auth
             {
                 [DataMember(Name = "auth-name", IsRequired = true)]
-                [LitJson.JsonPropertyName("auth-name")]
+                [JsonProperty("auth-name")]
                 public string Name;
                 [DataMember(Name = "auth-url", IsRequired = true)]
-                [LitJson.JsonPropertyName("auth-url")]
+                [JsonProperty("auth-url")]
                 public string Url;
             }
         }
@@ -134,22 +135,22 @@ namespace MTMCL
         public class SavedAuth
         {
             [DataMember]
-            [JsonPropertyName("auth-type")]
+            [JsonProperty("auth-type")]
             public string AuthType { get; set; }
             [DataMember]
-            [JsonPropertyName("display-name")]
+            [JsonProperty("display-name")]
             public string DisplayName { get; set; }
             [DataMember]
-            [JsonPropertyName("access-token")]
+            [JsonProperty("access-token")]
             public string AccessToken { get; set; }
             [DataMember]
-            [JsonPropertyName("uuid")]
+            [JsonProperty("uuid")]
             public string UUID { get; set; }
             [DataMember]
-            [JsonPropertyName("properies")]
+            [JsonProperty("properies")]
             public string Properies { get; set; }
             [DataMember]
-            [JsonPropertyName("user-type")]
+            [JsonProperty("user-type")]
             public string UserType { get; set; }
         }
         public Config()
@@ -203,13 +204,13 @@ namespace MTMCL
                 return new Config();
             try
             {
-                var fs = new FileStream(file, FileMode.Open);
+                //var fs = new FileStream(file, FileMode.Open);
                 var ser = new DataContractSerializer(typeof(Config));
                 ///for json
-                var cfg = JsonMapper.ToObject<Config>(new LitJson.JsonReader(new StreamReader(fs)));
+                var cfg = JsonConvert.DeserializeObject<Config>(File.ReadAllText(file));
                 ///for xml
                 //var cfg = (Config)ser.ReadObject(fs);
-                fs.Close();
+                //fs.Close();
                 if (cfg.GUID == null)
                 {
                     cfg.GUID = GetGuid();
@@ -242,11 +243,8 @@ namespace MTMCL
                 /*var ser = new DataContractSerializer(typeof(Config));
                 ser.WriteObject(fs, cfg);*/
                 ///for json
-                System.Text.StringBuilder sbuild = new System.Text.StringBuilder();
-                var jw = new JsonWriter(sbuild);
-                jw.PrettyPrint = true;
-                LitJson.JsonMapper.ToJson(cfg, jw);
-            File.WriteAllText(file, sbuild.ToString(), System.Text.Encoding.UTF8);
+                StringBuilder sbuild = new System.Text.StringBuilder();
+            File.WriteAllText(file, JsonConvert.SerializeObject(cfg, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }), Encoding.UTF8);
                 //fs.Close();
             }
             catch (Exception e)
@@ -287,9 +285,9 @@ namespace MTMCL
                         System.Reflection.PropertyInfo[] properties = type.GetProperties();
                         foreach (var property in properties)
                         {
-                            if (property.IsDefined(typeof(JsonPropertyName), true))
+                            if (property.IsDefined(typeof(JsonProperty), true))
                             {
-                                if (field.Equals(((JsonPropertyName)property.GetCustomAttributes(typeof(JsonPropertyName), true)[0]).Name))
+                                if (field.Equals(((JsonProperty)property.GetCustomAttributes(typeof(JsonProperty), true)[0]).PropertyName))
                                 {
                                     property.SetValue(this, Convert.ChangeType(value, property.PropertyType),null);
                                     Save();
@@ -324,9 +322,9 @@ namespace MTMCL
                                     System.Reflection.FieldInfo[] properties = type.GetFields();
                                     foreach (var property in properties)
                                     {
-                                        if (property.IsDefined(typeof(JsonPropertyName), true))
+                                        if (property.IsDefined(typeof(JsonProperty), true))
                                         {
-                                            if (field.Equals(((JsonPropertyName)property.GetCustomAttributes(typeof(JsonPropertyName), true)[0]).Name))
+                                            if (field.Equals(((JsonProperty)property.GetCustomAttributes(typeof(JsonProperty), true)[0]).PropertyName))
                                             {
                                                 property.SetValue(this, Convert.ChangeType(value, property.FieldType));
                                                 Save();
@@ -335,8 +333,9 @@ namespace MTMCL
                                         }
                                     }
                                 }
-                                catch
+                                catch(Exception e)
                                 {
+                                    Logger.log(e);
                                     throw;
                                 }
 

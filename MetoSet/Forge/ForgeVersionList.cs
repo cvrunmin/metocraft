@@ -1,4 +1,5 @@
 ﻿using MTMCL.JsonClass;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace MTMCL.Forge
             {
                 try {
                     var getJsonAns = (HttpWebResponse)getJson.GetResponse();
-                    MeCore.Dispatcher.Invoke(new Action(()=> _forge = LitJson.JsonMapper.ToObject<ForgeVersion>(new LitJson.JsonReader(new System.IO.StreamReader(getJsonAns.GetResponseStream())))));
+                    MeCore.Dispatcher.Invoke(new Action(()=> _forge = JsonConvert.DeserializeObject<ForgeVersion>(new System.IO.StreamReader(getJsonAns.GetResponseStream()).ReadToEnd())));
                     Logger.log("获取Forge列表成功");
                 } catch(Exception e) {
                     Logger.log("获取forge列表失败");
@@ -51,7 +52,7 @@ namespace MTMCL.Forge
             }
             else
             {
-                _forge = LitJson.JsonMapper.ToObject<ForgeVersion>(e.Result);
+                _forge = JsonConvert.DeserializeObject<ForgeVersion>(e.Result);
 //                    _forgeVerJsonParse.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(e.Result))) as ForgeVersion;
                 Logger.log("获取Forge列表成功");
             }

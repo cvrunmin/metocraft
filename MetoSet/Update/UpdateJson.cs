@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -10,7 +11,7 @@ namespace MTMCL.Update
     [DataContract]
     public class UpdateJson
     {
-        [LitJson.JsonPropertyName("specific-version")]
+        [JsonProperty("specific-version")]
         public SpecificVersion specific_version;
         public class SpecificVersion {
             public string latest;

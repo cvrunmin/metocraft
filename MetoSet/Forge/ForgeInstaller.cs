@@ -1,7 +1,9 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
+using MTMCL.Install;
 using MTMCL.JsonClass;
 using MTMCL.Lang;
 using MTMCL.util;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +17,7 @@ namespace MTMCL.Forge
 {
     class ForgeInstaller
     {
-        private List<Artifact> grabbed;
+        private List<Artifact> grabbed { get; set; }
         public bool install(string target)
         {
             try
@@ -28,14 +30,14 @@ namespace MTMCL.Forge
                 {
                     return false;
                 }
-                if (!target.EndsWith(".jar"))
+                if (!target.EndsWith(".jar") & !target.EndsWith(".exe"))
                 {
-                    throw new UnexpectedInstallerException(target, "Target file doesn\'t end with .jar");
+                    throw new UnexpectedInstallerException(target, "Target file doesn\'t end with .jar or .exe");
                 }
                 ZipFile zip = new ZipFile(target);
                 ZipEntry infoentry = zip.GetEntry("install_profile.json");
                 if (infoentry == null) throw new UnexpectedInstallerException(target, "Target file doesn't a valid installer");
-                ForgeInstall info = LitJson.JsonMapper.ToObject<ForgeInstall>(new LitJson.JsonReader(new StreamReader(zip.GetInputStream(infoentry))));
+                ForgeInstall info = JsonConvert.DeserializeObject<ForgeInstall>(new StreamReader(zip.GetInputStream(infoentry)).ReadToEnd());
                 string path = MeCore.Config.MCPath;
                 if (MeCore.IsServerDedicated)
                 {
@@ -105,9 +107,7 @@ namespace MTMCL.Forge
                 try
                 {
                     TextWriter writer = new StreamWriter(verjson.Create(), Encoding.UTF8);
-                    LitJson.JsonWriter jsonwriter = new LitJson.JsonWriter(writer);
-                    jsonwriter.PrettyPrint = true;
-                    LitJson.JsonMapper.ToJson(info.versionInfo, jsonwriter);
+                    writer.Write(JsonConvert.SerializeObject(info.versionInfo, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
                     writer.Close();
                 }
                 catch (Exception e)
@@ -154,6 +154,10 @@ namespace MTMCL.Forge
             catch (ZipException e)
             {
                 throw new UnexpectedInstallerException(target, "Failed to read the jar", e);
+            }
+            catch (JsonException e)
+            {
+                throw new UnexpectedInstallerException(target, "Unexpected install profile json", e);
             }
             catch (Exception e) {
                 MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
@@ -495,6 +499,8 @@ namespace MTMCL.Forge
             byte[] checksums = new byte[len];
             Array.Copy(decompressed, decompressed.Length - len - 8, checksums, 0, len);
             decompressed = null;
+            x = 0;
+            len = 0;
             s.Close();
             GC.Collect();
             System.Diagnostics.Process process = new System.Diagnostics.Process();
@@ -508,13 +514,12 @@ namespace MTMCL.Forge
             process.WaitForExit();
             FileStream jarBytes = new FileStream(output.FullName, FileMode.Open);
             ZipOutputStream jos = new ZipOutputStream(jarBytes);
-
             ZipEntry checksumsFile = new ZipEntry("checksums.sha1");
             checksumsFile.DateTime = DateTime.FromFileTime(0);
             jos.PutNextEntry(checksumsFile);
             jos.Write(checksums, 0, checksums.Length);
             jos.CloseEntry();
-
+            checksums = null;
             jos.Close();
             jarBytes.Close();
             input.Delete();

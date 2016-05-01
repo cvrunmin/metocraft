@@ -1,4 +1,4 @@
-﻿using LitJson;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +49,7 @@ namespace MTMCL.Resources
         {
             try
             {
-                itemDefault.uri = new Uri("pack://application:,,,/Resources/bg.png");
+                AddPreviewItem("pack://application:,,,/Resources/bg.png", "Default");
                 if (MeCore.bghistory == null)
                 {
                     MeCore.bghistory = BGHistory.Load();
@@ -129,10 +129,7 @@ namespace MTMCL.Resources
         public static BGHistory Load() {
             try
             {
-                var fs = new FileStream(Path.Combine(MeCore.DataDirectory, "bghistory.json"), FileMode.Open);
-                var cfg = JsonMapper.ToObject<BGHistory>(new JsonReader(new StreamReader(fs)));
-                fs.Close();
-                return cfg;
+                return JsonConvert.DeserializeObject<BGHistory>(File.ReadAllText(Path.Combine(MeCore.DataDirectory, "bghistory.json")));
             }
             catch (Exception)
             {
@@ -148,11 +145,7 @@ namespace MTMCL.Resources
             {
                 this.uri.Add(uri);
             }
-            System.Text.StringBuilder sbuild = new System.Text.StringBuilder();
-            var jw = new JsonWriter(sbuild);
-            jw.PrettyPrint = true;
-            JsonMapper.ToJson(this, jw);
-            File.WriteAllText(Path.Combine(MeCore.DataDirectory, "bghistory.json"), sbuild.ToString(), System.Text.Encoding.UTF8);
+            File.WriteAllText(Path.Combine(MeCore.DataDirectory, "bghistory.json"), JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }), System.Text.Encoding.UTF8);
         }
     }
 }

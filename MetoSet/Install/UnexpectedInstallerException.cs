@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace MTMCL.Forge
+namespace MTMCL.Install
 {
     public class UnexpectedInstallerException : Exception, ISerializable
     {

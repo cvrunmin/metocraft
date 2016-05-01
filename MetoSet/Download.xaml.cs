@@ -3,6 +3,7 @@ using MTMCL.Lang;
 using MTMCL.Task;
 using MTMCL.util;
 using MTMCL.Versions;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -206,12 +207,11 @@ namespace MTMCL
                         await TaskEx.Delay(TimeSpan.FromMilliseconds(500));
                         taskbar.log(Logger.HelpLog(string.Format("Start reading json of version {0} for further downloading", selectver)));
                         var sr = new StreamReader(downjsonpath);
-                        VersionJson ver = LitJson.JsonMapper.ToObject<VersionJson>(sr);
+                        VersionJson ver = JsonConvert.DeserializeObject<VersionJson>(sr.ReadToEnd());
                         sr.Close();
-                        var jw = new LitJson.JsonWriter(new StreamWriter(downjsonpath));
-                        jw.PrettyPrint = true;
-                        LitJson.JsonMapper.ToJson(ver.Simplify(), jw);
-                        jw.TextWriter.Close();
+                        var sw = new StreamWriter(downjsonpath);
+                        sw.Write(JsonConvert.SerializeObject(ver.Simplify(), Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
+                        sw.Close();
                         if (ver.downloads != null)
                         {
                             if (ver.downloads.client != null)

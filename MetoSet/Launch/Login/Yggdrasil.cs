@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using MTMCL.util;
+using Newtonsoft.Json;
 
 namespace MTMCL.Launch.Login
 {
@@ -54,7 +55,7 @@ namespace MTMCL.Launch.Login
                 auth.Method = "POST";
                 auth.ContentType = "application/json";
                 Request ag = new Request(Email, Password);
-                string logindata = LitJson.JsonMapper.ToJson(ag);
+                string logindata = JsonConvert.SerializeObject(ag, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
                 byte[] postdata = Encoding.UTF8.GetBytes(logindata);
                 auth.ContentLength = postdata.LongLength;
                 Stream poststream = auth.GetRequestStream();
@@ -62,7 +63,7 @@ namespace MTMCL.Launch.Login
                 poststream.Close();
                 HttpWebResponse authans = (HttpWebResponse)auth.GetResponse();
                 StreamReader ResponseStream = new StreamReader(authans.GetResponseStream());
-                Response response = LitJson.JsonMapper.ToObject<Response>(new LitJson.JsonReader(ResponseStream));
+                Response response = JsonConvert.DeserializeObject<Response>(ResponseStream.ReadToEnd());
                 /*if (Response.getClientToken() != NewLogin.ClientToken)
                 {
                     LI.Suc = false;
@@ -78,7 +79,7 @@ namespace MTMCL.Launch.Login
                 if (response.user != null)
                 {
                     AI.UserType = response.user.legacy ? "Legacy" : "Mojang";
-                    AI.Prop = response.user.properties != null ? LitJson.JsonMapper.ToJson(response.user.properties) : "{}";
+                    AI.Prop = response.user.properties != null ? JsonConvert.SerializeObject(response.user.properties, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }) : "{}";
                 }
                 else
                 {
@@ -138,7 +139,7 @@ namespace MTMCL.Launch.Login
                 auth.Method = "POST";
                 auth.ContentType = "application/json";
                 RefreshRequest ag = new RefreshRequest(AccessToken);
-                string logindata = LitJson.JsonMapper.ToJson(ag);
+                string logindata = JsonConvert.SerializeObject(ag, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
                 byte[] postdata = Encoding.UTF8.GetBytes(logindata);
                 auth.ContentLength = postdata.LongLength;
                 Stream poststream = auth.GetRequestStream();
@@ -146,7 +147,7 @@ namespace MTMCL.Launch.Login
                 poststream.Close();
                 HttpWebResponse authans = (HttpWebResponse)auth.GetResponse();
                 StreamReader ResponseStream = new StreamReader(authans.GetResponseStream());
-                Response response = LitJson.JsonMapper.ToObject<Response>(new LitJson.JsonReader(ResponseStream));
+                Response response = JsonConvert.DeserializeObject<Response>(ResponseStream.ReadToEnd());
                 /*if (Response.getClientToken() != NewLogin.ClientToken)
                 {
                     LI.Suc = false;
@@ -162,7 +163,7 @@ namespace MTMCL.Launch.Login
                 if (response.user != null)
                 {
                     AI.UserType = response.user.legacy ? "Legacy" : "Mojang";
-                    AI.Prop = response.user.properties != null ? LitJson.JsonMapper.ToJson(response.user.properties) : "{}";
+                    AI.Prop = response.user.properties != null ? JsonConvert.SerializeObject(response.user.properties, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }) : "{}";
                 }
                 else
                 {

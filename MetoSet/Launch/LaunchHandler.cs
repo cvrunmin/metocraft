@@ -20,7 +20,7 @@ namespace MTMCL.Launch
                 if (!item.isNative)
                     sb.Append(item.path).Append(";");
             }
-            sb.Append(info.MCPath).Append("\\versions\\").Append(info.Version.id).Append("\\").Append(info.Version.id).Append(".jar\" ");
+            sb.Append(info.MCPath).Append("\\versions\\").Append(info.Version.jar ?? info.Version.id).Append("\\").Append(info.Version.jar ?? info.Version.id).Append(".jar\" ");
             sb.Append(info.Version.mainClass);
             StringBuilder argsb = new StringBuilder(info.Version.minecraftArguments);
             foreach (var item in addArg)

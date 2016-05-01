@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MTMCL.Versions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,14 +13,12 @@ namespace MTMCL.JsonClass
         [DataMember]
         public Install install;
         [DataMember]
-        public Version versionInfo;
+        public VersionJson versionInfo;
         [DataContract]
         public class Install
         {
             [DataMember]
             public string profileName, target, path, version, filePath, minecraft, tweakClass;
-            [DataMember]
-            public bool stripMeta;
             public FileInfo GetLibraryPath(DirectoryInfo directory)
             {
                 string[] split = path.Split(':');
@@ -38,7 +37,7 @@ namespace MTMCL.JsonClass
         public class Version
         {
             [DataMember]
-            public string id, time, releaseTime, type, minecraftArguments, mainClass, assets, inheritsFrom, jar;
+            public string id, time, releaseTime, type, minecraftArguments, mainClass, inheritsFrom, jar;
             [DataMember]
             public int minimumLauncherVersion;
             [DataMember]

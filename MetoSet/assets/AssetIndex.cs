@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace MTMCL.Assets
@@ -7,9 +8,9 @@ namespace MTMCL.Assets
     class AssetIndex
     {
         [DataMember(Name = "virtual")]
-        [LitJson.JsonPropertyName("virtual")]
-        public bool _virtual;
+        [JsonProperty("virtual")]
+        public bool _virtual { get; set; }
         [DataMember]
-        public Dictionary<string, AssetsEntity> objects;
+        public Dictionary<string, AssetsEntity> objects { get; set; }
     }
 }

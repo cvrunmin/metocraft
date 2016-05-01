@@ -3,6 +3,7 @@ using MTMCL.Lang;
 using MTMCL.Task;
 using MTMCL.util;
 using MTMCL.Versions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -118,13 +119,11 @@ namespace MTMCL
                     FileHelper.CreateDirectoryForFile(indexpath);
                     string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
                     StreamWriter sw = new StreamWriter(indexpath);
-                    LitJson.JsonWriter jw = new LitJson.JsonWriter(sw);
-                    jw.PrettyPrint = true;
-                    LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<Assets.AssetIndex>(result), jw);
+                    sw.Write(result);
                     sw.Close();
                 }
                 var sr = new StreamReader(indexpath);
-                AssetIndex assets = LitJson.JsonMapper.ToObject<AssetIndex>(sr);
+                AssetIndex assets = JsonConvert.DeserializeObject<AssetIndex>(sr.ReadToEnd());
                 Logger.log(assets.objects.Count.ToString(CultureInfo.InvariantCulture), " assets in total");
                 var dt = new DataTable();
                 dt.Columns.Add("Assets");
@@ -231,13 +230,11 @@ namespace MTMCL
                     FileHelper.CreateDirectoryForFile(indexpath);
                     string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
                     StreamWriter sw = new StreamWriter(indexpath);
-                    LitJson.JsonWriter jw = new LitJson.JsonWriter(sw);
-                    jw.PrettyPrint = true;
-                    LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<AssetIndex>(result), jw);
+                    sw.Write(result);
                     sw.Close();
                 }
                 var sr = new StreamReader(indexpath);
-                AssetIndex assets = LitJson.JsonMapper.ToObject<AssetIndex>(sr);
+                AssetIndex assets = JsonConvert.DeserializeObject<AssetIndex>(sr.ReadToEnd());
                 int i = 0;
                 foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
                 {
@@ -314,13 +311,11 @@ namespace MTMCL
                     FileHelper.CreateDirectoryForFile(indexpath);
                     string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
                     StreamWriter sw = new StreamWriter(indexpath);
-                    LitJson.JsonWriter jw = new LitJson.JsonWriter(sw);
-                    jw.PrettyPrint = true;
-                    LitJson.JsonMapper.ToJson(LitJson.JsonMapper.ToObject<Assets.AssetIndex>(result), jw);
+                    sw.Write(result);
                     sw.Close();
                 }
                 var sr = new StreamReader(indexpath);
-                AssetIndex assets = LitJson.JsonMapper.ToObject<Assets.AssetIndex>(sr);
+                AssetIndex assets = JsonConvert.DeserializeObject<AssetIndex>(sr.ReadToEnd());
                 int i = 0;
                 foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
                 {

@@ -55,6 +55,7 @@
     <s:String x:Key="LauncherT">启动器</s:String>
     <s:String x:Key="Version">版本</s:String>
     <s:String x:Key="VersionNew">版本：{0}</s:String>
+    <s:String x:Key="CheckUpdate">检查更新</s:String>
     <!-- /About.xaml -->
     <!-- Settings.xaml -->
     <s:String x:Key="GameSet">游戏</s:String>
@@ -84,6 +85,8 @@
     <s:String x:Key="JavaPath_Catched">检查文件时发生错误</s:String>
     <s:String x:Key="UseJ">使用的Java</s:String>
     <s:String x:Key="ExArg">额外Jvm参数</s:String>
+    <s:String x:Key="jvmLL">LiteLoader的Jvm参数预置</s:String>
+    <s:String x:Key="jvmModded">已修改的Jar的Jvm参数预置</s:String>
     <s:String x:Key="VerInfo">版本信息</s:String>
     <s:String x:Key="Type">类型</s:String>
     <s:String x:Key="RTime">发布时间</s:String>
@@ -168,6 +171,8 @@
     <s:String x:Key="TaskDLAssets">下载资源文件</s:String>
     <s:String x:Key="TaskRDLAssets">重新下载资源文件</s:String>
     <s:String x:Key="TaskInstallForge">安装Forge</s:String>
+    <s:String x:Key="TaskInstallMod">安装{0}</s:String>
+    <s:String x:Key="SubTaskInstallMod">尝试安装{0}</s:String>
     <s:String x:Key="SubTaskDLForge">下载Forge {0}%</s:String>
     <s:String x:Key="SubTaskInstallForge">尝试安装Forge</s:String>
     <s:String x:Key="TaskDLModPack">下载整合包</s:String>
@@ -179,6 +184,10 @@
     <!--Install-->
     <s:String x:Key="Install">安装</s:String>
     <s:String x:Key="Path">路径</s:String>
+    <s:String x:Key="WarningF">警告：此功能只适用于forge安装档</s:String>
+    <s:String x:Key="WarningLL">警告：此功能只适用于liteloader安装档</s:String>
+    <s:String x:Key="InheritWF">继承自Forge</s:String>
+    <s:String x:Key="InheritVer">继承版本</s:String>
     <!--/Install-->
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">发现资源文件修改，正在同步</s:String>

@@ -137,6 +137,7 @@ namespace MTMCL
             comboLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
             txtboxBG.Text = MeCore.Config.Background;
             toggleReverse.IsChecked = MeCore.Config.reverseColor;
+            toggleLatest.IsChecked = MeCore.Config.SearchLatest;
         }
         public void RefreshLangList()
         {
@@ -217,6 +218,16 @@ namespace MTMCL
         {
             MeCore.Config.ExtraJvmArg = txtboxArg.Text;
             MeCore.Config.Save();
+            if (txtboxArg.Text.IndexOf("-Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true", StringComparison.Ordinal) != -1)
+            {
+                toggleModded.IsChecked = true;
+            }
+            else toggleModded.IsChecked = false;
+            if (txtboxArg.Text.IndexOf("-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", StringComparison.Ordinal) != -1)
+            {
+                toggleLL.IsChecked = true;
+            }
+            else toggleLL.IsChecked = false;
         }
 
         private void txtboxMP_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
@@ -242,7 +253,8 @@ namespace MTMCL
                 return;
             }
             txtboxBG.Text = dialog.FileName;
-            MeCore.Config.QuickChange("background", dialog.FileName);
+            //MeCore.Config.QuickChange("Background", dialog.FileName);
+            MeCore.Config.Background = dialog.FileName; MeCore.Config.Save();
             if (MeCore.bghistory == null)
             {
                 MeCore.bghistory = MTMCL.Resources.BGHistory.Load();
@@ -312,7 +324,8 @@ namespace MTMCL
         private void butReset_Click(object sender, RoutedEventArgs e)
         {
             txtboxBG.Text = "default";
-            MeCore.Config.QuickChange("background", "default");
+            //MeCore.Config.QuickChange("Background", "default");
+            MeCore.Config.Background = "default";MeCore.Config.Save();
             MeCore.MainWindow.Render();
             toggleReverse.IsChecked = false;
         }
@@ -348,7 +361,8 @@ namespace MTMCL
             var dialog = new Resources.BGWindow();
             dialog.ShowDialog();
             txtboxBG.Text = dialog.uri;
-            MeCore.Config.QuickChange("background", dialog.uri);
+            //MeCore.Config.QuickChange("Background", dialog.uri);
+            MeCore.Config.Background = dialog.uri; MeCore.Config.Save();
             MeCore.MainWindow.Render();
             if (dialog.steam != null)
             {
@@ -369,6 +383,34 @@ namespace MTMCL
             dialog.Filter = "javaw.exe | javaw.exe";
             dialog.ShowDialog();
             comboJava.Text = dialog.FileName;
+        }
+
+        private void toggleModded_IsCheckedChanged(object sender, EventArgs e)
+        {
+            if ((bool)toggleModded.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true", StringComparison.Ordinal) == -1)
+                    txtboxArg.Text += " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
+            }
+            else if (!(bool)toggleModded.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true", StringComparison.Ordinal) != -1)
+                    txtboxArg.Text = txtboxArg.Text.Replace(" -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true", "");
+            }
+        }
+
+        private void toggleLL_IsCheckedChanged(object sender, EventArgs e)
+        {
+            if ((bool)toggleLL.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", StringComparison.Ordinal) == -1)
+                    txtboxArg.Text += " -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy";
+            }
+            else if (!(bool)toggleLL.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", StringComparison.Ordinal) != -1)
+                    txtboxArg.Text = txtboxArg.Text.Replace(" -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", "");
+            }
         }
     }
 }

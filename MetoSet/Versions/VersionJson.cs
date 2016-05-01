@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System;
+using Newtonsoft.Json;
 
 namespace MTMCL.Versions
 {
@@ -97,6 +98,8 @@ namespace MTMCL.Versions
         [DataMember]
         public string id;
         [DataMember]
+        public string jar;
+        [DataMember]
         public string mainClass;
         [DataMember]
         public string minecraftArguments;
@@ -144,13 +147,13 @@ namespace MTMCL.Versions
                 public class Classifier
                 {
                     [DataMember(Name = "natives-linux")]
-                    [LitJson.JsonPropertyName("natives-linux")]
+                    [JsonProperty("natives-linux")]
                     public Artifact natives_linux;
                     [DataMember(Name = "natives-osx")]
-                    [LitJson.JsonPropertyName("natives-osx")]
+                    [JsonProperty("natives-osx")]
                     public Artifact natives_osx;
                     [DataMember(Name = "natives-windows")]
-                    [LitJson.JsonPropertyName("natives-windows")]
+                    [JsonProperty("natives-windows")]
                     public Artifact natives_windows;
                 }
             }
@@ -248,9 +251,7 @@ namespace MTMCL.Versions
         {
             file = file + ".bak";
             TextWriter writer = File.CreateText(file);
-            LitJson.JsonWriter jsonwriter = new LitJson.JsonWriter(writer);
-            jsonwriter.PrettyPrint = true;
-            LitJson.JsonMapper.ToJson(json, jsonwriter);
+            writer.Write(JsonConvert.SerializeObject(json, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
             writer.Close();
         }
         /*public static List<LibraryUniversal> ToUniversalLibrary(this List<Library> libs)

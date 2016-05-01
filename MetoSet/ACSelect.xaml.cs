@@ -106,7 +106,7 @@ namespace MTMCL
                 Config.SavedAuth auth; string name = ((ButtonMenu)e.Source).Content as string;
                 MeCore.Config.SavedAuths.TryGetValue(name, out auth);
                 this.auth = auth.AuthType.Equals("Yggdrasil") ? new  Launch.Login.YggdrasilRefreshAuth(Guid.Parse(auth.AccessToken).ToString()) : new Launch.Login.OfflineAuth(name) as Launch.Login.IAuth;
-                MeCore.Config.QuickChange("default-auth", name);
+                MeCore.Config.QuickChange("DefaultAuth", name);
                 Close();
             }
         }
