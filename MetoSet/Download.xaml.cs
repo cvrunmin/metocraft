@@ -25,6 +25,7 @@ namespace MTMCL
     /// </summary>
     public partial class Download : Grid
     {
+        bool doneInit;
         public Download()
         {
             InitializeComponent();
@@ -396,9 +397,15 @@ namespace MTMCL
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            if (MeCore.IsServerDedicated)
+            if (!doneInit)
             {
-                LoadServerDeDicatedVersion();
+                if (MeCore.IsServerDedicated)
+                {
+                    LoadServerDeDicatedVersion();
+                }
+                ReloadVanillaVersion();
+                RefreshForgeVersionList();
+                doneInit = true;
             }
         }
         private void LoadServerDeDicatedVersion()

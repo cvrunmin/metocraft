@@ -19,7 +19,8 @@ namespace MTMCL
     public partial class MainWindow
     {
         System.Windows.Forms.Timer timer;
-        public Launch.LaunchGameInfo _LaunchOptions;
+        public LaunchGameInfo _LaunchOptions;
+        Download reserve_dl;
         public MainWindow()
         {
             //MeCore.NIcon.MainWindow = this;
@@ -90,7 +91,7 @@ namespace MTMCL
                     break;
                 case "download":
                     tile = butDL;
-                    grid = new Download();
+                    grid = reserve_dl ?? (reserve_dl = new Download());
                     break;
                 case "tasklist":
                     tile = butTask;
