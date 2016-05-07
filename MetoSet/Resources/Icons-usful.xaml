@@ -58,4 +58,13 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <Canvas x:Key="appbar_os_windows_8" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
         <Path Width="42" Height="41" Canvas.Left="17" Canvas.Top="17.5" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 17,23L 34,20.7738L 34,37L 17,37L 17,23 Z M 34,55.2262L 17,53L 17,39L 34,39L 34,55.2262 Z M 59,17.5L 59,37L 36,37L 36,20.5119L 59,17.5 Z M 59,58.5L 36,55.4881L 36,39L 59,39L 59,58.5 Z "/>
     </Canvas>
+    <Canvas x:Key="emoji_head_bandage" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+        <Ellipse Width="40" Height="40" Canvas.Left="18" Canvas.Top="18" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="#FF000000"/>
+        <Ellipse Width="4" Height="4" Canvas.Left="30.5" Canvas.Top="32.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000"/>
+        <Ellipse Width="4" Height="4" Canvas.Left="41.5" Canvas.Top="32.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000"/>
+        <Path Width="17" Height="3" Canvas.Left="29.5" Canvas.Top="44.5" Stretch="Fill" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 30,47C 32.6667,46 35.3333,45 38,45C 40.6667,45 43.3333,46 46,47"/>
+        <Path Width="26" Height="13" Canvas.Left="29.5" Canvas.Top="20.5" Stretch="Fill" StrokeStartLineCap="Square" StrokeEndLineCap="Square" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 30,21L 32.014,21.6512C 34.0279,22.3025 38.0558,23.6049 42.2225,25.6049C 46.3891,27.6049 50.6946,30.3025 55,33"/>
+        <Path Width="33" Height="14" Canvas.Left="23.5" Canvas.Top="24.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 24,25C 29.6667,26.6667 35.3333,28.3333 40.6667,30.5C 46,32.6667 51,35.3333 56,38"/>
+        <Path Width="6" Height="19" Canvas.Left="46.5" Canvas.Top="32.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 47,33C 48,35.6667 49,38.3333 49.8333,41.3333C 50.6667,44.3333 51.3333,47.6667 51.6667,49.3333L 52,51"/>
+    </Canvas>
 </ResourceDictionary>

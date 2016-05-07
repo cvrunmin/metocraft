@@ -128,9 +128,12 @@
     <!-- /ACLogin -->
     <!--Error-->
     <s:String x:Key="CrashOrErrorTitle">Crash/Error Report</s:String>
+    <s:String x:Key="InheritMissingTitle">Base versions missing Report</s:String>
+    <s:String x:Key="NoticeNameFormat">{0} Report</s:String>
     <s:String x:Key="ErrorNameFormat">{0} Error Report</s:String>
     <s:String x:Key="CrashNameFormat">{0} Crash Report</s:String>
     <s:String x:Key="ErrName">Name: {0}</s:String>
+    <s:String x:Key="InheritVerMissFormat">This/These version(s) do(es)n\'t have a valid base version {0}:</s:String>
     <s:String x:Key="JavaFaultSolve">You could try these methods to solve this problem:[/newline/]1.reinstall Java.[/newline/]2.check the minecraft jar has been corrupt or not.</s:String>
     <s:String x:Key="AuthFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your email and password are correct or not.[/newline/]2.contact the network provider.[/newline/]If you are using custom authenticator, you could try: [/newline/]1.contact the authenticator provider.</s:String>
     <s:String x:Key="LibFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your libraries are intact or not.[/newline/]2.check your libraries are opened by other application or not.[/newline/]If you are using mod pack, you could try: [/newline/]1.check if the mod pack is intact or not.[/newline/]2.check if the mod pack is configured correctly or not.[/newline/]3.contact the mod pack provider.</s:String>

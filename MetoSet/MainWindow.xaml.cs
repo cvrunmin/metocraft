@@ -305,7 +305,7 @@ namespace MTMCL
         }
 
         public Dictionary<string, TaskListBar> taskdict = new Dictionary<string, TaskListBar>();
-        public List<Notice.CrashErrorBar> noticelist = new List<Notice.CrashErrorBar>();
+        internal List<Notice.INotice> noticelist = new List<Notice.INotice>();
         public void addTask(string identifier, TaskListBar task)
         {
             if (taskdict.ContainsKey(identifier))
@@ -455,7 +455,7 @@ namespace MTMCL
         {
             ChangePage("notice", true);
         }
-        public void addNotice(Notice.CrashErrorBar notice) {
+        internal void addNotice(Notice.INotice notice) {
             noticelist.Add(notice);
             butNotice.Count = noticelist.Count > 0 ? noticelist.Count.ToString() : "";
         }

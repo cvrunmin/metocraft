@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MTMCL.Lang;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 
 namespace MTMCL.Versions
@@ -39,9 +39,11 @@ namespace MTMCL.Versions
                 }
                 shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray();
             }
-            else {
-                Logger.log(string.Format("Inherit version {0} doesn't have a valid base version {1}. Skip it.",shadow.id, shadow.inheritsFrom));
-                return null;
+            else
+            {
+                Logger.log(string.Format("Inherit version {0} doesn't have a valid base version {1}. Skip it.", shadow.id, shadow.inheritsFrom));
+                shadow.errored = true;
+                return shadow;
             }
             return shadow;
 
@@ -78,7 +80,8 @@ namespace MTMCL.Versions
             else
             {
                 Logger.log(string.Format("Inherit version {0} doesn't have a valid base version {1}. Skip it.", shadow.id, shadow.inheritsFrom));
-                return null;
+                shadow.errored = true;
+                return shadow;
             }
             return shadow;
         }
@@ -111,6 +114,7 @@ namespace MTMCL.Versions
             try
             {
                 List<VersionJson> list = new List<VersionJson>();
+                Dictionary<string, List<string>> err = new Dictionary<string, List<string>>();
                 if (Directory.Exists(MCPath))
                 {
                     if (!MCPath.Contains("versions")) MCPath = Path.Combine(MCPath, "versions");
@@ -123,12 +127,21 @@ namespace MTMCL.Versions
                             {
                                 using (VersionJson verj = GetFurtherVersion(MCPath, Newtonsoft.Json.JsonConvert.DeserializeObject<VersionJson>(File.ReadAllText(ver))))
                                 {
-                                    if (verj != null) list.Add(verj);
+                                    if (verj != null)
+                                        if (!verj.errored)
+                                            list.Add(verj);
+                                        else
+                                        {
+                                            if (!err.ContainsKey(verj.inheritsFrom))
+                                                err.Add(verj.inheritsFrom, new List<string>());
+                                            err[verj.inheritsFrom].Add(verj.id);
+                                        }
                                 }
                             }
                         }
                     }
                 }
+                if(err.Count > 0) MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.InheritMissingBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), err))));
                 return list.ToArray();
             }
             catch (Exception e)

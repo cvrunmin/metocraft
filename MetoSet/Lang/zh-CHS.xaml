@@ -128,9 +128,12 @@
     <!-- /ACLogin -->
     <!--Error-->
     <s:String x:Key="CrashOrErrorTitle">崩溃/错误报告</s:String>
+    <s:String x:Key="InheritMissingTitle">基版本遗失报告</s:String>
+    <s:String x:Key="NoticeNameFormat">{0} 报告</s:String>
     <s:String x:Key="ErrorNameFormat">{0} 错误报告</s:String>
     <s:String x:Key="CrashNameFormat">{0} 崩溃报告</s:String>
     <s:String x:Key="ErrName">名称：{0}</s:String>
+    <s:String x:Key="InheritVerMissFormat">以下版本不存在有效的基版本 {0}:</s:String>
     <s:String x:Key="JavaFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.重新安装Java[/newline/]2.检查Minecraft Jar是否已经损坏</s:String>
     <s:String x:Key="AuthFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.检查您的电邮与密码是否正确输入[/newline/]2.联络网络供应商[/newline/]如果是自订验证伺服器，您可以尝试：[/newline/]1.联络验证伺服器供应商</s:String>
     <s:String x:Key="LibFaultSolve">您可以尝试以下方法解决此问题：[/newline/]1.检查库文件是否完整[/newline/]2.检查库文件是否已在其他应用程式中开启[/newline/]如果正在使用整合包，您可以尝试：[/newline/]1.检查整合包内容是否完整[/newline/]2.检查整合包内容是否正确配置[/newline/]3.联络整合包提供者</s:String>
@@ -204,8 +207,11 @@
     <s:String x:Key="NoCollectingData">因发行版MTMCL没提供相关代码而未知</s:String>
     <s:String x:Key="On">开</s:String>
     <s:String x:Key="Off">关</s:String>
+    <s:String x:Key="Yes">是</s:String>
+    <s:String x:Key="No">否</s:String>
     <s:String x:Key="UpdateFound">​​发现更新</s:String>
     <s:String x:Key="UpdateAccept">立即更新</s:String>
     <s:String x:Key="UpdateDeny">稍后更新</s:String>
+    <s:String x:Key="UnFinish">空白页</s:String>
     <s:String x:Key="Preview">预览</s:String>
 </ResourceDictionary>

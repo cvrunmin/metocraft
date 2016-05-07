@@ -222,12 +222,19 @@
     <Compile Include="Launch\Login\Yggdrasil.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MeCore.cs" />
+    <Compile Include="Notice\InheritMissingDetail.xaml.cs">
+      <DependentUpon>InheritMissingDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Notice\CrashDetail.xaml.cs">
       <DependentUpon>CrashDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notice\InheritMissingBar.xaml.cs">
+      <DependentUpon>InheritMissingBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notice\CrashErrorBar.xaml.cs">
       <DependentUpon>CrashErrorBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Notice\INotice.cs" />
     <Compile Include="Notice\Notice.xaml.cs">
       <DependentUpon>Notice.xaml</DependentUpon>
     </Compile>
@@ -346,7 +353,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Notice\InheritMissingDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Notice\CrashDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Notice\InheritMissingBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -96,7 +96,7 @@ namespace MTMCL
                 {
                     rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                     rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
-                    rectJPState.ToolTip = LangManager.GetLangFromResource("MCPath_NotExist");
+                    rectJPState.ToolTip = LangManager.GetLangFromResource("JavaPath_NotExist");
                     return;
                 }
                 rectJPState.Fill = new SolidColorBrush(Color.FromRgb(0, 0x99, 0));
@@ -107,7 +107,7 @@ namespace MTMCL
             {
                 rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                 rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
-                rectJPState.ToolTip = LangManager.GetLangFromResource("MCPath_Catched");
+                rectJPState.ToolTip = LangManager.GetLangFromResource("JavaPath_Catched");
             }
         }
         private void Grid_Initialized(object sender, EventArgs e)

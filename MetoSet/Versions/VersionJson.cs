@@ -146,6 +146,9 @@ namespace MTMCL.Versions
     [DataContract]
     public class VersionJson : VersionJsonDisposable
     {
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public bool errored;
         [DataMember]
         public string assets;
         [DataMember]

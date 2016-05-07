@@ -1,0 +1,28 @@
+﻿<Grid x:Class="MTMCL.Notice.InheritMissingDetail"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MTMCL.Notice"
+      mc:Ignorable="d" 
+      d:DesignHeight="362" d:DesignWidth="643" Loaded="Grid_Loaded">
+    <Grid.Background>
+        <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrashDetail}}}"/>
+    </Grid.Background>
+    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+    <Label Content="{DynamicResource InheritMissingTitle}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333" Background="{DynamicResource AccentColorBrush3}"/>
+    <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="16" ContentStringFormat="{DynamicResource ErrName}" Background="{DynamicResource AccentColorBrush3}"/>
+    <ScrollViewer Margin="0,81,0,0" >
+        <Grid x:Name="gridDetaila" Background="{DynamicResource AccentColorBrush3}">
+
+        </Grid>
+    </ScrollViewer>
+
+</Grid>
+

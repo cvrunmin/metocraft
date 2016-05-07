@@ -90,6 +90,8 @@ namespace MTMCL
         public string DefaultAuth { get; set; }
         [JsonProperty("reverse-color")]
         public bool reverseColor { get; set; }
+        [JsonProperty("fail-update-last-time")]
+        public bool failUpdateLastTime { get; set; }
         [DataContract]
         public class ServerInfo {
             [JsonProperty("title")]
@@ -153,6 +155,9 @@ namespace MTMCL
             [JsonProperty("user-type")]
             public string UserType { get; set; }
         }
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public static bool ConfigReadOnly { get; set; }
         public Config()
         {
             requiredGuide = true;
@@ -217,14 +222,22 @@ namespace MTMCL
                 }
                 return cfg;
             }
-            catch
+            catch(UnauthorizedAccessException e)
             {
+                Logger.log(e);
+                ConfigReadOnly = true;
+                return new Config();
+            }
+            catch (Exception e)
+            {
+                Logger.log(e);
                 //MessageBox.Show("errer occurred when loading the config file, try to use default config.");
                 return new Config();
             }
         }
         public static void Save(Config cfg = null ,string file = null)
         {
+            if (ConfigReadOnly) return;
             try
             {
                 if (cfg == null)

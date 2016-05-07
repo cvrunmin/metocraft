@@ -57,14 +57,20 @@ namespace MTMCL.Notice
         {
             if (sender is CrashErrorBar)
             {
-                //MessageBox.Show("");
                 MeCore.MainWindow.gridOthers.Children.Clear();
                 MeCore.MainWindow.gridOthers.Children.Add(new CrashDetail(this, ((CrashErrorBar)sender)));
                 var ani = new DoubleAnimationUsingKeyFrames();
                 ani.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
                 ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
                 MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
-
+            }
+            else if (sender is InheritMissingBar) {
+                MeCore.MainWindow.gridOthers.Children.Clear();
+                MeCore.MainWindow.gridOthers.Children.Add(new InheritMissingDetail(this, ((InheritMissingBar)sender)));
+                var ani = new DoubleAnimationUsingKeyFrames();
+                ani.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
+                ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
+                MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
             }
         }
 

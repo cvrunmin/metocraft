@@ -18,7 +18,7 @@ namespace MTMCL.Notice
     /// <summary>
     /// CrashErrorBar.xaml 的互動邏輯
     /// </summary>
-    public partial class CrashErrorBar
+    public partial class CrashErrorBar : INotice
     {
         public string ErrorName { get; set; }
         public string ErrorContent { get; set; }

@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Collections;
+using MTMCL.util;
 
 namespace MTMCL
 {
@@ -15,11 +16,19 @@ namespace MTMCL
         }
         
         static public bool debug = false;
+        static public bool LogReadOnly = false;
 //        static readonly FrmLog frmLog = new FrmLog();
         static public void start()
         {
-            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-            fs.Close();
+            try
+            {
+                FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+                fs.Close();
+            }
+            catch (UnauthorizedAccessException e) {
+                System.Windows.MessageBox.Show("無法修改日誌\n无法修改日志\nFailed to edit the log\n" + e);
+                LogReadOnly = true;
+            }
             if (debug)
             {
 //                frmLog.Show();
@@ -55,6 +64,7 @@ namespace MTMCL
         }
         static private void write(string str, LogType type = LogType.Info)
         {
+            if (LogReadOnly) return;
             FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             sw.WriteLine(writeInfo(type) + str);
@@ -67,9 +77,10 @@ namespace MTMCL
         }
         static private string HelpWrite(string str, LogType type = LogType.Info)
         {
+            string a = writeInfo(type) + str;
+            if (LogReadOnly) return a;
             FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-            string a = writeInfo(type) + str;
             sw.WriteLine(a);
             sw.Close();
             fs.Close();
@@ -81,6 +92,7 @@ namespace MTMCL
         }
         static private void write(Stream s, LogType type = LogType.Info)
         {
+            if (LogReadOnly) return;
             StreamReader sr = new StreamReader(s);
             write(sr.ReadToEnd(), type);
             if (debug)

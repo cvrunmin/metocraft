@@ -40,7 +40,7 @@ namespace MTMCL
                 Config = Config.Load(Cfgfile);
                 Logger.log(string.Format("loaded {0}", Cfgfile));
                 Logger.log(Config.ToReadableLog());
-                
+
                 LoadLanguage();
                 LoadColor();
                 if (Config.Server != null)
@@ -86,7 +86,7 @@ namespace MTMCL
             }
             if (Config.Javaw == "autosearch")
             {
-                    Config.Javaw = Config.GetJavaDir() ?? "javaw.exe";
+                Config.Javaw = Config.GetJavaDir() ?? "javaw.exe";
             }
             if (Config.Javaxmx == -1)
             {
@@ -95,13 +95,9 @@ namespace MTMCL
             LangManager.UseLanguage(Config.Lang);
 #if DEBUG
 #else
-            ReleaseCheck();
+            if (!Config.failUpdateLastTime) ReleaseCheck();
+            else Config.failUpdateLastTime = false;
 #endif
-/*#if DEBUG
-            KMCCC.Launcher.Reporter.SetClientName("MTMCL " + version + "-EAT-BUGXL");
-#else
-            KMCCC.Launcher.Reporter.SetClientName("MTMCL " + version);
-#endif*/
         }
         public static void ReleaseCheck()
         {
@@ -197,7 +193,8 @@ namespace MTMCL
                 Directory.CreateDirectory(DataDirectory + "Color");
             }
         }
-        internal static void Refresh() {
+        internal static void Refresh()
+        {
             Language.Clear();
             LangManager.Clear();
             Color.Clear();

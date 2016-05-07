@@ -1,4 +1,4 @@
-﻿<Button
+﻿<local:INotice
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -58,4 +58,4 @@
     <Grid Margin="0" Width="661" Height="75">
         <Label Content="{Binding ErrorName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" Background="{DynamicResource AccentColorBrush4}"/>
     </Grid>
-</Button>
+</local:INotice>
