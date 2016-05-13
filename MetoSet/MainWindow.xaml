@@ -36,6 +36,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="ButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
@@ -60,7 +61,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </metro:Tile>
-                        <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="215" Height="105" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="">
+                        <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="215" Height="105" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="" Style="{StaticResource RenewTile}" TitleFontSize="20">
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_list}" />
@@ -74,7 +75,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </metro:Tile>
-                        <metro:Tile x:Name="butNotice" Title="{DynamicResource Notice}" Margin="220,0,0,0" Width="105" Height="105" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butNotice_Click">
+                        <metro:Tile x:Name="butNotice" Title="{DynamicResource Notice}" Margin="220,0,0,0" Width="105" Height="105" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butNotice_Click" Style="{DynamicResource RenewTile}">
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_notification_above}" />
@@ -175,7 +176,7 @@
                     </metro:Tile>
                 </Grid>
             </Grid>
-            <metro:Tile x:Name="butHome" HorizontalAlignment="Left" Margin="0,379,0,0" Width="30" Padding="0" Height="30" Click="butHome_Click">
+            <metro:Tile x:Name="butHome" HorizontalAlignment="Left" Margin="0,379,0,0" Width="30" Padding="0" Height="30" Click="butHome_Click" Visibility="Collapsed">
                 <Rectangle Fill="Black" StrokeThickness="0" Width="20" Height="20">
                     <Rectangle.OpacityMask>
                         <VisualBrush Visual="{StaticResource appbar_os_windows_8}"/>

@@ -130,7 +130,7 @@ namespace MTMCL
             gridLoadingScreen.Visibility = Visibility.Collapsed;
             gridOthers.Visibility = Visibility.Visible;
             gridOthers.Children.Add(grid);
-            gridOthers.Margin = /*required0Margin ? new Thickness(0) :*/ new Thickness(30, 0, 30, 30);
+            gridOthers.Margin = required0Margin ? new Thickness(0) : new Thickness(30, 0, 30, 30);
             var ani2 = new DoubleAnimationUsingKeyFrames();
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));

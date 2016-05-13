@@ -5,6 +5,7 @@ using MTMCL.util;
 using MTMCL.Versions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
@@ -25,7 +26,7 @@ namespace MTMCL
     /// </summary>
     public partial class Download : Grid
     {
-        bool doneInit;
+        bool doneInit, doneForgeInit;
         public Download()
         {
             InitializeComponent();
@@ -240,16 +241,17 @@ namespace MTMCL
             }
         }
         readonly ForgeVersionList _forgeVer = new ForgeVersionList();
+        private List<string> verlist;
         private void butReloadForge_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshForgeVersionList();
+        }
+        private void RefreshForgeVersionList()
         {
             ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("RemoteVerGetting");
             butReloadForge.IsEnabled = false;
             gridMFRFail.Visibility = Visibility.Collapsed;
             gridMFRing.Visibility = Visibility.Visible;
-            RefreshForgeVersionList();
-        }
-        private void RefreshForgeVersionList()
-        {
             _forgeVer.ForgePageReadyEvent += ForgeVer_ForgePageReadyEvent;
             _forgeVer.GetVersion();
         }
@@ -277,16 +279,31 @@ namespace MTMCL
             else {
                 foreach (object[] t in _forgeVer.GetNew())
                 {
-                    dt.Rows.Add(t[0], t[1], t[2], t[3]);
+                    dt.Rows.Add(t);
                 }
             }
             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
             {
+                verlist = _forgeVer.GetVersionBranch();
                 listForge.DataContext = dt;
                 gridMFRing.Visibility = Visibility.Collapsed;
+                RefreshFilterMenu();
                 ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("Reload");
                 butReloadForge.IsEnabled = true;
             }));
+        }
+        private void RefreshFilterMenu() {
+            if (verlist == null) return;
+            if (verlist.Count == 0) return;
+            menuVerL.Items.Clear();
+            var cb = new CheckBox() { Content = "Select All" };
+            menuVerL.Items.Add(cb);
+            menuVerL.Items.Add(new Separator());
+            foreach(var item in verlist)
+            {
+                var cb1 = new CheckBox() { Content = item };
+                menuVerL.Items.Add(cb1);
+            }
         }
         private void DownloadForge(string ver)
         {
@@ -404,7 +421,6 @@ namespace MTMCL
                     LoadServerDeDicatedVersion();
                 }
                 ReloadVanillaVersion();
-                RefreshForgeVersionList();
                 doneInit = true;
             }
         }
@@ -419,6 +435,14 @@ namespace MTMCL
             {
                 tabDLMC.Visibility = Visibility.Collapsed;
                 tabDLForge.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tabControl.SelectedIndex == 1 & !doneForgeInit) {
+                RefreshForgeVersionList();
+                doneForgeInit = true;
             }
         }
     }
