@@ -112,6 +112,14 @@
     <s:String x:Key="MCVer">Minecraft版本</s:String>
     <s:String x:Key="Tag">标签</s:String>
     <s:String x:Key="Url">网址</s:String>
+    <s:String x:Key="Filter">筛选</s:String>
+    <s:String x:Key="ApplyFilter">套用筛选</s:String>
+    <s:String x:Key="RecommendShow">显示推荐版本</s:String>
+    <s:String x:Key="LatestShow">显示最新版本</s:String>
+    <s:String x:Key="TaglessShow">显示无卷标版本</s:String>
+    <s:String x:Key="HiddenVersion">隐藏版本</s:String>
+    <s:String x:Key="SelectAll">全选</s:String>
+    <s:String x:Key="ApplyFilterPlz">请在完成编辑筛选后右键「筛选」按钮并选择「套用筛选」</s:String>
     <!-- /DL -->
     <!-- ACLogin -->
     <s:String x:Key="ACTitle">选择帐户</s:String>
@@ -153,7 +161,7 @@
     <s:String x:Key="UnableAI1">找不到Assets列表</s:String>
     <s:String x:Key="UnableAI2">且无法下载</s:String>
     <s:String x:Key="RVerFail1">无法刷新坂本列表</s:String>
-    <s:String x:Key="RVerFail2">是有人剪断网线，还是服务器离线呢？</s:String>
+    <s:String x:Key="RVerFail2">是有人剪断网线，还是服务器离线，还是筛选太苛刻呢？</s:String>
     <!--/Error-->
     <!--Task-->
     <s:String x:Key="TaskName">任务名称：{0}</s:String>

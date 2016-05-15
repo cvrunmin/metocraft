@@ -76,10 +76,10 @@
                         <AccessText Text="{DynamicResource Reload}" FontSize="16" TextWrapping="WrapWithOverflow" TextAlignment="Center"></AccessText>
                     </Button>
                     <Button x:Name="butDLForge" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="150" FontSize="16" Click="butDLForge_Click"/>
-                    <ToggleButton x:Name="butFilter" Style="{DynamicResource MetroCircleToggleButtonStyle}" Margin="0,95,105,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="45" FontSize="16" Custom:ButtonHelper.PreserveTextCase="True" Padding="1.5,4,1,1">
+                    <ToggleButton x:Name="butFilter" Style="{DynamicResource MetroCircleToggleButtonStyle}" Margin="0,95,105,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="45" FontSize="16" Custom:ButtonHelper.PreserveTextCase="True" Padding="1.5,4,1,1" Unchecked="butFilter_Unchecked" Checked="butFilter_Checked" ToolTip="{DynamicResource Filter}">
                         <ToggleButton.ContextMenu>
-                            <ContextMenu IsTextSearchEnabled="True">
-                                <MenuItem Header="25"/>
+                            <ContextMenu>
+                                <MenuItem Header="{DynamicResource ApplyFilter}" Click="MenuItem_Click"/>
                             </ContextMenu>
                         </ToggleButton.ContextMenu>
                         <Rectangle Width="22" Height="22"
@@ -107,14 +107,14 @@
                         <Label Content="{DynamicResource RVerFail1}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
                         <Label Content="{DynamicResource RVerFail2}" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top"/>
                     </Grid>
-                    <Expander x:Name="expanderFilter" Header="Filter" VerticalAlignment="Top" Height="284" ExpandDirection="Left" Custom:ExpanderHelper.HeaderLeftStyle="{DynamicResource ToggleLeftStyle}" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,0,105,0" BorderThickness="0" Padding="0" IsExpanded="True">
+                    <Expander x:Name="expanderFilter" Header="{DynamicResource Filter}" ExpandDirection="Left" Custom:ExpanderHelper.HeaderLeftStyle="{DynamicResource ToggleLeftStyle}" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,0,105,0" BorderThickness="0" Padding="0" Visibility="Collapsed">
                         <Expander.Resources>
                             <Style x:Key="ToggleLeftStyle" TargetType="{x:Type ToggleButton}">
                                 <Setter Property="VerticalAlignment" Value="Bottom"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                            <Border Height="38" Width="37" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
                                                 <Grid Background="Transparent" SnapsToDevicePixels="False">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="19"/>
@@ -206,14 +206,17 @@
                                 </Style.BasedOn>
                             </Style>
                         </Expander.Resources>
-                        <Grid Background="#EEFFFFFF">
-                            <CheckBox x:Name="checkRecommand" Content="Show Recommended Version" HorizontalAlignment="Left" Margin="0,36,0,0" VerticalAlignment="Top"/>
-                            <Label Content="Filter" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
-                            <CheckBox x:Name="checkLatest" Content="Show Latest Version" HorizontalAlignment="Left" Margin="0,59,0,0" VerticalAlignment="Top"/>
-                            <CheckBox x:Name="checkNonTag" Content="Show Versions with no tags" HorizontalAlignment="Left" Margin="0,82,0,0" VerticalAlignment="Top"/>
+                        <Grid Background="{DynamicResource ControlBackgroundBrush}">
+                            <CheckBox x:Name="checkRecommand" Content="{DynamicResource RecommendShow}" HorizontalAlignment="Left" Margin="0,36,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
+                            <Label Content="{DynamicResource Filter}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                            <CheckBox x:Name="checkLatest" Content="{DynamicResource LatestShow}" HorizontalAlignment="Left" Margin="0,59,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
+                            <CheckBox x:Name="checkNonTag" Content="{DynamicResource TaglessShow}" HorizontalAlignment="Left" Margin="0,82,0,0" VerticalAlignment="Top" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
 
-                            <Label Content="Shown Versions" HorizontalAlignment="Left" Margin="0,105,0,0" VerticalAlignment="Top"/>
+                            <Label Content="{DynamicResource HiddenVersion}" HorizontalAlignment="Left" Margin="0,105,0,0" VerticalAlignment="Top"/>
                             <ListBox x:Name="menuVerL" HorizontalAlignment="Left" Height="153" Margin="0,131,0,0" VerticalAlignment="Top" Width="250"/>
+                            <Label x:Name="lblPlzApply" Margin="255,0,10,10" VerticalAlignment="Bottom" Opacity="0">
+                                <AccessText TextWrapping="WrapWithOverflow" Text="{DynamicResource ApplyFilterPlz}"/>
+                            </Label>
                         </Grid>
                     </Expander>
                 </Grid>

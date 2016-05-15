@@ -18,7 +18,8 @@ namespace MTMCL.Forge
         private readonly DataContractJsonSerializer _forgeVerJsonParse = new DataContractJsonSerializer(typeof(ForgeVersion));
         private ForgeVersion _forge;
         public Dictionary<string, string> ForgeDownloadUrl = new Dictionary<string, string>(),
-            ForgeChangeLogUrl = new Dictionary<string, string>();
+            ForgeChangeLogUrl = new Dictionary<string, string>(),
+            ForgeUniversalUrl = new Dictionary<string, string>();
         public void GetVersion()
         {
             _forge = null;
@@ -50,10 +51,11 @@ namespace MTMCL.Forge
         public object[] GetNew()
         {
             if (_forge == null) return new object[] { };
-            ArrayList arrayList = new ArrayList(_forge.promos.Count);
+            ArrayList arrayList = new ArrayList();
             ForgeVersion forge = _forge;
             foreach (var item in forge.promos)
             {
+                if (item.Key.Equals("recommended") | item.Key.Equals("latest")) continue;
                 ForgeVersion.Version ver = null;
                 if (forge.number.TryGetValue(item.Value.ToString(), out ver))
                 {
@@ -89,88 +91,41 @@ namespace MTMCL.Forge
         public object[] GetNew(ForgeVersionListFilter filter)
         {
             if (_forge == null) return new object[] { };
-            ArrayList arrayList = new ArrayList(GetFilterredVersionCount(filter));
+            ArrayList arrayList = new ArrayList();
             ForgeVersion forge = _forge;
-            foreach (var item in forge.promos)
-            {
-                ForgeVersion.Version ver = null;
-                if (forge.number.TryGetValue(item.Value.ToString(), out ver))
-                {
-                    bool install = false;
-                    string version = ver.mcversion + "-" + ver.version;
-                    if (!string.IsNullOrWhiteSpace(ver.branch))
-                    {
-                        version = version + "-" + ver.branch;
-                    }
-                    for (int i = 0; i < ver.files.GetLength(0); i++)
-                    {
-                        if (ver.files[i][1].Equals("changelog"))
-                        {
-                            ForgeChangeLogUrl[ver.version] = forge.webpath + "/" + version + "/" + forge.artifact + "-" + version + "-" + ver.files[i][1] + "." + ver.files[i][0];
-                        }
-                        if (ver.files[i][1].Equals("installer"))
-                        {
-                            install = true;
-                            ForgeDownloadUrl[ver.version] = forge.webpath + "/" + version + "/" + forge.artifact + "-" + version + "-" + ver.files[i][1] + "." + ver.files[i][0];
-                        }
-                    }
-                    if (!install)
-                    {
-                        Logger.log("MinecraftForge " + ver.version, " for ", ver.mcversion, " does not have installer");
-                    }
-                    arrayList.Add(new object[] { ver.version, ver.mcversion, DateTime.SpecifyKind(util.TimeHelper.UnixTimeStampToDateTime((double)ver.modified), DateTimeKind.Local), item.Key.Contains("latest") ? "latest" : (item.Key.Contains("recommended") ? "recommended" : "") });
-                    //Logger.log("获取Forge", ver.version);
-                }
-            }
-
-            return arrayList.ToArray();
-        }
-        public TreeViewItem[] Get()
-        {
-            ArrayList arrayList = new ArrayList(_forge.number.Count);
-            TreeViewItem treeViewItem = new TreeViewItem();
-            arrayList.Add(treeViewItem);
-            ForgeVersion forge = _forge;
-            foreach (var item in forge.number.Values)
+            foreach (var ver in GetFilterredVersion(filter))
             {
                 bool install = false;
-                for (int i = 0; i < item.files.GetLength(1); i++)
+                string version = ver.mcversion + "-" + ver.version;
+                if (!string.IsNullOrWhiteSpace(ver.branch))
                 {
-                    if (item.files[i][2].Equals("changelog"))
+                    version = version + "-" + ver.branch;
+                }
+                for (int i = 0; i < ver.files.GetLength(0); i++)
+                {
+                    if (ver.files[i][1].Equals("changelog"))
                     {
-                        ForgeChangeLogUrl[item.version] = forge.artifact + "-" + item.mcversion + "-" + item.version + "-" + item.files[i][1] + "." + item.files[i][0];
+                        ForgeChangeLogUrl[ver.version] = forge.webpath + "/" + version + "/" + forge.artifact + "-" + version + "-" + ver.files[i][1] + "." + ver.files[i][0];
                     }
-                    if (item.files[i][2].Equals("installer"))
+                    if (ver.files[i][1].Equals("installer"))
                     {
                         install = true;
-                        ForgeDownloadUrl[item.version] = forge.artifact + "-" + item.mcversion + "-" + item.version + "-" + item.files[i][1] + "." + item.files[i][0];
+                        ForgeDownloadUrl[ver.version] = forge.webpath + "/" + version + "/" + forge.artifact + "-" + version + "-" + ver.files[i][1] + "." + ver.files[i][0];
+                    }
+                    if (ver.files[i][1].Equals("universal"))
+                    {
+                        ForgeUniversalUrl[ver.version] = forge.webpath + "/" + version + "/" + forge.artifact + "-" + version + "-" + ver.files[i][1] + "." + ver.files[i][0];
                     }
                 }
                 if (!install)
                 {
-                    Logger.log("MinecraftForge" + item.version, " for ", item.mcversion, "does not have installer");
+                    Logger.log("MinecraftForge " + ver.version, " for ", ver.mcversion, " does not have installer");
                 }
-                if (treeViewItem.Header == null)
-                {
-                    treeViewItem.Header = item.mcversion;
-                }
-                else
-                {
-                    if (treeViewItem.Header.ToString() != item.mcversion)
-                    {
-                        treeViewItem = new TreeViewItem();
-                        arrayList.Add(treeViewItem);
-                        treeViewItem.Header = item.mcversion;
-                    }
-                }
-                Logger.log(treeViewItem.Header.ToString());
-                Logger.log(item.mcversion);
-
-                treeViewItem.Items.Add(item.version);
-                Logger.log("获取Forge", item.version);
+                arrayList.Add(new object[] { ver.version, ver.mcversion, DateTime.SpecifyKind(util.TimeHelper.UnixTimeStampToDateTime((double)ver.modified), DateTimeKind.Local), "" });
+                //Logger.log("获取Forge", ver.version);
             }
 
-            return arrayList.ToArray(typeof(TreeViewItem)) as TreeViewItem[];
+            return arrayList.ToArray();
         }
 
         public List<string> GetVersionBranch()
@@ -205,7 +160,7 @@ namespace MTMCL.Forge
                     i -= _forge.promos.Count;
                 }
             }
-            if (filter.HiddenVersion.Length != 0)
+            if (filter.HiddenVersion.Count != 0)
             {
                 foreach (var item in _forge.mcversion.Where(kvg => filter.HiddenVersion.Contains(kvg.Key)))
                 {
@@ -220,15 +175,15 @@ namespace MTMCL.Forge
             var ignore = new HashSet<int>();
             if (!filter.ShowRecommended)
             {
-                var a = _forge.promos.SkipWhile(kvg => !kvg.Key.Contains("recommended") & kvg.Key.Equals("recommended"));
-                foreach(var item in a)
+                var a = _forge.promos.Where(kvg => kvg.Key.Contains("recommended") & !kvg.Key.Equals("recommended"));
+                foreach (var item in a)
                 {
                     ignore.Add(item.Value);
                 }
             }
             if (!filter.ShowLatest)
             {
-                var a = _forge.promos.SkipWhile(kvg => !kvg.Key.Contains("latest") & kvg.Key.Equals("latest"));
+                var a = _forge.promos.Where(kvg => kvg.Key.Contains("latest") & !kvg.Key.Equals("latest"));
                 foreach (var item in a)
                 {
                     ignore.Add(item.Value);
@@ -236,41 +191,61 @@ namespace MTMCL.Forge
             }
             if (!filter.ShowNonTag)
             {
-                var a = _forge.promos.SkipWhile(kvg => kvg.Key.Equals("recommended") | kvg.Key.Equals("latest"));
+                var a = _forge.promos.Where(kvg => !kvg.Key.Equals("recommended") & !kvg.Key.Equals("latest"));
                 var b = new List<int>();
                 foreach (var item in a)
                 {
                     b.Add(item.Value);
                 }
-                foreach (var item in _forge.mcversion) {
-                    foreach (var i1 in item.Value.Where(e => !b.Contains(e))) {
-                        ignore.Add(i1);
-                    }
-                }
-            }
-            if (filter.HiddenVersion.Length != 0)
-            {
-                foreach (var item in _forge.mcversion.Where(kvg => filter.HiddenVersion.Contains(kvg.Key)))
+                foreach (var item in _forge.mcversion)
                 {
-                    foreach(var i1 in item.Value)
+                    foreach (var i1 in item.Value.Where(e => !b.Contains(e)))
                     {
                         ignore.Add(i1);
                     }
                 }
             }
-            foreach (var item in _forge.number.SkipWhile(kvg => ignore.Cast<string>().Contains(kvg.Key))) {
-                list.Add(item.Value);
+            if (filter.HiddenVersion.Count != 0)
+            {
+                foreach (var item in _forge.mcversion.Where(kvg => filter.HiddenVersion.Contains(kvg.Key)))
+                {
+                    foreach (var i1 in item.Value)
+                    {
+                        ignore.Add(i1);
+                    }
+                }
+            }
+            var si = Int32SetToStringSet(ignore);
+            foreach (KeyValuePair<string, ForgeVersion.Version> it in _forge.number)
+            {
+                if (si.Contains(it.Key) | string.IsNullOrWhiteSpace(it.Key)) continue;
+                if (it.Key.Equals("0")) continue;
+                list.Add(it.Value);
             }
             return list;
         }
+        private HashSet<string> Int32SetToStringSet(HashSet<int> list)
+        {
+            var a = new HashSet<string>();
+            foreach(var i in list)
+            {
+                a.Add(i.ToString());
+            }
+            return a;
+        }
     }
-    public class ForgeVersionListFilter
+    public class ForgeVersionListFilter : IEquatable<ForgeVersionListFilter>
     {
         public bool ShowNonTag { get; set; }
         public bool ShowLatest { get; set; }
         public bool ShowRecommended { get; set; }
-        public string[] HiddenVersion { get; set; }
+        public List<string> HiddenVersion { get; set; }
         public ForgeVersionListFilter() { }
+
+        public bool Equals(ForgeVersionListFilter other)
+        {
+            return ShowNonTag == other.ShowNonTag & ShowLatest == other.ShowLatest & ShowRecommended == other.ShowRecommended & HiddenVersion.Equals(other.HiddenVersion);
+        }
     }
 }
 

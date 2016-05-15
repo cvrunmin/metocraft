@@ -241,7 +241,6 @@ namespace MTMCL
             }
         }
         readonly ForgeVersionList _forgeVer = new ForgeVersionList();
-        private List<string> verlist;
         private void butReloadForge_Click(object sender, RoutedEventArgs e)
         {
             RefreshForgeVersionList();
@@ -255,7 +254,7 @@ namespace MTMCL
             _forgeVer.ForgePageReadyEvent += ForgeVer_ForgePageReadyEvent;
             _forgeVer.GetVersion();
         }
-        void ForgeVer_ForgePageReadyEvent()
+        async void ForgeVer_ForgePageReadyEvent()
         {
             var dt = new DataTable();
             dt.Columns.Add("Ver");
@@ -277,31 +276,114 @@ namespace MTMCL
                 }));
             }
             else {
-                foreach (object[] t in _forgeVer.GetNew())
+                foreach (object[] t in fl)
+                {
+                    dt.Rows.Add(t);
+                }
+            }
+            Dispatcher.BeginInvoke(new System.Windows.Forms.MethodInvoker(() =>
+            {
+                listForge.DataContext = dt;
+                gridMFRing.Visibility = Visibility.Collapsed;
+                ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("Reload");
+                butReloadForge.IsEnabled = true;
+            }));
+            await TaskEx.Delay(3000);
+            var verlist = _forgeVer.GetVersionBranch();
+            Dispatcher.BeginInvoke(new Action(() => RefreshFilterMenu(verlist)));
+        }
+        void RefreshForgeList()
+        {
+            ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("RemoteVerGetting");
+            butReloadForge.IsEnabled = false;
+            gridMFRFail.Visibility = Visibility.Collapsed;
+            gridMFRing.Visibility = Visibility.Visible;
+            var dt = new DataTable();
+            dt.Columns.Add("Ver");
+            dt.Columns.Add("MCVer");
+            dt.Columns.Add("Time", typeof(DateTime));
+            dt.Columns.Add("Tag");
+            var fl = _forgeVer.GetNew();
+            if (fl == null)
+            {
+                Dispatcher.Invoke(new Action(() => {
+                    gridMFRing.Visibility = Visibility.Collapsed;
+                    gridMFRFail.Visibility = Visibility.Visible;
+                }));
+            }
+            if (fl.Length == 0)
+            {
+                Dispatcher.Invoke(new Action(() => {
+                    gridMFRing.Visibility = Visibility.Collapsed;
+                    gridMFRFail.Visibility = Visibility.Visible;
+                }));
+            }
+            else
+            {
+                foreach (object[] t in fl)
                 {
                     dt.Rows.Add(t);
                 }
             }
             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
             {
-                verlist = _forgeVer.GetVersionBranch();
                 listForge.DataContext = dt;
                 gridMFRing.Visibility = Visibility.Collapsed;
-                RefreshFilterMenu();
                 ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("Reload");
                 butReloadForge.IsEnabled = true;
             }));
         }
-        private void RefreshFilterMenu() {
-            if (verlist == null) return;
-            if (verlist.Count == 0) return;
+        void RefreshForgeListWithFilter(ForgeVersionListFilter filter)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Ver");
+            dt.Columns.Add("MCVer");
+            dt.Columns.Add("Time", typeof(DateTime));
+            dt.Columns.Add("Tag");
+            var fl = _forgeVer.GetNew(filter);
+            if (fl == null)
+            {
+                Dispatcher.Invoke(new Action(() => {
+                    gridMFRing.Visibility = Visibility.Collapsed;
+                    gridMFRFail.Visibility = Visibility.Visible;
+                }));
+            }
+            if (fl.Length == 0)
+            {
+                Dispatcher.Invoke(new Action(() => {
+                    gridMFRing.Visibility = Visibility.Collapsed;
+                    gridMFRFail.Visibility = Visibility.Visible;
+                }));
+            }
+            else
+            {
+                foreach (object[] t in fl)
+                {
+                    dt.Rows.Add(t);
+                }
+            }
+            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() =>
+            {
+                listForge.DataContext = dt;
+                gridMFRing.Visibility = Visibility.Collapsed;
+                ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("Reload");
+                butReloadForge.IsEnabled = true;
+            }));
+        }
+        private void RefreshFilterMenu(List<string> a) {
+            if (a == null) return;
+            if (a.Count == 0) return;
             menuVerL.Items.Clear();
-            var cb = new CheckBox() { Content = "Select All" };
+            var cb = new CheckBox() { Name = "checkSelectAll", Content = LangManager.GetLangFromResource("SelectAll") };
+            cb.Checked += checkSelectAll_Checked;
+            cb.Unchecked += checkSelectAll_Unchecked;
             menuVerL.Items.Add(cb);
             menuVerL.Items.Add(new Separator());
-            foreach(var item in verlist)
+            foreach(var item in a)
             {
                 var cb1 = new CheckBox() { Content = item };
+                cb1.Checked += CheckBox_IsCheckedChanged;
+                cb1.Unchecked += CheckBox_IsCheckedChanged;
                 menuVerL.Items.Add(cb1);
             }
         }
@@ -436,6 +518,68 @@ namespace MTMCL
                 tabDLMC.Visibility = Visibility.Collapsed;
                 tabDLForge.Visibility = Visibility.Collapsed;
             }
+        }
+        private ForgeVersionListFilter histfilter = new ForgeVersionListFilter() { ShowRecommended = true, ShowLatest = true, ShowNonTag = false, HiddenVersion = new List<string>() };
+        private async void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> hid = new List<string>();
+            foreach (var i in menuVerL.Items) {
+                if (i is CheckBox) {
+                    if (!(i as CheckBox).Name.Equals("checkSelectAll")) {
+                        if ((bool)((i as CheckBox).IsChecked)) hid.Add((i as CheckBox).Content as string);
+                    }
+                }
+            }
+            lblPlzApply.BeginAnimation(OpacityProperty, new DoubleAnimation(0, TimeSpan.FromSeconds(0.4)));
+            ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("RemoteVerGetting");
+            butReloadForge.IsEnabled = false;
+            gridMFRFail.Visibility = Visibility.Collapsed;
+            gridMFRing.Visibility = Visibility.Visible;
+            await TaskEx.Run(() => {
+                ForgeVersionListFilter filter = null;
+                do {
+                    Dispatcher.BeginInvoke(new Action(() => filter = histfilter = new ForgeVersionListFilter() { ShowRecommended = (bool)checkRecommand.IsChecked, ShowLatest = (bool)checkLatest.IsChecked, ShowNonTag = (bool)checkNonTag.IsChecked, HiddenVersion = hid }));
+                } while (filter == null);
+                RefreshForgeListWithFilter(filter);
+            });
+        }
+
+        private void CheckBox_IsCheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (!IsLoaded) return;
+            lblPlzApply.BeginAnimation(OpacityProperty, new DoubleAnimation(1, TimeSpan.FromSeconds(0.4)));
+        }
+        private void checkSelectAll_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var i in menuVerL.Items)
+            {
+                if (i is CheckBox)
+                {
+                    (i as CheckBox).IsChecked = true;
+                }
+            }
+        }
+        private void checkSelectAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var i in menuVerL.Items)
+            {
+                if (i is CheckBox)
+                {
+                    (i as CheckBox).IsChecked = false;
+                }
+            }
+        }
+
+        private void butFilter_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RefreshForgeList();
+            expanderFilter.Visibility = Visibility.Collapsed;
+        }
+
+        private void butFilter_Checked(object sender, RoutedEventArgs e)
+        {
+            RefreshForgeListWithFilter(histfilter);
+            expanderFilter.Visibility = Visibility.Visible;
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
