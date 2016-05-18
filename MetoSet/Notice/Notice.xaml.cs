@@ -43,6 +43,12 @@ namespace MTMCL.Notice
         private void Grid_Initialized(object sender, EventArgs e)
         {
             putTaskBar();
+            MeCore.MainWindow.OnNoticeAdded += (notice) =>
+            {
+                notice.Click += TaskBar_Click;
+                panelNotice.Children.Add(notice);
+                gridNullth.Visibility = Visibility.Collapsed;
+            };
         }
         private void putTaskBar()
         {
@@ -52,6 +58,7 @@ namespace MTMCL.Notice
                 item.Click += TaskBar_Click;
                 panelNotice.Children.Add(item);
             }
+            if (MeCore.MainWindow.noticelist.Count == 0) gridNullth.Visibility = Visibility.Visible;
         }
         private void TaskBar_Click(object sender, RoutedEventArgs e)
         {
@@ -64,7 +71,8 @@ namespace MTMCL.Notice
                 ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
                 MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
             }
-            else if (sender is InheritMissingBar) {
+            else if (sender is InheritMissingBar)
+            {
                 MeCore.MainWindow.gridOthers.Children.Clear();
                 MeCore.MainWindow.gridOthers.Children.Add(new InheritMissingDetail(this, ((InheritMissingBar)sender)));
                 var ani = new DoubleAnimationUsingKeyFrames();

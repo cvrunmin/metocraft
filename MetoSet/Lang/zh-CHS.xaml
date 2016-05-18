@@ -22,6 +22,9 @@
     <s:String x:Key="Next">继续</s:String>
     <s:String x:Key="Log">日志</s:String>
     <s:String x:Key="Notice">通知</s:String>
+    <s:String x:Key="Help">帮助</s:String>
+    <s:String x:Key="Retry">重试</s:String>
+    <s:String x:Key="Nullth">这里什么都没有</s:String>
     <!--Guide-->
     <s:String x:Key="LangTitle">选择您的语言</s:String>
     <s:String x:Key="LangDesc">启动器语言会自动设定为系统显示语言。如果您想使用的显示语言与系统显示语言不同，请在这里选择</s:String>
@@ -162,6 +165,8 @@
     <s:String x:Key="UnableAI2">且无法下载</s:String>
     <s:String x:Key="RVerFail1">无法刷新坂本列表</s:String>
     <s:String x:Key="RVerFail2">是有人剪断网线，还是服务器离线，还是筛选太苛刻呢？</s:String>
+    <s:String x:Key="BrowseWebFail">浏览帮助时发生错误</s:String>
+    <s:String x:Key="HttpStatus">HTTP状态码：{0}</s:String>
     <!--/Error-->
     <!--Task-->
     <s:String x:Key="TaskName">任务名称：{0}</s:String>
@@ -222,4 +227,5 @@
     <s:String x:Key="UpdateDeny">稍后更新</s:String>
     <s:String x:Key="UnFinish">空白页</s:String>
     <s:String x:Key="Preview">预览</s:String>
+    <s:String x:Key="Oops">哎呀!</s:String>
 </ResourceDictionary>

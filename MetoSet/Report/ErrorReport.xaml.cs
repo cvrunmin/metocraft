@@ -11,7 +11,7 @@ namespace MTMCL
     /// <summary>
     /// ErrorReport.xaml 的互動邏輯
     /// </summary>
-    public partial class ErrorReport : Window
+    public partial class ErrorReport
     {
         public ErrorReport()
         {

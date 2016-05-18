@@ -22,6 +22,9 @@
     <s:String x:Key="Next">Next</s:String>
     <s:String x:Key="Log">Log</s:String>
     <s:String x:Key="Notice">Notice</s:String>
+    <s:String x:Key="Help">Help</s:String>
+    <s:String x:Key="Retry">Retry</s:String>
+    <s:String x:Key="Nullth">Nothing here</s:String>
     <!-- Guide -->
     <s:String x:Key="LangTitle">Let's start by choosing your language</s:String>
     <s:String x:Key="LangDesc">Launcher language will be selected by the OS display language. If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>
@@ -162,6 +165,8 @@
     <s:String x:Key="UnableAI2">and cannot be downloaded also</s:String>
     <s:String x:Key="RVerFail1">Failed to refresh Version List</s:String>
     <s:String x:Key="RVerFail2">Does anyone cut the cable, or the server offline, or the filter is too harsh?</s:String>
+    <s:String x:Key="BrowseWebFail">Error occurred when it's browsing the help</s:String>
+    <s:String x:Key="HttpStatus">HTTP Status Code: {0}</s:String>
     <!--/Error-->
     <!--Task-->
     <s:String x:Key="TaskName">Task Name: {0}</s:String>
@@ -223,4 +228,5 @@
     <s:String x:Key="UpdateDeny">Update Later</s:String>
     <s:String x:Key="UnFinish">This is a blank page.</s:String>
     <s:String x:Key="Preview">Preview</s:String>
+    <s:String x:Key="Oops">Oops!</s:String>
 </ResourceDictionary>

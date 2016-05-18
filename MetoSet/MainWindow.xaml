@@ -68,10 +68,17 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </metro:Tile>
-                        <metro:Tile x:Name="butSetting" Title="{DynamicResource Setting}" Margin="0,110,0,0" Width="215" Height="215" Click="butSetting_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <metro:Tile x:Name="butSetting" Title="{DynamicResource Setting}" Margin="0,110,0,0" Width="215" Height="105" Click="butSetting_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_settings}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </metro:Tile>
+                        <metro:Tile x:Name="butHelp" Title="{DynamicResource Help}" Margin="0,220,0,0" Width="215" Height="105" Click="butHelp_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Rectangle Height="50" Width="20">
+                                <Rectangle.Fill>
+                                    <VisualBrush Visual="{StaticResource appbar_information}" />
                                 </Rectangle.Fill>
                             </Rectangle>
                         </metro:Tile>

@@ -18,5 +18,8 @@
         <ScrollViewer Margin="0,45,0,0">
             <WrapPanel x:Name="panelTask"/>
         </ScrollViewer>
+        <Grid Background="#CCFFFFFF" Margin="0,45,0,0" x:Name="gridNullth" Visibility="Collapsed">
+            <Label Content="{DynamicResource Nullth}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="20"/>
+        </Grid>
     </Grid>
 </Grid>

@@ -1,0 +1,21 @@
+﻿<Grid x:Class="MTMCL.Help.GridHelp"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MTMCL.Help"
+      mc:Ignorable="d" 
+      d:DesignHeight="380" d:DesignWidth="675" Loaded="Grid_Loaded">
+    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+    <Label Content="{DynamicResource Help}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+    <Frame x:Name="frame" Margin="102,0,0,0" NavigationFailed="frame_NavigationFailed" NavigationUIVisibility="Hidden" SandboxExternalContent="True"/>
+    <Label Content="{DynamicResource Language}" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top"/>
+    <ComboBox x:Name="comboLang" HorizontalAlignment="Left" Margin="0,76,0,0" VerticalAlignment="Top" Width="102" SelectionChanged="comboLang_SelectionChanged"></ComboBox>
+
+</Grid>

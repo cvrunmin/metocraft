@@ -202,6 +202,12 @@
     <Compile Include="Forge\ForgeDLThread.cs" />
     <Compile Include="Forge\ForgeInstaller.cs" />
     <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="Help\GridHelp.xaml.cs">
+      <DependentUpon>GridHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Help\PageHttpError.xaml.cs">
+      <DependentUpon>PageHttpError.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Install\LiteLoaderInstaller.cs" />
     <Compile Include="Install\UnexpectedInstallerException.cs" />
     <Compile Include="Gradle\GridGradle.xaml.cs">
@@ -346,6 +352,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gradle\GridGradle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Help\GridHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Help\PageHttpError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

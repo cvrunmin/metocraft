@@ -33,6 +33,11 @@ namespace MTMCL.Task
         private void Grid_Initialized(object sender, EventArgs e)
         {
             putTaskBar();
+            MeCore.MainWindow.OnTaskAdded += (t) => {
+                t.Click += TaskBar_Click;
+                panelTask.Children.Add(t);
+                gridNullth.Visibility = Visibility.Collapsed;
+            };
         }
         private void putTaskBar() {
             panelTask.Children.Clear();
@@ -41,6 +46,7 @@ namespace MTMCL.Task
                 item.Click += TaskBar_Click;
                 panelTask.Children.Add(item);
             }
+            if (MeCore.MainWindow.taskdict.Count == 0) gridNullth.Visibility = Visibility.Visible;
         }
         private void TaskBar_Click(object sender, RoutedEventArgs e)
         {

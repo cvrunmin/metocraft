@@ -113,11 +113,17 @@ namespace MTMCL
                     tile = butGradle;
                     grid = new Gradle.GridGradle();
                     break;
+                case "help":
+                    tile = butHelp;
+                    grid = new Help.GridHelp();
+                    break;
                 default:
                     return;
             }
             gridOthers.Children.Clear();
             ((Rectangle)gridLoadingScreen.Children[0]).Fill = ((Rectangle)tile.GetValue(ContentProperty)).Fill;
+            ((Rectangle)gridLoadingScreen.Children[0]).Width = ((Rectangle)tile.GetValue(ContentProperty)).Width * 2;
+            ((Rectangle)gridLoadingScreen.Children[0]).Height = ((Rectangle)tile.GetValue(ContentProperty)).Height * 2;
             gridLoadingScreen.Margin = new Thickness(gridMain.Margin.Left + gridMenu.Margin.Left + tile.Margin.Left, gridMain.Margin.Top + gridMenu.Margin.Top + tile.Margin.Top, gridMain.Margin.Right + gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMain.Margin.Bottom + gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top));
             gridLoadingScreen.Background = new SolidColorBrush(Color.FromRgb(((SolidColorBrush)tile.Background).Color.R, ((SolidColorBrush)tile.Background).Color.G, ((SolidColorBrush)tile.Background).Color.B));
             gridLoadingScreen.Visibility = Visibility.Visible;
@@ -306,6 +312,8 @@ namespace MTMCL
 
         public Dictionary<string, TaskListBar> taskdict = new Dictionary<string, TaskListBar>();
         internal List<Notice.INotice> noticelist = new List<Notice.INotice>();
+        public delegate void TaskAdded(TaskListBar tlb);
+        public event TaskAdded OnTaskAdded;
         public void addTask(string identifier, TaskListBar task)
         {
             if (taskdict.ContainsKey(identifier))
@@ -336,6 +344,7 @@ namespace MTMCL
             }
             task.Margin = new Thickness(0);
             taskdict.Add(identifier, task);
+            OnTaskAdded?.Invoke(task);
             butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
         }
         public void removeTask(string s, TaskListBar task)
@@ -455,8 +464,11 @@ namespace MTMCL
         {
             ChangePage("notice", true);
         }
+        public delegate void NoticeAdded(Notice.INotice notice);
+        public event NoticeAdded OnNoticeAdded;
         internal void addNotice(Notice.INotice notice) {
             noticelist.Add(notice);
+            OnNoticeAdded?.Invoke(notice);
             butNotice.Count = noticelist.Count > 0 ? noticelist.Count.ToString() : "";
         }
         private void LoadServerDeDicatedVersion()
@@ -585,6 +597,11 @@ namespace MTMCL
         {
             SwitchBetweenHomeAndMenu(false);
             butDL_Click(sender, e);
+        }
+
+        private void butHelp_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage("help", true);
         }
     }
 }
