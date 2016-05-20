@@ -202,6 +202,36 @@
     <Compile Include="Forge\ForgeDLThread.cs" />
     <Compile Include="Forge\ForgeInstaller.cs" />
     <Compile Include="Forge\ForgeVersionList.cs" />
+    <Compile Include="Guide\GridGuide.xaml.cs">
+      <DependentUpon>GridGuide.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\GuideWindow.xaml.cs">
+      <DependentUpon>GuideWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideAuth.xaml.cs">
+      <DependentUpon>PageGuideAuth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideAuthBadLogin.xaml.cs">
+      <DependentUpon>PageGuideAuthBadLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideAuthTry.xaml.cs">
+      <DependentUpon>PageGuideAuthTry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideTOTHY.xaml.cs">
+      <DependentUpon>PageGuideTOTHY.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideFast.xaml.cs">
+      <DependentUpon>PageGuideFast.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideFinish.xaml.cs">
+      <DependentUpon>PageGuideFinish.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideLang.xaml.cs">
+      <DependentUpon>PageGuideLang.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guide\PageGuideSlow.xaml.cs">
+      <DependentUpon>PageGuideSlow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Help\GridHelp.xaml.cs">
       <DependentUpon>GridHelp.xaml</DependentUpon>
     </Compile>
@@ -354,6 +384,46 @@
     <Page Include="Gradle\GridGradle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\GridGuide.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guide\GuideWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideAuth.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideAuthBadLogin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideAuthTry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideTOTHY.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideFast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideFinish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideLang.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guide\PageGuideSlow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Help\GridHelp.xaml">
       <SubType>Designer</SubType>

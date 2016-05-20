@@ -9,5 +9,6 @@ namespace MTMCL.Launch.Login
     {
         string Type { get; }
         AuthInfo Login();
+        System.Threading.Tasks.Task<AuthInfo> LoginAsync(System.Threading.CancellationToken token);
     }
 }

@@ -98,17 +98,7 @@ namespace MTMCL.Guide
         }
         private void PreInit()
         {
-            comboJava.Items.Clear();
-            try
-            {
-                var javas = KMCCC.Tools.SystemTools.FindValidJava().ToList();
-                foreach (var java in javas)
-                {
-                    comboJava.Items.Add(java);
-                }
-            }
-            catch { }
-            sliderRAM.Maximum = KMCCC.Tools.SystemTools.GetTotalMemory() / 1024 / 1024;
+            sliderRAM.Maximum = Config.GetMemory();
         }
         private void LoadConfig()
         {
@@ -116,8 +106,30 @@ namespace MTMCL.Guide
             comboUdtSrc.SelectedIndex = MeCore.Config.UpdateSource;
             txtboxMP.Text = MeCore.Config.MCPath;
             txtboxArg.Text = MeCore.Config.ExtraJvmArg;
-            comboJava.SelectedItem = MeCore.Config.Javaw;
+            comboJava.Text = MeCore.Config.Javaw;
             sliderRAM.Value = MeCore.Config.Javaxmx;
+        }
+        private void ChangeJavaPathState()
+        {
+            try
+            {
+                if (!File.Exists(comboJava.Text))
+                {
+                    rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                    rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
+                    rectJPState.ToolTip = LangManager.GetLangFromResource("JavaPath_NotExist");
+                    return;
+                }
+                rectJPState.Fill = new SolidColorBrush(Color.FromRgb(0, 0x99, 0));
+                rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_check"] };
+                rectJPState.ToolTip = null;
+            }
+            catch
+            {
+                rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
+                rectJPState.ToolTip = LangManager.GetLangFromResource("JavaPath_Catched");
+            }
         }
 
         private void comboDLSrc_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -132,10 +144,10 @@ namespace MTMCL.Guide
             MeCore.Config.Save();
         }
 
-        private void comboJava_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboJava_SelectionChanged(object sender, TextChangedEventArgs e)
         {
-            MeCore.Config.Javaw = (string)comboJava.SelectedItem;
-            MeCore.Config.Save();
+            MeCore.Config.QuickChange("Javaw", comboJava.Text);
+            ChangeJavaPathState();
         }
 
         private void sliderRAM_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -148,6 +160,41 @@ namespace MTMCL.Guide
         {
             MeCore.Config.ExtraJvmArg = txtboxArg.Text;
             MeCore.Config.Save();
+        }
+        private void butJavawBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            FileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "javaw.exe | javaw.exe";
+            dialog.ShowDialog();
+            comboJava.Text = dialog.FileName;
+        }
+
+        private void toggleModded_IsCheckedChanged(object sender, EventArgs e)
+        {
+            if ((bool)toggleModded.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true", StringComparison.Ordinal) == -1)
+                    txtboxArg.Text += " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
+            }
+            else if (!(bool)toggleModded.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true", StringComparison.Ordinal) != -1)
+                    txtboxArg.Text = txtboxArg.Text.Replace(" -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true", "");
+            }
+        }
+
+        private void toggleLL_IsCheckedChanged(object sender, EventArgs e)
+        {
+            if ((bool)toggleLL.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", StringComparison.Ordinal) == -1)
+                    txtboxArg.Text += " -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy";
+            }
+            else if (!(bool)toggleLL.IsChecked)
+            {
+                if (txtboxArg.Text.IndexOf("-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", StringComparison.Ordinal) != -1)
+                    txtboxArg.Text = txtboxArg.Text.Replace(" -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", "");
+            }
         }
     }
 }

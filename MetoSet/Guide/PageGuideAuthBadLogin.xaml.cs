@@ -31,7 +31,7 @@ namespace MTMCL.Guide
 
         private void butNext_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new PageGuideAuthTry(new KMCCC.Authentication.OfflineAuthenticator(txtUN.Text)));
+            NavigationService.Navigate(new PageGuideAuthTry(new Launch.Login.OfflineAuth(txtUN.Text)));
         }
     }
 }

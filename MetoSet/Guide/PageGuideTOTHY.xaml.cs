@@ -16,11 +16,16 @@ using System.Windows.Shapes;
 namespace MTMCL.Guide
 {
     /// <summary>
-    /// PageGuideEnd.xaml 的互動邏輯
+    /// PageGuideTOTHY.xaml 的互動邏輯
+    /// 
+    /// 
+    ///頌讚吧！我們偉大的吳大預言家！！！
+    ///
+    ///冷靜啲，Tiger！
     /// </summary>
-    public partial class PageGuideEnd : Page
+    public partial class PageGuideTOTHY : Page
     {
-        public PageGuideEnd()
+        public PageGuideTOTHY()
         {
             InitializeComponent();
         }

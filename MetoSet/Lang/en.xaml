@@ -38,6 +38,8 @@
     <s:String x:Key="AuthForgotPW">Forgot my password</s:String>
     <s:String x:Key="AuthNotPremium">I don't have paid account</s:String>
     <s:String x:Key="AuthBadLogin">If you don't have a paid account, you can still play by using Offline mode. However, it's recommended to buy an account to support Mojang.</s:String>
+    <s:String x:Key="AskACRight">Is it your account?</s:String>
+    <s:String x:Key="GuideFinish">Startup Guide is finished</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">Computer</s:String>
     <s:String x:Key="COMVer">OS Version</s:String>
@@ -72,6 +74,7 @@
     <s:String x:Key="ColorMirror">Reverse Color</s:String>
     <s:String x:Key="ExpandTaskTitle">Expand task gui on opening launcher</s:String>
     <s:String x:Key="SearchLatest">Search latest version</s:String>
+    <s:String x:Key="AuthUsed">Auth used</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>
@@ -228,5 +231,6 @@
     <s:String x:Key="UpdateDeny">Update Later</s:String>
     <s:String x:Key="UnFinish">This is a blank page.</s:String>
     <s:String x:Key="Preview">Preview</s:String>
+    <s:String x:Key="DisplayNameFormat">Display Name: {0}</s:String>
     <s:String x:Key="Oops">Oops!</s:String>
 </ResourceDictionary>

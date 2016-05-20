@@ -347,7 +347,7 @@ namespace MTMCL
 
         private void butAuth_Click(object sender, RoutedEventArgs e)
         {
-            //new ACSelect().ShowDialog();
+            new ACSelect().ShowDialog();
         }
 
         private void toggleReverse_IsCheckedChanged(object sender, EventArgs e)

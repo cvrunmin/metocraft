@@ -7,6 +7,8 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using MTMCL.util;
 using Newtonsoft.Json;
 
@@ -64,12 +66,10 @@ namespace MTMCL.Launch.Login
                 HttpWebResponse authans = (HttpWebResponse)auth.GetResponse();
                 StreamReader ResponseStream = new StreamReader(authans.GetResponseStream());
                 Response response = JsonConvert.DeserializeObject<Response>(ResponseStream.ReadToEnd());
-                /*if (Response.getClientToken() != NewLogin.ClientToken)
+                if (response.clientToken != MeCore.Config.GUID)
                 {
-                    LI.Suc = false;
-                    LI.Errinfo = "客户端标识和服务器返回不符，这是个不常见的错误，就算是正版启动器这里也没做任何处理，只是报了这么个错。";
-                    return LI;
-                }*/
+                    AI.ErrorMsg += "Client Token unmatched.";
+                }
                 AI.Pass = true;
                 if (response.selectedProfile != null) {
                     AI.DisplayName = response.selectedProfile.name;
@@ -85,20 +85,12 @@ namespace MTMCL.Launch.Login
                 {
                     AI.UserType = "Mojang";AI.Prop = "{}";
                 }
-                //AI.c = NewLogin.ClientToken;
-                /*DataContractSerializer OtherInfoSerializer = new DataContractSerializer(typeof(SortedList));
-                SortedList OtherInfoList = new SortedList();
-                OtherInfoList.Add("${auth_uuid}", response.selectedProfile.id);
-                OtherInfoList.Add("${auth_access_token}", response.accessToken);
-                MemoryStream OtherInfoStream = new MemoryStream();
-                OtherInfoSerializer.WriteObject(OtherInfoStream, OtherInfoList);
-                OtherInfoStream.Position = 0;*/
                 return AI;
             }
             catch (WebException ex)
             {
                 AI.Pass = false;
-                AI.ErrorMsg = ex.Message + "[" + ex.Source + ",,," + ex.Response + "]";
+                AI.ErrorMsg = ex.Message + new StreamReader(ex.Response.GetResponseStream()).ReadToEnd();
                 return AI;
             }
             catch (Exception ex)
@@ -108,6 +100,11 @@ namespace MTMCL.Launch.Login
                 return AI;
             }
 
+        }
+
+        public Task<AuthInfo> LoginAsync(CancellationToken token)
+        {
+            return System.Threading.Tasks.Task.Factory.StartNew((Func<AuthInfo>)Login, token);
         }
     }
 
@@ -148,12 +145,10 @@ namespace MTMCL.Launch.Login
                 HttpWebResponse authans = (HttpWebResponse)auth.GetResponse();
                 StreamReader ResponseStream = new StreamReader(authans.GetResponseStream());
                 Response response = JsonConvert.DeserializeObject<Response>(ResponseStream.ReadToEnd());
-                /*if (Response.getClientToken() != NewLogin.ClientToken)
+                if (response.clientToken != MeCore.Config.GUID)
                 {
-                    LI.Suc = false;
-                    LI.Errinfo = "客户端标识和服务器返回不符，这是个不常见的错误，就算是正版启动器这里也没做任何处理，只是报了这么个错。";
-                    return LI;
-                }*/
+                    AI.ErrorMsg += "Client Token unmatched.";
+                }
                 if (response.selectedProfile != null) {
                     AI.DisplayName = response.selectedProfile.name;
                     AI.UUID = Guid.Parse(response.selectedProfile.id);
@@ -169,19 +164,11 @@ namespace MTMCL.Launch.Login
                 {
                     AI.UserType = "Mojang"; AI.Prop = "{}";
                 }
-                //AI.c = NewLogin.ClientToken;
-                /*DataContractSerializer OtherInfoSerializer = new DataContractSerializer(typeof(SortedList));
-                SortedList OtherInfoList = new SortedList();
-                OtherInfoList.Add("${auth_uuid}", response.selectedProfile.id);
-                OtherInfoList.Add("${auth_access_token}", response.accessToken);
-                MemoryStream OtherInfoStream = new MemoryStream();
-                OtherInfoSerializer.WriteObject(OtherInfoStream, OtherInfoList);
-                OtherInfoStream.Position = 0;*/
                 return AI;
             }
             catch (WebException ex) {
                 AI.Pass = false;
-                AI.ErrorMsg = ex.Message + "[" + ex.Source + ",,," + ex.Response + "]";
+                AI.ErrorMsg = ex.Message + new StreamReader(ex.Response.GetResponseStream()).ReadToEnd();
                 return AI;
             }
             catch (Exception ex) {
@@ -190,7 +177,76 @@ namespace MTMCL.Launch.Login
                 return AI;
             }
         }
+
+        public Task<AuthInfo> LoginAsync(CancellationToken token)
+        {
+            return System.Threading.Tasks.Task.Factory.StartNew((Func<AuthInfo>)Login, token);
+        }
     }
+
+    public class YggdrasilValidateAuth : IAuth
+    {
+        public string AccessToken { get; private set; }
+        public YggdrasilHelper helper { get; private set; }
+
+        public string Type
+        {
+            get
+            {
+                return "Yggdrasil";
+            }
+        }
+
+        public YggdrasilValidateAuth(string at) : this(at, YggdrasilHelper.instance) { }
+        public YggdrasilValidateAuth(string at, YggdrasilHelper helper)
+        {
+            AccessToken = at;
+            this.helper = helper;
+        }
+        public AuthInfo Login()
+        {
+            AuthInfo AI = new AuthInfo();
+            try
+            {
+                HttpWebRequest auth = (HttpWebRequest)WebRequest.Create(helper.Validate);
+                auth.Method = "POST";
+                auth.ContentType = "application/json";
+                RefreshRequest ag = new RefreshRequest(AccessToken);
+                string logindata = JsonConvert.SerializeObject(ag, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                byte[] postdata = Encoding.UTF8.GetBytes(logindata);
+                auth.ContentLength = postdata.LongLength;
+                Stream poststream = auth.GetRequestStream();
+                poststream.Write(postdata, 0, postdata.Length);
+                poststream.Close();
+                HttpWebResponse authans = (HttpWebResponse)auth.GetResponse();
+                if(authans.StatusCode == HttpStatusCode.NoContent)
+                {
+                    AI.Pass = true;
+                    return AI;
+                }
+                AI.Pass = false;
+                return AI;
+            }
+            catch (WebException ex)
+            {
+                AI.Pass = false;
+                AI.ErrorMsg = ex.Message + new StreamReader(ex.Response.GetResponseStream()).ReadToEnd();
+                return AI;
+            }
+            catch (Exception ex)
+            {
+                AI.Pass = false;
+                AI.ErrorMsg = ex.Message;
+                return AI;
+            }
+        }
+
+        public Task<AuthInfo> LoginAsync(CancellationToken token)
+        {
+            return System.Threading.Tasks.Task.Factory.StartNew((Func<AuthInfo>)Login, token);
+        }
+    }
+
     [DataContract]
     public class Agent {
         [IgnoreDataMember]
@@ -228,7 +284,7 @@ namespace MTMCL.Launch.Login
         public bool requestUser { get; set; }
         public RefreshRequest(string at)
         {
-            agent = Agent.MINECRAFT; accessToken = at; clientToken = Guid.NewGuid().ToString("N"); requestUser = true;
+            agent = Agent.MINECRAFT; accessToken = at; clientToken = MeCore.Config.GUID; requestUser = true;
         }
     }
     public class Response {

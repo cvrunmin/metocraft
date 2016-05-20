@@ -11,49 +11,64 @@ namespace MTMCL.util
     {
         static public void dircopy(string from, string to, bool force = false)
         {
-            DirectoryInfo dir = new DirectoryInfo(from);
-            if (!Directory.Exists(to))
+            try
             {
-                Directory.CreateDirectory(to);
-            }
-            else {
-                if (force)
+                DirectoryInfo dir = new DirectoryInfo(from);
+                if (!Directory.Exists(to))
                 {
-                    Directory.Delete(to, true);
+                    Directory.CreateDirectory(to);
+                }
+                else
+                {
+                    if (force)
+                    {
+                        Directory.Delete(to, true);
+                    }
+                }
+                foreach (DirectoryInfo sondir in dir.GetDirectories())
+                {
+                    dircopy(sondir.FullName, to + "\\" + sondir.Name);
+                }
+                foreach (FileInfo file in dir.GetFiles())
+                {
+                    File.Copy(file.FullName, to + "\\" + file.Name, true);
                 }
             }
-            foreach (DirectoryInfo sondir in dir.GetDirectories())
+            catch(Exception e)
             {
-                dircopy(sondir.FullName, to + "\\" + sondir.Name);
-            }
-            foreach (FileInfo file in dir.GetFiles())
-            {
-                File.Copy(file.FullName, to + "\\" + file.Name, true);
+                Logger.log(e);
             }
         }
         static public void dirmove(string to, string from, bool force = false)
         {
-            DirectoryInfo dir = new DirectoryInfo(from);
-            if (!Directory.Exists(to))
+            try
             {
-                Directory.CreateDirectory(to);
-            }
-            else
-            {
-                if (force)
+                DirectoryInfo dir = new DirectoryInfo(from);
+                if (!Directory.Exists(to))
                 {
-                    Directory.Delete(to, true);
+                    Directory.CreateDirectory(to);
                 }
+                else
+                {
+                    if (force)
+                    {
+                        Directory.Delete(to, true);
+                    }
+                }
+                foreach (DirectoryInfo sondir in dir.GetDirectories())
+                {
+                    dircopy(sondir.FullName, to + "\\" + sondir.Name);
+                }
+                foreach (FileInfo file in dir.GetFiles())
+                {
+                    File.Copy(file.FullName, to + "\\" + file.Name, true);
+                }
+                Directory.Delete(from, true);
             }
-            foreach (DirectoryInfo sondir in dir.GetDirectories())
+            catch(Exception e)
             {
-                dircopy(sondir.FullName, to + "\\" + sondir.Name);
+                Logger.log(e);
             }
-            foreach (FileInfo file in dir.GetFiles())
-            {
-                File.Copy(file.FullName, to + "\\" + file.Name, true);
-            }
-            Directory.Delete(from, true);
         }
 
         static public bool IfFileVaild(string Path, long Length = -1)
@@ -263,6 +278,16 @@ namespace MTMCL.util
                 }
             }
             return Encoding.Default.GetString(Encoding.Default.GetBytes(enchant));
+        }
+        public static string ToHyphenizedUUID(this string src)
+        {
+            var a = new string[] { src.Substring(0,8), src.Substring(8,4), src.Substring(12,4), src.Substring(16, 4),src.Substring(20, 12)};
+            return a[0] + "-" + a[1] + "-" + a[2] + "-" + a[3] + "-" + a[4]; 
+        }
+        public static string ToNonHyphenizedUUID(this string src)
+        {
+            var a = src.Split('-');
+            return a[0] + a[1] + a[2] + a[3] + a[4];
         }
     }
     public static class LibraryHelper

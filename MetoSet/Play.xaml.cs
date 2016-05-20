@@ -158,7 +158,7 @@ namespace MTMCL
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
             Launch.Login.IAuth auth;
-            /*if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+            if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
             {
                 ACSelect ac = new ACSelect();
                 ac.ShowDialog();
@@ -168,11 +168,11 @@ namespace MTMCL
             {
                 Config.SavedAuth dauth;
                 MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
-                auth = dauth.AuthType.Equals("Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) as KMCCC.Authentication.IAuthenticator : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = new Guid(dauth.AccessToken), UUID = new Guid(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
-            }*/
-            ACLogin ac = new ACLogin();
+                auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = new Guid(dauth.AccessToken), UUID = new Guid(dauth.UUID), UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
+            }
+            /*ACLogin ac = new ACLogin();
             ac.ShowDialog();
-            auth = ac.auth;
+            auth = ac.auth;*/
             if (auth == null)
             {
                 return;

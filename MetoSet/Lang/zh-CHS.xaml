@@ -38,6 +38,8 @@
     <s:String x:Key="AuthForgotPW">忘记密码</s:String>
     <s:String x:Key="AuthNotPremium">我没有正版帐号</s:String>
     <s:String x:Key="AuthBadLogin">如果您没有正版帐号，您仍可以以离线模式进行游戏。不过，我们建议购买一个正版帐号以支持Mojang。</s:String>
+    <s:String x:Key="AskACRight">这是否您的帐户？</s:String>
+    <s:String x:Key="GuideFinish">引导已完结</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">计算机</s:String>
     <s:String x:Key="COMVer">版本</s:String>
@@ -227,5 +229,6 @@
     <s:String x:Key="UpdateDeny">稍后更新</s:String>
     <s:String x:Key="UnFinish">空白页</s:String>
     <s:String x:Key="Preview">预览</s:String>
+    <s:String x:Key="DisplayNameFormat">显示名称：{0}</s:String>
     <s:String x:Key="Oops">哎呀!</s:String>
 </ResourceDictionary>

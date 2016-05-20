@@ -20,23 +20,23 @@ namespace MTMCL.Guide
     /// </summary>
     public partial class PageGuideAuthTry
     {
-        KMCCC.Authentication.AuthenticationInfo info;
-        KMCCC.Authentication.IAuthenticator author;
-        public PageGuideAuthTry(KMCCC.Authentication.IAuthenticator author)
+        Launch.Login.AuthInfo info;
+        Launch.Login.IAuth author;
+        public PageGuideAuthTry(Launch.Login.IAuth author)
         {
             InitializeComponent();
             GetInfo(this.author = author);
 
         }
-        private async void GetInfo(KMCCC.Authentication.IAuthenticator author) {
-            info = await author.DoAsync(System.Threading.CancellationToken.None);
+        private async void GetInfo(Launch.Login.IAuth author) {
+            info = await author.LoginAsync(System.Threading.CancellationToken.None);
             progressbar.Visibility = Visibility.Collapsed;
             if (info != null)
             {
-                if (string.IsNullOrWhiteSpace(info.Error))
+                if (string.IsNullOrWhiteSpace(info.ErrorMsg) & info.Pass)
                 {
                     lblName.Content = info.DisplayName;
-                    lblUUID.Content = info.AccessToken;
+                    lblUUID.Content = info.Session;
                     butNext.IsEnabled = true;
                 }
                 else
@@ -56,7 +56,7 @@ namespace MTMCL.Guide
         {
             try
             {
-                MeCore.Config.SavedAuths.Add(info.DisplayName, new Config.SavedAuth { AuthType = author.Type, DisplayName = info.DisplayName, AccessToken = info.AccessToken.ToString(), UUID = info.UUID.ToString(), Properies = info.Properties, UserType = info.UserType });
+                MeCore.Config.SavedAuths.Add(info.DisplayName, new Config.SavedAuth { AuthType = author.Type, DisplayName = info.DisplayName, AccessToken = info.Session.ToString(), UUID = info.UUID.ToString(), Properies = info.Prop, UserType = info.UserType });
                 MeCore.Config.Save();
                 NavigationService.Navigate(new Uri("Guide\\PageGuideFinish.xaml", UriKind.Relative));
             }

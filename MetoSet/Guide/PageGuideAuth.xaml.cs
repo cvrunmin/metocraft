@@ -39,7 +39,7 @@ namespace MTMCL.Guide
 
         private void butNext_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new PageGuideAuthTry(new KMCCC.Authentication.YggdrasilLogin(txtEmail.Text, txtPW.Password, true)));
+            NavigationService.Navigate(new PageGuideAuthTry(new Launch.Login.YggdrasilLoginAuth(txtEmail.Text, txtPW.Password)));
         }
     }
 }

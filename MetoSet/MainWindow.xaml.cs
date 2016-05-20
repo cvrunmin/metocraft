@@ -27,13 +27,17 @@ namespace MTMCL
             MeCore.MainWindow = this;
             InitializeComponent();
             Title = "MTMCL V2 Ver." + MeCore.version;
-            /*if (MeCore.needGuide)
+            if (MeCore.needGuide)
             {
                 MeCore.needGuide = false;
                 MeCore.Config.QuickChange("requiredGuide", false);
-                new Guide.GuideWindow(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)).Show();
-                Close();
-            }*/
+                gridMain.Visibility = Visibility.Collapsed;
+                gridOthers.Visibility = Visibility.Visible;
+                gridOthers.Children.Add(new Guide.GridGuide(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)));
+                gridOthers.Margin = new Thickness(0);
+                //new Guide.GuideWindow(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)).Show();
+                //Close();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -261,14 +265,14 @@ namespace MTMCL
                 {
                     //new MCCrash(content, path).Show();
                 };
-                /*task.OnAuthUpdate += delegate (KMCCC.Authentication.AuthenticationInfo info)
+                task.OnAuthUpdate += delegate (Launch.Login.AuthInfo info)
                 {
                     try
                     {
-                        MeCore.Config.SavedAuths[info.DisplayName].AccessToken = info.AccessToken.ToString();
+                        MeCore.Config.SavedAuths[info.DisplayName].AccessToken = info.Session.ToString();
                     }
                     catch (Exception) { }
-                };*/
+                };
                 task.Failed += () => {
                     Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
                 };
@@ -413,7 +417,7 @@ namespace MTMCL
                     if (version != null)
                     {
                         Launch.Login.IAuth auth;
-                        /*if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+                        if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
                         {
                             ACSelect ac = new ACSelect();
                             ac.ShowDialog();
@@ -423,11 +427,11 @@ namespace MTMCL
                         {
                             Config.SavedAuth dauth;
                             MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
-                            auth = dauth.AuthType.Equals("KMCCC.Yggdrasil") ? new KMCCC.Authentication.YggdrasilDebuggableRefresh(Guid.Parse(dauth.AccessToken), true, Guid.Parse(MeCore.Config.GUID)) : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = MeCore.Config.DefaultAuth, AccessToken = Guid.Parse(dauth.AccessToken), UUID = Guid.Parse(dauth.UUID), UserType = dauth.UserType, Properties = dauth.Properies }) as KMCCC.Authentication.IAuthenticator;
-                        }*/
-                        ACLogin ac = new ACLogin();
+                            auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = Guid.Parse(dauth.AccessToken), UUID = Guid.Parse(dauth.UUID), UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
+                        }
+                        /*ACLogin ac = new ACLogin();
                         ac.ShowDialog();
-                        auth = ac.auth;
+                        auth = ac.auth;*/
                         if (auth != null)
                         {
                             LaunchGameInfo option = LaunchGameInfo.CreateInfo(MeCore.Config.MCPath, auth, version,MeCore.Config.Javaw, (int)MeCore.Config.Javaxmx, CreateServerInfo());

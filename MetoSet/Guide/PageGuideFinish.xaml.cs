@@ -32,8 +32,7 @@ namespace MTMCL.Guide
 
         private void butOK_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
-            NavigationService.Navigate(new Uri("Guide\\PageGuideEnd.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("Guide\\PageGuideTOTHY.xaml", UriKind.Relative));
         }
     }
 }

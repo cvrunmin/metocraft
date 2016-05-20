@@ -1,7 +1,10 @@
-﻿<Page x:Class="MTMCL.Guide.PageGuideEnd"
+﻿<Grid x:Class="MTMCL.Guide.GridGuide"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MTMCL.Guide"
-      mc:Ignorable="d"/>
+      mc:Ignorable="d" 
+      d:DesignHeight="380" d:DesignWidth="675" Background="{DynamicResource AccentColorBrush}">
+    <Frame x:Name="frameGuide" Content="" NavigationUIVisibility="Hidden" Navigated="frameGuide_Navigated"/>
+</Grid>

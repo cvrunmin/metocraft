@@ -10,8 +10,8 @@
       Title="MTMCL Startup Guide">
 
     <Grid>
-        <Label Content="Is it your Account?" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
-        <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" ContentStringFormat="Display Name: {0}" FontSize="16"/>
+        <Label Content="{DynamicResource AskACRight}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+        <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource DisplayNameFormat}" FontSize="16"/>
         <Label x:Name="lblUUID" Content="" HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" FontSize="16" ContentStringFormat="UUID: {0}"/>
         <Button x:Name="butNext" Content="{DynamicResource Yes}" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" metro:ControlsHelper.ContentCharacterCasing="Normal" Width="75" Style="{StaticResource AccentedSquareButtonStyle}" Click="butNext_Click" IsEnabled="False"/>
         <Button x:Name="butBack" Content="{DynamicResource No}" Margin="0,0,90,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" metro:ControlsHelper.ContentCharacterCasing="Normal" Width="75" Style="{StaticResource AccentedSquareButtonStyle}" Click="butBack_Click"/>
