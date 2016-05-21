@@ -29,7 +29,7 @@ namespace MTMCL.Launch.Login
             {
                 return new AuthInfo() { Pass = false, ErrorMsg = "irregular username" };
             }
-            return new AuthInfo() { Pass = true, DisplayName = UN, UUID = Guid.NewGuid(), UserType = "Mojang", Prop = "{}", Session = Guid.NewGuid()};
+            return new AuthInfo() { Pass = true, DisplayName = UN, UUID = Guid.NewGuid().ToString(), UserType = "Mojang", Prop = "{}", Session = Guid.NewGuid().ToString()};
         }
 
         public Task<AuthInfo> LoginAsync(CancellationToken token)

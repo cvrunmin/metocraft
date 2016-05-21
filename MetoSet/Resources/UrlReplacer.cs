@@ -68,7 +68,7 @@ namespace MTMCL.Resources
                 case 0:
                     return "https://launchermeta.mojang.com/mc/game/version_manifest.json";
                 case 1:
-                    return "http://bmclapi.bangbang93.com/versions/versions.json";
+                    return "http://bmclapi.bangbang93.com/mc/game/version_manifest.json";
                 default:
                     return "https://s3.amazonaws.com/Minecraft.Download/versions/versions.json";
             }

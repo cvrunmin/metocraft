@@ -29,8 +29,6 @@ namespace MTMCL
             Title = "MTMCL V2 Ver." + MeCore.version;
             if (MeCore.needGuide)
             {
-                MeCore.needGuide = false;
-                MeCore.Config.QuickChange("requiredGuide", false);
                 gridMain.Visibility = Visibility.Collapsed;
                 gridOthers.Visibility = Visibility.Visible;
                 gridOthers.Children.Add(new Guide.GridGuide(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)));
@@ -427,7 +425,7 @@ namespace MTMCL
                         {
                             Config.SavedAuth dauth;
                             MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
-                            auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = Guid.Parse(dauth.AccessToken), UUID = Guid.Parse(dauth.UUID), UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
+                            auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = dauth.AccessToken, UUID = dauth.UUID, UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
                         }
                         /*ACLogin ac = new ACLogin();
                         ac.ShowDialog();

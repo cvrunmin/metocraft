@@ -34,7 +34,7 @@ namespace MTMCL.Guide
             frameGuide.BeginAnimation(OpacityProperty, ani1);
             if (e.Uri != null)
             {
-                if (e.Uri.OriginalString.Equals("Guide/PageGuideEnd.xaml"))
+                if (e.Uri.OriginalString.Equals("Guide/PageGuideTOTHY.xaml"))
                 {
                     Back();
                 }

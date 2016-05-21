@@ -48,7 +48,7 @@
                 </ComboBox>
             </Grid>
         </ScrollViewer>
-        <Button x:Name="butNext" Content="{DynamicResource Next}" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" Custom:ControlsHelper.ContentCharacterCasing="Normal" Width="75" Style="{StaticResource AccentedSquareButtonStyle}" Click="butNext_Click"/>
-        <Button x:Name="butBack" Content="{DynamicResource Back}" Margin="0,0,90,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" Custom:ControlsHelper.ContentCharacterCasing="Normal" Width="75" Style="{StaticResource AccentedSquareButtonStyle}" Click="butBack_Click"/>
+        <Button x:Name="butNext" Content="{DynamicResource Next}" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" Custom:ControlsHelper.ContentCharacterCasing="Normal" Width="162" Style="{StaticResource AccentedSquareButtonStyle}" Click="butNext_Click"/>
+        <Button x:Name="butBack" Content="{DynamicResource Back}" Margin="0,0,177,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16" Custom:ControlsHelper.ContentCharacterCasing="Normal" Width="162" Style="{StaticResource AccentedSquareButtonStyle}" Click="butBack_Click"/>
     </Grid>
 </Page>

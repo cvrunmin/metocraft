@@ -11,8 +11,8 @@
 
     <Grid>
         <Label Content="{DynamicResource GuideFinish}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
-        <Button x:Name="butOK" Content="{DynamicResource Next}" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Style="{StaticResource AccentedSquareButtonStyle}" Custom:ButtonHelper.PreserveTextCase="True" Click="butOK_Click"/>
-        <Button x:Name="butBack" Content="{DynamicResource Back}" Margin="0,0,90,10" Style="{StaticResource AccentedSquareButtonStyle}" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Custom:ButtonHelper.PreserveTextCase="True" Click="butBack_Click"/>
+        <Button x:Name="butOK" Content="{DynamicResource Next}" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="162" Style="{StaticResource AccentedSquareButtonStyle}" Custom:ButtonHelper.PreserveTextCase="True" Click="butOK_Click" FontSize="16"/>
+        <Button x:Name="butBack" Content="{DynamicResource Back}" Margin="0,0,177,10" Style="{StaticResource AccentedSquareButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="162" Custom:ButtonHelper.PreserveTextCase="True" Click="butBack_Click" FontSize="16"/>
 
     </Grid>
 </Page>

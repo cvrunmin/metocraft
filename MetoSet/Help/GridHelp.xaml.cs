@@ -78,6 +78,7 @@ namespace MTMCL.Help
         {
             comboLang.Items.Add("en");
             comboLang.Items.Add("cht");
+            comboLang.Items.Add("chs");
         }
 
         private void frame_NavigationFailed(object sender, NavigationFailedEventArgs e)

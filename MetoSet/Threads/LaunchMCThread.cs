@@ -88,6 +88,7 @@ namespace MTMCL.Threads
                 Failed?.Invoke();
                 return;
             }
+            OnAuthUpdate?.Invoke(ai);
             args.Add("auth_access_token", ai.Session.ToString().Replace("-", ""));
             args.Add("auth_session", ai.Session.ToString().Replace("-", ""));
             args.Add("auth_player_name", ai.DisplayName);

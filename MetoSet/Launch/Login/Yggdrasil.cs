@@ -73,9 +73,9 @@ namespace MTMCL.Launch.Login
                 AI.Pass = true;
                 if (response.selectedProfile != null) {
                     AI.DisplayName = response.selectedProfile.name;
-                    AI.UUID = Guid.Parse(response.selectedProfile.id);
+                    AI.UUID = response.selectedProfile.id;
                 }
-                AI.Session = Guid.Parse(response.accessToken);
+                AI.Session = response.accessToken;
                 if (response.user != null)
                 {
                     AI.UserType = response.user.legacy ? "Legacy" : "Mojang";
@@ -136,7 +136,7 @@ namespace MTMCL.Launch.Login
                 auth.Method = "POST";
                 auth.ContentType = "application/json";
                 RefreshRequest ag = new RefreshRequest(AccessToken);
-                string logindata = JsonConvert.SerializeObject(ag, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                string logindata = JsonConvert.SerializeObject(ag, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
                 byte[] postdata = Encoding.UTF8.GetBytes(logindata);
                 auth.ContentLength = postdata.LongLength;
                 Stream poststream = auth.GetRequestStream();
@@ -151,10 +151,10 @@ namespace MTMCL.Launch.Login
                 }
                 if (response.selectedProfile != null) {
                     AI.DisplayName = response.selectedProfile.name;
-                    AI.UUID = Guid.Parse(response.selectedProfile.id);
+                    AI.UUID = response.selectedProfile.id;
                 }
                 AI.Pass = true;
-                AI.Session = Guid.Parse(response.accessToken);
+                AI.Session = response.accessToken;
                 if (response.user != null)
                 {
                     AI.UserType = response.user.legacy ? "Legacy" : "Mojang";
@@ -278,13 +278,12 @@ namespace MTMCL.Launch.Login
     }
     public class RefreshRequest
     {
-        public Agent agent { get; set; }
         public string accessToken { get; set; }
         public string clientToken { get; set; }
         public bool requestUser { get; set; }
         public RefreshRequest(string at)
         {
-            agent = Agent.MINECRAFT; accessToken = at; clientToken = MeCore.Config.GUID; requestUser = true;
+            accessToken = at; clientToken = MeCore.Config.GUID; requestUser = true;
         }
     }
     public class Response {

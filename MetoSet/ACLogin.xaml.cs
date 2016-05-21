@@ -47,7 +47,7 @@ namespace MTMCL
             if (requiredPreLogin)
             {
                 info = auth.Login();
-                //auth = !string.IsNullOrWhiteSpace(info.ErrorMsg) ? null : new KMCCC.Authentication.WarpedAuhenticator(new KMCCC.Authentication.AuthenticationInfo { DisplayName = info.DisplayName, AccessToken = info.AccessToken, UUID = info.UUID, UserType = info.UserType, Properties = info.Properties });
+                auth = !string.IsNullOrWhiteSpace(info.ErrorMsg) ? null : new Launch.Login.AuthWarpper(info);
             }
             if ((bool)butRM1.IsChecked)
             {
@@ -69,7 +69,7 @@ namespace MTMCL
             if (requiredPreLogin)
             {
                 info = auth.Login();
-                auth = !string.IsNullOrWhiteSpace(info.ErrorMsg) ? null : new Launch.Login.YggdrasilRefreshAuth(info.Session.ToString("N"));
+                auth = !string.IsNullOrWhiteSpace(info.ErrorMsg) ? null : new Launch.Login.YggdrasilRefreshAuth(info.Session);
             }
             if ((bool)butRM2.IsChecked)
             {
@@ -171,7 +171,7 @@ namespace MTMCL
                         if (requiredPreLogin)
                         {
                             info = auth.Login();
-                            //auth = !string.IsNullOrWhiteSpace(info.Error) ? null : new KMCCC.Authentication.YggdrasilRefresh(info.AccessToken, false, item.Url);
+                            auth = !string.IsNullOrWhiteSpace(info.ErrorMsg) ? null : new Launch.Login.YggdrasilRefreshAuth(info.Session, new Launch.Login.YggdrasilHelper(item.Url));
                         }
                         Close();
                     };

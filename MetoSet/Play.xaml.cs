@@ -168,7 +168,7 @@ namespace MTMCL
             {
                 Config.SavedAuth dauth;
                 MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
-                auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = new Guid(dauth.AccessToken), UUID = new Guid(dauth.UUID), UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
+                auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = dauth.AccessToken, UUID = dauth.UUID, UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
             }
             /*ACLogin ac = new ACLogin();
             ac.ShowDialog();

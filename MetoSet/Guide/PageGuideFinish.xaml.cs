@@ -32,6 +32,8 @@ namespace MTMCL.Guide
 
         private void butOK_Click(object sender, RoutedEventArgs e)
         {
+            MeCore.needGuide = false;
+            MeCore.Config.QuickChange("requiredGuide", false);
             NavigationService.Navigate(new Uri("Guide\\PageGuideTOTHY.xaml", UriKind.Relative));
         }
     }

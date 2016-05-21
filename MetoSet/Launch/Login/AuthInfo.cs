@@ -6,8 +6,11 @@ namespace MTMCL.Launch.Login
     public class AuthInfo
     {
         public string DisplayName { get; set; }
-        public Guid UUID { get; set; }
-        public Guid Session { get; set; }
+        public string UUID { get; set; }
+        /// <summary>
+        /// access token
+        /// </summary>
+        public string Session { get; set; }
         public string UserType { get; set; }
         public bool Pass { get; set; }
         public string ErrorMsg { get; set; }

@@ -36,7 +36,7 @@ namespace MTMCL.Guide
                 if (string.IsNullOrWhiteSpace(info.ErrorMsg) & info.Pass)
                 {
                     lblName.Content = info.DisplayName;
-                    lblUUID.Content = info.Session;
+                    lblUUID.Content = info.UUID;
                     butNext.IsEnabled = true;
                 }
                 else
@@ -62,7 +62,7 @@ namespace MTMCL.Guide
             }
             catch
             {
-                MessageBox.Show("repeated username.");
+                Logger.log("repeated username:",info.DisplayName);
             }
 
         }
