@@ -32,12 +32,13 @@ namespace MTMCL.Task
         
         private void Grid_Initialized(object sender, EventArgs e)
         {
-            putTaskBar();
-            MeCore.MainWindow.OnTaskAdded += (t) => {
-                t.Click += TaskBar_Click;
-                panelTask.Children.Add(t);
-                gridNullth.Visibility = Visibility.Collapsed;
-            };
+            MeCore.MainWindow.OnTaskAdded += putTaskBarLater;
+        }
+        private void putTaskBarLater(TaskListBar t)
+        {
+            t.Click += TaskBar_Click;
+            panelTask.Children.Add(t);
+            gridNullth.Visibility = Visibility.Collapsed;
         }
         private void putTaskBar() {
             panelTask.Children.Clear();
@@ -52,7 +53,6 @@ namespace MTMCL.Task
         {
             if (sender is TaskListBar)
             {
-                //MessageBox.Show("");
                 MeCore.MainWindow.gridOthers.Children.Clear();
                 MeCore.MainWindow.gridOthers.Children.Add(new TaskDetail(this, ((TaskListBar)sender)));
                 var ani = new DoubleAnimationUsingKeyFrames();
@@ -71,6 +71,7 @@ namespace MTMCL.Task
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             putTaskBar();
+            MeCore.MainWindow.OnTaskAdded -= putTaskBarLater;
         }
     }
 }

@@ -43,12 +43,13 @@ namespace MTMCL.Notice
         private void Grid_Initialized(object sender, EventArgs e)
         {
             putTaskBar();
-            MeCore.MainWindow.OnNoticeAdded += (notice) =>
-            {
-                notice.Click += TaskBar_Click;
-                panelNotice.Children.Add(notice);
-                gridNullth.Visibility = Visibility.Collapsed;
-            };
+            MeCore.MainWindow.OnNoticeAdded += putTaskBarLater;
+        }
+        private void putTaskBarLater(INotice notice)
+        {
+            notice.Click += TaskBar_Click;
+            panelNotice.Children.Add(notice);
+            gridNullth.Visibility = Visibility.Collapsed;
         }
         private void putTaskBar()
         {
@@ -85,6 +86,7 @@ namespace MTMCL.Notice
         private void Grid_Unloaded(object sender, RoutedEventArgs e)
         {
             panelNotice.Children.Clear();
+            MeCore.MainWindow.OnNoticeAdded -= putTaskBarLater;
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
