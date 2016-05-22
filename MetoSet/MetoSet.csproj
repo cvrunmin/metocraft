@@ -478,10 +478,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Icons-usful.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Lang\en.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -508,6 +504,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Icons-usful.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\PreviewItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -560,6 +560,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\unPackXZ.jar" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -568,10 +569,32 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
+    <Resource Include="Resources\bg.png" />
+    <Resource Include="Resources\download-banner.jpg" />
+    <Resource Include="Resources\download.jpg" />
+    <Resource Include="Resources\easteregg-marble.jpg" />
+    <Resource Include="Resources\easteregg-sudou-kayo.png" />
+    <Resource Include="Resources\Entypo.ttf" />
+    <Resource Include="Resources\error-banner.jpg" />
+    <Resource Include="Resources\error.jpg" />
+    <Resource Include="Resources\mccrash-banner.jpg" />
+    <Resource Include="Resources\mccrash.jpg" />
+    <Resource Include="Resources\mojang.png" />
+    <Resource Include="Resources\mtmcl.ico" />
+    <Resource Include="Resources\offline.png" />
+    <Resource Include="Resources\others.png" />
+    <Resource Include="Resources\play-bakaxl-banner.jpg" />
+    <Resource Include="Resources\play-bakaxl-logo.jpg" />
+    <Resource Include="Resources\play-bakaxl.jpg" />
+    <Resource Include="Resources\play-bmcl-banner.jpg" />
+    <Resource Include="Resources\play-bmcl-logo.png" />
+    <Resource Include="Resources\play-bmcl.jpg" />
+    <Resource Include="Resources\play-normal-banner.jpg" />
+    <Resource Include="Resources\play-normal-logo.png" />
+    <Resource Include="Resources\play-normal.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -592,33 +615,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="mtmcl.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\mtmcl.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\bg.png" />
-    <Resource Include="Resources\download-banner.jpg" />
-    <Resource Include="Resources\download.jpg" />
-    <Resource Include="Resources\easteregg-marble.jpg" />
-    <Resource Include="Resources\easteregg-sudou-kayo.png" />
-    <Resource Include="Resources\error-banner.jpg" />
-    <Resource Include="Resources\error.jpg" />
-    <Resource Include="Resources\mccrash.jpg" />
-    <Resource Include="Resources\mccrash-banner.jpg" />
-    <Resource Include="Resources\mojang.png" />
-    <Resource Include="Resources\offline.png" />
-    <Resource Include="Resources\others.png" />
-    <Resource Include="Resources\play-bakaxl-banner.jpg" />
-    <Resource Include="Resources\play-bakaxl-logo.jpg" />
-    <Resource Include="Resources\play-bakaxl.jpg" />
-    <Resource Include="Resources\play-bmcl-banner.jpg" />
-    <Resource Include="Resources\play-bmcl-logo.png" />
-    <Resource Include="Resources\play-bmcl.jpg" />
-    <Resource Include="Resources\play-normal-banner.jpg" />
-    <Resource Include="Resources\play-normal-logo.png" />
-    <Resource Include="Resources\play-normal.jpg" />
-    <EmbeddedResource Include="Resources\unPackXZ.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

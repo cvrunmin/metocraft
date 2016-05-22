@@ -26,7 +26,7 @@
         </Button>
         <Label Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <TabControl x:Name="tabControl" Margin="0,45,0,0" SelectionChanged="tabControl_SelectionChanged">
-            <TabItem x:Name="tabDLMC" Header="{DynamicResource DLMC}">
+            <TabItem x:Name="tabDLMC" Header="{DynamicResource DLMC}" Background="{DynamicResource AccentColorBrush4}">
                 <Grid Background="#7FFFFFFF">
                     <ListView x:Name="listRemoteVer" Margin="0,0,150,0" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
                         <ListView.View>
@@ -38,8 +38,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="butReloadMC" Content="{DynamicResource Reload}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Custom:ControlsHelper.ContentCharacterCasing="Normal" FontSize="21.333" Click="butReloadMC_Click"/>
-                    <Button x:Name="butDLMC" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" FontSize="21.333" Click="butDLMC_Click" HorizontalAlignment="Right" Width="150"/>
+                    <Button x:Name="butReloadMC" Content="{DynamicResource Reload}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Custom:ControlsHelper.ContentCharacterCasing="Normal" FontSize="16" Click="butReloadMC_Click"/>
+                    <Button x:Name="butDLMC" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" FontSize="16" Click="butDLMC_Click" HorizontalAlignment="Right" Width="150"/>
                     <Grid x:Name="gridMCRFail" Margin="0,0,150,0" Background="#BFFFFFFF" Visibility="Collapsed">
                         <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
                             <Rectangle.OpacityMask>
@@ -60,7 +60,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabDLForge" Header="{DynamicResource DLForge}">
+            <TabItem x:Name="tabDLForge" Header="{DynamicResource DLForge}" Background="{DynamicResource AccentColorBrush4}">
                 <Grid Background="#7FFFFFFF">
                     <ListView x:Name="listForge" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True" Margin="0,0,150,0">
                         <ListView.View>

@@ -113,7 +113,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </metro:Tile>
-                        <metro:Tile x:Name="butServer" HorizontalAlignment="Left" Margin="440,165,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butServer_Click" IsEnabled="False">
+                        <metro:Tile x:Name="butServer" HorizontalAlignment="Left" Margin="440,165,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butServer_Click" ToolTip="{DynamicResource NotAvailable}" IsEnabled="False" ToolTipService.ShowOnDisabled="True">
                             <Rectangle Height="25" Width="25">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_server}" />

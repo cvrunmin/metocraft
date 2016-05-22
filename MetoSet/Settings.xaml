@@ -16,8 +16,8 @@
         </ResourceDictionary>
     </Grid.Resources>
     <Grid>
-        <TabControl x:Name="tabControl" TabStripPlacement="Left" Margin="0,40,0,0">
-            <TabItem Header="{DynamicResource GameSet}">
+        <TabControl TabStripPlacement="Left" Margin="0,40,0,0">
+            <TabItem Header="{DynamicResource GameSet}" Background="{DynamicResource AccentColorBrush4}">
                 <ScrollViewer>
                     <Grid Background="#7FFFFFFF">
                         <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
@@ -47,7 +47,7 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{DynamicResource Download}">
+            <TabItem Header="{DynamicResource Download}" Background="{DynamicResource AccentColorBrush4}">
                 <Grid Background="#7FFFFFFF">
                     <Label Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboDLSrc_SelectionChanged">
@@ -62,7 +62,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="{DynamicResource LauncherSet}">
+            <TabItem Header="{DynamicResource LauncherSet}" Background="{DynamicResource AccentColorBrush4}">
                 <ScrollViewer>
                     <Grid Background="#7FFFFFFF">
                         <Label Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
@@ -79,7 +79,7 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{DynamicResource About}">
+            <TabItem Header="{DynamicResource About}" Background="{DynamicResource AccentColorBrush4}">
                 <Grid Background="#7FFFFFFF">
                     <Label Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <Label x:Name="lblLauncherVersion" Content="" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>

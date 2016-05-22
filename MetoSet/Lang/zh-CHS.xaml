@@ -25,6 +25,7 @@
     <s:String x:Key="Help">帮助</s:String>
     <s:String x:Key="Retry">重试</s:String>
     <s:String x:Key="Nullth">这里什么都没有</s:String>
+    <s:String x:Key="NotAvailable">此功能暂不可用</s:String>
     <!--Guide-->
     <s:String x:Key="LangTitle">选择您的语言</s:String>
     <s:String x:Key="LangDesc">启动器语言会自动设定为系统显示语言。如果您想使用的显示语言与系统显示语言不同，请在这里选择</s:String>
