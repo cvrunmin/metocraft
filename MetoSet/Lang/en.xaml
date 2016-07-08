@@ -201,6 +201,7 @@
     <s:String x:Key="TaskUpdating">Updating {0}</s:String>
     <s:String x:Key="Restarting">Restarting</s:String>
     <!--/Task-->
+    <s:String x:Key="BalloonNoticeSTTaskFormat">Task {0} has been added to task list</s:String>
     <!--Install-->
     <s:String x:Key="Install">Install</s:String>
     <s:String x:Key="Path">Path</s:String>

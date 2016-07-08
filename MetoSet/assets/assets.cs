@@ -31,13 +31,14 @@ namespace MTMCL.Assets
 
         private void Run()
         {
-            try {
+            try
+            {
                 string gameVersion = _ver.assets;
-                if (string.IsNullOrWhiteSpace(gameVersion) | gameVersion != "legacy")
+                /*if (string.IsNullOrWhiteSpace(gameVersion) | gameVersion != "legacy")
                 {
                     Logger.log("version isn\'t legacy, return.");
                     return;
-                }
+                }*/
                 string path = Path.Combine(MeCore.Config.MCPath, "assets\\indexes", gameVersion + ".json");
                 if (MeCore.IsServerDedicated)
                 {
@@ -51,31 +52,34 @@ namespace MTMCL.Assets
                     var sr = new StreamReader(path);
                     var assetsObject = JsonConvert.DeserializeObject<AssetIndex>(File.ReadAllText(path));
                     obj = assetsObject.objects;
-                    Logger.log("共", obj.Count.ToString(CultureInfo.InvariantCulture), "项assets");
-                    if (assetsObject._virtual)
+                    Logger.log(obj.Count.ToString(CultureInfo.InvariantCulture), " assets in total");
+                    List<string> failed = new List<string>();
+                    foreach (KeyValuePair<string, AssetsEntity> entity in obj)
                     {
-                        foreach (KeyValuePair<string, AssetsEntity> entity in obj)
+                        string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                        if (MeCore.IsServerDedicated)
                         {
-                            string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
-                            if (MeCore.IsServerDedicated)
+                            if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
                             {
-                                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                                {
-                                    file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                                }
+                                file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
                             }
-                            if (!File.Exists(file))
+                        }
+                        if (!File.Exists(file))
+                        {
+                            failed.Add(file);
+                            _init = false;
+                            continue;
+                        }
+                        try
+                        {
+                            if (!FileHelper.IfFileVaild(file, entity.Value.size))
                             {
+                                failed.Add(file);
                                 _init = false;
                                 continue;
                             }
-                            try
+                            if (assetsObject._virtual)
                             {
-                                if (!FileHelper.IfFileVaild(file, entity.Value.size))
-                                {
-                                    _init = false;
-                                    continue;
-                                }
                                 string finfile = Path.Combine(MeCore.Config.MCPath, "assets\\virtual\\legacy", entity.Key);
                                 if (MeCore.IsServerDedicated)
                                 {
@@ -91,21 +95,26 @@ namespace MTMCL.Assets
                                 FileHelper.CreateDirectoryForFile(finfile);
                                 File.Copy(file, finfile);
                             }
-                            catch (Exception ex)
-                            {
-                                Logger.error(ex);
-                            }
                         }
+                        catch (Exception ex)
+                        {
+                            Logger.error(ex);
+                        }
+                    }
+                    if (failed.Count != 0) {
+
                     }
                     if (!_init)
                     {
                         Logger.log("load and fix assets failed");
                     }
                 }
-            } catch {
+            }
+            catch
+            {
                 Logger.log("load assets index failed");
             }
-            
+
         }
     }
 }

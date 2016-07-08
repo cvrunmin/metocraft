@@ -84,7 +84,7 @@ namespace MTMCL.Threads
             if (!ai.Pass | !string.IsNullOrWhiteSpace(ai.ErrorMsg))
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
-                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ai.ErrorMsg, LangManager.GetLangFromResource("AuthFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("AuthFaultSolve"), ai.ErrorMsg) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 Failed?.Invoke();
                 return;
             }
@@ -111,7 +111,7 @@ namespace MTMCL.Threads
             Logger.HelpLog(process.StartInfo.Arguments);
             process.Exited += delegate (object sender, EventArgs e)
             {
-                _LaunchOptions.Mode.DoAfter(_LaunchOptions);
+                //_LaunchOptions.Mode.DoAfter(_LaunchOptions);
                 GameExit?.Invoke();
                 //Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
                 if (process.ExitCode != 0)
@@ -190,7 +190,7 @@ namespace MTMCL.Threads
             catch (Exception e)
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to uncompress native"));
-                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString(), LangManager.GetLangFromResource("LibFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("LibFaultSolve"), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 Failed?.Invoke();
                 return;
             }
@@ -198,7 +198,7 @@ namespace MTMCL.Threads
             if (!File.Exists(_LaunchOptions.JavaPath))
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
-                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), new FileNotFoundException("javaw.exe not found", _LaunchOptions.JavaPath).ToWellKnownExceptionString(), LangManager.GetLangFromResource("JavaFaultSolve")) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("JavaFaultSolve"), new FileNotFoundException("javaw.exe not found", _LaunchOptions.JavaPath).ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 Failed?.Invoke();
                 return;
             }

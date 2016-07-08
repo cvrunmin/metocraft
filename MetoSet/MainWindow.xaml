@@ -197,6 +197,9 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </Grid>
+            <Grid x:Name="gridNoticeBalloon" HorizontalAlignment="Right" Width="250">
+                <WrapPanel x:Name="panelBalloon"/>
+            </Grid>
         </Grid>
     </Grid>
 </metro:MetroWindow>

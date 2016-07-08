@@ -1,0 +1,22 @@
+﻿<Button x:Name="button" x:Class="MTMCL.Notice.NoticeBalloon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL.Notice"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="250" Background="{DynamicResource AccentColorBrush}" Padding="0" BorderBrush="{x:Null}" Style="{DynamicResource NormalButton}" BorderThickness="0">
+    <Button.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MTMCL;component/ButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Button.Resources>
+    <Grid Width="{Binding Width, ElementName=button}" Height="{Binding Height, ElementName=button}">
+        <Label x:Name="lblTitle" Content="" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblSubtitle" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top">
+            <AccessText TextWrapping="WrapWithOverflow" Text=""/>
+        </Label>
+    </Grid>
+</Button>

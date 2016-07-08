@@ -274,6 +274,9 @@
     <Compile Include="Notice\Notice.xaml.cs">
       <DependentUpon>Notice.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Notice\NoticeBalloon.xaml.cs">
+      <DependentUpon>NoticeBalloon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Play.xaml.cs">
       <DependentUpon>Play.xaml</DependentUpon>
     </Compile>
@@ -454,6 +457,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Notice\Notice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notice\NoticeBalloon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

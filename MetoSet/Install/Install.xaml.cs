@@ -55,6 +55,7 @@ namespace MTMCL.Install
                 }
             }));
             MeCore.MainWindow.addTask("instl-forgeclient", task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskInstallForge"))));
         }
 
         private void butBF_Click(object sender, RoutedEventArgs e)
@@ -88,6 +89,7 @@ namespace MTMCL.Install
                 }
             }));
             MeCore.MainWindow.addTask("instl-liteloader", task.setThread(thDL).setTask(string.Format(LangManager.GetLangFromResource("TaskInstallMod"), "LiteLoader")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), string.Format(LangManager.GetLangFromResource("TaskInstallMod"), "LiteLoader"))));
         }
 
         private void butBLL_Click(object sender, RoutedEventArgs e)

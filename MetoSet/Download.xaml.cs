@@ -238,6 +238,7 @@ namespace MTMCL
                     }
                 }));
                 MeCore.MainWindow.addTask("dl-mcclient-" + selectVer[0] as string, taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false));
+                MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"),string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"),LangManager.GetLangFromResource("TaskDLMC"))));
             }
         }
         readonly ForgeVersionList _forgeVer = new ForgeVersionList();
@@ -435,6 +436,7 @@ namespace MTMCL
                 downer.DownloadFileAsync(url, filename);
             }));
             MeCore.MainWindow.addTask("dl-instl-forgeclient-" + ver, task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskInstallMC"))));
         }
 
         private void butDLForge_Click(object sender, RoutedEventArgs e)
@@ -492,6 +494,7 @@ namespace MTMCL
                 }
             }));
             MeCore.MainWindow.addTask("dl-modpack", task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLModPack")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskDLModPack"))));
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)

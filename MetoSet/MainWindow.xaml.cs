@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Linq;
 using MTMCL.Launch;
+using MTMCL.Lang;
 
 namespace MTMCL
 {
@@ -274,7 +275,8 @@ namespace MTMCL
                 task.Failed += () => {
                     Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
                 };
-                addTask("game", gui.setTask(string.Format(Lang.LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.id)).setThread(task).setDetectAlive(false));
+                addTask("game", gui.setTask(string.Format(LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.id)).setThread(task).setDetectAlive(false));
+                MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon("MTMCL", string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskLaunch"))));
             }
         }
         private void butPlayQuick_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -604,6 +606,19 @@ namespace MTMCL
         private void butHelp_Click(object sender, RoutedEventArgs e)
         {
             ChangePage("help", true);
+        }
+        public void addBalloonNotice(Notice.NoticeBalloon balloon) {
+            panelBalloon.Children.Add(balloon);
+            balloon.Margin = new Thickness(250, 0, -250, 0);
+            var ani = new ThicknessAnimationUsingKeyFrames();
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(250, 0, -250, 0), TimeSpan.FromSeconds(0)) { EasingFunction = new SineEase() {EasingMode = EasingMode.EaseInOut } });
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(0.5)) { EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut } });
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0), TimeSpan.FromSeconds(2.5)) { EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut } });
+            ani.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(250, 0, -250, 0), TimeSpan.FromSeconds(3)) { EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut } });
+            ani.Completed += (obj, e)=> {
+                panelBalloon.Children.Remove(balloon);
+            };
+            balloon.BeginAnimation(MarginProperty, ani);
         }
     }
 }
