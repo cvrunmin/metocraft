@@ -195,6 +195,7 @@
     <Compile Include="assets\AssetsEntity.cs" />
     <Compile Include="ButtonMenu.cs" />
     <Compile Include="config.cs" />
+    <Compile Include="Customize\TileColor.cs" />
     <Compile Include="Download.xaml.cs">
       <DependentUpon>Download.xaml</DependentUpon>
     </Compile>
@@ -623,6 +624,7 @@
   <ItemGroup>
     <Resource Include="mtmcl.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

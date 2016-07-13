@@ -54,14 +54,14 @@
                 <Grid x:Name="gridMain" Margin="0" Background="{DynamicResource AccentColorBrush4}">
                     <Label x:Name="lblWelcome" Content="{DynamicResource Start}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
                     <Grid x:Name="gridMenu" Margin="40,44,40,40" Width="655" Height="325">
-                        <metro:Tile x:Name="butPlay" Height="105" Width="215" Title="{DynamicResource Play}" metro:ButtonHelper.PreserveTextCase="True" Background="#CC00B3FF" Margin="440,0,0,0" Count="" Click="butPlay_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <metro:Tile x:Name="butPlay" Height="105" Width="215" Title="{DynamicResource Play}" metro:ButtonHelper.PreserveTextCase="True" Background="#CC03A9F4" Margin="440,0,0,0" Count="" Click="butPlay_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_control_play}" />
                                 </Rectangle.Fill>
                             </Rectangle>
                         </metro:Tile>
-                        <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="215" Height="105" Background="#CCC16100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="" Style="{StaticResource RenewTile}" TitleFontSize="20">
+                        <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="215" Height="105" Background="#CCFB8C00" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="" Style="{StaticResource RenewTile}" TitleFontSize="20">
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_list}" />

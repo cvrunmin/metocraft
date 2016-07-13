@@ -84,6 +84,7 @@ namespace MTMCL.Threads
             if (!ai.Pass | !string.IsNullOrWhiteSpace(ai.ErrorMsg))
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
+                OnLogged?.Invoke("Please check the notice for detail");
                 MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("AuthFaultSolve"), ai.ErrorMsg) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 Failed?.Invoke();
                 return;
@@ -106,9 +107,11 @@ namespace MTMCL.Threads
             process.StartInfo.FileName = _LaunchOptions.JavaPath;
             process.StartInfo.Arguments = Launch.LaunchHandler.CreateArgument(_LaunchOptions, args, MeCore.Config.ExtraJvmArg);
             process.StartInfo.WorkingDirectory = _LaunchOptions.MCPath;
-            Logger.HelpLog(process.StartInfo.WorkingDirectory);
-            Logger.HelpLog(process.StartInfo.FileName);
-            Logger.HelpLog(process.StartInfo.Arguments);
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            OnLogged?.Invoke(Logger.HelpLog(process.StartInfo.WorkingDirectory));
+            OnLogged?.Invoke(Logger.HelpLog(process.StartInfo.FileName));
+            OnLogged?.Invoke(Logger.HelpLog(process.StartInfo.Arguments));
             process.Exited += delegate (object sender, EventArgs e)
             {
                 //_LaunchOptions.Mode.DoAfter(_LaunchOptions);
@@ -145,6 +148,8 @@ namespace MTMCL.Threads
             };
             try
             {
+                string nativepath = Path.Combine(_LaunchOptions.MCPath, "$natives");
+                if (!Directory.Exists(nativepath)) Directory.CreateDirectory(nativepath);
                 foreach (var lib in _LaunchOptions.Version.libraries.ToUniversalLibrary())
                 {
                     if (lib.isNative) {
@@ -165,7 +170,7 @@ namespace MTMCL.Threads
                                 }
                             }
                             if (exc) continue;
-                            var filepath = new StringBuilder(Path.Combine(_LaunchOptions.MCPath, "$natives"));
+                            var filepath = new StringBuilder(nativepath);
                             filepath.Append("\\").Append(theEntry.Name);
                             Logger.HelpLog("Uncompressing object: " + filepath.ToString());
                             FileStream fileWriter = File.Create(filepath.ToString());
@@ -190,6 +195,7 @@ namespace MTMCL.Threads
             catch (Exception e)
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to uncompress native"));
+                OnLogged?.Invoke("Please check the notice for detail");
                 MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("LibFaultSolve"), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 Failed?.Invoke();
                 return;
@@ -198,6 +204,7 @@ namespace MTMCL.Threads
             if (!File.Exists(_LaunchOptions.JavaPath))
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
+                OnLogged?.Invoke("Please check the notice for detail");
                 MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("JavaFaultSolve"), new FileNotFoundException("javaw.exe not found", _LaunchOptions.JavaPath).ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                 Failed?.Invoke();
                 return;
@@ -228,6 +235,16 @@ namespace MTMCL.Threads
                 MeCore.Config.QuickChange("LastLaunchMode", _LaunchOptions.Mode.ModeType);
                 process.EnableRaisingEvents = true;
                 process.Start();
+                process.BeginErrorReadLine();
+                process.ErrorDataReceived += (sender,e) => {
+                    if (e.Data == null) return;
+                    OnLogged?.Invoke(e.Data);
+                };
+                process.BeginOutputReadLine();
+                process.OutputDataReceived += (sender, e) => {
+                    if (e.Data == null) return;
+                    OnLogged?.Invoke(e.Data);
+                };
                 await System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);
             }
             catch (Exception e) {
@@ -268,18 +285,19 @@ namespace MTMCL.Threads
             catch (WebException ex)
             {
                 Logger.log(ex);
-                Logger.log("原地址下载失败，尝试BMCL源" + file.url);
+                Logger.log("Failed to download by selected source, try again by another one " + file.url);
                 try
                 {
-                    string url = Resources.UrlReplacer.getLibraryUrl(1);
+                    if (MeCore.Config.DownloadOnceOnly) throw ex;
+                    string url = Resources.UrlReplacer.getLibraryUrl((MeCore.Config.DownloadSource + 1) & 1);
                     if (!string.IsNullOrWhiteSpace(file.url))
                     {
                         if (file.url.StartsWith("https://libraries.minecraft.net/"))
                         {
-                            url = Resources.UrlReplacer.toGoodLibUrl(file.url, 1);
+                            url = Resources.UrlReplacer.toGoodLibUrl(file.url, (MeCore.Config.DownloadSource + 1) & 1);
                         }
                         else {
-                            url = Resources.UrlReplacer.getForgeMaven(file.url, 1) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                            url = Resources.UrlReplacer.getForgeMaven(file.url, (MeCore.Config.DownloadSource + 1) & 1) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                         }
                     }
                     else

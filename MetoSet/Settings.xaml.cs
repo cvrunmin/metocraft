@@ -412,5 +412,10 @@ namespace MTMCL
                     txtboxArg.Text = txtboxArg.Text.Replace(" -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy", "");
             }
         }
+
+        private void toggleTryOnce_IsCheckedChanged(object sender, EventArgs e)
+        {
+            MeCore.Config.QuickChange("download-once", toggleTryOnce.IsChecked);
+        }
     }
 }

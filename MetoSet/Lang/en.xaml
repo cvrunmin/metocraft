@@ -75,7 +75,8 @@
     <s:String x:Key="ColorMirror">Reverse Color</s:String>
     <s:String x:Key="ExpandTaskTitle">Expand task gui on opening launcher</s:String>
     <s:String x:Key="SearchLatest">Search latest version</s:String>
-    <s:String x:Key="AuthUsed">Auth used</s:String>
+    <s:String x:Key="AuthUsed">Auth(User) used</s:String>
+    <s:String x:Key="DLTryOnce">Try to download once only</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>

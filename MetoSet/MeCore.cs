@@ -14,6 +14,7 @@ namespace MTMCL
     {
         public static string version;
         public static Config Config;
+        internal static Customize.TileColor TileColor;
         public static Resources.BGHistory bghistory;
         public static bool needGuide = false;
         //public static Server.ServerInfo ServerCfg;
@@ -22,7 +23,8 @@ namespace MTMCL
         public static Dictionary<string, ResourceDictionary> Color = new Dictionary<string, ResourceDictionary>();
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
         public static string DataDirectory = Environment.CurrentDirectory + '\\' + "MTMCL" + '\\';
-        private readonly static string Cfgfile = BaseDirectory + "mtmcl_config.json";
+        private readonly static string Cfgfile = DataDirectory + "mtmcl_config.json";
+        private readonly static string CfgfileOrigin = BaseDirectory + "mtmcl_config.json";
         public static string DefaultBG = "pack://application:,,,/Resources/bg.png";
         //public static NotiIcon NIcon = new NotiIcon();
         public static MainWindow MainWindow = null;
@@ -37,40 +39,10 @@ namespace MTMCL
             Logger.log("Appdata: " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
             if (File.Exists(Cfgfile))
             {
-                Config = Config.Load(Cfgfile);
-                Logger.log(string.Format("loaded {0}", Cfgfile));
-                Logger.log(Config.ToReadableLog());
-
-                LoadLanguage();
-                LoadColor();
-                if (Config.Server != null)
-                {
-                    if (App.forceNonDedicate)
-                    {
-                        IsServerDedicated = false;
-                        Logger.log("Launching normal version due to the argument");
-                    }
-                    else
-                    {
-                        IsServerDedicated = true;
-                        Logger.log("Launching server-dedicated version");
-                    }
-                }
-                else
-                {
-                    IsServerDedicated = false;
-                    Logger.log("Launching normal version due to null server info");
-                }
-                if (string.IsNullOrWhiteSpace(Config.MCPath))
-                {
-                    Logger.log("Minecraft path is null or whitespace. Guide is required.");
-                    needGuide = true;
-                }
-                if (string.IsNullOrWhiteSpace(Config.Javaw))
-                {
-                    Logger.log("javaw.exe path is null or whitespace. Guide is required.");
-                    needGuide = true;
-                }
+                LoadConfig(Cfgfile);
+            }
+            else if (File.Exists(CfgfileOrigin)) {
+                LoadConfig(CfgfileOrigin);
             }
             else
             {
@@ -93,11 +65,48 @@ namespace MTMCL
                 Config.Javaxmx = Config.GetMemory() / 4;
             }
             LangManager.UseLanguage(Config.Lang);
+            TileColor = Customize.TileColor.Load(DataDirectory + "\\mtmcl_tile_color.json");
 #if DEBUG
 #else
             if (!Config.failUpdateLastTime) ReleaseCheck();
             else Config.failUpdateLastTime = false;
 #endif
+        }
+        private static void LoadConfig(string path) {
+            Config = Config.Load(path);
+            Logger.log(string.Format("loaded {0}", path));
+            Logger.log(Config.ToReadableLog());
+
+            LoadLanguage();
+            LoadColor();
+            if (Config.Server != null)
+            {
+                if (App.forceNonDedicate)
+                {
+                    IsServerDedicated = false;
+                    Logger.log("Launching normal version due to the argument");
+                }
+                else
+                {
+                    IsServerDedicated = true;
+                    Logger.log("Launching server-dedicated version");
+                }
+            }
+            else
+            {
+                IsServerDedicated = false;
+                Logger.log("Launching normal version due to null server info");
+            }
+            if (string.IsNullOrWhiteSpace(Config.MCPath))
+            {
+                Logger.log("Minecraft path is null or whitespace. Guide is required.");
+                needGuide = true;
+            }
+            if (string.IsNullOrWhiteSpace(Config.Javaw))
+            {
+                Logger.log("javaw.exe path is null or whitespace. Guide is required.");
+                needGuide = true;
+            }
         }
         public static void ReleaseCheck()
         {

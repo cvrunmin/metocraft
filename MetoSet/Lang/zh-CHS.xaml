@@ -75,6 +75,8 @@
     <s:String x:Key="ColorMirror">反转颜色</s:String>
     <s:String x:Key="ExpandTaskTitle">启动时打开任务介面</s:String>
     <s:String x:Key="SearchLatest">搜寻最新版本</s:String>
+    <s:String x:Key="AuthUsed">使用认证(帐号)</s:String>
+    <s:String x:Key="DLTryOnce">只尝试下载一次</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">环境</s:String>

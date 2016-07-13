@@ -60,6 +60,9 @@ namespace MTMCL
         [JsonProperty("download-source")]
         public int DownloadSource { get; set; }
         [DataMember]
+        [JsonProperty("download-once")]
+        public bool DownloadOnceOnly { get; set; }
+        [DataMember]
         public string GUID { get; set; }
         [DataMember]
         [JsonProperty("expand-task-gui")]
@@ -175,6 +178,7 @@ namespace MTMCL
             Background = "default";
             ColorScheme = "Green";
             DownloadSource = 0;
+            DownloadOnceOnly = false;
             UpdateSource = 0;
             Lang = GetValidLang();
             reverseColor = false;
@@ -247,7 +251,7 @@ namespace MTMCL
                 if (file == null)
                 {
                     ///for json
-                    file = MeCore.BaseDirectory + "mtmcl_config.json";
+                    file = MeCore.DataDirectory + "mtmcl_config.json";
                     ///for xml
                     //file = MeCore.BaseDirectory + "mtmcl_config.xml";
                 }
@@ -256,7 +260,7 @@ namespace MTMCL
                 /*var ser = new DataContractSerializer(typeof(Config));
                 ser.WriteObject(fs, cfg);*/
                 ///for json
-                StringBuilder sbuild = new System.Text.StringBuilder();
+                StringBuilder sbuild = new StringBuilder();
             File.WriteAllText(file, JsonConvert.SerializeObject(cfg, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }), Encoding.UTF8);
                 //fs.Close();
             }
@@ -360,7 +364,7 @@ namespace MTMCL
             }
         }
         public string ToReadableLog() {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine("Language: " + Lang);
             sb.AppendLine("Java Path: " + Javaw);
             sb.AppendLine("MineCraft Path: " + MCPath);

@@ -91,7 +91,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Grid x:Name="gridNoVersion" Margin="0,45,0,0" Background="#BFFFFFFF" Visibility="Collapsed">
+        <Grid x:Name="gridNoVersion" Margin="0,45,0,0" Background="{DynamicResource AccentColorBrush}" Visibility="Visible">
             <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
                 <Rectangle.OpacityMask>
                     <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>

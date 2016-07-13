@@ -19,7 +19,7 @@
         <TabControl TabStripPlacement="Left" Margin="0,40,0,0">
             <TabItem Header="{DynamicResource GameSet}" Background="{DynamicResource AccentColorBrush4}">
                 <ScrollViewer>
-                    <Grid Background="#7FFFFFFF">
+                    <Grid Background="{DynamicResource AccentColorBrush3}">
                         <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                         <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="256" LargeChange="128" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged" metro:SliderHelper.EnableMouseWheel="MouseHover"/>
                         <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
@@ -48,7 +48,7 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="{DynamicResource Download}" Background="{DynamicResource AccentColorBrush4}">
-                <Grid Background="#7FFFFFFF">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
                     <Label Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboDLSrc_SelectionChanged">
                         <ComboBoxItem Content="Official" HorizontalAlignment="Left" Width="348"/>
@@ -59,12 +59,13 @@
                         <ComboBoxItem Content="GitHub" HorizontalAlignment="Left" Width="346"/>
                         <ComboBoxItem Content="Coding" HorizontalAlignment="Left" Width="346"/>
                     </ComboBox>
+                    <metro:ToggleSwitch x:Name="toggleTryOnce" HorizontalAlignment="Left" Margin="2,133,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource DLTryOnce}" IsCheckedChanged="toggleTryOnce_IsCheckedChanged"/>
 
                 </Grid>
             </TabItem>
             <TabItem Header="{DynamicResource LauncherSet}" Background="{DynamicResource AccentColorBrush4}">
                 <ScrollViewer>
-                    <Grid Background="#7FFFFFFF">
+                    <Grid Background="{DynamicResource AccentColorBrush3}">
                         <Label Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                         <ComboBox x:Name="comboLang" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboLang_SelectionChanged"/>
                         <Label Content="{DynamicResource BG}" HorizontalAlignment="Left" Margin="0,66,0,0" VerticalAlignment="Top" FontSize="16"/>
@@ -80,15 +81,15 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="{DynamicResource About}" Background="{DynamicResource AccentColorBrush4}">
-                <Grid Background="#7FFFFFFF">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
                     <Label Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <Label x:Name="lblLauncherVersion" Content="" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
                     <Button x:Name="butCheckUpdate" Content="{DynamicResource CheckUpdate}" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Click="butCheckUpdate_Click"/>
                     <Label HorizontalAlignment="Left" Margin="0,157,0,0" VerticalAlignment="Top" Padding="0">
                         <AccessText Text="Picture easteregg-sudou-kayo.png is captured form Youtube video Tt31439XObA made by MarioGaGabriel" TextWrapping="WrapWithOverflow"></AccessText>
                     </Label>
-                    <Label HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Padding="0" Visibility="Collapsed">
-                        <AccessText Text="©2014-2017 cvronmin" TextWrapping="WrapWithOverflow"></AccessText>
+                    <Label HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Padding="0">
+                        <AccessText Text="©2014-2017 cvrunmin" TextWrapping="WrapWithOverflow"></AccessText>
                     </Label>
                 </Grid>
             </TabItem>

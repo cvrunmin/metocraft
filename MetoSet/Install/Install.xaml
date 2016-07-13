@@ -26,7 +26,7 @@
         <Label Content="{DynamicResource Install}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <TabControl Margin="0,45,0,0">
             <TabItem Header="Minecraft Forge">
-                <Grid Background="#7FFFFFFF">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
                     <TextBlock Text="{DynamicResource WarningF}" VerticalAlignment="Top" FontSize="16" TextWrapping="WrapWithOverflow"/>
                     <Label Content="{DynamicResource Path}" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtPathF" Height="23" Margin="0,158,75,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
@@ -35,7 +35,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="LiteLoader">
-                <Grid Background="#7FFFFFFF">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
                     <TextBlock Text="{DynamicResource WarningLL}" VerticalAlignment="Top" FontSize="16" TextWrapping="WrapWithOverflow"/>
                     <Label Content="{DynamicResource Path}" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtPathLL" Height="23" Margin="0,158,75,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
