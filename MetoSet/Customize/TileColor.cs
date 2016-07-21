@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json;
 using System.IO;
+using System.Reflection;
 
 namespace MTMCL.Customize
 {
@@ -13,7 +14,7 @@ namespace MTMCL.Customize
     {
         [DataMember]
         [JsonProperty(PropertyName = "task-list-tile-color", NullValueHandling = NullValueHandling.Ignore)]
-        public string tileColorTaskList = "default";
+        public string tileColorTask = "default";
         [DataMember]
         [JsonProperty(PropertyName = "notice-tile-color", NullValueHandling = NullValueHandling.Ignore)]
         public string tileColorNotice = "default";
@@ -25,13 +26,13 @@ namespace MTMCL.Customize
         public string tileColorSetting = "default";
         [DataMember]
         [JsonProperty(PropertyName = "download-tile-color", NullValueHandling = NullValueHandling.Ignore)]
-        public string tileColorDownload = "default";
+        public string tileColorDL = "default";
         [DataMember]
         [JsonProperty(PropertyName = "install-tile-color", NullValueHandling = NullValueHandling.Ignore)]
         public string tileColorInstall = "default";
         [DataMember]
         [JsonProperty(PropertyName = "server-admin-tile-color", NullValueHandling = NullValueHandling.Ignore)]
-        public string tileColorServerAdmin = "default";
+        public string tileColorServer = "default";
         [DataMember]
         [JsonProperty(PropertyName = "gradle-tile-color", NullValueHandling = NullValueHandling.Ignore)]
         public string tileColorGradle = "default";
@@ -104,6 +105,31 @@ namespace MTMCL.Customize
         public void Save(string file)
         {
             Save(this, file);
+        }
+        public void QuickChange(string name, object value) {
+            try
+            {
+                //Clear all control type altas
+                string fnt = name.Replace("tile", "").Replace("grid", "").Replace("but", "");
+                Type type = typeof(TileColor);
+                FieldInfo field = type.GetField(fnt, BindingFlags.IgnoreCase | BindingFlags.GetField | BindingFlags.Instance | BindingFlags.Public);
+                if (field == null)
+                {
+                    FieldInfo[] fields = type.GetFields();
+                    foreach (FieldInfo tmp in fields)
+                    {
+                        if (tmp.Name.Contains(fnt)) { field = tmp; break; }
+                    }
+                }
+                field.SetValue(this, value);
+            }
+            catch (Exception e)
+            {
+                Logger.log(e);
+            }
+            finally {
+                Save();
+            }
         }
     }
 }

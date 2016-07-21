@@ -55,6 +55,11 @@
                     <Label x:Name="lblWelcome" Content="{DynamicResource Start}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
                     <Grid x:Name="gridMenu" Margin="40,44,40,40" Width="655" Height="325">
                         <metro:Tile x:Name="butPlay" Height="105" Width="215" Title="{DynamicResource Play}" metro:ButtonHelper.PreserveTextCase="True" Background="#CC03A9F4" Margin="440,0,0,0" Count="" Click="butPlay_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_control_play}" />
@@ -62,6 +67,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="215" Height="105" Background="#CCFB8C00" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="" Style="{StaticResource RenewTile}" TitleFontSize="20">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_list}" />
@@ -69,6 +79,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butSetting" Title="{DynamicResource Setting}" Margin="0,110,0,0" Width="215" Height="105" Click="butSetting_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_settings}" />
@@ -76,6 +91,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butHelp" Title="{DynamicResource Help}" Margin="0,220,0,0" Width="215" Height="105" Click="butHelp_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="50" Width="20">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_information}" />
@@ -83,6 +103,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butNotice" Title="{DynamicResource Notice}" Margin="220,0,0,0" Width="105" Height="105" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butNotice_Click" Style="{DynamicResource RenewTile}">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_notification_above}" />
@@ -90,6 +115,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butPlayQuick" Title="{DynamicResource QuickPlay}" HorizontalAlignment="Left" Margin="440,220,0,0" VerticalAlignment="Top" Width="215" Height="105" MouseEnter="butPlayQuick_MouseEnter" MouseLeave="butPlayQuick_MouseLeave" IsEnabledChanged="butPlayQuick_IsEnabledChanged" Click="butPlayQuick_Click">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Grid Height="210" Width="215">
                                 <Grid x:Name="butPlayQuick_a" Margin="0,0,0,105">
                                     <Rectangle Height="50" Width="100">
@@ -107,6 +137,11 @@
                             </Grid>
                         </metro:Tile>
                         <metro:Tile x:Name="butGradle" HorizontalAlignment="Left" Margin="440,110,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butGradle_Click">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="25" Width="25">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_language_java}" />
@@ -114,6 +149,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butServer" HorizontalAlignment="Left" Margin="440,165,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="butServer_Click" ToolTip="{DynamicResource NotAvailable}" IsEnabled="False" ToolTipService.ShowOnDisabled="True">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="25" Width="25">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_server}" />
@@ -121,6 +161,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butDL" Title="{DynamicResource Download}" HorizontalAlignment="Left" Margin="220,110,0,0" VerticalAlignment="Top" Width="215" Height="105" Click="butDL_Click">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_disk_download}" />
@@ -128,6 +173,11 @@
                             </Rectangle>
                         </metro:Tile>
                         <metro:Tile x:Name="butInstall" Title="{DynamicResource Install}" HorizontalAlignment="Left" Margin="220,220,0,0" VerticalAlignment="Top" Width="215" Height="105" Click="butInstall_Click">
+                            <metro:Tile.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>
+                                </ContextMenu>
+                            </metro:Tile.ContextMenu>
                             <Rectangle Height="50" Width="50">
                                 <Rectangle.Fill>
                                     <VisualBrush Visual="{StaticResource appbar_download}" />

@@ -3,71 +3,93 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 
 namespace MTMCL.Accents
 {
     public class AccentHelper
     {
-        public const string sample = 
-            "<ResourceDictionary xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\n"+
-            "        xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n"+
-            "        xmlns:options=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation/options\"\n"+
-            "        xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n"+
-            "        mc:Ignorable=\"options\">\n"+
-            "\n"+
-            "    <!--ACCENT COLORS-->\n"+
-            "    <Color x:Key=\"HighlightColor\">#FF{Highlight}</Color>\n"+
-            "\n"+
-            "    <Color x:Key=\"AccentBaseColor\">#FF{Accent}</Color>\n"+
-            "\n"+
-            "    <!--80%-->\n"+
-            "    <Color x:Key=\"AccentColor\">#CC{Accent}</Color>\n"+
-            "    <!--60%-->\n"+
-            "    <Color x:Key=\"AccentColor2\">#99{Accent}</Color>\n"+
-            "    <!--40%-->\n"+
-            "    <Color x:Key=\"AccentColor3\">#66{Accent}</Color>\n"+
-            "    <!--20%-->\n"+
-            "    <Color x:Key=\"AccentColor4\">#33{Accent}</Color>\n"+
-            "\n"+
-            "    <!-- re-set brushes too -->"+
-            "    <SolidColorBrush x:Key=\"HighlightBrush\" Color=\"{StaticResource HighlightColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"AccentBaseColorBrush\" Color=\"{StaticResource AccentBaseColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"AccentColorBrush\" Color=\"{StaticResource AccentColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"AccentColorBrush2\" Color=\"{StaticResource AccentColor2}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"AccentColorBrush3\" Color=\"{StaticResource AccentColor3}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"AccentColorBrush4\" Color=\"{StaticResource AccentColor4}\" options:Freeze=\"True\" />\n"+
-            "\n"+
-            "    <SolidColorBrush x:Key=\"WindowTitleColorBrush\" Color=\"{StaticResource AccentColor}\" options:Freeze=\"True\" />\n"+
-            "\n"+
-            "    <LinearGradientBrush x:Key=\"ProgressBrush\" EndPoint=\"0.001,0.5\" StartPoint=\"1.002,0.5\" options:Freeze=\"True\">\n"+
-            "        <GradientStop Color = \"{StaticResource HighlightColor}\" Offset=\"0\" />\n"+
-            "        <GradientStop Color = \"{StaticResource AccentColor3}\" Offset=\"1\" />\n"+
-            "    </LinearGradientBrush>\n"+
-            "\n"+
-            "    <SolidColorBrush x:Key=\"CheckmarkFill\" Color=\"{StaticResource AccentColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"RightArrowFill\" Color=\"{StaticResource AccentColor}\" options:Freeze=\"True\" />\n"+
-            "\n"+
-            "    <Color x:Key=\"IdealForegroundColor\">White</Color>\n"+
-            "    <SolidColorBrush x:Key=\"IdealForegroundColorBrush\" Color=\"{StaticResource IdealForegroundColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"IdealForegroundDisabledBrush\" Color=\"{StaticResource IdealForegroundColor}\" Opacity=\"0.4\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"AccentSelectedColorBrush\" Color=\"{StaticResource IdealForegroundColor}\" options:Freeze=\"True\" />\n"+
-            "\n"+
-            "    <!-- DataGrid brushes -->\n"+
-            "    <SolidColorBrush x:Key=\"MetroDataGrid.HighlightBrush\" Color=\"{StaticResource AccentColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"MetroDataGrid.HighlightTextBrush\" Color=\"{StaticResource IdealForegroundColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"MetroDataGrid.MouseOverHighlightBrush\" Color=\"{StaticResource AccentColor3}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"MetroDataGrid.FocusBorderBrush\" Color=\"{StaticResource AccentColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"MetroDataGrid.InactiveSelectionHighlightBrush\" Color=\"{StaticResource AccentColor2}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"MetroDataGrid.InactiveSelectionHighlightTextBrush\" Color=\"{StaticResource IdealForegroundColor}\" options:Freeze=\"True\" />\n"+
-            "\n"+
-            "    <SolidColorBrush x:Key=\"MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10\" Color=\"{StaticResource AccentColor}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10\" Color=\"{StaticResource AccentColor2}\" options:Freeze=\"True\" />\n"+
-            "    <SolidColorBrush x:Key=\"MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10\" Color=\"{StaticResource IdealForegroundColor}\" options:Freeze=\"True\" />\n"+
-            "</ResourceDictionary>";
-        public static void CreateAccent(string name, System.Windows.Media.Color highlight, System.Windows.Media.Color accent) {
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(System.IO.File.Create(System.IO.Path.Combine(MeCore.DataDirectory, "Color", name + ".xaml")));
-            System.Threading.Tasks.Task.WaitAll(sw.WriteAsync(sample.Replace("{Highlight}", BitConverter.ToString(new byte[] { highlight.R, highlight.G, highlight.B }).Replace("-", "")).Replace("{Accent}", BitConverter.ToString(new byte[] { accent.R,accent.G,accent.B}).Replace("-", ""))));
-            sw.Close();
+        public static void CreateAccent(string name, Color highlight, Color accent) {
+            using (var sw = new System.IO.StreamWriter(System.IO.File.Create(System.IO.Path.Combine(MeCore.DataDirectory, "Color", name + ".xaml")))) {
+                string s = System.Windows.Markup.XamlWriter.Save(createResourceDictionary(highlight, accent));
+                System.Threading.Tasks.Task.WaitAll(sw.WriteAsync(s));
+                sw.Close();
+            }
         }
+        #region Create ResourceDictionary
+        /// <summary>
+        /// From:
+        /// https://github.com/punker76/code-samples/blob/master/MahAppsMetroThemesSample/MahAppsMetroThemesSample/ThemeManagerHelper.cs
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static ResourceDictionary createResourceDictionary(Color highlight, Color color) {
+            var resourceDictionary = new ResourceDictionary();
+
+            resourceDictionary.Add("HighlightColor", highlight);
+            resourceDictionary.Add("AccentBaseColor", color);
+            resourceDictionary.Add("AccentColor", Color.FromArgb(0xCC, color.R, color.G, color.B));
+            resourceDictionary.Add("AccentColor2", Color.FromArgb(0x99, color.R, color.G, color.B));
+            resourceDictionary.Add("AccentColor3", Color.FromArgb(0x66, color.R, color.G, color.B));
+            resourceDictionary.Add("AccentColor4", Color.FromArgb(0x33, color.R, color.G, color.B));
+
+            resourceDictionary.Add("HighlightBrush", GetSolidColorBrush((Color)resourceDictionary["HighlightColor"]));
+            resourceDictionary.Add("AccentBaseColorBrush", GetSolidColorBrush((Color)resourceDictionary["AccentBaseColor"]));
+            resourceDictionary.Add("AccentColorBrush", GetSolidColorBrush((Color)resourceDictionary["AccentColor"]));
+            resourceDictionary.Add("AccentColorBrush2", GetSolidColorBrush((Color)resourceDictionary["AccentColor2"]));
+            resourceDictionary.Add("AccentColorBrush3", GetSolidColorBrush((Color)resourceDictionary["AccentColor3"]));
+            resourceDictionary.Add("AccentColorBrush4", GetSolidColorBrush((Color)resourceDictionary["AccentColor4"]));
+            resourceDictionary.Add("WindowTitleColorBrush", GetSolidColorBrush((Color)resourceDictionary["AccentColor"]));
+
+            resourceDictionary.Add("ProgressBrush", new LinearGradientBrush(
+                new GradientStopCollection(new[]
+                {
+                    new GradientStop((Color)resourceDictionary["HighlightColor"], 0),
+                    new GradientStop((Color)resourceDictionary["AccentColor3"], 1)
+                }),
+                new Point(0.001, 0.5), new Point(1.002, 0.5)));
+
+            resourceDictionary.Add("CheckmarkFill", GetSolidColorBrush((Color)resourceDictionary["AccentColor"]));
+            resourceDictionary.Add("RightArrowFill", GetSolidColorBrush((Color)resourceDictionary["AccentColor"]));
+
+            resourceDictionary.Add("IdealForegroundColor", IdealTextColor(color));
+            resourceDictionary.Add("IdealForegroundColorBrush", GetSolidColorBrush((Color)resourceDictionary["IdealForegroundColor"]));
+            resourceDictionary.Add("IdealForegroundDisabledBrush", GetSolidColorBrush((Color)resourceDictionary["IdealForegroundColor"], 0.4));
+            resourceDictionary.Add("AccentSelectedColorBrush", GetSolidColorBrush((Color)resourceDictionary["IdealForegroundColor"]));
+
+            resourceDictionary.Add("MetroDataGrid.HighlightBrush", GetSolidColorBrush((Color)resourceDictionary["AccentColor"]));
+            resourceDictionary.Add("MetroDataGrid.HighlightTextBrush", GetSolidColorBrush((Color)resourceDictionary["IdealForegroundColor"]));
+            resourceDictionary.Add("MetroDataGrid.MouseOverHighlightBrush", GetSolidColorBrush((Color)resourceDictionary["AccentColor3"]));
+            resourceDictionary.Add("MetroDataGrid.FocusBorderBrush", GetSolidColorBrush((Color)resourceDictionary["AccentColor"]));
+            resourceDictionary.Add("MetroDataGrid.InactiveSelectionHighlightBrush", GetSolidColorBrush((Color)resourceDictionary["AccentColor2"]));
+            resourceDictionary.Add("MetroDataGrid.InactiveSelectionHighlightTextBrush", GetSolidColorBrush((Color)resourceDictionary["IdealForegroundColor"]));
+
+            resourceDictionary.Add("MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10", GetSolidColorBrush((Color)resourceDictionary["AccentColor"]));
+            resourceDictionary.Add("MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10", GetSolidColorBrush((Color)resourceDictionary["AccentColor2"]));
+            resourceDictionary.Add("MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10", GetSolidColorBrush((Color)resourceDictionary["IdealForegroundColor"]));
+            return resourceDictionary;
+        }
+        /// <summary>
+        /// Determining Ideal Text Color Based on Specified Background Color
+        /// http://www.codeproject.com/KB/GDI-plus/IdealTextColor.aspx
+        /// </summary>
+        /// <param name = "color">The bg.</param>
+        /// <returns></returns>
+        private static Color IdealTextColor(Color color)
+        {
+            const int nThreshold = 105;
+            var bgDelta = System.Convert.ToInt32((color.R * 0.299) + (color.G * 0.587) + (color.B * 0.114));
+            var foreColor = (255 - bgDelta < nThreshold) ? Colors.Black : Colors.White;
+            return foreColor;
+        }
+        private static SolidColorBrush GetSolidColorBrush(Color color, double opacity = 1d)
+        {
+            var brush = new SolidColorBrush(color) { Opacity = opacity };
+            brush.Freeze();
+            return brush;
+        }
+        #endregion
     }
 }

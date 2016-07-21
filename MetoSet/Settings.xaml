@@ -37,7 +37,7 @@
                         <metro:ToggleSwitch x:Name="toggleLL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,231,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmLL}" IsCheckedChanged="toggleLL_IsCheckedChanged"/>
                         <metro:ToggleSwitch x:Name="toggleModded" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,292,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmModded}" IsCheckedChanged="toggleModded_IsCheckedChanged"/>
                         <Label Content="{DynamicResource AuthUsed}" HorizontalAlignment="Left" Margin="0,358,0,0" VerticalAlignment="Top" FontSize="16"/>
-                        <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="94,358,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click"/>
+                        <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="0,393,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click"/>
                         <Button x:Name="butJavawBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,144,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butJavawBrowse_Click"/>
                         <Rectangle x:Name="rectJPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,144,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
                             <Rectangle.OpacityMask>
@@ -79,6 +79,12 @@
                         <metro:ToggleSwitch x:Name="toggleLatest" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,288,0,20" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource SearchLatest}" IsCheckedChanged="toggleLatest_IsCheckedChanged"/>
                     </Grid>
                 </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Themes" Background="{DynamicResource AccentColorBrush4}">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
+                    <TreeView x:Name="treeView" Margin="0,0,130,0"/>
+
+                </Grid>
             </TabItem>
             <TabItem Header="{DynamicResource About}" Background="{DynamicResource AccentColorBrush4}">
                 <Grid Background="{DynamicResource AccentColorBrush3}">

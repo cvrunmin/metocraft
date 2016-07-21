@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using System.Linq;
 using MTMCL.Launch;
 using MTMCL.Lang;
+using System.Windows.Controls;
 
 namespace MTMCL
 {
@@ -397,8 +398,51 @@ namespace MTMCL
             Render();
             RenderColor();
             ThemeManager.ChangeAppTheme(Application.Current, (bool)MeCore.Config.reverseColor ? "BaseDark" : "BaseLight");
+            ChangeTileColor();
         }
-
+        private void ChangeTileColor() {
+            try
+            {
+                foreach (var field in typeof(Customize.TileColor).GetFields())
+                {
+                    string color = field.GetValue(MeCore.TileColor) as string;
+                    if (color.Equals("default", StringComparison.InvariantCultureIgnoreCase)) continue;
+                    //if (color.Length < 6) color = "000000".Substring(color.Length) + color;
+                    int colori = Convert.ToInt32(color, 16);
+                    SolidColorBrush newBrush = new SolidColorBrush(Color.FromArgb(0xCC, (byte)((colori >> 16) & 255), (byte)((colori >> 8) & 255), (byte)(colori & 255) ));
+                    switch (field.Name.Replace("tileColor", ""))
+                    {
+                        case "DL":
+                            butDL.Background = newBrush;
+                            break;
+                        case "Gradle":
+                            butGradle.Background = newBrush;
+                            break;
+                        case "Install":
+                            butHelp.Background = newBrush;
+                            break;
+                        case "Notice":
+                            butNotice.Background = newBrush;
+                            break;
+                        case "Play":
+                            butPlay.Background = newBrush;
+                            break;
+                        case "QuickPlay":
+                            butPlayQuick.Background = newBrush;
+                            break;
+                        case "Server":
+                            butServer.Background = newBrush;
+                            break;
+                        case "Setting":
+                            butSetting.Background = newBrush;
+                            break;
+                        case "Task":
+                            butTask.Background = newBrush;
+                            break;
+                    }
+                }
+            } catch (Exception e) { Logger.log(e); };
+        }
         private void butPlayQuick_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -484,7 +528,7 @@ namespace MTMCL
             }
         }
         public void RenderColor() {
-            Tuple<AppTheme, Accent> theme = ThemeManager.DetectAppStyle(System.Windows.Application.Current);
+            Tuple<AppTheme, Accent> theme = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(MeCore.Config.ColorScheme), theme.Item1);
         }
         public void Render()
@@ -546,6 +590,37 @@ namespace MTMCL
                     System.Windows.Forms.Application.Restart();
                 }
             }
+        internal void RenderTheme(Themes.Theme theme) {
+            using (var ms = new System.IO.MemoryStream()) {
+                theme.Image.Save(ms, theme.Image.RawFormat);
+                ms.Seek(0, System.IO.SeekOrigin.Begin);
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.StreamSource = ms;
+                bi.EndInit();
+
+                MeCore.MainWindow.gridBG.Opacity = 0;
+                MeCore.MainWindow.gridBG.Background = new ImageBrush
+                {
+                    ImageSource = bi,
+                    Stretch = Stretch.UniformToFill
+                };
+                var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
+                ani.Completed += async delegate
+                {
+                    await System.Threading.Tasks.TaskEx.Delay(250);
+                    MeCore.MainWindow.gridParent.Background = new ImageBrush
+                    {
+                        ImageSource = bi,
+                        Stretch = Stretch.UniformToFill
+                    };
+                    MeCore.MainWindow.gridBG.Opacity = 0;
+                };
+                MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
+            }
+            Tuple<AppTheme, Accent> AppTheme = ThemeManager.DetectAppStyle(Application.Current);
+            ThemeManager.ChangeAppStyle(Application.Current, theme.Accent, AppTheme.Item1);
+        }
 
         private void butServer_Click(object sender, RoutedEventArgs e)
         {
@@ -619,6 +694,26 @@ namespace MTMCL
                 panelBalloon.Children.Remove(balloon);
             };
             balloon.BeginAnimation(MarginProperty, ani);
+        }
+
+        private void MenuChangeColor_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem)
+            {
+                if (((MenuItem)sender).Parent is ContextMenu)
+                {
+                    if (((ContextMenu)((MenuItem)sender).Parent).PlacementTarget is MahApps.Metro.Controls.Tile)
+                    {
+                        var tile = (MahApps.Metro.Controls.Tile)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget;
+                        System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
+                        dialog.FullOpen = true;
+                        dialog.AnyColor = true;
+                        dialog.ShowDialog();
+                        tile.Background = new SolidColorBrush(Color.FromArgb(0xCC, dialog.Color.R, dialog.Color.G, dialog.Color.B));
+                        MeCore.TileColor.QuickChange(tile.Name, Convert.ToString(dialog.Color.ToArgb() & 0xFFFFFF,16));
+                    }
+                }
+            }
         }
     }
 }

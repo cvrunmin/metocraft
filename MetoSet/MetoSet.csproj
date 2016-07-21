@@ -299,6 +299,7 @@
     <Compile Include="Task\TaskDetail.xaml.cs">
       <DependentUpon>TaskDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Themes\Theme.cs" />
     <Compile Include="Threads\LaunchMCThread.cs" />
     <Compile Include="Resources\UrlReplacer.cs" />
     <Compile Include="Settings.xaml.cs">

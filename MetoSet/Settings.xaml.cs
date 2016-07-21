@@ -278,15 +278,21 @@ namespace MTMCL
                     System.Drawing.Imaging.BitmapData data = map.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, map.PixelFormat);
                     IntPtr ptr = data.Scan0;
                     int bytes = data.Stride * map.Height;
-                    byte[] rgb = new byte[bytes];
-                    System.Runtime.InteropServices.Marshal.Copy(ptr, rgb, 0, bytes);
-                    float average = 0;
-                    for (int i = 0; i < rgb.Length; i++)
+                    byte[] bgr = new byte[bytes];
+                    System.Runtime.InteropServices.Marshal.Copy(ptr, bgr, 0, bytes);
+                    float averageB = 0, averageG = 0, averageR = 0;
+                    for (int i = 0; i < bgr.Length; i += 3)
                     {
-                        average += rgb[i];
+                        averageB += bgr[i];
+                        averageG += bgr[i + 1];
+                        averageR += bgr[i + 2];
                     }
-                    average /= rgb.Length;
-                    return average <= 127;
+                    averageR /= (bgr.Length / 3);
+                    averageG /= (bgr.Length / 3);
+                    averageB /= (bgr.Length / 3);
+                    const int nThreshold = 105;
+                    var bgDelta = Convert.ToInt32((averageR * 0.299) + (averageG * 0.587) + (averageB * 0.114));
+                    return 255 - bgDelta < nThreshold;
                 }));
             }
             catch (Exception)
@@ -305,15 +311,21 @@ namespace MTMCL
                     System.Drawing.Imaging.BitmapData data = map.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, map.PixelFormat);
                     IntPtr ptr = data.Scan0;
                     int bytes = data.Stride * map.Height;
-                    byte[] rgb = new byte[bytes];
-                    System.Runtime.InteropServices.Marshal.Copy(ptr, rgb, 0, bytes);
-                    float average = 0;
-                    for (int i = 0; i < rgb.Length; i++)
+                    byte[] bgr = new byte[bytes];
+                    System.Runtime.InteropServices.Marshal.Copy(ptr, bgr, 0, bytes);
+                    float averageB = 0, averageG = 0, averageR = 0;
+                    for (int i = 0; i < bgr.Length; i += 3)
                     {
-                        average += rgb[i];
+                        averageB += bgr[i];
+                        averageG += bgr[i + 1];
+                        averageR += bgr[i + 2];
                     }
-                    average /= rgb.Length;
-                    return average <= 127;
+                    averageR /= (bgr.Length / 3);
+                    averageG /= (bgr.Length / 3);
+                    averageB /= (bgr.Length / 3);
+                    const int nThreshold = 105;
+                    var bgDelta = Convert.ToInt32((averageR * 0.299) + (averageG * 0.587) + (averageB * 0.114));
+                    return 255 - bgDelta < nThreshold;
                 }));
             }
             catch (Exception)

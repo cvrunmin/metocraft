@@ -77,6 +77,7 @@
     <s:String x:Key="SearchLatest">Search latest version</s:String>
     <s:String x:Key="AuthUsed">Auth(User) used</s:String>
     <s:String x:Key="DLTryOnce">Try to download once only</s:String>
+    <s:String x:Key="ColorConfig">Select Color...</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>
