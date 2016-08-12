@@ -44,6 +44,26 @@ namespace MTMCL.Resources
                 SetValue(ImgSrcProperty, value);
             }
         }
+
+        public static DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Color), typeof(PreviewItem));
+
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Description("Color")]
+        [System.ComponentModel.Category("Content")]
+        [System.ComponentModel.Browsable(true)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
+        public Color Color
+        {
+            get
+            {
+                return ((Color) (GetValue(ColorProperty)));
+            }
+            set
+            {
+                SetValue(ColorProperty, value);
+            }
+        }
+
         public static DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(PreviewItem));
 
         [System.ComponentModel.Bindable(true)]

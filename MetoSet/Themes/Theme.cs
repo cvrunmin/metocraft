@@ -19,8 +19,7 @@ namespace MTMCL.Themes
         public void SaveMTMCLTheme() { SaveMTMCLTheme(defaultPath); }
         public void SaveMTMCLTheme(string path)
         {
-            using (var sw = new StreamWriter(path)) {
-                using (var jw = new Newtonsoft.Json.JsonTextWriter(sw)) {
+                using (var jw = new Newtonsoft.Json.JsonTextWriter(new StreamWriter(path))) {
                     jw.Formatting = Newtonsoft.Json.Formatting.Indented;
                     var colorh = Accent.Resources["HighlightColor"];
                     var colora = Accent.Resources["AccentBaseColor"];
@@ -28,10 +27,7 @@ namespace MTMCL.Themes
                         ac = ((System.Windows.Media.Color)colora).ToString().Remove(0, 3);
                     ThemeInfo info = new ThemeInfo() { AccentColor = ac, HighlightColor = hc, AccentName = AccentName, Name = Name, Background = ImageSource };
                     Newtonsoft.Json.JsonSerializer.Create().Serialize(jw, info, typeof(ThemeInfo));
-                    jw.Close();
                 }
-                sw.Close();
-            }
         }
         /// <summary>
         /// 
@@ -39,11 +35,8 @@ namespace MTMCL.Themes
         /// <param name="path">Theme path</param>
         public static Theme LoadMTMCLTheme(string path)
         {
-            using (var sr = new StreamReader(path)) {
-                using (var jr = new Newtonsoft.Json.JsonTextReader(sr)) {                    
+                using (var jr = new Newtonsoft.Json.JsonTextReader(new StreamReader(path))) {                    
                     ThemeInfo info = Newtonsoft.Json.JsonSerializer.Create().Deserialize<ThemeInfo>(jr);
-                    jr.Close();
-                    sr.Close();
                     Theme theme = new Theme();
                     theme.ImageSource = info.Background;
                     theme.Image = Image.FromFile(info.Background);
@@ -56,13 +49,11 @@ namespace MTMCL.Themes
                     theme.Accent = MahApps.Metro.ThemeManager.GetAccent(theme.AccentName) ?? new MahApps.Metro.Accent() { Resources = Accents.AccentHelper.createResourceDictionary(colorh, colora) };
                     return theme;
                 }
-            }
         }
 
         public void PackMTMCLTheme(string path)
         {
-            using (var fs = new FileStream(path, FileMode.Create)) {
-                using (var zos = new ZipOutputStream(fs)) {
+                using (var zos = new ZipOutputStream(new FileStream(path, FileMode.Create))) {
                     zos.SetLevel(4);
                     FileInfo info = new FileInfo(ImageSource);
                     var zip = new ZipEntry(ZipEntry.CleanName("Background/"+Path.GetFileName(ImageSource)));
@@ -92,9 +83,7 @@ namespace MTMCL.Themes
                     }
                     zos.CloseEntry();
                     zos.IsStreamOwner = true;
-                    zos.Close();
                 }
-            }
         }
         public static void UnpackMTMCLTheme(string path)
         {

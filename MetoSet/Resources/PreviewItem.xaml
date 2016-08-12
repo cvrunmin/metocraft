@@ -54,10 +54,17 @@
         </Style>
     </Button.Resources>
     <Grid Width="150" Height="150">
-        <Grid x:Name="imagePreview" Margin="5,5,5,24">
-            <Grid.Background>
-                <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" Stretch="UniformToFill" TileMode="Tile"/>
-            </Grid.Background>
+        <Grid Margin="5,5,5,24">
+            <Canvas x:Name="canvaColor" Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                <Canvas.Background>
+                    <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}"/>
+                </Canvas.Background>
+            </Canvas>
+            <Grid x:Name="imagePreview">
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" Stretch="UniformToFill" TileMode="Tile"/>
+                </Grid.Background>
+            </Grid>
         </Grid>
         <Label x:Name="lblPreview" Margin="0,126,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <AccessText x:Name="txtPreview" TextAlignment="Center" Text="{Binding Description, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="12" TextOptions.TextHintingMode="Animated"/>

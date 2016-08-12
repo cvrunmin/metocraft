@@ -125,18 +125,18 @@ namespace MTMCL.Versions
                             string ver = "";
                             if (File.Exists(ver = Path.Combine(item, item.Substring(item.LastIndexOf('\\') + 1) + ".json")))
                             {
-                                using (VersionJson verj = GetFurtherVersion(MCPath, Newtonsoft.Json.JsonConvert.DeserializeObject<VersionJson>(File.ReadAllText(ver))))
-                                {
-                                    if (verj != null)
-                                        if (!verj.errored)
-                                            list.Add(verj);
-                                        else
-                                        {
-                                            if (!err.ContainsKey(verj.inheritsFrom))
-                                                err.Add(verj.inheritsFrom, new List<string>());
-                                            err[verj.inheritsFrom].Add(verj.id);
-                                        }
-                                }
+                                VersionJson verj = GetFurtherVersion(MCPath, Newtonsoft.Json.JsonConvert.DeserializeObject<VersionJson>(File.ReadAllText(ver)));
+
+                                if (verj != null)
+                                    if (!verj.errored)
+                                        list.Add(verj);
+                                    else
+                                    {
+                                        if (!err.ContainsKey(verj.inheritsFrom))
+                                            err.Add(verj.inheritsFrom, new List<string>());
+                                        err[verj.inheritsFrom].Add(verj.id);
+                                    }
+
                             }
                         }
                     }

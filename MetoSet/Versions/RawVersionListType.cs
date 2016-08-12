@@ -29,10 +29,10 @@ namespace MTMCL.Versions
     [DataContract]
     class latest
     {
-        [DataMember(Order = 0, IsRequired = true)]
-        string snapshot;
-        [DataMember(Order = 1, IsRequired = true)]
-        string release;
+        [DataMember(IsRequired = true)]
+        string snapshot { get; set; }
+        [DataMember(IsRequired = true)]
+        string release { get; set; }
 
         public latest()
         {

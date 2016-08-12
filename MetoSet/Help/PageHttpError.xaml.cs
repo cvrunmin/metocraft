@@ -19,7 +19,7 @@ namespace MTMCL.Help
     /// </summary>
     public partial class PageHttpError : Page
     {
-        public delegate void Retry();
+        public delegate void Retry(object sender, EventArgs e);
         public event Retry OnRetry;
         public PageHttpError()
         {
@@ -32,7 +32,7 @@ namespace MTMCL.Help
         }
         private void butRetry_Click(object sender, RoutedEventArgs e)
         {
-            OnRetry?.Invoke();
+            OnRetry?.Invoke(sender, e);
         }
     }
 }

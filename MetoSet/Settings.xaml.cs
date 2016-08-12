@@ -308,7 +308,7 @@ namespace MTMCL
                 {
                     System.Drawing.Bitmap map = new System.Drawing.Bitmap(stream);
                     System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, map.Width, map.Height);
-                    System.Drawing.Imaging.BitmapData data = map.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, map.PixelFormat);
+                    System.Drawing.Imaging.BitmapData data = map.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
                     IntPtr ptr = data.Scan0;
                     int bytes = data.Stride * map.Height;
                     byte[] bgr = new byte[bytes];

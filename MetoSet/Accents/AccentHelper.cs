@@ -14,7 +14,6 @@ namespace MTMCL.Accents
             using (var sw = new System.IO.StreamWriter(System.IO.File.Create(System.IO.Path.Combine(MeCore.DataDirectory, "Color", name + ".xaml")))) {
                 string s = System.Windows.Markup.XamlWriter.Save(createResourceDictionary(highlight, accent));
                 System.Threading.Tasks.Task.WaitAll(sw.WriteAsync(s));
-                sw.Close();
             }
         }
         #region Create ResourceDictionary

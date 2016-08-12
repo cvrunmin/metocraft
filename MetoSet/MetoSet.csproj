@@ -116,29 +116,35 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net40\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ManagedXZ, Version=0.3.5905.35830, Culture=neutral, PublicKeyToken=3c2ba886793fba01, processorArchitecture=MSIL">
-      <HintPath>..\packages\ManagedXZ.0.3.0\lib\net40\ManagedXZ.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ManagedXZ, Version=1.0.5975.24578, Culture=neutral, PublicKeyToken=3c2ba886793fba01, processorArchitecture=MSIL">
+      <HintPath>..\packages\ManagedXZ.1.0.0\lib\net40\ManagedXZ.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -162,6 +168,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web" />
@@ -325,47 +332,6 @@
     <Compile Include="Versions\RemoteVerType.cs" />
     <Compile Include="Versions\VersionJson.cs" />
     <Compile Include="Versions\VersionReader.cs" />
-    <Compile Include="Zip\Checksums\Adler32.cs" />
-    <Compile Include="Zip\Checksums\CRC32.cs" />
-    <Compile Include="Zip\Checksums\IChecksum.cs" />
-    <Compile Include="Zip\Checksums\StrangeCRC.cs" />
-    <Compile Include="Zip\Compression\Deflater.cs" />
-    <Compile Include="Zip\Compression\DeflaterConstants.cs" />
-    <Compile Include="Zip\Compression\DeflaterEngine.cs" />
-    <Compile Include="Zip\Compression\DeflaterHuffman.cs" />
-    <Compile Include="Zip\Compression\DeflaterPending.cs" />
-    <Compile Include="Zip\Compression\Inflater.cs" />
-    <Compile Include="Zip\Compression\InflaterDynHeader.cs" />
-    <Compile Include="Zip\Compression\InflaterHuffmanTree.cs" />
-    <Compile Include="Zip\Compression\PendingBuffer.cs" />
-    <Compile Include="Zip\Compression\Streams\DeflaterOutputStream.cs" />
-    <Compile Include="Zip\Compression\Streams\InflaterInputStream.cs" />
-    <Compile Include="Zip\Compression\Streams\OutputWindow.cs" />
-    <Compile Include="Zip\Compression\Streams\StreamManipulator.cs" />
-    <Compile Include="Zip\Core\FileSystemScanner.cs" />
-    <Compile Include="Zip\Core\INameTransform.cs" />
-    <Compile Include="Zip\Core\IScanFilter.cs" />
-    <Compile Include="Zip\Core\NameFilter.cs" />
-    <Compile Include="Zip\Core\PathFilter.cs" />
-    <Compile Include="Zip\Core\StreamUtils.cs" />
-    <Compile Include="Zip\Core\WindowsPathUtils.cs" />
-    <Compile Include="Zip\Encryption\PkzipClassic.cs" />
-    <Compile Include="Zip\Encryption\ZipAESStream.cs" />
-    <Compile Include="Zip\Encryption\ZipAESTransform.cs" />
-    <Compile Include="Zip\FastZip.cs" />
-    <Compile Include="Zip\IEntryFactory.cs" />
-    <Compile Include="Zip\SharpZipBaseException.cs" />
-    <Compile Include="Zip\WindowsNameTransform.cs" />
-    <Compile Include="Zip\ZipConstants.cs" />
-    <Compile Include="Zip\ZipEntry.cs" />
-    <Compile Include="Zip\ZipEntryFactory.cs" />
-    <Compile Include="Zip\ZipException.cs" />
-    <Compile Include="Zip\ZipExtraData.cs" />
-    <Compile Include="Zip\ZipFile.cs" />
-    <Compile Include="Zip\ZipHelperStream.cs" />
-    <Compile Include="Zip\ZipInputStream.cs" />
-    <Compile Include="Zip\ZipNameTransform.cs" />
-    <Compile Include="Zip\ZipOutputStream.cs" />
     <Page Include="Accents\AccentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -635,13 +601,13 @@
     <PropertyGroup>
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 封裝。請啟用 NuGet 封裝還原，以下載該封裝。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\ManagedXZ.1.0.0\build\ManagedXZ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ManagedXZ.1.0.0\build\ManagedXZ.targets'))" />
   </Target>
-  <Import Project="..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets" Condition="Exists('..\packages\ManagedXZ.0.3.0\build\ManagedXZ.targets')" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+  <Import Project="..\packages\ManagedXZ.1.0.0\build\ManagedXZ.targets" Condition="Exists('..\packages\ManagedXZ.1.0.0\build\ManagedXZ.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

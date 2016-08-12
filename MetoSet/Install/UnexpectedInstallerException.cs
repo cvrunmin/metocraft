@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace MTMCL.Install
 {
+    [Serializable]
     public class UnexpectedInstallerException : Exception, ISerializable
     {
         public string FilePath { get; private set; }
@@ -16,5 +18,14 @@ namespace MTMCL.Install
             FilePath = fp;
         }
         protected UnexpectedInstallerException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public override void GetObjectData (SerializationInfo info, StreamingContext context)
+        {
+            if (info == null)
+                throw new ArgumentNullException("info");
+            base.GetObjectData(info, context);
+            info.AddValue("FilePath", FilePath);
+        }
     }
 }

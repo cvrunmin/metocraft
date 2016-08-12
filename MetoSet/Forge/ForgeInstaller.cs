@@ -520,8 +520,8 @@ namespace MTMCL.Forge
             jos.Write(checksums, 0, checksums.Length);
             jos.CloseEntry();
             checksums = null;
+            jos.IsStreamOwner = true;
             jos.Close();
-            jarBytes.Close();
             input.Delete();
             File.Delete(input.FullName.Replace(".xz", ""));
         }

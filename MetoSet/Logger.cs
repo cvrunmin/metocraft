@@ -25,8 +25,8 @@ namespace MTMCL
                 FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
                 fs.Close();
             }
-            catch (UnauthorizedAccessException e) {
-                System.Windows.MessageBox.Show("無法修改日誌\n无法修改日志\nFailed to edit the log\n" + e);
+            catch (UnauthorizedAccessException) {
+                //System.Windows.MessageBox.Show("無法修改日誌\n无法修改日志\nFailed to edit the log\n" + e);
                 LogReadOnly = true;
             }
             if (debug)
@@ -69,11 +69,10 @@ namespace MTMCL
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             sw.WriteLine(writeInfo(type) + str);
             sw.Close();
-            fs.Close();
-            if (debug)
-            {
-//                frmLog.WriteLine(str, type);
-            }
+                if (debug)
+                {
+                    //                frmLog.WriteLine(str, type);
+                }
         }
         static private string HelpWrite(string str, LogType type = LogType.Info)
         {
@@ -83,7 +82,6 @@ namespace MTMCL
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             sw.WriteLine(a);
             sw.Close();
-            fs.Close();
             if (debug)
             {
                 //                frmLog.WriteLine(str, type);
