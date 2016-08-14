@@ -67,14 +67,12 @@ namespace MTMCL
                 listVer.SelectedIndex = -1;
             }
             if (versions == null)
-            {
                 gridNoVersion.Visibility = Visibility.Visible;
-                return;
-            }
-            if (versions.Length == 0)
-            {
+            else if (versions.Length == 0)
                 gridNoVersion.Visibility = Visibility.Visible;
-            }
+            else
+                gridNoVersion.Visibility = Visibility.Collapsed;
+
         }
         List<LibraryUniversal> libs = new List<LibraryUniversal>();
         private async void listVer_SelectionChanged(object sender, SelectionChangedEventArgs e)

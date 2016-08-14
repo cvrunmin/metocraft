@@ -47,7 +47,7 @@
             </TabItem>
             <TabItem Header="{DynamicResource Assets}" Custom:ControlsHelper.HeaderFontSize="16">
                 <Grid Background="#7FFFFFFF">
-                    <ListView x:Name="listAsset" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" >
+                    <ListView x:Name="listAsset" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Assets}" Header="{DynamicResource Assets}" Width="220"/>
