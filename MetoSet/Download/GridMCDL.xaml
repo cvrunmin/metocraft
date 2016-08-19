@@ -1,0 +1,36 @@
+﻿<Grid
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MTMCL"
+      xmlns:Versions="clr-namespace:MTMCL.Versions" x:Class="MTMCL.Download.GridMCDL"
+      mc:Ignorable="d" 
+     d:DesignHeight="380" d:DesignWidth="675">
+    <ListBox Margin="0,40,0,0">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Grid Height="140" Width="240">
+                    <Grid Margin="0,0,0,20">
+                        <Image Source="{Binding type, StringFormat=/MTMCL;component/Resources/remote-mc-\{0\}.png}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10"/>
+                    </Grid>
+                    <Label Content="{Binding id}" HorizontalAlignment="Stretch" Height="20" Margin="0" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
+                </Grid>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ScrollContentPresenter}, Mode=FindAncestor}}"/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+    </ListBox>
+    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+    <Label Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+    <Label Content="{DynamicResource DLMC}" HorizontalAlignment="Left" Margin="153,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+</Grid>

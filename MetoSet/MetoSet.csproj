@@ -203,8 +203,11 @@
     <Compile Include="ButtonMenu.cs" />
     <Compile Include="config.cs" />
     <Compile Include="Customize\TileColor.cs" />
-    <Compile Include="Download.xaml.cs">
+    <Compile Include="Download\Download.xaml.cs">
       <DependentUpon>Download.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Download\GridMCDL.xaml.cs">
+      <DependentUpon>GridMCDL.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forge\Artifact.cs" />
     <Compile Include="Forge\ForgeDLThread.cs" />
@@ -348,7 +351,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Download.xaml">
+    <Page Include="Download\Download.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Download\GridMCDL.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
