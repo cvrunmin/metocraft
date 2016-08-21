@@ -81,8 +81,15 @@ namespace MTMCL.Threads
             //await TaskEx.Delay(1000);
             Dictionary<string, string> args = new Dictionary<string, string>();
             Launch.Login.AuthInfo ai = _LaunchOptions.Auth.Login();
+              login:
             if (!ai.Pass | !string.IsNullOrWhiteSpace(ai.ErrorMsg))
             {
+                if (ai.ErrorMsg.Contains("invalid token")) {
+                    ACLogin ac = new ACLogin();
+                    ac.ShowDialog();
+                    ai = ac.auth.Login();
+                    goto login;
+                }
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
                 OnLogged?.Invoke("Please check the notice for detail");
                 MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("AuthFaultSolve"), ai.ErrorMsg) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));

@@ -31,6 +31,16 @@ namespace MTMCL.Lang
                 return DefaultLanguage[key] as string;
             return key;
         }
+        static public void SetLocalizedContent(this FrameworkElement element, string key) {
+            SetLocalizedContent(element, key, System.Windows.Controls.ContentControl.ContentProperty);
+        }
+
+        static public void SetLocalizedContent(this FrameworkElement element, string key, DependencyProperty property)
+        {
+            if (Application.Current.Resources.Contains(key))
+                element.SetResourceReference(property, key);
+            else element.SetValue(property, key);
+        }
 
         static public ResourceDictionary LoadLangFromResource(string path)
         {

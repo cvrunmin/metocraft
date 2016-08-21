@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MTMCL"
     xmlns:util="clr-namespace:MTMCL.util"
-      xmlns:Versions="clr-namespace:MTMCL.Versions" x:Class="MTMCL.GridMCDL"
+      xmlns:Versions="clr-namespace:MTMCL.Versions" x:Class="MTMCL.GridForgeDLMain"
     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
      d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
@@ -155,7 +155,7 @@
     <Label HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333">
         <TextBlock>
             <Run Text="{DynamicResource Download}"/>
-            <Run Text="{DynamicResource DLMC}"/>
+            <Run Text="{DynamicResource DLForge}"/>
         </TextBlock>
     </Label>
     <Button x:Name="butReloadMC" Content="{DynamicResource Reload}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="35" Custom:ControlsHelper.ContentCharacterCasing="Normal" FontSize="16" Click="butReloadMC_Click"/>

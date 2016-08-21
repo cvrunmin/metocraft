@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Data;
+using System.Globalization;
+using System.Windows.Media.Imaging;
 
 namespace MTMCL.util
 {
@@ -310,6 +313,21 @@ namespace MTMCL.util
             {
                 return false;
             }
+        }
+    }
+
+    internal sealed class ImageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter == null || parameter.Equals(String.Empty)) parameter = "{0}";
+            string path = string.Format((string)parameter, value);
+            return new BitmapImage(new Uri(path));
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MTMCL.Lang;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -106,14 +107,14 @@ namespace MTMCL
                     Grid gridCustomAuth = new Grid();
                     gridCustomAuth.Visibility = Visibility.Collapsed;
                     Label lbltitie = new Label();
-                    lbltitie.Content = Lang.LangManager.GetLangFromResource("Login");
+                    lbltitie.SetLocalizedContent("Login");
                     lbltitie.FontSize = 21.333;
                     lbltitie.Margin = new Thickness(10, 10, 0, 0);
                     lbltitie.HorizontalAlignment = HorizontalAlignment.Left;
                     lbltitie.VerticalAlignment = VerticalAlignment.Top;
                     gridCustomAuth.Children.Add(lbltitie);
                     Label lblune = new Label();
-                    lblune.Content = Lang.LangManager.GetLangFromResource("UNEM");
+                    lblune.SetLocalizedContent("UNEM");
                     lblune.FontSize = 16;
                     lblune.Margin = new Thickness(10, 45, 0, 0);
                     lblune.HorizontalAlignment = HorizontalAlignment.Left;
@@ -129,7 +130,7 @@ namespace MTMCL
                     txtboxune.TextWrapping = TextWrapping.Wrap;
                     gridCustomAuth.Children.Add(txtboxune);
                     Label lblpw = new Label();
-                    lblpw.Content = Lang.LangManager.GetLangFromResource("PW");
+                    lblpw.SetLocalizedContent("PW");
                     lblpw.FontSize = 16;
                     lblpw.Margin = new Thickness(10, 105, 0, 0);
                     lblpw.HorizontalAlignment = HorizontalAlignment.Left;
@@ -144,7 +145,7 @@ namespace MTMCL
                     pwbox.VerticalAlignment = VerticalAlignment.Top;
                     gridCustomAuth.Children.Add(pwbox);
                     Button butback = new Button();
-                    butback.Content = Lang.LangManager.GetLangFromResource("Back");
+                    butback.SetLocalizedContent("Back");
                     butback.FontSize = 16;
                     butback.Margin = new Thickness(0, 0, 10, 10);
                     butback.Width = 202; butback.Height = 32;
@@ -158,7 +159,7 @@ namespace MTMCL
                     };
                     gridCustomAuth.Children.Add(butback);
                     Button butlogin = new Button();
-                    butlogin.Content = Lang.LangManager.GetLangFromResource("Login");
+                    butlogin.SetLocalizedContent("Login");
                     butlogin.FontSize = 16;
                     butlogin.Margin = new Thickness(0, 0, 217, 10);
                     butlogin.Width = 202; butlogin.Height = 32;

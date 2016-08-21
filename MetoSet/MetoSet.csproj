@@ -206,6 +206,12 @@
     <Compile Include="Download\Download.xaml.cs">
       <DependentUpon>Download.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Download\GridForgeDLMinor.xaml.cs">
+      <DependentUpon>GridForgeDLMinor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Download\GridForgeDLMain.xaml.cs">
+      <DependentUpon>GridForgeDLMain.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Download\GridMCDL.xaml.cs">
       <DependentUpon>GridMCDL.xaml</DependentUpon>
     </Compile>
@@ -354,6 +360,14 @@
     <Page Include="Download\Download.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Download\GridForgeDLMinor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Download\GridForgeDLMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Download\GridMCDL.xaml">
       <SubType>Designer</SubType>
@@ -598,7 +612,21 @@
   <ItemGroup>
     <Resource Include="mtmcl.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\remote-mc-snapshot.png" />
+    <Resource Include="Resources\remote-unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\remote-mc-old_alpha.png" />
+    <Resource Include="Resources\remote-mc-old_beta.png" />
+    <Resource Include="Resources\remote-mc-release.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\remote-forge-branch.png" />
+    <Resource Include="Resources\remote-forge-multi.png" />
+    <Resource Include="Resources\remote-forge-normal.png" />
+    <Resource Include="Resources\remote-forge-recommended.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

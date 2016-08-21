@@ -10,15 +10,21 @@ namespace MTMCL.Versions
     class RemoteVerType
     {
         [DataMember(IsRequired = true)]
-        public string id;
+        public string id { get; set; }
         [DataMember(IsRequired = true)]
-        public string time;
+        public string time { get; set; }
         [DataMember(IsRequired = true)]
-        public string releaseTime;
+        public string releaseTime { get; set; }
+        [IgnoreDataMember]
+        public DateTime relTime { get
+            {
+                return DateTime.Parse(releaseTime);
+            }
+        }
         [DataMember(IsRequired = true)]
-        public string type;
+        public string type { get; set; }
         [DataMember(IsRequired = false)]
-        public string url;
+        public string url { get; set; }
         public RemoteVerType()
         {
             id = "";

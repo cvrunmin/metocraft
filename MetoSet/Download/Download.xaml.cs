@@ -584,6 +584,16 @@ namespace MTMCL
             RefreshForgeListWithFilter(histfilter);
             expanderFilter.Visibility = Visibility.Visible;
         }
+        GridMCDL gridmc;
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            MeCore.MainWindow.gridOthers.Children.Clear();
+            MeCore.MainWindow.gridOthers.Children.Add(gridmc ?? (gridmc = new GridMCDL(this)));
+            var ani = new DoubleAnimationUsingKeyFrames();
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
+            MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
+        }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

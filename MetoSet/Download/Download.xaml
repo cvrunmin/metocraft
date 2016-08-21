@@ -26,9 +26,10 @@
         </Button>
         <Label Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <Grid Margin="0,45,0,0"/>
-        <!--<TabControl x:Name="tabControl" Margin="0,45,0,0" SelectionChanged="tabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" Margin="0,45,0,0" SelectionChanged="tabControl_SelectionChanged">
             <TabItem x:Name="tabDLMC" Header="{DynamicResource DLMC}" Background="{DynamicResource AccentColorBrush4}">
-                <Grid Background="#7FFFFFFF">
+                <Grid>
+                <Grid Background="#7FFFFFFF" Visibility="Collapsed">
                     <ListView x:Name="listRemoteVer" Margin="0,0,150,0" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
                         <ListView.View>
                             <GridView>
@@ -58,6 +59,11 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                         <Label Content="{DynamicResource Refreshing}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    </Grid>
+                </Grid>
+                    <Grid>
+                        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="305,114,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+
                     </Grid>
                 </Grid>
             </TabItem>
@@ -230,6 +236,6 @@
 
                 </Grid>
             </TabItem>
-        </TabControl>-->
+        </TabControl>
     </Grid>
 </Grid>

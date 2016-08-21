@@ -30,15 +30,15 @@ namespace MTMCL
     /// <summary>
     /// GridMCDL.xaml 的互動邏輯
     /// </summary>
-    public partial class GridMCDL : Grid
+    public partial class GridForgeDLMinor : Grid
     {
         Grid parent;
-        public GridMCDL ()
+        public GridForgeDLMinor ()
         {
             InitializeComponent();
         }
 
-        public GridMCDL(Grid parent) : this() {
+        public GridForgeDLMinor(Grid parent) : this() {
             this.parent = parent;
         }
 
