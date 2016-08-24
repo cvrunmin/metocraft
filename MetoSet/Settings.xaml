@@ -81,7 +81,7 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Themes" Background="{DynamicResource AccentColorBrush4}">
+            <TabItem Header="Themes" Background="{DynamicResource AccentColorBrush4}" Visibility="Collapsed">
                 <Grid Background="{DynamicResource AccentColorBrush3}">
                     <ScrollViewer Margin="0,0,130,0">
                         <WrapPanel x:Name="panelTheme" Background="{DynamicResource ControlBackgroundBrush}"/>
@@ -103,6 +103,7 @@
                     <Label HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Padding="0">
                         <AccessText Text="©2014-2017 cvrunmin" TextWrapping="WrapWithOverflow"/>
                     </Label>
+                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="117,62,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

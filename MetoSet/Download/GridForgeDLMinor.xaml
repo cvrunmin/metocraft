@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MTMCL"
     xmlns:util="clr-namespace:MTMCL.util"
-      xmlns:Versions="clr-namespace:MTMCL.Versions" x:Class="MTMCL.GridForgeDLMinor"
+      xmlns:Versions="clr-namespace:MTMCL.Versions" x:Name="grid" x:Class="MTMCL.GridForgeDLMinor"
     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
-     d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
+     d:DesignHeight="380" d:DesignWidth="675" Loaded="Grid_Initialized">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,17 +18,17 @@
             <util:ImageConverter x:Key="ImageConverter" />
         </ResourceDictionary>
     </Grid.Resources>
-    <ListBox x:Name="listRemoteVer" Margin="0,40,0,0" Visibility="Collapsed">
+    <ListBox x:Name="listRemoteVer" Margin="0,40,0,0">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Grid Height="140" Width="215">
                     <Grid Margin="0,0,0,20">
-                        <Image x:Name="imgType" Source="{Binding type, ConverterParameter=pack://application:\,\,\,/Resources/remote-mc-\{0\}.png, Converter={StaticResource ImageConverter}, FallbackValue=pack://application:\,\,\,/Resources/remote-unknown.png}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10"/>
+                        <Image x:Name="imgType" Source="{Binding type, ConverterParameter=pack://application:\,\,\,/Resources/remote-forge-\{0\}.png, Converter={StaticResource ImageConverter}, FallbackValue=pack://application:\,\,\,/Resources/remote-unknown.png}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10"/>
                         <!--<Image Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10,100,60" Source="/MTMCL;component/Resources/remote-unknown.png"/>
                         -->
                         <Label x:Name="lbltype" Margin="82,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Collapsed" Opacity="0">
                             <TextBlock>
-                                <Run Text="{DynamicResource Type}"/>
+                                <Run Text="{DynamicResource Tag}"/>
                                 <Run Text=":"/>
                                 <Run Text="{Binding type}"/>
                             </TextBlock>
@@ -46,7 +46,7 @@
                         <Button x:Name="butDL" Content="{DynamicResource Download}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Opacity="0" Visibility="Collapsed" Click="butDL_Click"/>
                     </Grid>
                     <Label HorizontalAlignment="Stretch" Height="20" Margin="0" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0">
-                        <TextBlock Text="{Binding id}"/>
+                        <TextBlock Text="{Binding version}"/>
                     </Label>
                 </Grid>
                 <DataTemplate.Triggers>
@@ -125,26 +125,6 @@
             </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
     </ListBox>
-    <Grid x:Name="gridMCRFail" Margin="0,42,0,0" Visibility="Collapsed">
-        <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
-            <Rectangle.OpacityMask>
-                <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-        <Label Content="{DynamicResource RVerFail1}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label Content="{DynamicResource RVerFail2}" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top"/>
-    </Grid>
-    <Grid x:Name="gridMCRing" Margin="0,40,0,0">
-        <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,80" Width="70" Height="70">
-            <Custom:ProgressRing Height="70" Width="70" VerticalAlignment="Top"/>
-            <Rectangle Fill="Black" Height="40" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="15" Canvas.Left="28" Canvas.Top="15">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Visual="{StaticResource appbar_information}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Canvas>
-        <Label Content="{DynamicResource Refreshing}" HorizontalAlignment="Center" Margin="0,170,0,0" VerticalAlignment="Top" FontSize="16"/>
-    </Grid>
     <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
         <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
             <Rectangle.OpacityMask>
@@ -156,24 +136,7 @@
         <TextBlock>
             <Run Text="{DynamicResource Download}"/>
             <Run Text="{DynamicResource DLForge}"/>
+            <Run Text="{Binding mcversion}"/>
         </TextBlock>
     </Label>
-    <Button x:Name="butReloadMC" Content="{DynamicResource Reload}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="35" Custom:ControlsHelper.ContentCharacterCasing="Normal" FontSize="16" Click="butReloadMC_Click"/>
-    <ToggleButton x:Name="butFilter" Style="{DynamicResource MetroCircleToggleButtonStyle}" Margin="0,0,105,0" VerticalAlignment="Top" Height="42" HorizontalAlignment="Right" Width="42" FontSize="16" Custom:ButtonHelper.PreserveTextCase="True" ToolTip="{DynamicResource Filter}" Padding="1,5,1,1" Click="filter_Click">
-        <ToggleButton.ContextMenu>
-            <ContextMenu>
-                <CheckBox x:Name="chkRel" Content="release" IsChecked="True" Click="filter_Click"/>
-                <CheckBox x:Name="chkSS" Content="snapshot" IsChecked="True" Click="filter_Click"/>
-                <CheckBox x:Name="chkBeta" Content="beta" IsChecked="True" Click="filter_Click"/>
-                <CheckBox x:Name="chkAlpha" Content="alpha" IsChecked="True" Click="filter_Click"/>
-            </ContextMenu>
-        </ToggleButton.ContextMenu>
-        <Rectangle Width="20" Height="20"
-            Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-            <Rectangle.OpacityMask>
-                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}"/>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-    </ToggleButton>
-
 </Grid>

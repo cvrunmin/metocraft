@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MTMCL"
     xmlns:util="clr-namespace:Wpf.Util"
-             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MTMCL.Download"
+             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" xmlns:Resources="clr-namespace:MTMCL.Resources" x:Class="MTMCL.Download"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="675">
     <Grid.Resources>
@@ -25,8 +25,12 @@
             </Rectangle>
         </Button>
         <Label Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
-        <Grid Margin="0,45,0,0"/>
-        <TabControl x:Name="tabControl" Margin="0,45,0,0" SelectionChanged="tabControl_SelectionChanged">
+        <Grid Margin="0,45,0,0">
+            <Resources:PreviewItem x:Name="butMC" HorizontalAlignment="Left" VerticalAlignment="Top" ImgSrc="/MTMCL;component/Resources/remote-mc-release.png" Description="{DynamicResource DLMC}" Stretch="Uniform" Click="button_Click"/>
+            <Resources:PreviewItem x:Name="butForge" HorizontalAlignment="Left" Margin="150,0,0,0" VerticalAlignment="Top" ImgSrc="/MTMCL;component/Resources/remote-forge-recommended.png" Description="{DynamicResource DLForge}" Stretch="Uniform" Click="button1_Click"/>
+            <Resources:PreviewItem x:Name="butPack" HorizontalAlignment="Left" Margin="300,0,0,0" VerticalAlignment="Top" Description="{DynamicResource DLPack}" ImgSrc="/MTMCL;component/Resources/remote-pack.png" Stretch="Uniform" Visibility="Collapsed"/>
+        </Grid>
+        <!--<TabControl x:Name="tabControl" Margin="0,45,0,0" SelectionChanged="tabControl_SelectionChanged">
             <TabItem x:Name="tabDLMC" Header="{DynamicResource DLMC}" Background="{DynamicResource AccentColorBrush4}">
                 <Grid>
                 <Grid Background="#7FFFFFFF" Visibility="Collapsed">
@@ -68,164 +72,168 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabDLForge" Header="{DynamicResource DLForge}" Background="{DynamicResource AccentColorBrush4}">
-                <Grid Background="#7FFFFFFF">
-                    <ListView x:Name="listForge" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True" Margin="0,0,150,0">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Ver}" Header="{DynamicResource Version}" Width="110" util:GridViewSort.PropertyName="Ver"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding MCVer}" Header="{DynamicResource MCVer}" Width="105" util:GridViewSort.PropertyName="MCVer"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="{DynamicResource RTime}" Width="170" util:GridViewSort.PropertyName="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Tag}" Header="{DynamicResource Tag}" Width="100" util:GridViewSort.PropertyName="Tag"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Button x:Name="butReloadForge" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="45" Click="butReloadForge_Click">
-                        <AccessText Text="{DynamicResource Reload}" FontSize="16" TextWrapping="WrapWithOverflow" TextAlignment="Center"></AccessText>
-                    </Button>
-                    <Button x:Name="butDLForge" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="150" FontSize="16" Click="butDLForge_Click"/>
-                    <ToggleButton x:Name="butFilter" Style="{DynamicResource MetroCircleToggleButtonStyle}" Margin="0,95,105,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="45" FontSize="16" Custom:ButtonHelper.PreserveTextCase="True" Padding="1.5,4,1,1" Unchecked="butFilter_Unchecked" Checked="butFilter_Checked" ToolTip="{DynamicResource Filter}">
-                        <ToggleButton.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{DynamicResource ApplyFilter}" Click="MenuItem_Click"/>
-                            </ContextMenu>
-                        </ToggleButton.ContextMenu>
-                        <Rectangle Width="22" Height="22"
+                <Grid>
+                    <Grid Background="#7FFFFFFF" Visibility="Collapsed">
+                        <ListView x:Name="listForge" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True" Margin="0,0,150,0">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Ver}" Header="{DynamicResource Version}" Width="110" util:GridViewSort.PropertyName="Ver"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding MCVer}" Header="{DynamicResource MCVer}" Width="105" util:GridViewSort.PropertyName="MCVer"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="{DynamicResource RTime}" Width="170" util:GridViewSort.PropertyName="Time"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Tag}" Header="{DynamicResource Tag}" Width="100" util:GridViewSort.PropertyName="Tag"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button x:Name="butReloadForge" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="45" Click="butReloadForge_Click">
+                            <AccessText Text="{DynamicResource Reload}" FontSize="16" TextWrapping="WrapWithOverflow" TextAlignment="Center"></AccessText>
+                        </Button>
+                        <Button x:Name="butDLForge" Content="{DynamicResource Download}" Margin="0,45,0,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="150" FontSize="16" Click="butDLForge_Click"/>
+                        <ToggleButton x:Name="butFilter" Style="{DynamicResource MetroCircleToggleButtonStyle}" Margin="0,95,105,0" VerticalAlignment="Top" Height="45" HorizontalAlignment="Right" Width="45" FontSize="16" Custom:ButtonHelper.PreserveTextCase="True" Padding="1.5,4,1,1" Unchecked="butFilter_Unchecked" Checked="butFilter_Checked" ToolTip="{DynamicResource Filter}">
+                            <ToggleButton.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ApplyFilter}" Click="MenuItem_Click"/>
+                                </ContextMenu>
+                            </ToggleButton.ContextMenu>
+                            <Rectangle Width="22" Height="22"
                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton>
-                    <Grid x:Name="gridMFRing" Margin="0,0,150,0" Background="#BFFFFFFF">
-                        <Custom:ProgressRing Margin="0,69,0,0" Height="70" Width="70" VerticalAlignment="Top"/>
-                        <Rectangle Fill="Black" Height="40" Margin="0,84,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="15">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Visual="{StaticResource appbar_information}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                        <Label Content="{DynamicResource Refreshing}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
-                    </Grid>
-                    <Grid x:Name="gridMFRFail" Margin="0,0,150,0" Background="#BFFFFFFF" Visibility="Collapsed">
-                        <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                        <Label Content="{DynamicResource RVerFail1}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
-                        <Label Content="{DynamicResource RVerFail2}" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top"/>
-                    </Grid>
-                    <Expander x:Name="expanderFilter" Header="{DynamicResource Filter}" ExpandDirection="Left" Custom:ExpanderHelper.HeaderLeftStyle="{DynamicResource ToggleLeftStyle}" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,0,105,0" BorderThickness="0" Padding="0" Visibility="Collapsed">
-                        <Expander.Resources>
-                            <Style x:Key="ToggleLeftStyle" TargetType="{x:Type ToggleButton}">
-                                <Setter Property="VerticalAlignment" Value="Bottom"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                            <Border Height="38" Width="37" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                                                <Grid Background="Transparent" SnapsToDevicePixels="False">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="19"/>
-                                                        <RowDefinition Height="*"/>
-                                                    </Grid.RowDefinitions>
-                                                    <Grid>
-                                                        <Grid.LayoutTransform>
-                                                            <TransformGroup>
-                                                                <RotateTransform Angle="90"/>
-                                                            </TransformGroup>
-                                                        </Grid.LayoutTransform>
-                                                        <Ellipse x:Name="Circle" HorizontalAlignment="Center" Height="19" Stroke="{TemplateBinding Foreground}" VerticalAlignment="Center" Width="19"/>
-                                                        <Path x:Name="Arrow" Data="M1,1.5L4.5,5 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="False" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" VerticalAlignment="Center"/>
-                                                    </Grid>
-                                                    <Custom:ContentControlEx ContentCharacterCasing="{Binding (Custom:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0,4,0,0" Padding="{TemplateBinding Padding}" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                </Grid>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsChecked" Value="True">
-                                                    <Setter Property="Data" TargetName="Arrow" Value="M1,4.5L4.5,1 8,4.5"/>
-                                                </Trigger>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource GrayBrush2}"/>
-                                                    <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource GrayBrush2}"/>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource BlackColorBrush}"/>
-                                                    <Setter Property="StrokeThickness" TargetName="Circle" Value="2"/>
-                                                    <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource BlackColorBrush}"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.BasedOn>
-                                    <Style TargetType="{x:Type ToggleButton}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                                                        <Grid Background="Transparent" SnapsToDevicePixels="False">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="19"/>
-                                                                <RowDefinition Height="*"/>
-                                                            </Grid.RowDefinitions>
-                                                            <Grid>
-                                                                <Grid.LayoutTransform>
-                                                                    <TransformGroup>
-                                                                        <RotateTransform Angle="-90"/>
-                                                                    </TransformGroup>
-                                                                </Grid.LayoutTransform>
-                                                                <Ellipse x:Name="Circle" HorizontalAlignment="Center" Height="19" Stroke="{TemplateBinding Foreground}" VerticalAlignment="Center" Width="19"/>
-                                                                <Path x:Name="Arrow" Data="M1,1.5L4.5,5 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="False" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" VerticalAlignment="Center"/>
-                                                            </Grid>
-                                                            <Custom:ContentControlEx ContentCharacterCasing="{Binding (Custom:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0,4,0,0" Padding="{TemplateBinding Padding}" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                        </Grid>
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsChecked" Value="True">
-                                                            <Setter Property="Data" TargetName="Arrow" Value="M1,4.5L4.5,1 8,4.5"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource GrayBrush2}"/>
-                                                            <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource GrayBrush2}"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource BlackColorBrush}"/>
-                                                            <Setter Property="StrokeThickness" TargetName="Circle" Value="2"/>
-                                                            <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource BlackColorBrush}"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.BasedOn>
-                                            <Style TargetType="{x:Type ToggleButton}">
-                                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
-                                                <Setter Property="BorderBrush" Value="Transparent"/>
-                                                <Setter Property="BorderThickness" Value="0"/>
-                                                <Setter Property="Margin" Value="4"/>
-                                                <Setter Property="Padding" Value="0"/>
-                                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                            </Style>
-                                        </Style.BasedOn>
-                                    </Style>
-                                </Style.BasedOn>
-                            </Style>
-                        </Expander.Resources>
-                        <Grid Background="{DynamicResource ControlBackgroundBrush}">
-                            <CheckBox x:Name="checkRecommand" Content="{DynamicResource RecommendShow}" HorizontalAlignment="Left" Margin="0,36,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
-                            <Label Content="{DynamicResource Filter}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
-                            <CheckBox x:Name="checkLatest" Content="{DynamicResource LatestShow}" HorizontalAlignment="Left" Margin="0,59,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
-                            <CheckBox x:Name="checkNonTag" Content="{DynamicResource TaglessShow}" HorizontalAlignment="Left" Margin="0,82,0,0" VerticalAlignment="Top" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
-
-                            <Label Content="{DynamicResource HiddenVersion}" HorizontalAlignment="Left" Margin="0,105,0,0" VerticalAlignment="Top"/>
-                            <ListBox x:Name="menuVerL" HorizontalAlignment="Left" Height="153" Margin="0,131,0,0" VerticalAlignment="Top" Width="250"/>
-                            <Label x:Name="lblPlzApply" Margin="255,0,10,10" VerticalAlignment="Bottom" Opacity="0">
-                                <AccessText TextWrapping="WrapWithOverflow" Text="{DynamicResource ApplyFilterPlz}"/>
-                            </Label>
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </ToggleButton>
+                        <Grid x:Name="gridMFRing" Margin="0,0,150,0" Background="#BFFFFFFF">
+                            <Custom:ProgressRing Margin="0,69,0,0" Height="70" Width="70" VerticalAlignment="Top"/>
+                            <Rectangle Fill="Black" Height="40" Margin="0,84,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="15">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_information}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <Label Content="{DynamicResource Refreshing}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
                         </Grid>
-                    </Expander>
+                        <Grid x:Name="gridMFRFail" Margin="0,0,150,0" Background="#BFFFFFFF" Visibility="Collapsed">
+                            <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <Label Content="{DynamicResource RVerFail1}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
+                            <Label Content="{DynamicResource RVerFail2}" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                        <Expander x:Name="expanderFilter" Header="{DynamicResource Filter}" ExpandDirection="Left" Custom:ExpanderHelper.HeaderLeftStyle="{DynamicResource ToggleLeftStyle}" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,0,105,0" BorderThickness="0" Padding="0">
+                            <Expander.Resources>
+                                <Style x:Key="ToggleLeftStyle" TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <Border Height="38" Width="37" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                                    <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="19"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid>
+                                                            <Grid.LayoutTransform>
+                                                                <TransformGroup>
+                                                                    <RotateTransform Angle="90"/>
+                                                                </TransformGroup>
+                                                            </Grid.LayoutTransform>
+                                                            <Ellipse x:Name="Circle" HorizontalAlignment="Center" Height="19" Stroke="{TemplateBinding Foreground}" VerticalAlignment="Center" Width="19"/>
+                                                            <Path x:Name="Arrow" Data="M1,1.5L4.5,5 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="False" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" VerticalAlignment="Center"/>
+                                                        </Grid>
+                                                        <Custom:ContentControlEx ContentCharacterCasing="{Binding (Custom:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0,4,0,0" Padding="{TemplateBinding Padding}" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                    </Grid>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Data" TargetName="Arrow" Value="M1,4.5L4.5,1 8,4.5"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource GrayBrush2}"/>
+                                                        <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource GrayBrush2}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource BlackColorBrush}"/>
+                                                        <Setter Property="StrokeThickness" TargetName="Circle" Value="2"/>
+                                                        <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource BlackColorBrush}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.BasedOn>
+                                        <Style TargetType="{x:Type ToggleButton}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="19"/>
+                                                                    <RowDefinition Height="*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Grid>
+                                                                    <Grid.LayoutTransform>
+                                                                        <TransformGroup>
+                                                                            <RotateTransform Angle="-90"/>
+                                                                        </TransformGroup>
+                                                                    </Grid.LayoutTransform>
+                                                                    <Ellipse x:Name="Circle" HorizontalAlignment="Center" Height="19" Stroke="{TemplateBinding Foreground}" VerticalAlignment="Center" Width="19"/>
+                                                                    <Path x:Name="Arrow" Data="M1,1.5L4.5,5 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="False" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                                <Custom:ContentControlEx ContentCharacterCasing="{Binding (Custom:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0,4,0,0" Padding="{TemplateBinding Padding}" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                            </Grid>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                                <Setter Property="Data" TargetName="Arrow" Value="M1,4.5L4.5,1 8,4.5"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource GrayBrush2}"/>
+                                                                <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource GrayBrush2}"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter Property="Stroke" TargetName="Circle" Value="{DynamicResource BlackColorBrush}"/>
+                                                                <Setter Property="StrokeThickness" TargetName="Circle" Value="2"/>
+                                                                <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource BlackColorBrush}"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.BasedOn>
+                                                <Style TargetType="{x:Type ToggleButton}">
+                                                    <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Margin" Value="4"/>
+                                                    <Setter Property="Padding" Value="0"/>
+                                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                </Style>
+                                            </Style.BasedOn>
+                                        </Style>
+                                    </Style.BasedOn>
+                                </Style>
+                            </Expander.Resources>
+                            <Grid Background="{DynamicResource ControlBackgroundBrush}">
+                                <CheckBox x:Name="checkRecommand" Content="{DynamicResource RecommendShow}" HorizontalAlignment="Left" Margin="0,36,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
+                                <Label Content="{DynamicResource Filter}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                                <CheckBox x:Name="checkLatest" Content="{DynamicResource LatestShow}" HorizontalAlignment="Left" Margin="0,59,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
+                                <CheckBox x:Name="checkNonTag" Content="{DynamicResource TaglessShow}" HorizontalAlignment="Left" Margin="0,82,0,0" VerticalAlignment="Top" Checked="CheckBox_IsCheckedChanged" Unchecked="CheckBox_IsCheckedChanged"/>
+
+                                <Label Content="{DynamicResource HiddenVersion}" HorizontalAlignment="Left" Margin="0,105,0,0" VerticalAlignment="Top"/>
+                                <ListBox x:Name="menuVerL" HorizontalAlignment="Left" Height="153" Margin="0,131,0,0" VerticalAlignment="Top" Width="250"/>
+                                <Label x:Name="lblPlzApply" Margin="255,0,10,10" VerticalAlignment="Bottom" Opacity="0">
+                                    <AccessText TextWrapping="WrapWithOverflow" Text="{DynamicResource ApplyFilterPlz}"/>
+                                </Label>
+                            </Grid>
+                        </Expander>
+                    </Grid>
+                    <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Margin="297,134,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
+
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabDLPack" Header="{DynamicResource DLPack}" Visibility="Collapsed">
@@ -237,5 +245,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        -->
     </Grid>
 </Grid>

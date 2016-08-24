@@ -1,4 +1,5 @@
 ﻿using MTMCL.JsonClass;
+using MTMCL.util;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -20,6 +21,7 @@ namespace MTMCL.Forge
         public Dictionary<string, string> ForgeDownloadUrl = new Dictionary<string, string>(),
             ForgeChangeLogUrl = new Dictionary<string, string>(),
             ForgeUniversalUrl = new Dictionary<string, string>();
+        private Dictionary<int, string> promos;
         public void GetVersion()
         {
             _forge = null;
@@ -34,12 +36,13 @@ namespace MTMCL.Forge
                     var getJsonAns = (HttpWebResponse)getJson.GetResponse();
                     MeCore.Dispatcher.Invoke(new Action(() => _forge = JsonConvert.DeserializeObject<ForgeVersion>(new System.IO.StreamReader(getJsonAns.GetResponseStream()).ReadToEnd())));
                     Logger.log("Success to get Forge list");
+                    promos = _forge.promos.KVReverse();
                 }
                 catch (Exception e)
                 {
                     Logger.log("Fail to get Forge list");
                     Logger.error(e);
-                }
+                }                
                 ForgePageReadyEvent?.Invoke();
             }));
             thGet.Start();
@@ -47,7 +50,37 @@ namespace MTMCL.Forge
         webClient.DownloadStringAsync(new Uri(Resources.UrlReplacer.getForgeMaven("http://files.minecraftforge.net/maven/net/minecraftforge/forge/json")));
         webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;*/
         }
-
+        public string[] GetMCVersionsAvailable () {
+            if (_forge == null) return new string[0];
+            return _forge.mcversion.Keys.ToArray();
+        }
+        public ForgeVersion.Version[] GetForgeVersions (string mcversion) {
+            List<ForgeVersion.Version> list = new List<ForgeVersion.Version>();
+            foreach (var verno in _forge.mcversion[mcversion])
+            {
+                ForgeVersion.Version ver;
+                _forge.number.TryGetValue(verno.ToString(), out ver);
+                if (ver == null) continue;
+                string version = ver.mcversion + "-" + ver.version;
+                ver.type = "normal";
+                if (!string.IsNullOrWhiteSpace(ver.branch))
+                {
+                    version = version + "-" + ver.branch;
+                    ver.type = ver.branch.Equals(ver.mcversion) ? "normal" : "branch";
+                }
+                if (ver.urls == null) ver.urls = new Dictionary<string, string>();
+                for (int i = 0; i < ver.files.GetLength(0); i++)
+                {
+                    if (ver.urls.ContainsKey(ver.files[i][1])) continue;
+                    ver.urls.Add(ver.files[i][1], _forge.webpath + "/" + version + "/" + _forge.artifact + "-" + version + "-" + ver.files[i][1] + "." + ver.files[i][0]);
+                }
+                if (promos.ContainsKey(verno)) {
+                    ver.type = promos[verno].Contains("latest") ? "latest" : (promos[verno].Contains("recommended") ? "recommended" : "normal");
+                }
+                list.Add(ver);
+            }
+            return list.ToArray();
+        }
         public object[] GetNew()
         {
             if (_forge == null) return new object[] { };

@@ -120,6 +120,10 @@ namespace MTMCL
             {
                 LoadServerDeDicatedVersion();
             }
+#if DEBUG
+#else
+            button.Visibility = Visibility.Collapsed;
+#endif
         }
         private void PreInit()
         {
@@ -428,6 +432,11 @@ namespace MTMCL
         private void toggleTryOnce_IsCheckedChanged(object sender, EventArgs e)
         {
             MeCore.Config.QuickChange("download-once", toggleTryOnce.IsChecked);
+        }
+
+        private void button_Click (object sender, RoutedEventArgs e)
+        {
+            new ErrorReport(new AggregateException()).Show();
         }
     }
 }

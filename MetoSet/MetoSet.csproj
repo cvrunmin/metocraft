@@ -627,6 +627,12 @@
     <Resource Include="Resources\remote-forge-normal.png" />
     <Resource Include="Resources\remote-forge-recommended.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\remote-forge-latest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\remote-pack.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

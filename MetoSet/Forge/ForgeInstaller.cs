@@ -164,6 +164,105 @@ namespace MTMCL.Forge
                 return false;
             }
         }
+        public bool installOld (string target, string mcversion, string forgeversion)
+        {
+            try
+            {
+                if (!File.Exists(target))
+                {
+                    return false;
+                }
+                if (MeCore.Config.Javaw.Equals("undefined"))
+                {
+                    return false;
+                }
+                if (!target.EndsWith(".zip"))
+                {
+                    throw new UnexpectedInstallerException(target, "Target file doesn\'t end with .zip");
+                }
+                ZipFile zip = new ZipFile(target);
+                string path = MeCore.Config.MCPath;
+                if (MeCore.IsServerDedicated)
+                {
+                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                    {
+                        path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                    }
+                }
+                DirectoryInfo verroot = new DirectoryInfo(path + "\\versions\\");
+                DirectoryInfo targetdir = new DirectoryInfo(verroot.FullName + forgeversion + "\\");
+                targetdir.Create();
+                FileInfo verjson = new FileInfo(targetdir + forgeversion + ".json");
+                FileInfo verjar = new FileInfo(targetdir + forgeversion + ".jar");
+                FileInfo mcjar = new FileInfo(verroot + mcversion + "\\" + mcversion + ".jar");
+                FileInfo mcjson = new FileInfo(verroot + mcversion + "\\" + mcversion + ".json");
+                try
+                {
+                        bool requiredelete = false;
+                        if (!mcjar.Exists)
+                        {
+                            mcjar.Create();
+                            requiredelete = true;
+                            string url = Resources.UrlReplacer.getDownloadUrl() + "versions/" + mcversion + "/" + mcversion + ".jar";
+                            if (!downloadFileETag(url, mcjar.FullName))
+                            {
+                                mcjar.Delete();
+                                zip.Close();
+                                return false;
+                            }
+                        }
+                        if (!verjar.Exists)
+                        {
+                           CopyAndStrip(mcjar.FullName, verjar.FullName);
+                           CopyEntry(new FileInfo(target), verjar);
+                        }
+                        if (requiredelete)
+                        {
+                            mcjar.Delete();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.Message, string.Format(Lang.LangManager.GetLangFromResource("ForgeNoVersionSolve"), mcversion)) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+
+                    }
+
+                try
+                {
+                    using (var sr = new StreamReader(mcjson.OpenRead())) {
+                        Versions.VersionJson json = JsonConvert.DeserializeObject<Versions.VersionJson>(sr.ReadToEnd());
+                        json.id = forgeversion;
+                        using (var sw = new StreamWriter(verjson.Create(), Encoding.UTF8)) {
+                            sw.Write(JsonConvert.SerializeObject(json, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                }
+                zip.Close();
+                return true;
+            }
+            catch (UnexpectedInstallerException e)
+            {
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                return false;
+            }
+            catch (ZipException e)
+            {
+                throw new UnexpectedInstallerException(target, "Failed to read the jar", e);
+            }
+            catch (JsonException e)
+            {
+                throw new UnexpectedInstallerException(target, "Unexpected install profile json", e);
+            }
+            catch (Exception e)
+            {
+                MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), e.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                return false;
+            }
+        }
 
         string etag;
         private bool downloadFileETag(string url, string file)
@@ -306,6 +405,9 @@ namespace MTMCL.Forge
             srczip.Close();
             srcstream.Close();
             targetstream.Close();
+        }
+        private void CopyEntry (FileInfo src, FileInfo target) {
+            CopyEntry(src, new ZipOutputStream(src.OpenWrite()));
         }
         private static byte[] ReadEntry(ZipFile file, ZipEntry entry)
         {

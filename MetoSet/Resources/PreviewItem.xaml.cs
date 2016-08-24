@@ -45,6 +45,25 @@ namespace MTMCL.Resources
             }
         }
 
+        public static DependencyProperty StretchProperty = DependencyProperty.Register("Stretch", typeof(Stretch), typeof(PreviewItem));
+
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Description("Stretch")]
+        [System.ComponentModel.Category("Content")]
+        [System.ComponentModel.Browsable(true)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
+        public Stretch Stretch
+        {
+            get
+            {
+                return ((Stretch) (GetValue(StretchProperty)));
+            }
+            set
+            {
+                SetValue(StretchProperty, value);
+            }
+        }
+
         public static DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Color), typeof(PreviewItem));
 
         [System.ComponentModel.Bindable(true)]

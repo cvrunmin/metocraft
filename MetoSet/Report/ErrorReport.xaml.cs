@@ -13,11 +13,11 @@ namespace MTMCL
     /// </summary>
     public partial class ErrorReport
     {
-        public ErrorReport()
+        public ErrorReport ()
         {
             InitializeComponent();
         }
-        public ErrorReport(Exception ex)
+        public ErrorReport (Exception ex)
         {
             InitializeComponent();
             var message = new StringBuilder();
@@ -42,13 +42,19 @@ namespace MTMCL
                 message.AppendLine("StackTrace");
                 message.AppendLine(iex.StackTrace);
             }
-            message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
+            message.AppendLine("-----------------MTMCL LOG----------------------\n");
             var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
             message.AppendLine(sr.ReadToEnd());
             sr.Close();
+            message.AppendLine("-------------System Infomation------------------\n");
+            message.AppendFormat("Operating System : {0} ({1}) version {2}", util.OSHelper.GetOSName(), Environment.Is64BitOperatingSystem ? "x64" : "x32", Environment.OSVersion).AppendLine();
+            message.AppendLine(".NET Framework:");
+            message.AppendLine(util.OSHelper.GetDotNETs());
+            message.AppendLine("and updates:");
+            message.AppendLine(util.OSHelper.GetDotNETUpdates());
             txtMes.Text = message.ToString();
         }
-        public ErrorReport(String s, Exception ex)
+        public ErrorReport (string s, Exception ex)
         {
             InitializeComponent();
             var message = new StringBuilder();
@@ -74,13 +80,19 @@ namespace MTMCL
                 message.AppendLine("StackTrace");
                 message.AppendLine(iex.StackTrace);
             }
-            message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
+            message.AppendLine("\n-----------------MTMCL LOG----------------------\n");
             var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
             message.AppendLine(sr.ReadToEnd());
             sr.Close();
+            message.AppendLine("-------------System Infomation------------------\n");
+            message.AppendFormat("Operating System : {0} ({1}) version {2}", util.OSHelper.GetOSName(), Environment.Is64BitOperatingSystem ? "x64" : "x32", Environment.OSVersion).AppendLine();
+            message.AppendLine(".NET Framework:");
+            message.AppendLine(util.OSHelper.GetDotNETs());
+            message.AppendLine("and updates:");
+            message.AppendLine(util.OSHelper.GetDotNETUpdates());
             txtMes.Text = message.ToString();
         }
-        public ErrorReport(String s, String ex)
+        public ErrorReport (string s, string ex)
         {
             InitializeComponent();
             var message = new StringBuilder();
@@ -88,16 +100,28 @@ namespace MTMCL
             message.AppendLine(s);
             message.AppendLine("\n\n-----------------ERROR REPORT----------------------\n");
             message.AppendLine(ex);
-            message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
+            message.AppendLine("\n-----------------MTMCL LOG----------------------\n");
             var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
             message.AppendLine(sr.ReadToEnd());
             sr.Close();
+            message.AppendLine("-------------System Infomation------------------\n");
+            message.AppendFormat("Operating System : {0} ({1}) version {2}", util.OSHelper.GetOSName(), Environment.Is64BitOperatingSystem ? "x64" : "x32", Environment.OSVersion).AppendLine();
+            message.AppendLine(".NET Framework:");
+            message.AppendLine(util.OSHelper.GetDotNETs());
+            message.AppendLine("and updates:");
+            message.AppendLine(util.OSHelper.GetDotNETUpdates());
             txtMes.Text = message.ToString();
         }
 
-        private void butEmail_Click(object sender, RoutedEventArgs e)
+        private void butEmail_Click (object sender, RoutedEventArgs e)
         {
-            Process.Start("mailto:lung1a16@hotmail.com?subject=" + HttpUtility.UrlEncode("MTMCL_Crash_Report") + "&body=" + HttpUtility.UrlEncode(txtMes.Text, Encoding.UTF8));
+            try
+            {
+                Process.Start("mailto:lung1a16@hotmail.com?subject=" + HttpUtility.UrlEncode("MTMCL_Crash_Report") + "&body=" + HttpUtility.UrlEncode(txtMes.Text, Encoding.UTF8));
+            }
+            catch (Exception ex) {
+                MessageBox.Show("unable to send email: " + ex.Message);
+            }
         }
 
         private void butMCBBS_Click(object sender, RoutedEventArgs e)

@@ -45,7 +45,7 @@ namespace MTMCL
             ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
             MeCore.MainWindow.gridMain.BeginAnimation(OpacityProperty, ani);
         }
-
+/*
         private void butReloadMC_Click(object sender, RoutedEventArgs e)
         {
             ReloadVanillaVersion();
@@ -446,7 +446,8 @@ namespace MTMCL
             DataRowView selectVer = listForge.SelectedItem as DataRowView;
             DownloadForge(selectVer[0] as string);
         }
-
+*/
+        
         private void butDLPack_Click(object sender, RoutedEventArgs e)
         {
             TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
@@ -456,10 +457,10 @@ namespace MTMCL
                 {
                     MeCore.Invoke(new System.Windows.Forms.MethodInvoker(() =>
                     {
-                        Uri url = new Uri(txtboxUrl.Text);
+                        Uri url = new Uri(MeCore.Config.Server.ServerPackUrl);
                         if (url == null | string.IsNullOrWhiteSpace(url.AbsoluteUri))
                         {
-                            throw new InvalidOperationException("null url");
+                            throw new InvalidOperationException("url");
                         }
                         var downer = new WebClient();
                         downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
@@ -505,7 +506,6 @@ namespace MTMCL
                 {
                     LoadServerDeDicatedVersion();
                 }
-                ReloadVanillaVersion();
                 doneInit = true;
             }
         }
@@ -513,78 +513,80 @@ namespace MTMCL
         {
             if (MeCore.Config.Server.NeedServerPack & !string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerPackUrl))
             {
-                tabDLPack.Visibility = Visibility.Visible;
-                txtboxUrl.Text = MeCore.Config.Server.ServerPackUrl;
+                //tabDLPack.Visibility = Visibility.Visible;
+                //txtboxUrl.Text = MeCore.Config.Server.ServerPackUrl;
             }
             if (!MeCore.Config.Server.AllowSelfDownloadClient)
             {
-                tabDLMC.Visibility = Visibility.Collapsed;
-                tabDLForge.Visibility = Visibility.Collapsed;
+                butMC.Visibility = Visibility.Collapsed;
+                butForge.Visibility = Visibility.Collapsed;
             }
         }
-        private ForgeVersionListFilter histfilter = new ForgeVersionListFilter() { ShowRecommended = true, ShowLatest = true, ShowNonTag = false, HiddenVersion = new List<string>() };
-        private async void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            List<string> hid = new List<string>();
-            foreach (var i in menuVerL.Items) {
-                if (i is CheckBox) {
-                    if (!(i as CheckBox).Name.Equals("checkSelectAll")) {
-                        if ((bool)((i as CheckBox).IsChecked)) hid.Add((i as CheckBox).Content as string);
+        /*        private ForgeVersionListFilter histfilter = new ForgeVersionListFilter() { ShowRecommended = true, ShowLatest = true, ShowNonTag = false, HiddenVersion = new List<string>() };
+                private async void MenuItem_Click(object sender, RoutedEventArgs e)
+                {
+                    List<string> hid = new List<string>();
+                    foreach (var i in menuVerL.Items) {
+                        if (i is CheckBox) {
+                            if (!(i as CheckBox).Name.Equals("checkSelectAll")) {
+                                if ((bool)((i as CheckBox).IsChecked)) hid.Add((i as CheckBox).Content as string);
+                            }
+                        }
+                    }
+                    lblPlzApply.BeginAnimation(OpacityProperty, new DoubleAnimation(0, TimeSpan.FromSeconds(0.4)));
+                    ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("RemoteVerGetting");
+                    butReloadForge.IsEnabled = false;
+                    gridMFRFail.Visibility = Visibility.Collapsed;
+                    gridMFRing.Visibility = Visibility.Visible;
+                    await TaskEx.Run(() => {
+                        ForgeVersionListFilter filter = null;
+                        do {
+                            Dispatcher.BeginInvoke(new Action(() => filter = histfilter = new ForgeVersionListFilter() { ShowRecommended = (bool)checkRecommand.IsChecked, ShowLatest = (bool)checkLatest.IsChecked, ShowNonTag = (bool)checkNonTag.IsChecked, HiddenVersion = hid }));
+                        } while (filter == null);
+                        RefreshForgeListWithFilter(filter);
+                    });
+                }
+
+                private void CheckBox_IsCheckedChanged(object sender, RoutedEventArgs e)
+                {
+                    if (!IsLoaded) return;
+                    lblPlzApply.BeginAnimation(OpacityProperty, new DoubleAnimation(1, TimeSpan.FromSeconds(0.4)));
+                }
+                private void checkSelectAll_Checked(object sender, RoutedEventArgs e)
+                {
+                    foreach (var i in menuVerL.Items)
+                    {
+                        if (i is CheckBox)
+                        {
+                            (i as CheckBox).IsChecked = true;
+                        }
                     }
                 }
-            }
-            lblPlzApply.BeginAnimation(OpacityProperty, new DoubleAnimation(0, TimeSpan.FromSeconds(0.4)));
-            ((AccessText)butReloadForge.Content).Text = LangManager.GetLangFromResource("RemoteVerGetting");
-            butReloadForge.IsEnabled = false;
-            gridMFRFail.Visibility = Visibility.Collapsed;
-            gridMFRing.Visibility = Visibility.Visible;
-            await TaskEx.Run(() => {
-                ForgeVersionListFilter filter = null;
-                do {
-                    Dispatcher.BeginInvoke(new Action(() => filter = histfilter = new ForgeVersionListFilter() { ShowRecommended = (bool)checkRecommand.IsChecked, ShowLatest = (bool)checkLatest.IsChecked, ShowNonTag = (bool)checkNonTag.IsChecked, HiddenVersion = hid }));
-                } while (filter == null);
-                RefreshForgeListWithFilter(filter);
-            });
-        }
-
-        private void CheckBox_IsCheckedChanged(object sender, RoutedEventArgs e)
-        {
-            if (!IsLoaded) return;
-            lblPlzApply.BeginAnimation(OpacityProperty, new DoubleAnimation(1, TimeSpan.FromSeconds(0.4)));
-        }
-        private void checkSelectAll_Checked(object sender, RoutedEventArgs e)
-        {
-            foreach (var i in menuVerL.Items)
-            {
-                if (i is CheckBox)
+                private void checkSelectAll_Unchecked(object sender, RoutedEventArgs e)
                 {
-                    (i as CheckBox).IsChecked = true;
+                    foreach (var i in menuVerL.Items)
+                    {
+                        if (i is CheckBox)
+                        {
+                            (i as CheckBox).IsChecked = false;
+                        }
+                    }
                 }
-            }
-        }
-        private void checkSelectAll_Unchecked(object sender, RoutedEventArgs e)
-        {
-            foreach (var i in menuVerL.Items)
-            {
-                if (i is CheckBox)
+
+                private void butFilter_Unchecked(object sender, RoutedEventArgs e)
                 {
-                    (i as CheckBox).IsChecked = false;
+                    RefreshForgeList();
+                    expanderFilter.Visibility = Visibility.Collapsed;
                 }
-            }
-        }
 
-        private void butFilter_Unchecked(object sender, RoutedEventArgs e)
-        {
-            RefreshForgeList();
-            expanderFilter.Visibility = Visibility.Collapsed;
-        }
-
-        private void butFilter_Checked(object sender, RoutedEventArgs e)
-        {
-            RefreshForgeListWithFilter(histfilter);
-            expanderFilter.Visibility = Visibility.Visible;
-        }
+                private void butFilter_Checked(object sender, RoutedEventArgs e)
+                {
+                    RefreshForgeListWithFilter(histfilter);
+                    expanderFilter.Visibility = Visibility.Visible;
+                }
+        */
         GridMCDL gridmc;
+        GridForgeDLMain gridforge;
         private void button_Click(object sender, RoutedEventArgs e)
         {
             MeCore.MainWindow.gridOthers.Children.Clear();
@@ -595,12 +597,22 @@ namespace MTMCL
             MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
         }
 
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void button1_Click (object sender, RoutedEventArgs e)
+        {
+            MeCore.MainWindow.gridOthers.Children.Clear();
+            MeCore.MainWindow.gridOthers.Children.Add(gridforge ?? (gridforge = new GridForgeDLMain(this)));
+            var ani = new DoubleAnimationUsingKeyFrames();
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
+            ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
+            MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
+        }
+
+/*        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (tabControl.SelectedIndex == 1 & !doneForgeInit) {
-                RefreshForgeVersionList();
+                //RefreshForgeVersionList();
                 doneForgeInit = true;
             }
-        }
+        }*/
     }
 }

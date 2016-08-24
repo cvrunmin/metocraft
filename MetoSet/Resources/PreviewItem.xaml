@@ -62,7 +62,7 @@
             </Canvas>
             <Grid x:Name="imagePreview">
                 <Grid.Background>
-                    <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" Stretch="UniformToFill" TileMode="Tile"/>
+                    <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" Stretch="{Binding Stretch, FallbackValue=UniformToFill, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}, TargetNullValue=UniformToFill}" TileMode="Tile"/>
                 </Grid.Background>
             </Grid>
         </Grid>
