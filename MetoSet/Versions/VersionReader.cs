@@ -38,6 +38,11 @@ namespace MTMCL.Versions
                     shadow.jar = deep.jar;
                 }
                 shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray();
+                if (deep.errored)
+                {
+                    shadow.errored = true;
+                    shadow.baseErrored = true;
+                }
             }
             else
             {
@@ -76,6 +81,11 @@ namespace MTMCL.Versions
                     shadow.jar = deep.jar;
                 }
                 shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray();
+                if (deep.errored)
+                {
+                    shadow.errored = true;
+                    shadow.baseErrored = true;
+                }
             }
             else
             {
@@ -128,15 +138,15 @@ namespace MTMCL.Versions
                                 VersionJson verj = GetFurtherVersion(MCPath, Newtonsoft.Json.JsonConvert.DeserializeObject<VersionJson>(File.ReadAllText(ver)));
 
                                 if (verj != null)
-                                    if (!verj.errored)
-                                        list.Add(verj);
-                                    else
+                                {
+                                    list.Add(verj);
+                                    if (verj.errored)
                                     {
                                         if (!err.ContainsKey(verj.inheritsFrom))
                                             err.Add(verj.inheritsFrom, new List<string>());
                                         err[verj.inheritsFrom].Add(verj.id);
                                     }
-
+                                }
                             }
                         }
                     }

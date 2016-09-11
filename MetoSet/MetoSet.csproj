@@ -116,6 +116,10 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GrayscaleEffect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\GrayscaleEffect.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
@@ -294,8 +298,14 @@
     <Compile Include="Notice\NoticeBalloon.xaml.cs">
       <DependentUpon>NoticeBalloon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Play.xaml.cs">
+    <Compile Include="Play\Play.xaml.cs">
       <DependentUpon>Play.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Play\PlayNew.xaml.cs">
+      <DependentUpon>PlayNew.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Play\PlaySetting.xaml.cs">
+      <DependentUpon>PlaySetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Report\ErrorReport.xaml.cs">
       <DependentUpon>ErrorReport.xaml</DependentUpon>
@@ -453,7 +463,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Play.xaml">
+    <Page Include="Play\Play.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Play\PlayNew.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Play\PlaySetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

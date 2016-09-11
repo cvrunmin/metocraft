@@ -8,6 +8,10 @@ using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using System.Windows;
+using System.Reflection;
+using System.Resources;
+using System.Linq;
 
 namespace MTMCL.util
 {
@@ -139,6 +143,40 @@ namespace MTMCL.util
         static public void CreateDirectoryForFile(string File)
         {
             CreateDirectoryIfNotExist(Path.GetDirectoryName(File));
+        }
+
+        public static bool ResourceExists(string resourcePath)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            return ResourceExists(assembly, resourcePath);
+        }
+
+        public static bool ResourceExists(Assembly assembly, string resourcePath)
+        {
+            return GetResourcePaths(assembly)
+                .Contains(resourcePath.ToLowerInvariant());
+        }
+
+        public static IEnumerable<object> GetResourcePaths(Assembly assembly)
+        {
+            var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var resourceName = assembly.GetName().Name + ".g";
+            var resourceManager = new ResourceManager(resourceName, assembly);
+
+            try
+            {
+                var resourceSet = resourceManager.GetResourceSet(culture, true, true);
+
+                foreach (DictionaryEntry resource in resourceSet)
+                {
+                    yield return resource.Key;
+                }
+            }
+            finally
+            {
+                resourceManager.ReleaseAllResources();
+            }
         }
 
     }
@@ -486,14 +524,47 @@ namespace MTMCL.util
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (parameter == null || parameter.Equals(String.Empty)) parameter = "{0}";
+            if (parameter == null || parameter.Equals(string.Empty)) parameter = "{0}";
             string path = string.Format((string)parameter, value);
+            if (!FileHelper.ResourceExists(path.Replace("pack://application:,,,/", "")))
+                return DependencyProperty.UnsetValue;
             return new BitmapImage(new Uri(path));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    internal sealed class InvertBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is bool)) return DependencyProperty.UnsetValue;
+            if ((bool)value) return 0;
+            else return 1;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    [ValueConversion(typeof(bool), typeof(bool))]
+    internal sealed class InverseBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (targetType != typeof(bool))
+                throw new InvalidOperationException("The target must be a boolean");
+
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
         }
     }
 }

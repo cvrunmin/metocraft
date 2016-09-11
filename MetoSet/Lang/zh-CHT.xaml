@@ -128,6 +128,7 @@
     <s:String x:Key="HiddenVersion">隱藏版本</s:String>
     <s:String x:Key="SelectAll">全選</s:String>
     <s:String x:Key="ApplyFilterPlz">請在完成編輯篩選後右鍵「篩選」按鈕並選擇「套用篩選」</s:String>
+    <s:String x:Key="DownloadConfirm">你是否要下載 {0}?</s:String>
     <!-- /DL -->
     <!-- ACLogin -->
     <s:String x:Key="ACTitle">選擇帳戶</s:String>
@@ -150,6 +151,7 @@
     <s:String x:Key="CrashNameFormat">{0} 崩潰報告</s:String>
     <s:String x:Key="ErrName">名稱：{0}</s:String>
     <s:String x:Key="InheritVerMissFormat">以下版本不存在有效的基版本 {0}:</s:String>
+    <s:String x:Key="InheritVerMissFormat2">此版本不存在有效的基版本 {0}</s:String>
     <s:String x:Key="JavaFaultSolve">您可以嘗試以下方法解決此問題：[/newline/]1.重新安裝Java[/newline/]2.檢查Minecraft Jar是否已經損壞</s:String>
     <s:String x:Key="AuthFaultSolve">您可以嘗試以下方法解決此問題：[/newline/]1.檢查您的電郵與密碼是否正確輸入[/newline/]2.聯絡網絡供應商[/newline/]如果是自訂驗證伺服器，您可以嘗試：[/newline/]1.聯絡驗證伺服器供應商</s:String>
     <s:String x:Key="LibFaultSolve">您可以嘗試以下方法解決此問題：[/newline/]1.檢查庫文件是否完整[/newline/]2.檢查庫文件是否已在其他應用程式中開啟[/newline/]如果正在使用整合包，您可以嘗試：[/newline/]1.檢查整合包內容是否完整[/newline/]2.檢查整合包內容是否正確配置[/newline/]3.聯絡整合包提供者</s:String>
@@ -227,6 +229,7 @@
     <s:String x:Key="Off">關</s:String>
     <s:String x:Key="Yes">是</s:String>
     <s:String x:Key="No">否</s:String>
+    <s:String x:Key="Others">其他</s:String>
     <s:String x:Key="UpdateFound">發現更新</s:String>
     <s:String x:Key="UpdateAccept">立即更新</s:String>
     <s:String x:Key="UpdateDeny">稍後更新</s:String>

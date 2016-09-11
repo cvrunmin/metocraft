@@ -1,4 +1,5 @@
-﻿using MTMCL.Lang;
+﻿using MahApps.Metro.Controls.Dialogs;
+using MTMCL.Lang;
 using MTMCL.Task;
 using MTMCL.util;
 using MTMCL.Versions;
@@ -55,10 +56,11 @@ namespace MTMCL
             ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
             MeCore.MainWindow.gridOthers.BeginAnimation(OpacityProperty, ani);
         }
-
+        private bool LoadedVersion = false;
+        private System.Threading.Tasks.Task readthread;
         private void Grid_Initialized(object sender, EventArgs e)
         {
-            ReloadVanillaVersion();
+            ReloadVanillaVersion();LoadedVersion = true;
         }
 
         private void butReloadMC_Click(object sender, EventArgs e) {
@@ -81,7 +83,7 @@ namespace MTMCL
 #else
             getJson.UserAgent = "MTMCL " + MeCore.version;
 #endif
-            var thGet = new Thread(new ThreadStart(delegate
+            readthread = new System.Threading.Tasks.Task(delegate
             {
                 try
                 {
@@ -154,8 +156,8 @@ namespace MTMCL
                         butReloadMC.IsEnabled = true;
                     }));
                 }
-            }));
-            thGet.Start();
+            });
+            readthread.Start();
         }
         private void downloadVVer(RemoteVerType ver)
         {
@@ -272,6 +274,42 @@ namespace MTMCL
         private void filter_Click(object sender, RoutedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(listRemoteVer.ItemsSource).Refresh();
+        }
+
+        public async Task<bool> DirectDownload(string version) {
+            //if (!LoadedVersion) System.Threading.Tasks.Task.Factory.StartNew(ReloadVanillaVersion).Wait();
+            while (!LoadedVersion)
+            {
+                await TaskEx.Delay(1000);
+            }
+            if (readthread != null) readthread.Wait(1000);
+            System.Collections.IEnumerable l = null;
+            while (l == null)
+            {
+                l = listRemoteVer.ItemsSource;
+                await TaskEx.Delay(1000);
+            }
+            IEnumerable<RemoteVerType> list = l.OfType<RemoteVerType>();
+            try
+            {
+                RemoteVerType rv = list.Single(ver => ver.id.Equals(version));
+                if (rv != null) {
+                    var result = await MeCore.MainWindow.ShowMessageAsync("", string.Format(LangManager.GetLangFromResource("DownloadConfirm"), "Minecraft " + rv.id),MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = LangManager.GetLangFromResource("Yes"), NegativeButtonText = LangManager.GetLangFromResource("No")});
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        downloadVVer(rv);
+                        return true;
+                    }
+                    return false;
+                }
+                await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("Oops"), LangManager.GetLangFromResource("NoVersionFound1"));
+                return false;
+            }
+            catch (Exception)
+            {
+                await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("Oops"), LangManager.GetLangFromResource("NoVersionFound1"));
+                return false;
+            }
         }
     }
 }
