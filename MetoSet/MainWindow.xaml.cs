@@ -75,14 +75,14 @@ namespace MTMCL
             butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
         }
 
-        private void butSetting_Click(object sender, RoutedEventArgs e)
+        private async void butSetting_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("settings");
+            await ChangePage("settings");
         }
-        internal async void ChangePage(string type, bool required0Margin = false)
+        internal async System.Threading.Tasks.Task<Grid> ChangePage(string type, bool required0Margin = false)
         {
             MahApps.Metro.Controls.Tile tile;
-            System.Windows.Controls.Grid grid;
+            Grid grid;
             switch (type)
             {
                 case "settings":
@@ -91,7 +91,7 @@ namespace MTMCL
                     break;
                 case "play":
                     tile = butPlay;
-                    grid = new Play();
+                    grid = new PlayNew();
                     break;
                 case "download":
                     tile = butDL;
@@ -122,7 +122,7 @@ namespace MTMCL
                     grid = new Help.GridHelp();
                     break;
                 default:
-                    return;
+                    return new Grid();
             }
             gridOthers.Children.Clear();
             ((Rectangle)gridLoadingScreen.Children[0]).Fill = ((Rectangle)tile.GetValue(ContentProperty)).Fill;
@@ -145,6 +145,7 @@ namespace MTMCL
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
             ani2.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));
             gridOthers.BeginAnimation(OpacityProperty, ani2);
+            return grid;
         }
         private void SwitchBetweenHomeAndMenu(bool toHome) {
             gridMa.Visibility = Visibility.Visible;
@@ -162,9 +163,9 @@ namespace MTMCL
             gridHome.BeginAnimation(OpacityProperty, aniHome1);
             gridHome.BeginAnimation(MarginProperty, aniHome2);
         }
-        private void butPlay_Click(object sender, RoutedEventArgs e)
+        private async void butPlay_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("play");
+            await ChangePage("play");
         }
 
         private void butLaunchNormal_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -310,9 +311,9 @@ namespace MTMCL
             }
         }
 
-        private void butDL_Click(object sender, RoutedEventArgs e)
+        private async void butDL_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("download");
+            await ChangePage("download");
         }
 
         public Dictionary<string, TaskListBar> taskdict = new Dictionary<string, TaskListBar>();
@@ -358,9 +359,9 @@ namespace MTMCL
             butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
         }
 
-        private void butTask_Click(object sender, RoutedEventArgs e)
+        private async void butTask_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("tasklist", true);
+            await ChangePage("tasklist", true);
         }
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -508,9 +509,9 @@ namespace MTMCL
             }
             return null;
         }
-        private void butNotice_Click(object sender, RoutedEventArgs e)
+        private async void butNotice_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("notice", true);
+            await ChangePage("notice", true);
         }
         public delegate void NoticeAdded(Notice.INotice notice);
         public event NoticeAdded OnNoticeAdded;
@@ -620,19 +621,19 @@ namespace MTMCL
             ThemeManager.ChangeAppStyle(Application.Current, accent, AppTheme.Item1);
         }
 
-        private void butServer_Click(object sender, RoutedEventArgs e)
+        private async void butServer_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("server");
+            await ChangePage("server");
         }
 
-        private void butInstall_Click(object sender, RoutedEventArgs e)
+        private async void butInstall_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("install");
+            await ChangePage("install");
         }
 
-        private void butGradle_Click(object sender, RoutedEventArgs e)
+        private async void butGradle_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("gradle");
+            await ChangePage("gradle");
         }
 
         private void quickbutTask_Click(object sender, RoutedEventArgs e)
@@ -676,9 +677,9 @@ namespace MTMCL
             butDL_Click(sender, e);
         }
 
-        private void butHelp_Click(object sender, RoutedEventArgs e)
+        private async void butHelp_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage("help", true);
+            await ChangePage("help", true);
         }
         public void addBalloonNotice(Notice.NoticeBalloon balloon) {
             panelBalloon.Children.Add(balloon);

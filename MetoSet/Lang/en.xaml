@@ -129,6 +129,7 @@
     <s:String x:Key="HiddenVersion">Hidden Versions</s:String>
     <s:String x:Key="SelectAll">Select All</s:String>
     <s:String x:Key="ApplyFilterPlz">Please right click 'Filter' button and select 'Apply Filter' after editing the Filter</s:String>
+    <s:String x:Key="DownloadConfirm">Are you sure to download {0}?</s:String>
     <!-- /DL -->
     <!-- ACLogin -->
     <s:String x:Key="ACTitle">Select Account</s:String>
@@ -150,7 +151,8 @@
     <s:String x:Key="ErrorNameFormat">{0} Error Report</s:String>
     <s:String x:Key="CrashNameFormat">{0} Crash Report</s:String>
     <s:String x:Key="ErrName">Name: {0}</s:String>
-    <s:String x:Key="InheritVerMissFormat">This/These version(s) do(es)n\'t have a valid base version {0}:</s:String>
+    <s:String x:Key="InheritVerMissFormat">This/These version(s) do(es)n't have a valid base version {0}:</s:String>
+    <s:String x:Key="InheritVerMissFormat2">This version doesn't have a valid base version {0}</s:String>
     <s:String x:Key="JavaFaultSolve">You could try these methods to solve this problem:[/newline/]1.reinstall Java.[/newline/]2.check the minecraft jar has been corrupt or not.</s:String>
     <s:String x:Key="AuthFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your email and password are correct or not.[/newline/]2.contact the network provider.[/newline/]If you are using custom authenticator, you could try: [/newline/]1.contact the authenticator provider.</s:String>
     <s:String x:Key="LibFaultSolve">You could try these methods to solve this problem:[/newline/]1.check your libraries are intact or not.[/newline/]2.check your libraries are opened by other application or not.[/newline/]If you are using mod pack, you could try: [/newline/]1.check if the mod pack is intact or not.[/newline/]2.check if the mod pack is configured correctly or not.[/newline/]3.contact the mod pack provider.</s:String>
@@ -230,6 +232,7 @@
     <s:String x:Key="Off">Off</s:String>
     <s:String x:Key="Yes">Yes</s:String>
     <s:String x:Key="No">No</s:String>
+    <s:String x:Key="Others">Others</s:String>
     <s:String x:Key="UpdateFound">Update found</s:String>
     <s:String x:Key="UpdateAccept">Update Now</s:String>
     <s:String x:Key="UpdateDeny">Update Later</s:String>

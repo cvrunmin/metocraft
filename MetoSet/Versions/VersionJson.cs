@@ -11,84 +11,91 @@ namespace MTMCL.Versions
     public class SimplifyVersionJson
     {
         [DataMember]
-        public string assets;
+        public string assets{ get; set; }
         [DataMember]
-        public string id;
+        public string id{ get; set; }
         [DataMember]
-        public string mainClass;
+        public string mainClass{ get; set; }
         [DataMember]
-        public string minecraftArguments;
+        public string minecraftArguments{ get; set; }
         [DataMember]
-        public int minimumLauncherVersion;
+        public int minimumLauncherVersion{ get; set; }
         [DataMember]
-        public string releaseTime;
+        public string releaseTime{ get; set; }
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public DateTime relTime { get
+            {
+                return DateTime.Parse(releaseTime);
+            }
+        }
         [DataMember]
-        public string time;
+        public string time{ get; set; }
         [DataMember]
-        public string type;
+        public string type{ get; set; }
         [DataMember]
-        public string inheritsFrom;
+        public string inheritsFrom{ get; set; }
         [DataMember]
-        public AssetIndex assetIndex;
+        public AssetIndex assetIndex{ get; set; }
         [DataMember]
-        public Downloads downloads;
+        public Downloads downloads{ get; set; }
         [DataMember]
-        public Library[] libraries;
+        public Library[] libraries{ get; set; }
         [DataContract]
         public class Library
         {
             [DataMember]
-            public string name;
+            public string name{ get; set; }
             [DataMember]
-            public string url;
+            public string url{ get; set; }
             [DataMember]
-            public Rule[] rules;
+            public Rule[] rules{ get; set; }
             [DataContract]
             public class Rule
             {
                 [DataMember]
-                public string action;
+                public string action{ get; set; }
                 [DataMember]
-                public OS os;
+                public OS os{ get; set; }
                 [DataContract]
-                public class OS {[DataMember]public string name; }
+                public class OS {[DataMember]public string name{ get; set; } }
             }
             [DataMember]
-            public Extract extract;
+            public Extract extract{ get; set; }
             [DataContract]
             public class Extract
             {
                 [DataMember]
-                public string[] exclude;
+                public string[] exclude{ get; set; }
             }
             [DataMember]
-            public Native natives;
+            public Native natives{ get; set; }
             [DataContract]
             public class Native
             {
                 [DataMember]
-                public string linux;
+                public string linux{ get; set; }
                 [DataMember]
-                public string osx;
+                public string osx{ get; set; }
                 [DataMember]
-                public string windows;
+                public string windows{ get; set; }
             }
         }
         [DataContract]
         public class AssetIndex
         {
             [DataMember]
-            public bool known;
+            public bool known{ get; set; }
             [DataMember]
-            public string id;
+            public string id{ get; set; }
             [DataMember]
-            public string sha1;
+            public string sha1{ get; set; }
             [DataMember]
-            public int size;
+            public int size{ get; set; }
             [DataMember]
-            public string url;
+            public string url{ get; set; }
             [DataMember]
-            public int totalSize;
+            public int totalSize{ get; set; }
         }
     }
     [DataContract]
@@ -96,69 +103,81 @@ namespace MTMCL.Versions
     {
         [IgnoreDataMember]
         [JsonIgnore]
-        public bool errored;
+        public bool errored { get; set; }
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public bool baseErrored { get; set; }
         [DataMember]
-        public string assets;
+        public string assets{ get; set; }
         [DataMember]
-        public string id;
+        public string id{ get; set; }
         [DataMember]
-        public string jar;
+        public string jar{ get; set; }
         [DataMember]
-        public string mainClass;
+        public string mainClass{ get; set; }
         [DataMember]
-        public string minecraftArguments;
+        public string minecraftArguments{ get; set; }
         [DataMember]
-        public int minimumLauncherVersion;
+        public int minimumLauncherVersion{ get; set; }
         [DataMember]
-        public string releaseTime;
+        public string releaseTime{ get; set; }
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public DateTime relTime
+        {
+            get
+            {
+                return DateTime.Parse(releaseTime);
+            }
+        }
         [DataMember]
-        public string time;
+        public string time{ get; set; }
         [DataMember]
-        public string type;
+        public string type{ get; set; }
         [DataMember]
-        public string inheritsFrom;
+        public string inheritsFrom{ get; set; }
         [DataMember]
-        public AssetIndex assetIndex;
+        public AssetIndex assetIndex{ get; set; }
         [DataMember]
-        public Downloads downloads;
+        public Downloads downloads{ get; set; }
         [DataMember]
-        public Library[] libraries;
+        public Library[] libraries{ get; set; }
         [DataContract]
         public class Library : SimplifyVersionJson.Library
         {
             [DataMember]
-            public Downloads download;
+            public Downloads download{ get; set; }
             [DataContract]
             public class Downloads
             {
                 [DataMember]
-                public Artifact artifact;
+                public Artifact artifact{ get; set; }
                 [DataContract]
                 public class Artifact
                 {
                     [DataMember]
-                    public int size;
+                    public int size{ get; set; }
                     [DataMember]
-                    public string sha1;
+                    public string sha1{ get; set; }
                     [DataMember]
-                    public string path;
+                    public string path{ get; set; }
                     [DataMember]
-                    public string url;
+                    public string url{ get; set; }
                 }
                 [DataMember]
-                public Classifier classifiers;
+                public Classifier classifiers{ get; set; }
                 [DataContract]
                 public class Classifier
                 {
                     [DataMember(Name = "natives-linux")]
                     [JsonProperty("natives-linux")]
-                    public Artifact natives_linux;
+                    public Artifact natives_linux{ get; set; }
                     [DataMember(Name = "natives-osx")]
                     [JsonProperty("natives-osx")]
-                    public Artifact natives_osx;
+                    public Artifact natives_osx{ get; set; }
                     [DataMember(Name = "natives-windows")]
                     [JsonProperty("natives-windows")]
-                    public Artifact natives_windows;
+                    public Artifact natives_windows{ get; set; }
                 }
             }
         }
@@ -166,35 +185,35 @@ namespace MTMCL.Versions
         public class AssetIndex
         {
             [DataMember]
-            public bool known;
+            public bool known{ get; set; }
             [DataMember]
-            public string id;
+            public string id{ get; set; }
             [DataMember]
-            public string sha1;
+            public string sha1{ get; set; }
             [DataMember]
-            public int size;
+            public int size{ get; set; }
             [DataMember]
-            public string url;
+            public string url{ get; set; }
             [DataMember]
-            public int totalSize;
+            public int totalSize{ get; set; }
         }
     }
     [DataContract]
     public class Downloads
     {
         [DataMember]
-        public Side client;
+        public Side client{ get; set; }
         [DataMember]
-        public Side server;
+        public Side server{ get; set; }
         [DataContract]
         public class Side
         {
             [DataMember]
-            public string sha1;
+            public string sha1{ get; set; }
             [DataMember]
-            public int size;
+            public int size{ get; set; }
             [DataMember]
-            public string url;
+            public string url{ get; set; }
         }
     }
     public class LibraryUniversal
@@ -216,7 +235,7 @@ namespace MTMCL.Versions
             {
                 id = json.id,
                 type = json.type,
-                assetIndex = new SimplifyVersionJson.AssetIndex
+                assetIndex = json.assetIndex == null ? null : new SimplifyVersionJson.AssetIndex
                 {
                     id = json.assetIndex.id,
                     sha1 = json.assetIndex.sha1,

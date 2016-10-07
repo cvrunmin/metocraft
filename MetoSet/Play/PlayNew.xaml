@@ -1,0 +1,170 @@
+﻿<Grid x:Class="MTMCL.PlayNew"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MTMCL"
+      xmlns:util="clr-namespace:MTMCL.util"
+      xmlns:effect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect"
+      mc:Ignorable="d" 
+      d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <util:InvertBoolConverter x:Key="InvertBoolConverter"/>
+            <util:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <util:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+        <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+    <Label x:Name="lblTitle" Content="{DynamicResource Play}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+    <ListBox x:Name="listVer" Margin="0,40,0,0">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Grid Height="140" Width="215">
+                    <Grid Margin="0,0,0,20">
+                        <Image x:Name="imgType" Source="{Binding type, ConverterParameter=pack://application:\,\,\,/Resources/remote-mc-\{0\}.png, Converter={StaticResource ImageConverter}, FallbackValue=pack://application:\,\,\,/Resources/remote-unknown.png}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10">
+                            <Image.Effect>
+                                <effect:GrayscaleEffect x:Name="grayscale" DesaturationFactor="{Binding errored, Converter={StaticResource InvertBoolConverter}}"/>
+                            </Image.Effect>
+                        </Image>
+                        <!--<Image Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10,100,60" Source="/MTMCL;component/Resources/remote-unknown.png"/>
+                        -->
+                        <Label x:Name="lbltype" Margin="82,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Collapsed" Opacity="0">
+                            <TextBlock>
+                                <Run Text="{DynamicResource Type}"/>
+                                <Run Text=":"/>
+                                <Run Text="{Binding type}"/>
+                            </TextBlock>
+                        </Label>
+                        <Label x:Name="lblRelTime" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="82,30,5,0" Opacity="0" Visibility="Collapsed">
+                            <TextBlock>
+                                <Run Text="{DynamicResource RTime}"/>
+                                <Run Text=":"/>
+                                <LineBreak/>
+                                <Run Text="{Binding relTime, Mode=OneTime, StringFormat=\{0:d\}}"/>
+                                <LineBreak/>
+                                <Run Text="{Binding relTime, Mode=OneTime, StringFormat=\{0:T\}}"/>
+                            </TextBlock>
+                        </Label>
+                        <Grid Margin="0,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="butPlay" Content="{DynamicResource Play}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0" Opacity="0" Visibility="Collapsed" Click="butPlay_Click" IsEnabled="{Binding errored, Converter={StaticResource InverseBooleanConverter}}"/>
+                            <Button x:Name="butMore" Content="{DynamicResource Setting}" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Opacity="0" Visibility="Collapsed" Click="butSetting_Click" Grid.Column="2"/>
+                        </Grid>
+                    </Grid>
+                    <Label HorizontalAlignment="Stretch" Height="20" Margin="0" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0">
+                        <TextBlock Text="{Binding id}"/>
+                    </Label>
+                </Grid>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetName="imgType" Storyboard.TargetProperty="Margin" To="0,10,100,60">
+                                        <ThicknessAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </ThicknessAnimation.EasingFunction>
+                                    </ThicknessAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lbltype" Storyboard.TargetProperty="Opacity" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lblRelTime" Storyboard.TargetProperty="Opacity" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="butPlay" Storyboard.TargetProperty="Opacity" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="butMore" Storyboard.TargetProperty="Opacity" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetName="imgType" Storyboard.TargetProperty="Margin" To="0,10,0,10">
+                                        <ThicknessAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </ThicknessAnimation.EasingFunction>
+                                    </ThicknessAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lbltype" Storyboard.TargetProperty="Opacity" To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lblRelTime" Storyboard.TargetProperty="Opacity" To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="butPlay" Storyboard.TargetProperty="Opacity" To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="butMore" Storyboard.TargetProperty="Opacity" To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                        <DataTrigger.Setters>
+                            <Setter TargetName="lbltype" Property="Visibility" Value="{x:Static Visibility.Visible}"/>
+                            <Setter TargetName="lblRelTime" Property="Visibility" Value="{x:Static Visibility.Visible}"/>
+                            <Setter TargetName="butPlay" Property="Visibility" Value="{x:Static Visibility.Visible}"/>
+                            <Setter TargetName="butMore" Property="Visibility" Value="{x:Static Visibility.Visible}"/>
+                        </DataTrigger.Setters>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="False">
+                        <DataTrigger.Setters>
+                            <Setter TargetName="lbltype" Property="Visibility" Value="{x:Static Visibility.Collapsed}"/>
+                            <Setter TargetName="lblRelTime" Property="Visibility" Value="{x:Static Visibility.Collapsed}"/>
+                            <Setter TargetName="butPlay" Property="Visibility" Value="{x:Static Visibility.Collapsed}"/>
+                            <Setter TargetName="butMore" Property="Visibility" Value="{x:Static Visibility.Collapsed}"/>
+                        </DataTrigger.Setters>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ScrollContentPresenter}, Mode=FindAncestor}}"/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+    </ListBox>
+    <Grid x:Name="gridNoVersion" Margin="0,45,0,0" Background="{DynamicResource AccentColorBrush}" Visibility="Collapsed">
+        <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <Label Content="{DynamicResource NoVersionFound1}" Margin="0,149,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16"/>
+        <Label Content="{DynamicResource NoVersionFound2}" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="butGoDLMC" Content="{DynamicResource GoDL}" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top" Click="butGoDLMC_Click"/>
+    </Grid>
+</Grid>
