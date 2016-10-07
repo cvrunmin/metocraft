@@ -53,6 +53,8 @@ namespace MTMCL
         [DataMember]
         [JsonProperty("background")]
         public string Background { get; set; }
+        [JsonProperty("theme")]
+        public string Theme { get; set; }
         [DataMember]
         [JsonProperty("color-scheme")]
         public string ColorScheme { get; set; }
@@ -177,6 +179,7 @@ namespace MTMCL
             ExtraJvmArg = " -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true";
             Background = "default";
             ColorScheme = "Green";
+            Theme = "";
             DownloadSource = 0;
             DownloadOnceOnly = false;
             UpdateSource = 0;

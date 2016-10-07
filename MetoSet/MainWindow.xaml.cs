@@ -397,7 +397,7 @@ namespace MTMCL
             timer.Tick += new EventHandler(timer_Tick);
             Render();
             RenderColor();
-            ThemeManager.ChangeAppTheme(Application.Current, (bool)MeCore.Config.reverseColor ? "BaseDark" : "BaseLight");
+            ThemeManager.ChangeAppTheme(Application.Current, MeCore.Config.reverseColor ? "BaseDark" : "BaseLight");
             ChangeTileColor();
         }
         private void ChangeTileColor() {
@@ -591,18 +591,16 @@ namespace MTMCL
                 }
             }
         internal void RenderTheme(Themes.Theme theme) {
-            using (var ms = new System.IO.MemoryStream()) {
-                theme.Image.Save(ms, theme.Image.RawFormat);
-                ms.Seek(0, System.IO.SeekOrigin.Begin);
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.StreamSource = ms;
-                bi.EndInit();
-
+            var image = theme.Image;
+            var accent = theme.Accent;
+            if (theme is Themes.DefaultTheme) {
+                image = ((Themes.DefaultTheme) theme).Image;
+                accent = ((Themes.DefaultTheme) theme).Accent;
+            }
                 MeCore.MainWindow.gridBG.Opacity = 0;
                 MeCore.MainWindow.gridBG.Background = new ImageBrush
                 {
-                    ImageSource = bi,
+                    ImageSource = image,
                     Stretch = Stretch.UniformToFill
                 };
                 var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.25));
@@ -611,15 +609,15 @@ namespace MTMCL
                     await System.Threading.Tasks.TaskEx.Delay(250);
                     MeCore.MainWindow.gridParent.Background = new ImageBrush
                     {
-                        ImageSource = bi,
+                        ImageSource = image,
                         Stretch = Stretch.UniformToFill
                     };
                     MeCore.MainWindow.gridBG.Opacity = 0;
                 };
                 MeCore.MainWindow.gridBG.BeginAnimation(OpacityProperty, ani);
-            }
+            
             Tuple<AppTheme, Accent> AppTheme = ThemeManager.DetectAppStyle(Application.Current);
-            ThemeManager.ChangeAppStyle(Application.Current, theme.Accent, AppTheme.Item1);
+            ThemeManager.ChangeAppStyle(Application.Current, accent, AppTheme.Item1);
         }
 
         private void butServer_Click(object sender, RoutedEventArgs e)
@@ -754,5 +752,10 @@ namespace MTMCL
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        private void MetroWindow_Closing (object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            App.AboutToExit();
+        }
     }
 }

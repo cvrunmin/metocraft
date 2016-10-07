@@ -53,9 +53,9 @@
             </Setter>
         </Style>
     </Button.Resources>
-    <Grid Width="150" Height="150">
+    <Grid>
         <Grid Margin="5,5,5,24">
-            <Canvas x:Name="canvaColor" Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+            <Canvas x:Name="canvaColor" Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,10,20,11">
                 <Canvas.Background>
                     <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}"/>
                 </Canvas.Background>

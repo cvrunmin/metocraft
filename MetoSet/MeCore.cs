@@ -21,6 +21,7 @@ namespace MTMCL
         public static bool IsServerDedicated;
         public static Dictionary<string, object> Language = new Dictionary<string, object>();
         public static Dictionary<string, ResourceDictionary> Color = new Dictionary<string, ResourceDictionary>();
+        internal static List<Themes.Theme> themes = new List<Themes.Theme>();
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
         public static string DataDirectory = Environment.CurrentDirectory + '\\' + "MTMCL" + '\\';
         private readonly static string Cfgfile = DataDirectory + "mtmcl_config.json";
@@ -79,6 +80,7 @@ namespace MTMCL
 
             LoadLanguage();
             LoadColor();
+            LoadTheme();
             if (Config.Server != null)
             {
                 if (App.forceNonDedicate)
@@ -200,6 +202,18 @@ namespace MTMCL
             else
             {
                 Directory.CreateDirectory(DataDirectory + "Color");
+            }
+        }
+        internal static void LoadTheme () {
+            if (Directory.Exists(DataDirectory + "Themes")) {
+                foreach (string file in Directory.GetFiles(DataDirectory + "Themes", "*.mtheme", SearchOption.TopDirectoryOnly))
+                {
+                    themes.Add(Themes.Theme.LoadMTMCLTheme(file));
+                }
+                foreach (string file in Directory.GetFiles(DataDirectory + "Themes", "*.mthemepack", SearchOption.TopDirectoryOnly))
+                {
+                    themes.Add(Themes.Theme.readMTMCLThemeInstantly(file));
+                }
             }
         }
         internal static void Refresh()

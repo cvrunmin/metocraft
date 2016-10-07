@@ -8,7 +8,7 @@
         x:Class="MTMCL.MainWindow"
         mc:Ignorable="d"
     GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="MainWindow" Height="438" Width="741" BorderBrush="Black" Background="White" TitleCaps="False" Icon="Resources/mtmcl.ico" ResizeMode="CanMinimize" ShowMaxRestoreButton="False" Loaded="MetroWindow_Loaded">
+        Title="MainWindow" Height="438" Width="741" BorderBrush="Black" Background="White" TitleCaps="False" Icon="Resources/mtmcl.ico" ResizeMode="CanMinimize" ShowMaxRestoreButton="False" Loaded="MetroWindow_Loaded" Closing="MetroWindow_Closing">
     <metro:MetroWindow.Flyouts>
         <metro:FlyoutsControl>
             <metro:Flyout x:Name="launchFlyout" Theme="Accent" Position="Right" IsModal="True" Header="{DynamicResource SelectLMode}">

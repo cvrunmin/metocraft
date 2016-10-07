@@ -70,7 +70,7 @@ namespace MTMCL.Resources
         }
         private void AddPreviewItem(string uri, string desc)
         {
-            var pi = new PreviewItem() { ImgSrc = new BitmapImage(new Uri(uri)), Description = desc };
+            var pi = new PreviewItem() { ImgSrc = new BitmapImage(new Uri(uri)), Description = desc, Stretch = System.Windows.Media.Stretch.Uniform };
             pi.Click += BGButton_Click;
             pi.uri = new Uri(uri);
             var menu = new ContextMenu();

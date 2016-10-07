@@ -484,14 +484,45 @@ namespace MTMCL.util
 
     internal sealed class ImageConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert (object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (parameter == null || parameter.Equals(String.Empty)) parameter = "{0}";
-            string path = string.Format((string)parameter, value);
+            string path = string.Format((string) parameter, value);
             return new BitmapImage(new Uri(path));
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal sealed class ColorFromAccentConverter : IValueConverter
+    {
+        public object Convert (object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter == null || parameter.Equals(String.Empty)) parameter = "AccentBaseColor";
+
+            try
+            {
+                MahApps.Metro.Accent accent = null;
+                accent = (MahApps.Metro.Accent) value;
+                System.Windows.Media.Color color;
+                    if (!accent.Resources.Contains(parameter)) color = (System.Windows.Media.Color) accent.Resources["AccentColor"];
+                    else color = (System.Windows.Media.Color) accent.Resources[parameter];
+                return color;
+            } catch (Exception ex){
+                Exception ex1 = new ArgumentException("unexpected value, Accent prefered, argument type: " + value.GetType().Name, "value", ex);
+#if DEBUG
+                if(Logger.loaded)Logger.error(ex1);
+#else
+                throw ex1;
+#endif
+            }
+            return null;
+        }
+
+        public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

@@ -300,6 +300,9 @@
     <Compile Include="Report\ErrorReport.xaml.cs">
       <DependentUpon>ErrorReport.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Report\WinLog.xaml.cs">
+      <DependentUpon>WinLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\BGPreviewWindow.xaml.cs">
       <DependentUpon>BGPreviewWindow.xaml</DependentUpon>
     </Compile>
@@ -465,6 +468,10 @@
     <Page Include="Report\ErrorReport.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\WinLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\BGPreviewWindow.xaml">
       <SubType>Designer</SubType>

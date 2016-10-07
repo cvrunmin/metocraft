@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro;
 using MTMCL.Lang;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -116,6 +117,22 @@ namespace MTMCL
             RefreshLangList();
             RefreshColorList();
             LoadConfig();
+            List<Themes.Theme> list = MeCore.themes;
+            list.Insert(0, new Themes.DefaultTheme());
+            if (MeCore.Config.Theme.Equals("Custom") | string.IsNullOrWhiteSpace(MeCore.Config.Theme))
+            {
+                var theme = new Themes.Theme();
+                theme = theme.MakeChanges("ImageSoruce", MeCore.Config.Background).MakeChanges("AccentName", MeCore.Config.ColorScheme).MakeChanges("Image", new BitmapImage(new Uri(MeCore.Config.Background))).MakeChanges("Name", "Custom").MakeChanges("Accent", ThemeManager.GetAccent(MeCore.Config.ColorScheme)).MakeChanges("isTmp", true);
+                list.Add(theme);
+                panelTheme.ItemsSource = list;
+                panelTheme.SelectedItem = theme;
+            }
+            else {
+                var a = list.Where(t => t.Name.Equals(MeCore.Config.Theme));
+                var b = a.First();
+                panelTheme.ItemsSource = list;
+                if (b != null) panelTheme.SelectedItem = b;
+            }
             if (MeCore.IsServerDedicated)
             {
                 LoadServerDeDicatedVersion();
@@ -329,6 +346,7 @@ namespace MTMCL
                     averageB /= (bgr.Length / 3);
                     const int nThreshold = 105;
                     var bgDelta = Convert.ToInt32((averageR * 0.299) + (averageG * 0.587) + (averageB * 0.114));
+                    map.UnlockBits(data);
                     return 255 - bgDelta < nThreshold;
                 }));
             }
@@ -437,6 +455,105 @@ namespace MTMCL
         private void button_Click (object sender, RoutedEventArgs e)
         {
             new ErrorReport(new AggregateException()).Show();
+        }
+
+        private void panelTheme_SelectionChanged (object sender, SelectionChangedEventArgs e)
+        {
+            if (panelTheme.SelectedIndex != -1) {
+                if (panelTheme.SelectedItem is Themes.DefaultTheme)
+                {
+                    bgItem.ImgSrc = ((Themes.DefaultTheme) panelTheme.SelectedItem).Image;
+                    var s = ((Themes.DefaultTheme) panelTheme.SelectedItem).ImageSource;
+                    var a = s.LastIndexOf('\\');
+                    if(a==-1) a = s.LastIndexOf('/');
+                    if (a == -1)
+                        bgItem.Description = s;
+                    else bgItem.Description = s.Substring(a+1);
+                    colorItem.Color = (Color) ((Themes.DefaultTheme) panelTheme.SelectedItem).Accent.Resources["AccentColor"];
+                    colorItem.Description = ((Themes.DefaultTheme) panelTheme.SelectedItem).AccentName;
+                    MeCore.MainWindow.RenderTheme(((Themes.DefaultTheme) panelTheme.SelectedItem));
+                    MeCore.Config.QuickChange("Theme", ((Themes.DefaultTheme) panelTheme.SelectedItem).Name);
+                }
+                else
+                {
+                    bgItem.ImgSrc = ((Themes.Theme) panelTheme.SelectedItem).Image;
+                    var s = ((Themes.DefaultTheme) panelTheme.SelectedItem).ImageSource;
+                    var a = s.LastIndexOf('\\');
+                    if (a == -1) a = s.LastIndexOf('/');
+                    if (a == -1)
+                        bgItem.Description = s;
+                    else bgItem.Description = s.Substring(a + 1);
+                    colorItem.Color = (Color) ((Themes.Theme) panelTheme.SelectedItem).Accent.Resources["AccentColor"];
+                    colorItem.Description = ((Themes.Theme) panelTheme.SelectedItem).AccentName;
+                    MeCore.MainWindow.RenderTheme(((Themes.Theme) panelTheme.SelectedItem));
+                    MeCore.Config.QuickChange("Theme", ((Themes.Theme) panelTheme.SelectedItem).Name);
+                }
+            }
+        }
+        private void createTmpBySelectedTheme () {
+            var a = panelTheme.ItemsSource.OfType<Themes.Theme>();
+            var b = a.ToList();
+            var c = ((Themes.Theme) panelTheme.SelectedItem);
+            var d = b.Where(t => t.isTmp);
+            if (d.Count() > 0) {
+                c = d.First();
+                b.Remove(c);
+            }
+            if (c is Themes.DefaultTheme) c = Themes.ThemeHelper.NormalizeTheme((Themes.DefaultTheme) c);
+            b.Add(c.MakeChanges("isTmp", true).MakeChanges("Name", "Custom"));
+            panelTheme.ItemsSource = b;
+            panelTheme.SelectedItem = c;
+        }
+        private void updateTheme (int index, Themes.Theme theme) {
+            var a = panelTheme.ItemsSource.OfType<Themes.Theme>();
+            var b = a.ToList();
+            b.RemoveAt(index);
+            b.Insert(index, theme);
+            panelTheme.ItemsSource = b;
+            panelTheme.SelectedIndex = index;
+        }
+        private void bgItem_Click (object sender, RoutedEventArgs e)
+        {
+            if (bgItem.ImgSrc != null) {
+                var dialog = new Resources.BGWindow();
+                if (!((bool) dialog.ShowDialog())) return;
+                txtboxBG.Text = dialog.uri;
+                Themes.Theme x; 
+                if (panelTheme.SelectedItem != null) {
+                    if (!((Themes.Theme) panelTheme.SelectedItem).isTmp) {
+                        createTmpBySelectedTheme();
+                    }
+                        x = ((Themes.Theme) panelTheme.SelectedItem).MakeChanges("ImageSource", dialog.uri);
+                    updateTheme(panelTheme.SelectedIndex, x);
+                    //MeCore.Config.QuickChange("Background", dialog.uri);
+                    //MeCore.Config.Background = dialog.uri; MeCore.Config.Save();
+                    if (dialog.steam != null)
+                    {
+                        CheckDarkness(dialog.steam);
+                        dialog.steam.Position = 0;
+                        BitmapImage bi = new BitmapImage();
+                        bi.BeginInit();
+                        bi.CacheOption = BitmapCacheOption.OnLoad;
+                        bi.StreamSource = dialog.steam;
+                        bi.EndInit();
+                        x = ((Themes.Theme) panelTheme.SelectedItem).MakeChanges("Image", bi);
+                        updateTheme(panelTheme.SelectedIndex, x);
+                    }
+                    else
+                    {
+                        CheckDarkness(dialog.uri);
+                        x = ((Themes.Theme) panelTheme.SelectedItem).MakeChanges("Image", new BitmapImage(new Uri(dialog.uri)));
+                        updateTheme(panelTheme.SelectedIndex, x);
+                    }
+                    MeCore.MainWindow.RenderTheme(x);
+                    panelTheme_SelectionChanged(sender, null);
+                }
+            }
+        }
+
+        private void colorItem_Click (object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

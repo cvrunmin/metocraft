@@ -12,37 +12,41 @@ namespace MTMCL
     {
         public enum LogType
         {
-            Error,Info,Crash,Exception,Game,Fml,
+            Error, Info, Crash, Exception, Game, Warning
         }
-        
+
         static public bool debug = false;
         static public bool LogReadOnly = false;
-//        static readonly FrmLog frmLog = new FrmLog();
-        static public void start()
+        static readonly Report.WinLog frmLog = new Report.WinLog();
+        static StreamWriter swlog;
+        internal static bool loaded;
+
+        static public void start ()
         {
             try
             {
-                FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                fs.Close();
+                swlog = new StreamWriter(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite), Encoding.UTF8);
+                swlog.Flush();
+                swlog.AutoFlush = true;
+                loaded = true;
             }
-            catch (UnauthorizedAccessException) {
+            catch (UnauthorizedAccessException)
+            {
                 //System.Windows.MessageBox.Show("無法修改日誌\n无法修改日志\nFailed to edit the log\n" + e);
                 LogReadOnly = true;
             }
             if (debug)
             {
-//                frmLog.Show();
+                frmLog.Show();
             }
         }
-        static public void stop()
+        static public void stop ()
         {
-            if (debug)
-            {
-//                frmLog.Close();
-            }
+            swlog.Close();
+            if (debug) frmLog.Close();
         }
 
-        static private string writeInfo(LogType type = LogType.Info)
+        static private string writeInfo (LogType type = LogType.Info)
         {
             switch (type)
             {
@@ -56,73 +60,57 @@ namespace MTMCL
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[WARN]");
                 case LogType.Game:
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[GAME]");
-                case LogType.Fml:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[FML]");
+                case LogType.Warning:
+                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[WARN]");
                 default:
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[INFO]");
             }
         }
-        static private void write(string str, LogType type = LogType.Info)
+        static private void write (string str, LogType type = LogType.Info)
         {
             if (LogReadOnly) return;
-            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-            StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-            sw.WriteLine(writeInfo(type) + str);
-            sw.Close();
-                if (debug)
-                {
-                    //                frmLog.WriteLine(str, type);
-                }
+            str = writeInfo(type) + str;
+            swlog.WriteLine(str);
+            if (debug) frmLog.WriteLine(str);
         }
-        static private string HelpWrite(string str, LogType type = LogType.Info)
+        static private string HelpWrite (string str, LogType type = LogType.Info)
         {
             string a = writeInfo(type) + str;
             if (LogReadOnly) return a;
-            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-            StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-            sw.WriteLine(a);
-            sw.Close();
-            if (debug)
-            {
-                //                frmLog.WriteLine(str, type);
-            }
+            swlog.WriteLine(a);
+            if (debug) frmLog.WriteLine(a);
             return a;
         }
-        static private void write(Stream s, LogType type = LogType.Info)
+        static private void write (Stream s, LogType type = LogType.Info)
         {
             if (LogReadOnly) return;
             StreamReader sr = new StreamReader(s);
             write(sr.ReadToEnd(), type);
-            if (debug)
-            {
-                s.Position = 0;
-//                frmLog.WriteLine(sr.ReadToEnd(),type);
-            }
         }
 
 
-        static public void log(string str, LogType type = LogType.Info)
+        static public void log (string str, LogType type = LogType.Info)
         {
             write(str, type);
         }
-        static public string HelpLog(string str, LogType type = LogType.Info)
+        static public string HelpLog (string str, LogType type = LogType.Info)
         {
             return HelpWrite(str, type);
         }
-        static public void log(Config cfg, LogType type = LogType.Info)
+        static public void log (Config cfg, LogType type = LogType.Info)
         {
             DataContractSerializer cfgSerializer = new DataContractSerializer(typeof(Config));
-            MemoryStream ms=new MemoryStream();
+            MemoryStream ms = new MemoryStream();
             cfgSerializer.WriteObject(ms, cfg);
             ms.Position = 0;
             write(ms, type);
         }
-        static public void log(Stream s, LogType type = LogType.Info)
+        static public void log (Stream s, LogType type = LogType.Info)
         {
             StreamReader sr = new StreamReader(s);
             write(sr.ReadToEnd(), type);
         }
-        static public void log(Exception ex, LogType type = LogType.Exception)
+        static public void log (Exception ex, LogType type = LogType.Exception)
         {
             StringBuilder message = new StringBuilder();
             message.AppendLine(ex.Source);
@@ -146,7 +134,7 @@ namespace MTMCL
             write(message.ToString(), type);
         }
 
-        static public void log(LogType type = LogType.Info, params string[] messages)
+        static public void log (LogType type = LogType.Info, params string[] messages)
         {
             StringBuilder sb = new StringBuilder();
             foreach (string str in messages)
@@ -156,7 +144,7 @@ namespace MTMCL
             write(sb.ToString(), type);
         }
 
-        static public void log(params string[] messages)
+        static public void log (params string[] messages)
         {
             StringBuilder sb = new StringBuilder();
             foreach (string str in messages)
@@ -166,21 +154,21 @@ namespace MTMCL
             write(sb.ToString());
         }
 
-        static public void info(string message)
+        static public void info (string message)
         {
             log(message);
         }
 
-        static public void error(string message)
+        static public void error (string message)
         {
             log(message, LogType.Error);
         }
 
-        static public void error(Exception ex)
+        static public void error (Exception ex)
         {
             log(ex);
         }
-        
+
 
     }
 }

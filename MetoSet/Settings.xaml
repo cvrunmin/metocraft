@@ -5,7 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MTMCL"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:Resources="clr-namespace:MTMCL.Resources" x:Class="MTMCL.Settings"
+             xmlns:Resources="clr-namespace:MTMCL.Resources"
+             xmlns:Theme="clr-namespace:MTMCL.Themes"
+    xmlns:util="clr-namespace:MTMCL.util"
+    x:Class="MTMCL.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
     <Grid.Resources>
@@ -14,11 +17,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <util:ColorFromAccentConverter x:Key="ColorFromAccentConverter"/>
         </ResourceDictionary>
     </Grid.Resources>
     <Grid>
         <TabControl TabStripPlacement="Left" Margin="0,40,0,0">
-            <TabItem Header="{DynamicResource GameSet}" Background="{DynamicResource AccentColorBrush4}">
+            <TabItem Header="{DynamicResource GameSet}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
                 <ScrollViewer>
                     <Grid Background="{DynamicResource AccentColorBrush3}">
                         <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
@@ -48,7 +52,7 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{DynamicResource Download}" Background="{DynamicResource AccentColorBrush4}">
+            <TabItem Header="{DynamicResource Download}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
                 <Grid Background="{DynamicResource AccentColorBrush3}">
                     <Label Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboDLSrc_SelectionChanged">
@@ -64,7 +68,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="{DynamicResource LauncherSet}" Background="{DynamicResource AccentColorBrush4}">
+            <TabItem Header="{DynamicResource LauncherSet}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
                 <ScrollViewer>
                     <Grid Background="{DynamicResource AccentColorBrush3}">
                         <Label Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
@@ -81,18 +85,50 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Themes" Background="{DynamicResource AccentColorBrush4}" Visibility="Collapsed">
+            <TabItem Header="Themes" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5" Visibility="Collapsed">
                 <Grid Background="{DynamicResource AccentColorBrush3}">
-                    <ScrollViewer Margin="0,0,130,0">
-                        <WrapPanel x:Name="panelTheme" Background="{DynamicResource ControlBackgroundBrush}"/>
+                    <ScrollViewer Margin="0,0,125,0">
+                        <ListBox x:Name="panelTheme" Background="{DynamicResource ControlBackgroundBrush}" SelectionChanged="panelTheme_SelectionChanged">
+                            <ListBox.Resources>
+                                <ResourceDictionary>
+                                    <Theme:DefaultTheme x:Key="theme"/>
+                                </ResourceDictionary>
+                            </ListBox.Resources>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Width="150" Height="150" d:DataContext="{DynamicResource theme}">
+                                        <Grid Margin="5,5,5,24">
+                                            <Grid x:Name="imagePreview" Margin="10">
+                                                <Grid.Background>
+                                                    <ImageBrush x:Name="brush" TileMode="Tile" ImageSource="{Binding Image, Mode=OneWay}"/>
+                                                </Grid.Background>
+                                            </Grid>
+                                            <Canvas x:Name="canvaColor" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0">
+                                                <Canvas.Background>
+                                                    <SolidColorBrush Color="{Binding Accent, ConverterParameter=AccentColor, Converter={StaticResource ColorFromAccentConverter}, Mode=Default}"/>
+                                                </Canvas.Background>
+                                            </Canvas>
+                                        </Grid>
+                                        <Label x:Name="lblPreview" Margin="0,126,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                            <AccessText x:Name="txtPreview" TextAlignment="Center" Text="{Binding Name, FallbackValue=Unknown Name, TargetNullValue=Untitled}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="12" TextOptions.TextHintingMode="Animated"/>
+                                        </Label>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ScrollContentPresenter}, Mode=FindAncestor}}"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
                     </ScrollViewer>
-                    <Label Content="{DynamicResource BG}" HorizontalAlignment="Left" Margin="394,0,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
-                    <Resources:PreviewItem x:Name="bgItem" HorizontalAlignment="Left" Margin="394,25,0,0" VerticalAlignment="Top" Height="120" Width="120"/>
-                    <Label Content="{DynamicResource Color}" HorizontalAlignment="Left" Margin="394,150,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
-                    <Resources:PreviewItem x:Name="colorItem" HorizontalAlignment="Left" Margin="394,175,0,0" VerticalAlignment="Top" Height="120" Width="120"/>
+                    <Label Content="{DynamicResource BG}" VerticalAlignment="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="120"/>
+                    <Resources:PreviewItem x:Name="bgItem" Margin="0,25,0,0" VerticalAlignment="Top" Height="120" HorizontalAlignment="Right" Width="120" Click="bgItem_Click" Stretch="UniformToFill"/>
+                    <Label Content="{DynamicResource Color}" Margin="0,150,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="120"/>
+                    <Resources:PreviewItem x:Name="colorItem" Margin="0,180,0,0" VerticalAlignment="Top" Height="120" HorizontalAlignment="Right" Width="120" Click="colorItem_Click" Stretch="UniformToFill"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="{DynamicResource About}" Background="{DynamicResource AccentColorBrush4}">
+            <TabItem Header="{DynamicResource About}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
                 <Grid Background="{DynamicResource AccentColorBrush3}">
                     <Label Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <Label x:Name="lblLauncherVersion" Content="" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>

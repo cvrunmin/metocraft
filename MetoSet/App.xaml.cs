@@ -18,12 +18,11 @@ namespace MTMCL
     {
         public static bool forceNonDedicate = false;
         public static EventWaitHandle ProgramStarted;
-        //public static KMCCC.Launcher.LauncherCore core;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             bool createNew;
-            ProgramStarted = new EventWaitHandle(false, EventResetMode.AutoReset, "MTMCLStart", out createNew);
+            ProgramStarted = new EventWaitHandle(false, EventResetMode.AutoReset, Process.GetCurrentProcess().ProcessName, out createNew);
             if (!createNew)
             {
                 ProgramStarted.Set();
@@ -34,11 +33,14 @@ namespace MTMCL
             {
                 forceNonDedicate = true;
             }
-            if (e.Args.Length == 0)   // 判断debug模式
+            if (e.Args.Length == 0)
                 Logger.debug = false;
             else
                 if (Array.IndexOf(e.Args, "-Debug") != -1)
                 Logger.debug = true;
+#if DEBUG
+            Logger.debug = true;
+#endif
             Logger.start();
 #if DEBUG
 #else
