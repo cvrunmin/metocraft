@@ -21,11 +21,11 @@ namespace MTMCL
         static StreamWriter swlog;
         internal static bool loaded;
 
-        static public void start ()
+        static public void start (FileMode mode = FileMode.Create, bool logshow = true)
         {
             try
             {
-                swlog = new StreamWriter(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite), Encoding.UTF8);
+                swlog = new StreamWriter(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\mtmcl.log", mode, FileAccess.Write, FileShare.Read), Encoding.UTF8);
                 swlog.Flush();
                 swlog.AutoFlush = true;
                 loaded = true;
@@ -35,15 +35,15 @@ namespace MTMCL
                 //System.Windows.MessageBox.Show("無法修改日誌\n无法修改日志\nFailed to edit the log\n" + e);
                 LogReadOnly = true;
             }
-            if (debug)
+            if (debug&logshow)
             {
                 frmLog.Show();
             }
         }
-        static public void stop ()
+        static public void stop (bool logclose = true)
         {
             swlog.Close();
-            if (debug) frmLog.Close();
+            if (debug&logclose) frmLog.Close();
         }
 
         static private string writeInfo (LogType type = LogType.Info)

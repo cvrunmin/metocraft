@@ -26,6 +26,8 @@
     <s:String x:Key="Retry">重试</s:String>
     <s:String x:Key="Nullth">这里什么都没有</s:String>
     <s:String x:Key="NotAvailable">此功能暂不可用</s:String>
+    <s:String x:Key="Rename">重命名</s:String>
+    <s:String x:Key="Create">创建</s:String>
     <!--Guide-->
     <s:String x:Key="LangTitle">选择您的语言</s:String>
     <s:String x:Key="LangDesc">启动器语言会自动设定为系统显示语言。如果您想使用的显示语言与系统显示语言不同，请在这里选择</s:String>
@@ -77,6 +79,10 @@
     <s:String x:Key="SearchLatest">搜寻最新版本</s:String>
     <s:String x:Key="AuthUsed">使用认证(帐号)</s:String>
     <s:String x:Key="DLTryOnce">只尝试下载一次</s:String>
+    <s:String x:Key="ColorConfig">选择颜色...</s:String>
+    <s:String x:Key="Theme">主题</s:String>
+    <s:String x:Key="Themes">主题</s:String>
+    <s:String x:Key="PackTheme">打包主题</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">环境</s:String>
@@ -204,6 +210,7 @@
     <s:String x:Key="TaskUpdating">更新中 {0}</s:String>
     <s:String x:Key="Restarting">正在重新启动</s:String>
     <!--/Task-->
+    <s:String x:Key="BalloonNoticeSTTaskFormat">任务 {0} 已加入至队列中</s:String>
     <!--Install-->
     <s:String x:Key="Install">安装</s:String>
     <s:String x:Key="Path">路径</s:String>

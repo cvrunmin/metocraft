@@ -66,7 +66,7 @@
                 </Grid.Background>
             </Grid>
         </Grid>
-        <Label x:Name="lblPreview" Margin="0,126,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Label x:Name="lblPreview" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="24" VerticalAlignment="Bottom">
             <AccessText x:Name="txtPreview" TextAlignment="Center" Text="{Binding Description, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PreviewItem}}}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="12" TextOptions.TextHintingMode="Animated"/>
         </Label>
 

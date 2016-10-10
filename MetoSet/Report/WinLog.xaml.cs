@@ -26,8 +26,8 @@ namespace MTMCL.Report
         public void WriteLine (string Log)
         {
             sb.AppendLine(Log);
-            textBlock.Text = sb.ToString();
-            //Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker( delegate() { textBlock.Text = sb; }));
+            //textBlock.Text = sb.ToString();
+            Dispatcher.BeginInvoke(new System.Windows.Forms.MethodInvoker( delegate() { textBlock.Text = sb.ToString(); }));
         }
     }
 }

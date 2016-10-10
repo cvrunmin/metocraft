@@ -396,8 +396,19 @@ namespace MTMCL
             timer.Enabled = true;
             timer.Interval = 1000;
             timer.Tick += new EventHandler(timer_Tick);
-            Render();
-            RenderColor();
+            if (string.IsNullOrWhiteSpace(MeCore.Config.Theme)) MeCore.Config.Theme = "Custom";
+            if (MeCore.Config.Theme.Equals("Custom"))
+            {
+                if (MeCore.themes.Where(t => t.Name.Equals("Custom")).Count() == 0)
+                {
+                    var theme = new Themes.Theme();
+                    var s = MeCore.Config.Background;
+                    if (s.Equals("default")) s = "pack://application:,,,/Resources/bg.png";
+                    theme = theme.MakeChanges("ImageSource", s).MakeChanges("AccentName", MeCore.Config.ColorScheme).MakeChanges("Image", new BitmapImage(new Uri(s))).MakeChanges("Name", "Custom").MakeChanges("Accent", ThemeManager.GetAccent(MeCore.Config.ColorScheme)).MakeChanges("isTmp", true);
+                    MeCore.themes.Add(theme);
+                }
+            }
+            RenderTheme(MeCore.themes.Find(t => t.Name.Equals(MeCore.Config.Theme)));
             ThemeManager.ChangeAppTheme(Application.Current, MeCore.Config.reverseColor ? "BaseDark" : "BaseLight");
             ChangeTileColor();
         }
@@ -592,6 +603,7 @@ namespace MTMCL
                 }
             }
         internal void RenderTheme(Themes.Theme theme) {
+            if (theme == null) return;
             var image = theme.Image;
             var accent = theme.Accent;
             if (theme is Themes.DefaultTheme) {
@@ -756,6 +768,9 @@ namespace MTMCL
 
         private void MetroWindow_Closing (object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (MeCore.themes.Exists(t => t.Name.Equals("Custom") & t.isTmp)) {
+                MeCore.themes.Find(t => t.Name.Equals("Custom") & t.isTmp).SaveMTMCLTheme();
+            }
             App.AboutToExit();
         }
     }

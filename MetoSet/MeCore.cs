@@ -20,7 +20,7 @@ namespace MTMCL
         //public static Server.ServerInfo ServerCfg;
         public static bool IsServerDedicated;
         public static Dictionary<string, object> Language = new Dictionary<string, object>();
-        public static Dictionary<string, ResourceDictionary> Color = new Dictionary<string, ResourceDictionary>();
+        public static Dictionary<string, MahApps.Metro.Accent> Color = new Dictionary<string, MahApps.Metro.Accent>();
         internal static List<Themes.Theme> themes = new List<Themes.Theme>();
         public static string BaseDirectory = Environment.CurrentDirectory + '\\';
         public static string DataDirectory = Environment.CurrentDirectory + '\\' + "MTMCL" + '\\';
@@ -183,20 +183,19 @@ namespace MTMCL
         private static void LoadColor()
         {
             ResourceDictionary color = new ResourceDictionary();
-            string uri = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/{0}.xaml";
             for (int i = 0; i < 23; i++)
             {
                 string s = Enum.GetName(typeof(ColorScheme), i);
-                color.Source = new Uri(string.Format(uri, s));
-                Color.Add(s, color);
+                Color.Add(s, MahApps.Metro.ThemeManager.GetAccent(s));
             }
             if (Directory.Exists(DataDirectory + "Color"))
             {
                 foreach (string file in Directory.GetFiles(DataDirectory + "Color", "*.xaml", SearchOption.TopDirectoryOnly))
                 {
                     color.Source = new Uri(file);
-                    Color.Add(Path.GetFileNameWithoutExtension(file), color);
-                    MahApps.Metro.ThemeManager.AddAccent(Path.GetFileNameWithoutExtension(file), color.Source);
+                    string s = Path.GetFileNameWithoutExtension(file);
+                    MahApps.Metro.ThemeManager.AddAccent(s, color.Source);
+                    Color.Add(s, MahApps.Metro.ThemeManager.GetAccent(s));
                 }
             }
             else
@@ -208,11 +207,13 @@ namespace MTMCL
             if (Directory.Exists(DataDirectory + "Themes")) {
                 foreach (string file in Directory.GetFiles(DataDirectory + "Themes", "*.mtheme", SearchOption.TopDirectoryOnly))
                 {
-                    themes.Add(Themes.Theme.LoadMTMCLTheme(file));
+                    var t = Themes.Theme.LoadMTMCLTheme(file);
+                    if(t!=null) themes.Add(t);
                 }
                 foreach (string file in Directory.GetFiles(DataDirectory + "Themes", "*.mthemepack", SearchOption.TopDirectoryOnly))
                 {
-                    themes.Add(Themes.Theme.readMTMCLThemeInstantly(file));
+                    var t = Themes.Theme.readMTMCLThemeInstantly(file);
+                    if(t!=null)themes.Add(t);
                 }
             }
         }

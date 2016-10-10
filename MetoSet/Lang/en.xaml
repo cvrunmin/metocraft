@@ -26,6 +26,8 @@
     <s:String x:Key="Retry">Retry</s:String>
     <s:String x:Key="Nullth">Nothing here</s:String>
     <s:String x:Key="NotAvailable">This function is not available</s:String>
+    <s:String x:Key="Rename">Rename</s:String>
+    <s:String x:Key="Create">Create</s:String>
     <!-- Guide -->
     <s:String x:Key="LangTitle">Let's start by choosing your language</s:String>
     <s:String x:Key="LangDesc">Launcher language will be selected by the OS display language. If you want to use a display language that's different than the one determined by the setting of OS override language, choose it here</s:String>
@@ -78,6 +80,9 @@
     <s:String x:Key="AuthUsed">Auth(User) used</s:String>
     <s:String x:Key="DLTryOnce">Try to download once only</s:String>
     <s:String x:Key="ColorConfig">Select Color...</s:String>
+    <s:String x:Key="Theme">Theme</s:String>
+    <s:String x:Key="Themes">Themes</s:String>
+    <s:String x:Key="PackTheme">Pack Theme</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>

@@ -325,13 +325,19 @@
     <Compile Include="Server\Server.xaml.cs">
       <DependentUpon>Server.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\GridBG.xaml.cs">
+      <DependentUpon>GridBG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\GridColor.xaml.cs">
+      <DependentUpon>GridColor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Task\TaskDetail.xaml.cs">
       <DependentUpon>TaskDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Threads\LaunchMCThread.cs" />
     <Compile Include="Resources\UrlReplacer.cs" />
-    <Compile Include="Settings.xaml.cs">
+    <Compile Include="Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Task\TaskBar.xaml.cs">
@@ -537,7 +543,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="Settings\GridBG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\GridColor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

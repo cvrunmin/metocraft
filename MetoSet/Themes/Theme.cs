@@ -18,17 +18,24 @@ namespace MTMCL.Themes
         internal bool isTmp { get; set; }
         private string defaultPath => Path.Combine(MeCore.DataDirectory, "Themes", Name + ".mtheme");
 
+        public void EraseMTMCLTheme() { EraseMTMCLTheme(defaultPath); }
+        public void EraseMTMCLTheme(string path)
+        {
+            File.Delete(path);
+        }
+        public void EraseMTMCLThemePack() { EraseMTMCLTheme(defaultPath+"pack"); }
         public void SaveMTMCLTheme () { SaveMTMCLTheme(defaultPath); }
         public void SaveMTMCLTheme (string path)
         {
+            if (!Directory.Exists(Path.GetDirectoryName(path))) Directory.CreateDirectory(Path.GetDirectoryName(path));
             using (var jw = new Newtonsoft.Json.JsonTextWriter(new StreamWriter(path)))
             {
                 jw.Formatting = Newtonsoft.Json.Formatting.Indented;
                 var colorh = Accent.Resources["HighlightColor"];
-                var colora = Accent.Resources["AccentBaseColor"];
+                var colora = Accent.Resources["AccentColor"];
                 string hc = ((System.Windows.Media.Color) colorh).ToString().Remove(0, 3),
                     ac = ((System.Windows.Media.Color) colora).ToString().Remove(0, 3);
-                ThemeInfo info = new ThemeInfo() { AccentColor = ac, HighlightColor = hc, AccentName = AccentName, Name = Name, Background = ImageSource };
+                ThemeInfo info = new ThemeInfo() { AccentColor = ac, HighlightColor = hc, AccentName = AccentName, Name = Name, Background = ImageSource, isTmp = isTmp };
                 Newtonsoft.Json.JsonSerializer.Create().Serialize(jw, info, typeof(ThemeInfo));
             }
         }
@@ -44,56 +51,77 @@ namespace MTMCL.Themes
         {
             using (var jr = new Newtonsoft.Json.JsonTextReader(reader))
             {
-                ThemeInfo info = Newtonsoft.Json.JsonSerializer.Create().Deserialize<ThemeInfo>(jr);
-                Theme theme = new Theme();
-                theme.ImageSource = info.Background;
-                if (!skipReadImg)
-                    using (var ms = new MemoryStream())
+                try
+                {                   
+                    ThemeInfo info = Newtonsoft.Json.JsonSerializer.Create().Deserialize<ThemeInfo>(jr);
+                    Theme theme = new Theme();
+                    theme.ImageSource = info.Background;
+                    if (!skipReadImg)
                     {
-                        Image img = System.Drawing.Image.FromFile(info.Background);
-                        img.Save(ms, img.RawFormat);
-                        ms.Seek(0, SeekOrigin.Begin);
-                        BitmapImage bi = new BitmapImage();
-                        bi.BeginInit();
-                        bi.CacheOption = BitmapCacheOption.OnLoad;
-                        bi.StreamSource = ms;
-                        bi.EndInit();
-                        theme.Image = bi;
+                        if (info.Background.StartsWith("pack://application:,,,/"))
+                        {
+                            theme.Image = new BitmapImage(new Uri(info.Background));
+                        }
+                        else { 
+                            using (var ms = new MemoryStream())
+                            {
+                                Image img = System.Drawing.Image.FromFile(info.Background);
+                                img.Save(ms, img.RawFormat);
+                                ms.Seek(0, SeekOrigin.Begin);
+                                BitmapImage bi = new BitmapImage();
+                                bi.BeginInit();
+                                bi.CacheOption = BitmapCacheOption.OnLoad;
+                                bi.StreamSource = ms;
+                                bi.EndInit();
+                                theme.Image = bi;
+                            }
+                        }
                     }
-                theme.Name = info.Name;
-                theme.AccentName = info.AccentName;
-                int hc = Convert.ToInt32(info.HighlightColor, 16),
-                    ac = Convert.ToInt32(info.AccentColor, 16);
-                System.Windows.Media.Color colorh = System.Windows.Media.Color.FromRgb((byte) ((hc >> 16) & 255), (byte) ((hc >> 8) & 255), (byte) (hc & 255)),
-                    colora = System.Windows.Media.Color.FromRgb((byte) ((ac >> 16) & 255), (byte) ((ac >> 8) & 255), (byte) (ac & 255));
-                theme.Accent = MahApps.Metro.ThemeManager.GetAccent(theme.AccentName) ?? new MahApps.Metro.Accent() { Resources = Accents.AccentHelper.createResourceDictionary(colorh, colora) };
-                return theme;
+                    theme.Name = info.Name;
+                    theme.AccentName = info.AccentName;
+                    int hc = Convert.ToInt32(info.HighlightColor, 16),
+                        ac = Convert.ToInt32(info.AccentColor, 16);
+                    System.Windows.Media.Color colorh = System.Windows.Media.Color.FromRgb((byte)((hc >> 16) & 255), (byte)((hc >> 8) & 255), (byte)(hc & 255)),
+                        colora = System.Windows.Media.Color.FromRgb((byte)((ac >> 16) & 255), (byte)((ac >> 8) & 255), (byte)(ac & 255));
+                    theme.Accent = MahApps.Metro.ThemeManager.GetAccent(theme.AccentName) ?? new MahApps.Metro.Accent() { Resources = Accents.AccentHelper.createResourceDictionary(colorh, colora) };
+                    theme.isTmp = info.isTmp;
+                    return theme;
+                }
+                catch (Exception e)
+                {
+                    Logger.log(e);
+                    return null;
+                }
             }
         }
-
+        public void PackMTMCLTheme() { PackMTMCLTheme(defaultPath+"pack"); }
         public void PackMTMCLTheme (string path)
         {
+            if (!Directory.Exists(Path.GetDirectoryName(path))) Directory.CreateDirectory(Path.GetDirectoryName(path));
             using (var zos = new ZipOutputStream(new FileStream(path, FileMode.Create)))
             {
                 zos.SetLevel(4);
-                FileInfo info = new FileInfo(ImageSource);
-                var zip = new ZipEntry(ZipEntry.CleanName("Background/" + Path.GetFileName(ImageSource)));
-                zip.DateTime = DateTime.Now;
-                zip.Size = info.Length;
-                zos.PutNextEntry(zip);
                 byte[] buffer = new byte[4096];
-                using (FileStream streamReader = info.OpenRead())
+                if (!ImageSource.StartsWith("pack://application:,,,/"))
                 {
-                    StreamUtils.Copy(streamReader, zos, buffer);
+                    FileInfo info = new FileInfo(ImageSource);
+                    var zip = new ZipEntry(ZipEntry.CleanName("Background/" + Path.GetFileName(ImageSource)));
+                    zip.DateTime = DateTime.Now;
+                    zip.Size = info.Length;
+                    zos.PutNextEntry(zip);
+                    using (FileStream streamReader = info.OpenRead())
+                    {
+                        StreamUtils.Copy(streamReader, zos, buffer);
+                    }
+                    zos.CloseEntry();
                 }
-                zos.CloseEntry();
-                if (!File.Exists(defaultPath))
-                {
+                //if (!File.Exists(defaultPath))
+                //{
                     string tmp = ImageSource;
                     ImageSource = "Background/" + Path.GetFileName(ImageSource);
                     SaveMTMCLTheme();
                     ImageSource = tmp;
-                }
+                //}
                 var info1 = new FileInfo(defaultPath);
                 var zip1 = new ZipEntry(ZipEntry.CleanName(Path.GetFileName(defaultPath)));
                 zip1.DateTime = DateTime.Now;
@@ -105,6 +133,7 @@ namespace MTMCL.Themes
                 }
                 zos.CloseEntry();
                 zos.IsStreamOwner = true;
+                SaveMTMCLTheme();
             }
         }
         internal static void UnpackMTMCLTheme (string path)
@@ -169,40 +198,50 @@ namespace MTMCL.Themes
                     string entryFileName = zipEntry.Name;
 
                     byte[] buffer = new byte[4096];     // 4K is optimum
-                    Stream zipStream = zf.GetInputStream(zipEntry);
-
-                    // Manipulate the output filename here as desired.
-                    string fullZipToPath = Path.Combine(MeCore.DataDirectory, "Themes", entryFileName);
-                    string directoryName = Path.GetDirectoryName(fullZipToPath);
-                    if (directoryName.Length > 0)
-                        Directory.CreateDirectory(directoryName);
-
-                    // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
-                    // of the file, but does not waste memory.
-                    // The "using" will close the stream even if an exception occurs.
-                    using (MemoryStream stream = new MemoryStream())
+                    using (Stream zipStream = zf.GetInputStream(zipEntry))
                     {
-                        StreamUtils.Copy(zipStream, stream, buffer);
-                        if (imgFound & System.Text.RegularExpressions.Regex.IsMatch(entryFileName, "/\\w+\\/+\\w+(.png|.jpg|.jpeg|.jpe|.jfif|.tif|.tiff|.bmp|.dib|.gif)/i"))
+
+                        // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
+                        // of the file, but does not waste memory.
+                        // The "using" will close the stream even if an exception occurs.
+                        
+                        using (var stream = new MemoryStream())
                         {
-                            BitmapImage bi = new BitmapImage();
-                            bi.BeginInit();
-                            bi.CacheOption = BitmapCacheOption.OnLoad;
-                            bi.StreamSource = stream;
-                            bi.EndInit();
-                            theme.Image = bi;
-                        }
-                        else if (System.Text.RegularExpressions.Regex.IsMatch(entryFileName, "/\\w+.mtheme/i"))
-                        {
-                            Theme tmpt = LoadMTMCLTheme(new StreamReader(stream), true);
-                            theme.Accent = tmpt.Accent;
-                            theme.AccentName = tmpt.AccentName;
-                            theme.Name = theme.Name;
-                            theme.ImageSource = tmpt.ImageSource;
-                            tmpt = null;
+                            
+                                StreamUtils.Copy(zipStream, stream, buffer);
+                            stream.Position = 0;
+                            if (!imgFound & System.Text.RegularExpressions.Regex.IsMatch(entryFileName, "\\w+\\/+\\w+(.png|.jpg|.jpeg|.jpe|.jfif|.tif|.tiff|.bmp|.dib|.gif)", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                                {
+                                try
+                                {
+                                    BitmapImage bi = new BitmapImage();
+                                    bi.BeginInit();
+                                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                                    bi.StreamSource = stream;
+                                    bi.EndInit();
+                                    theme.Image = bi;
+                                    imgFound = true;
+                                }
+                                catch(Exception e) { Logger.log(e); }
+                                }
+                                else if (System.Text.RegularExpressions.Regex.IsMatch(entryFileName, "\\w+.mtheme", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                                {
+                                    Theme tmpt = LoadMTMCLTheme(new StreamReader(stream), true);
+                                    theme.Accent = tmpt.Accent;
+                                    theme.AccentName = tmpt.AccentName;
+                                    theme.Name = tmpt.Name;
+                                    theme.ImageSource = tmpt.ImageSource;
+                                    tmpt = null;
+                                }
+                            
+
                         }
                     }
                 }
+                return theme;
+            }
+            catch (Exception e) {
+                Logger.log(e);
             }
             finally
             {
@@ -212,7 +251,7 @@ namespace MTMCL.Themes
                     zf.Close(); // Ensure we release resources
                 }
             }
-            return theme;
+            return null;
         }
         public Theme MakeChanges (string type, object value)
         {
@@ -263,5 +302,7 @@ namespace MTMCL.Themes
         [DataMember]
         [Newtonsoft.Json.JsonProperty(PropertyName = "background")]
         public string Background { get; set; }
+        [Newtonsoft.Json.JsonProperty(PropertyName = "tmp",DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.IgnoreAndPopulate)]
+        public bool isTmp { get; set; }
     }
 }

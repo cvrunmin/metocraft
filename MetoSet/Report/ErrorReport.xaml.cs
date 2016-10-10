@@ -42,16 +42,7 @@ namespace MTMCL
                 message.AppendLine("StackTrace");
                 message.AppendLine(iex.StackTrace);
             }
-            message.AppendLine("-----------------MTMCL LOG----------------------\n");
-            var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
-            message.AppendLine(sr.ReadToEnd());
-            sr.Close();
-            message.AppendLine("-------------System Infomation------------------\n");
-            message.AppendFormat("Operating System : {0} ({1}) version {2}", util.OSHelper.GetOSName(), Environment.Is64BitOperatingSystem ? "x64" : "x32", Environment.OSVersion).AppendLine();
-            message.AppendLine(".NET Framework:");
-            message.AppendLine(util.OSHelper.GetDotNETs());
-            message.AppendLine("and updates:");
-            message.AppendLine(util.OSHelper.GetDotNETUpdates());
+            CreateLogInfoPart(message);
             txtMes.Text = message.ToString();
         }
         public ErrorReport (string s, Exception ex)
@@ -80,16 +71,7 @@ namespace MTMCL
                 message.AppendLine("StackTrace");
                 message.AppendLine(iex.StackTrace);
             }
-            message.AppendLine("\n-----------------MTMCL LOG----------------------\n");
-            var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
-            message.AppendLine(sr.ReadToEnd());
-            sr.Close();
-            message.AppendLine("-------------System Infomation------------------\n");
-            message.AppendFormat("Operating System : {0} ({1}) version {2}", util.OSHelper.GetOSName(), Environment.Is64BitOperatingSystem ? "x64" : "x32", Environment.OSVersion).AppendLine();
-            message.AppendLine(".NET Framework:");
-            message.AppendLine(util.OSHelper.GetDotNETs());
-            message.AppendLine("and updates:");
-            message.AppendLine(util.OSHelper.GetDotNETUpdates());
+            CreateLogInfoPart(message);
             txtMes.Text = message.ToString();
         }
         public ErrorReport (string s, string ex)
@@ -100,6 +82,12 @@ namespace MTMCL
             message.AppendLine(s);
             message.AppendLine("\n\n-----------------ERROR REPORT----------------------\n");
             message.AppendLine(ex);
+            CreateLogInfoPart(message);
+            txtMes.Text = message.ToString();
+        }
+
+        private void CreateLogInfoPart(StringBuilder message) {
+            Logger.stop(false);
             message.AppendLine("\n-----------------MTMCL LOG----------------------\n");
             var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
             message.AppendLine(sr.ReadToEnd());
@@ -110,7 +98,8 @@ namespace MTMCL
             message.AppendLine(util.OSHelper.GetDotNETs());
             message.AppendLine("and updates:");
             message.AppendLine(util.OSHelper.GetDotNETUpdates());
-            txtMes.Text = message.ToString();
+            Logger.start(FileMode.Append);
+            Logger.log(message.ToString(), Logger.LogType.Error);
         }
 
         private void butEmail_Click (object sender, RoutedEventArgs e)

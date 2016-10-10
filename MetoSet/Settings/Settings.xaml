@@ -1,0 +1,162 @@
+﻿<Grid
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Resources="clr-namespace:MTMCL.Resources"
+             xmlns:Theme="clr-namespace:MTMCL.Themes"
+    xmlns:util="clr-namespace:MTMCL.util"
+    x:Class="MTMCL.Settings"
+             mc:Ignorable="d" 
+             d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <util:ColorFromAccentConverter x:Key="ColorFromAccentConverter"/>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Grid>
+        <TabControl TabStripPlacement="Left" Margin="0,40,0,0">
+            <TabItem Header="{DynamicResource GameSet}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
+                <ScrollViewer>
+                    <Grid Background="{DynamicResource AccentColorBrush3}">
+                        <Label Content="{DynamicResource Xmx}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                        <Slider x:Name="sliderRAM" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="375" SmallChange="1" TickFrequency="16" Maximum="4096" Minimum="256" LargeChange="128" IsTabStop="True" IsMoveToPointEnabled="True" Value="1024" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" SelectionEnd="2048" ValueChanged="sliderRAM_ValueChanged" metro:SliderHelper.EnableMouseWheel="MouseHover"/>
+                        <Label Content="{DynamicResource MCPath}" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <TextBox x:Name="txtboxMP" HorizontalAlignment="Left" Height="23" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" metro:TextBoxHelper.Watermark="{DynamicResource MCPath_WM}" TextChanged="txtboxMP_TextChanged" LostKeyboardFocus="txtboxMP_LostKeyboardFocus"/>
+                        <Button x:Name="butBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,83,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butBrowse_Click"/>
+                        <Rectangle x:Name="rectMPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,83,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_check}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="{DynamicResource UseJ}" HorizontalAlignment="Left" Margin="0,114,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <TextBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" TextChanged="comboJava_SelectionChanged"/>
+                        <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleLL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,231,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmLL}" IsCheckedChanged="toggleLL_IsCheckedChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleModded" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,292,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmModded}" IsCheckedChanged="toggleModded_IsCheckedChanged"/>
+                        <Label Content="{DynamicResource AuthUsed}" HorizontalAlignment="Left" Margin="0,358,0,0" VerticalAlignment="Top" FontSize="16"/>
+                        <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="0,393,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click"/>
+                        <Button x:Name="butJavawBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,144,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butJavawBrowse_Click"/>
+                        <Rectangle x:Name="rectJPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,144,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_check}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{DynamicResource Download}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
+                    <Label Content="{DynamicResource DLSrc}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                    <ComboBox x:Name="comboDLSrc" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboDLSrc_SelectionChanged">
+                        <ComboBoxItem Content="Official" HorizontalAlignment="Left" Width="348"/>
+                        <ComboBoxItem Content="BMCLAPI" HorizontalAlignment="Left" Width="348"/>
+                    </ComboBox>
+                    <Label Content="{DynamicResource UdtSrc}" HorizontalAlignment="Left" Margin="0,61,0,0" VerticalAlignment="Top" FontSize="16"/>
+                    <ComboBox x:Name="comboUdtSrc" HorizontalAlignment="Left" Margin="2,91,0,0" VerticalAlignment="Top" Width="348" SelectionChanged="comboUdtSrc_SelectionChanged">
+                        <ComboBoxItem Content="GitHub" HorizontalAlignment="Left" Width="346"/>
+                        <ComboBoxItem Content="Coding" HorizontalAlignment="Left" Width="346"/>
+                    </ComboBox>
+                    <metro:ToggleSwitch x:Name="toggleTryOnce" HorizontalAlignment="Left" Margin="2,133,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource DLTryOnce}" IsCheckedChanged="toggleTryOnce_IsCheckedChanged"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource LauncherSet}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
+                <ScrollViewer>
+                    <Grid Background="{DynamicResource AccentColorBrush3}">
+                        <Label Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                        <ComboBox x:Name="comboLang" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboLang_SelectionChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleReverse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,66,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource ColorMirror}" IsCheckedChanged="toggleReverse_IsCheckedChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleLatest" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,132,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource SearchLatest}" IsCheckedChanged="toggleLatest_IsCheckedChanged"/>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{DynamicResource Themes}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
+                    <ScrollViewer Margin="0,0,125,0">
+                        <ListBox x:Name="panelTheme" Background="{DynamicResource ControlBackgroundBrush}" SelectionChanged="panelTheme_SelectionChanged" ContextMenuOpening="panelTheme_ContextMenuOpening">
+                            <ListBox.Resources>
+                                <ResourceDictionary>
+                                    <Theme:DefaultTheme x:Key="theme"/>
+                                    <ContextMenu x:Key="Menu">
+                                        <MenuItem x:Name="renameItem" Header="{DynamicResource Rename}" Click="renameItem_Click"/>
+                                        <MenuItem x:Name="saveItem" Click="saveItem_Click">
+                                            <MenuItem.Header>
+                                                <TextBlock><Run Text="{DynamicResource Save}"/><Run Text="{DynamicResource Theme}"/></TextBlock>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem x:Name="packItem" Header="{DynamicResource PackTheme}" Click="packItem_Click"/>
+                                    </ContextMenu>
+                                </ResourceDictionary>
+                            </ListBox.Resources>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Width="150" Height="150" d:DataContext="{DynamicResource theme}">
+                                        <Grid Margin="5,5,5,24">
+                                            <Grid x:Name="imagePreview" Margin="10">
+                                                <Grid.Background>
+                                                    <ImageBrush x:Name="brush" TileMode="Tile" ImageSource="{Binding Image, Mode=OneWay}"/>
+                                                </Grid.Background>
+                                            </Grid>
+                                            <Canvas x:Name="canvaColor" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0">
+                                                <Canvas.Background>
+                                                    <SolidColorBrush Color="{Binding Accent, ConverterParameter=AccentColor, Converter={StaticResource ColorFromAccentConverter}, Mode=Default}"/>
+                                                </Canvas.Background>
+                                            </Canvas>
+                                        </Grid>
+                                        <Label x:Name="lblPreview" Margin="0,126,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                            <AccessText x:Name="txtPreview" TextAlignment="Center" Text="{Binding Name, FallbackValue=Unknown Name, TargetNullValue=Untitled}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="12" TextOptions.TextHintingMode="Animated"/>
+                                        </Label>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ScrollContentPresenter}, Mode=FindAncestor}}"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource MetroListBoxItem}">
+                                    <Setter Property="ContextMenu" Value="{StaticResource Menu}"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </ScrollViewer>
+                    <Label Content="{DynamicResource BG}" VerticalAlignment="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="120"/>
+                    <Resources:PreviewItem x:Name="bgItem" Margin="0,25,0,0" VerticalAlignment="Top" Height="120" HorizontalAlignment="Right" Width="120" Click="bgItem_Click" Stretch="UniformToFill"/>
+                    <Label Content="{DynamicResource Color}" Margin="0,150,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="120"/>
+                    <Resources:PreviewItem x:Name="colorItem" Margin="0,180,0,0" VerticalAlignment="Top" Height="120" HorizontalAlignment="Right" Width="120" Click="colorItem_Click" Stretch="UniformToFill"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource About}" Background="{DynamicResource AccentColorBrush4}" metro:ControlsHelper.HeaderFontSize="22.5">
+                <Grid Background="{DynamicResource AccentColorBrush3}">
+                    <Label Content="{DynamicResource LauncherT}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                    <Label x:Name="lblLauncherVersion" Content="" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource VersionNew}" FontSize="16"/>
+                    <Button x:Name="butCheckUpdate" Content="{DynamicResource CheckUpdate}" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Click="butCheckUpdate_Click"/>
+                    <Label HorizontalAlignment="Left" Margin="0,157,0,0" VerticalAlignment="Top" Padding="0">
+                        <AccessText Text="Picture easteregg-sudou-kayo.png is captured form Youtube video Tt31439XObA made by MarioGaGabriel" TextWrapping="WrapWithOverflow"/>
+                    </Label>
+                    <Label HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Padding="0">
+                        <AccessText Text="©2014-2017 cvrunmin" TextWrapping="WrapWithOverflow"/>
+                    </Label>
+                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="117,62,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="butBack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Padding="0" Style="{DynamicResource MetroCircleButtonStyle}" Click="butBack_Click" BorderBrush="{DynamicResource BlackBrush}">
+            <Rectangle Height="14" Width="18" StrokeThickness="0" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        <Label x:Name="lblTitle" Content="{DynamicResource Setting}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333"/>
+    </Grid>
+</Grid>
