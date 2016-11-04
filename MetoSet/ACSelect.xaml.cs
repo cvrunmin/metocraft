@@ -65,7 +65,7 @@ namespace MTMCL
                         ac.ShowDialog();
                         if (ac.info != null && ac.auth != null)
                         {
-                            MeCore.Config.SavedAuths.Add(ac.info.DisplayName, new Config.SavedAuth { AuthType = ac.auth.Type, DisplayName = ac.info.DisplayName, AccessToken = ac.info.Session.ToString(), UUID = ac.info.UUID.ToString(), Properies = ac.info.Prop, UserType = ac.info.UserType });
+                            MeCore.Config.SavedAuths.Add(ac.info.DisplayName, new SavedAuth { AuthType = ac.auth.Type, DisplayName = ac.info.DisplayName, AccessToken = ac.info.Session.ToString(), UUID = ac.info.UUID.ToString(), Properies = ac.info.Prop, UserType = ac.info.UserType });
                             MeCore.Config.Save();
                             CreateCustomAuth();
                         }
@@ -103,7 +103,7 @@ namespace MTMCL
                     CreateCustomAuth();
                     return;
                 }
-                Config.SavedAuth auth; string name = ((ButtonMenu)e.Source).Content as string;
+                SavedAuth auth; string name = ((ButtonMenu)e.Source).Content as string;
                 MeCore.Config.SavedAuths.TryGetValue(name, out auth);
                 this.auth = auth.AuthType.Equals("Yggdrasil") ? new  Launch.Login.YggdrasilRefreshAuth(Guid.Parse(auth.AccessToken).ToString()) : new Launch.Login.OfflineAuth(name) as Launch.Login.IAuth;
                 MeCore.Config.QuickChange("DefaultAuth", name);

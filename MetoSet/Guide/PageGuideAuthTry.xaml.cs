@@ -56,7 +56,7 @@ namespace MTMCL.Guide
         {
             try
             {
-                MeCore.Config.SavedAuths.Add(info.DisplayName, new Config.SavedAuth { AuthType = author.Type, DisplayName = info.DisplayName, AccessToken = info.Session.ToString(), UUID = info.UUID.ToString(), Properies = info.Prop, UserType = info.UserType });
+                MeCore.Config.SavedAuths.Add(info.DisplayName, new SavedAuth { AuthType = author.Type, DisplayName = info.DisplayName, AccessToken = info.Session.ToString(), UUID = info.UUID.ToString(), Properies = info.Prop, UserType = info.UserType });
                 MeCore.Config.Save();
                 NavigationService.Navigate(new Uri("Guide\\PageGuideFinish.xaml", UriKind.Relative));
             }

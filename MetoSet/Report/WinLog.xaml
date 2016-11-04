@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MTMCL.Report"
         mc:Ignorable="d"
-        Title="Logger" Height="250" Width="350">
+        Title="Logger" Height="250" Width="350" Icon="/MTMCL;component/Resources/mtmcl.ico">
     <Grid>
         <ScrollViewer Margin="0" >
             <TextBlock x:Name="textBlock" TextWrapping="Wrap"/>

@@ -43,6 +43,8 @@
     <s:String x:Key="AuthBadLogin">If you don't have a paid account, you can still play by using Offline mode. However, it's recommended to buy an account to support Mojang.</s:String>
     <s:String x:Key="AskACRight">Is it your account?</s:String>
     <s:String x:Key="GuideFinish">Startup Guide is finished</s:String>
+    <s:String x:Key="GuideUsePlay">You can launch a game inside Play page</s:String>
+    <s:String x:Key="GuideUseHelp">You can find solutions inside Help page</s:String>
     <!-- About.xaml -->
     <s:String x:Key="COM">Computer</s:String>
     <s:String x:Key="COMVer">OS Version</s:String>
@@ -110,6 +112,7 @@
     <!-- /Play -->
     <!-- DL -->
     <s:String x:Key="GoDL">To Download Page</s:String>
+    <s:String x:Key="GoSettings">To Settings Page</s:String>
     <s:String x:Key="DLMC">Minecraft Vanilla Client</s:String>
     <s:String x:Key="DLLib">Library</s:String>
     <s:String x:Key="DLAssets">Assets</s:String>
@@ -130,6 +133,8 @@
     <s:String x:Key="ApplyFilter">Apply the Filter</s:String>
     <s:String x:Key="RecommendShow">Show Recommended Version</s:String>
     <s:String x:Key="LatestShow">Show Latest Version</s:String>
+    <s:String x:Key="RecommendVer">Recommended Version</s:String>
+    <s:String x:Key="LatestVer">Latest Version</s:String>
     <s:String x:Key="TaglessShow">Show Versions with no tags</s:String>
     <s:String x:Key="HiddenVersion">Hidden Versions</s:String>
     <s:String x:Key="SelectAll">Select All</s:String>

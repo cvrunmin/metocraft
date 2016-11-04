@@ -35,7 +35,7 @@ namespace MTMCL
     public partial class GridForgeDLMinor : Grid
     {
         GridForgeDLMain parent;
-        string mcversion { get; set; }
+        public string mcversion { get; private set; }
         public GridForgeDLMinor ()
         {
             InitializeComponent();
@@ -174,7 +174,7 @@ namespace MTMCL
                 MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskDLMC"))));
             
         }
-        private void DownloadForge (ForgeVersion.Version ver)
+        private void DownloadForge (ForgeVersion ver)
         {
             TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
             var thDL = new Thread(new ThreadStart(delegate
@@ -225,8 +225,8 @@ namespace MTMCL
         private void butDL_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button)
-                if (((Button)sender).DataContext is ForgeVersion.Version)
-                    DownloadForge(((ForgeVersion.Version)((Button)sender).DataContext));
+                if (((Button)sender).DataContext is ForgeVersion)
+                    DownloadForge(((ForgeVersion)((Button)sender).DataContext));
         }
 
     }

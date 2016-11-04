@@ -86,6 +86,7 @@ namespace MTMCL
             switch (type)
             {
                 case "settings":
+                case "setting":
                     tile = butSetting;
                     grid = new Settings();
                     break;
@@ -125,7 +126,7 @@ namespace MTMCL
                     return new Grid();
             }
             gridOthers.Children.Clear();
-            ((Rectangle)gridLoadingScreen.Children[0]).Fill = ((Rectangle)tile.GetValue(ContentProperty)).Fill;
+            ((Rectangle)gridLoadingScreen.Children[0]).OpacityMask = ((Rectangle)tile.GetValue(ContentProperty)).OpacityMask;
             ((Rectangle)gridLoadingScreen.Children[0]).Width = ((Rectangle)tile.GetValue(ContentProperty)).Width * 2;
             ((Rectangle)gridLoadingScreen.Children[0]).Height = ((Rectangle)tile.GetValue(ContentProperty)).Height * 2;
             gridLoadingScreen.Margin = new Thickness(gridMain.Margin.Left + gridMenu.Margin.Left + tile.Margin.Left, gridMain.Margin.Top + gridMenu.Margin.Top + tile.Margin.Top, gridMain.Margin.Right + gridMenu.Margin.Right + (gridMenu.Width - tile.Width - tile.Margin.Left), gridMain.Margin.Bottom + gridMenu.Margin.Bottom + (gridMenu.Height - tile.Height - tile.Margin.Top));
@@ -225,60 +226,7 @@ namespace MTMCL
         {
             if (_LaunchOptions != null)
             {
-                LaunchGame(_LaunchOptions, mode);
-            }
-        }
-        public void LaunchGame(LaunchGameInfo options, LaunchMode mode)
-        {
-            if (options != null)
-            {
-                _LaunchOptions = options;
-                _LaunchOptions.SetMode(mode);
-                string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
-                if (mode is BMCLLaunchMode)
-                {
-                    uri = "pack://application:,,,/Resources/play-bmcl-banner.jpg";
-                }
-                if (mode is BakaXLLaunchMode)
-                {
-                    uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
-                }
-                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri)) };
-                var task = new LaunchMCThread(_LaunchOptions);
-                task.StateChange += delegate (string state)
-                {
-                    Dispatcher.Invoke(new Action(() => gui.setTaskStatus(state)));
-                };
-                task.TaskCountTime += delegate
-                {
-                    Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = false));
-                    Dispatcher.Invoke(new Action(() => gui.countTime()));
-                };
-                task.GameExit += delegate
-                {
-                    Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
-                    Dispatcher.Invoke(new Action(() => gui.stopCountTime().noticeFinished()));
-                };
-                task.OnLogged += delegate (string s) {
-                    Dispatcher.Invoke(new Action(() => gui.log(s)));
-                };
-                task.GameCrash += delegate (string content, string path)
-                {
-                    //new MCCrash(content, path).Show();
-                };
-                task.OnAuthUpdate += delegate (Launch.Login.AuthInfo info)
-                {
-                    try
-                    {
-                        MeCore.Config.SavedAuths[info.DisplayName].AccessToken = info.Session.ToString();
-                    }
-                    catch (Exception) { }
-                };
-                task.Failed += () => {
-                    Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
-                };
-                addTask("game", gui.setTask(string.Format(LangManager.GetLangFromResource("TaskLaunch"), _LaunchOptions.Version.id)).setThread(task).setDetectAlive(false));
-                MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon("MTMCL", string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskLaunch"))));
+                _LaunchOptions = util.LaunchGameHelper.LaunchGame(_LaunchOptions, mode).Item1;
             }
         }
         private void butPlayQuick_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -457,69 +405,9 @@ namespace MTMCL
         }
         private void butPlayQuick_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                /*if (App.core == null)
-                {
-                    try
-                    {
-                        App.core = LauncherCore.Create(new LauncherCoreCreationOption(MeCore.IsServerDedicated ? (string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath) ? ".minecraft" : MeCore.Config.Server.ClientPath) : MeCore.Config.MCPath, MeCore.Config.Javaw, new KMCCC.Modules.JVersion.NewJVersionLocator()));
-                    }
-                    catch { }
-                }*/
-                if (!string.IsNullOrWhiteSpace(MeCore.Config.LastPlayVer))
-                {
-                    Versions.VersionJson version = Versions.VersionReader.GetFurtherVersion(MeCore.Config.MCPath, MeCore.Config.LastPlayVer);
-                    if (version != null)
-                    {
-                        Launch.Login.IAuth auth;
-                        if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
-                        {
-                            ACSelect ac = new ACSelect();
-                            ac.ShowDialog();
-                            auth = ac.auth;
-                        }
-                        else
-                        {
-                            Config.SavedAuth dauth;
-                            MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
-                            auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = dauth.AccessToken, UUID = dauth.UUID, UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
-                        }
-                        /*ACLogin ac = new ACLogin();
-                        ac.ShowDialog();
-                        auth = ac.auth;*/
-                        if (auth != null)
-                        {
-                            LaunchGameInfo option = LaunchGameInfo.CreateInfo(MeCore.Config.MCPath, auth, version,MeCore.Config.Javaw, (int)MeCore.Config.Javaxmx, CreateServerInfo());
-                            LaunchGame(option, LaunchMode.GetMode(MeCore.Config.LastLaunchMode));
-                        }
-                    }
-                }
-            }
-            catch { }
+            util.LaunchGameHelper.QuickLaunch();
         }
-        private ServerInfo CreateServerInfo() {
-            if (MeCore.IsServerDedicated)
-            {
-                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerIP))
-                {
-                    if (MeCore.Config.Server.ServerIP.IndexOf(':') != -1)
-                    {
-                        ushort port = 25565;
-                        if (!ushort.TryParse(MeCore.Config.Server.ServerIP.Substring(MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'), out port))
-                        {
-                            port = 25565;
-                        }
-                        return new Launch.ServerInfo
-                        {
-                            Ip = MeCore.Config.Server.ServerIP.Substring(0, MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'),
-                            Port = port
-                        };
-                    }
-                }
-            }
-            return null;
-        }
+
         private async void butNotice_Click(object sender, RoutedEventArgs e)
         {
             await ChangePage("notice", true);
@@ -773,5 +661,7 @@ namespace MTMCL
             }
             App.AboutToExit();
         }
+
+        public SavedAuth SelectedAuth { get; set; }
     }
 }

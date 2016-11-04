@@ -90,7 +90,7 @@ namespace MTMCL
             }
             else
             {
-                Config.SavedAuth dauth;
+                SavedAuth dauth;
                 MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
                 if (dauth == null)
                 {
@@ -135,9 +135,14 @@ namespace MTMCL
             }
             return null;
         }
-        private void butGoDLMC_Click(object sender, RoutedEventArgs e)
+        private async void butGoDLMC_Click (object sender, RoutedEventArgs e)
         {
-            MeCore.MainWindow.ChangePage("download");
+            await MeCore.MainWindow.ChangePage("download");
+        }
+
+        private async void butGoSetting_Click (object sender, RoutedEventArgs e)
+        {
+            await MeCore.MainWindow.ChangePage("settings");
         }
     }
 }

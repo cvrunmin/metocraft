@@ -412,18 +412,14 @@ namespace MTMCL
         {
             var a = panelTheme.ItemsSource.OfType<Themes.Theme>();
             var b = a.ToList();
-            var c = ((Themes.Theme)panelTheme.SelectedItem);
-            var d = b.Where(t => t.isTmp);
-            if (d.Count() > 0)
-            {
-                c = d.First();
-                b.Remove(c);
-            }
+            var c = ((Themes.Theme)panelTheme.SelectedItem).Clone();
+            b = b.SkipWhile(t => t.isTmp).ToList();
+            var d = b.Where(t => !t.isTmp);
+            b = d.ToList();
             if (c is Themes.DefaultTheme) c = Themes.ThemeHelper.NormalizeTheme((Themes.DefaultTheme)c);
             b.Add(c.MakeChanges("isTmp", true).MakeChanges("Name", "Custom"));
             panelTheme.ItemsSource = b;
             panelTheme.SelectedItem = c;
-            
         }
         private void updateTheme(int index, Themes.Theme theme)
         {

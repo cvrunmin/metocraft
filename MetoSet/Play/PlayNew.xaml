@@ -157,7 +157,7 @@
             </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
     </ListBox>
-    <Grid x:Name="gridNoVersion" Margin="0,45,0,0" Background="{DynamicResource AccentColorBrush}" Visibility="Collapsed">
+    <Grid x:Name="gridNoVersion" Margin="0,45,0,0" Background="{DynamicResource AccentColorBrush}" Visibility="Visible">
         <Rectangle Fill="Black" Height="75" Margin="0,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="75">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_warning_circle}"/>
@@ -165,6 +165,14 @@
         </Rectangle>
         <Label Content="{DynamicResource NoVersionFound1}" Margin="0,149,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16"/>
         <Label Content="{DynamicResource NoVersionFound2}" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="butGoDLMC" Content="{DynamicResource GoDL}" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top" Click="butGoDLMC_Click"/>
+        <Grid Margin="0,204,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="butGoSettings" Content="{DynamicResource GoSettings}" Click="butGoSetting_Click" />
+            <Button x:Name="butGoDLMC" Content="{DynamicResource GoDL}" Click="butGoDLMC_Click" Grid.Column="2"/>
+        </Grid>
     </Grid>
 </Grid>

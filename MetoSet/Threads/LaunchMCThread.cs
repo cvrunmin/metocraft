@@ -18,13 +18,13 @@ namespace MTMCL.Threads
         private readonly Launch.LaunchGameInfo _LaunchOptions;
         private int _clientCrashReportCount;
         private System.Diagnostics.Process process = new System.Diagnostics.Process();
-        public delegate void StateChangeEventHandler(string state);
-        public delegate void GameExitHandler();
-        public delegate void GameLaunched();
-        public delegate void LaunchFail();
-        public delegate void GameCrashedHandler(string content, string reportpath);
-        public delegate void Log(string log);
-        public delegate void UpdateAuth(Launch.Login.AuthInfo info);
+        public delegate void StateChangeEventHandler (string state);
+        public delegate void GameExitHandler ();
+        public delegate void GameLaunched ();
+        public delegate void LaunchFail ();
+        public delegate void GameCrashedHandler (string content, string reportpath);
+        public delegate void Log (string log);
+        public delegate void UpdateAuth (Launch.Login.AuthInfo info);
         public event UpdateAuth OnAuthUpdate;
         public event StateChangeEventHandler StateChange;
         public event GameExitHandler GameExit;
@@ -32,26 +32,29 @@ namespace MTMCL.Threads
         public event GameCrashedHandler GameCrash;
         public event LaunchFail Failed;
         public event Log OnLogged;
-        private void OnStateChange(string state)
+        private void OnStateChange (string state)
         {
             var handler = StateChange;
             if (handler != null) MeCore.Invoke(new Action(() => handler(state)));
         }
-        private void OnGameCrash(string content, string path)
+        private void OnGameCrash (string content, string path)
         {
             var handler = GameCrash;
             if (handler != null) MeCore.Invoke(new Action(() => handler(content, path)));
         }
-        public LaunchMCThread(Launch.LaunchGameInfo options) {
+        public LaunchMCThread (Launch.LaunchGameInfo options)
+        {
             _LaunchOptions = options;
         }
-        public override Thread Start()
+        public override Thread Start ()
         {
             var task = new Thread(Run);
+            task.SetApartmentState(ApartmentState.STA);
             task.Start();
             return task;
         }
-        private async void Run() {
+        private async void Run ()
+        {
             OnStateChange(LangManager.GetLangFromResource("SubTaskLaunch"));
             Thread.SpinWait(750);
             OnStateChange(LangManager.GetLangFromResource("SubTaskCheckLib"));
@@ -62,18 +65,18 @@ namespace MTMCL.Threads
                     List<LibraryUniversal> libs = new List<LibraryUniversal>();
                     VersionJson lib = _LaunchOptions.Version;
                     libs = lib.libraries.ToUniversalLibrary();
-                        WebClient _downer = new WebClient();
-                        int i = 0;
-                        foreach (var libfile in libs)
+                    WebClient _downer = new WebClient();
+                    int i = 0;
+                    foreach (var libfile in libs)
+                    {
+                        i++;
+                        OnStateChange(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float) i / libs.Count()) * 100f).ToString() + "%"));
+                        if (!File.Exists(libfile.path))
                         {
-                            i++;
-                            OnStateChange(string.Format(LangManager.GetLangFromResource("SubTaskDLLib"), (((float)i / libs.Count()) * 100f).ToString() + "%"));
-                            if (!File.Exists(libfile.path))
-                            {
-                                OnLogged?.Invoke(Logger.HelpLog("Start downloading " + libfile.path, Logger.LogType.Info));
-                                Download(libfile);
-                            }
+                            OnLogged?.Invoke(Logger.HelpLog("Start downloading " + libfile.path, Logger.LogType.Info));
+                            Download(libfile);
                         }
+                    }
                 }
                 catch { }
             }
@@ -81,14 +84,34 @@ namespace MTMCL.Threads
             //await TaskEx.Delay(1000);
             Dictionary<string, string> args = new Dictionary<string, string>();
             Launch.Login.AuthInfo ai = _LaunchOptions.Auth.Login();
-              login:
+        login:
             if (!ai.Pass | !string.IsNullOrWhiteSpace(ai.ErrorMsg))
             {
-                if (ai.ErrorMsg.Contains("invalid token")) {
-                    ACLogin ac = new ACLogin();
-                    ac.ShowDialog();
-                    ai = ac.auth.Login();
-                    goto login;
+                if (ai.ErrorMsg.Contains("Invalid token"))
+                {
+                    try
+                    {
+                        ACLogin ac = new ACLogin();
+                        ac.ShowDialog();
+                        if (ac.auth != null)
+                            ai = ac.auth.Login();
+                        goto login;
+                    }
+                    catch (Exception e)
+                    {
+                        int hr = (int) e.GetType().GetProperty("HResult", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(e, null);
+                        if (!(hr == -2146233087))
+                            throw;
+                        else {
+                            ACLogin ac = new ACLogin();
+                            MeCore.Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() => {
+                                ac.ShowDialog();
+                                if (ac.auth != null)
+                                    ai = ac.auth.Login();
+                            }));
+                        }
+                    }
+
                 }
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: failed to authenticate"));
                 OnLogged?.Invoke("Please check the notice for detail");
@@ -108,7 +131,7 @@ namespace MTMCL.Threads
             args.Add("auth_uuid", ai.UUID.ToString().Replace("-", ""));
             args.Add("user_properties", ai.Prop);
             args.Add("user_type", ai.UserType);
-            args.Add("version_type", "MTMCL_" +  MeCore.version);
+            args.Add("version_type", "MTMCL_" + MeCore.version);
             _LaunchOptions.Mode.Do(_LaunchOptions, ref args);
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = _LaunchOptions.JavaPath;
@@ -124,34 +147,35 @@ namespace MTMCL.Threads
                 //_LaunchOptions.Mode.DoAfter(_LaunchOptions);
                 GameExit?.Invoke();
                 //Dispatcher.Invoke(new Action(() => butPlayQuick.IsEnabled = true));
-                if (process.ExitCode != 0)
-                {
-                    if (Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports"))
+                if (process.HasExited)
+                    if (process.ExitCode != 0)
                     {
-                        if (_clientCrashReportCount != Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count())
+                        if (Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports"))
                         {
-                            OnLogged?.Invoke(Logger.HelpLog("found new crash report"));
-                            var clientCrashReportDir = new DirectoryInfo(_LaunchOptions.MCPath + @"\crash-reports");
-                            var lastClientCrashReportPath = "";
-                            var lastClientCrashReportModifyTime = DateTime.MinValue;
-                            foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
+                            if (_clientCrashReportCount != Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count())
                             {
-                                if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
+                                OnLogged?.Invoke(Logger.HelpLog("found new crash report"));
+                                var clientCrashReportDir = new DirectoryInfo(_LaunchOptions.MCPath + @"\crash-reports");
+                                var lastClientCrashReportPath = "";
+                                var lastClientCrashReportModifyTime = DateTime.MinValue;
+                                foreach (var clientCrashReport in clientCrashReportDir.GetFiles())
                                 {
-                                    lastClientCrashReportPath = clientCrashReport.FullName;
+                                    if (lastClientCrashReportModifyTime < clientCrashReport.LastWriteTime)
+                                    {
+                                        lastClientCrashReportPath = clientCrashReport.FullName;
+                                    }
                                 }
+                                var crashReportReader = new StreamReader(lastClientCrashReportPath, Encoding.Default);
+                                var s = crashReportReader.ReadToEnd();
+                                Logger.log(s, Logger.LogType.Crash);
+                                OnGameCrash(s, lastClientCrashReportPath);
+                                MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("CrashNameFormat"), DateTime.Now.ToLongTimeString()), s) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/mccrash-banner.jpg")) })));
+                                //MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s, lastClientCrashReportPath).Show()));
+                                crashReportReader.Close();
+                                _clientCrashReportCount = Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports") ? Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count() : 0;
                             }
-                            var crashReportReader = new StreamReader(lastClientCrashReportPath, Encoding.Default);
-                            var s = crashReportReader.ReadToEnd();
-                            Logger.log(s, Logger.LogType.Crash);
-                            OnGameCrash(s, lastClientCrashReportPath);
-                            MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("CrashNameFormat"), DateTime.Now.ToLongTimeString()), s) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/mccrash-banner.jpg")) })));
-                            //MeCore.Dispatcher.Invoke(new Action(() => new MCCrash(s, lastClientCrashReportPath).Show()));
-                            crashReportReader.Close();
-                            _clientCrashReportCount = Directory.Exists(_LaunchOptions.MCPath + @"\crash-reports") ? Directory.GetFiles(_LaunchOptions.MCPath + @"\crash-reports").Count() : 0;
                         }
                     }
-                }
             };
             try
             {
@@ -159,7 +183,8 @@ namespace MTMCL.Threads
                 if (!Directory.Exists(nativepath)) Directory.CreateDirectory(nativepath);
                 foreach (var lib in _LaunchOptions.Version.libraries.ToUniversalLibrary())
                 {
-                    if (lib.isNative) {
+                    if (lib.isNative)
+                    {
                         Logger.HelpLog("Uncompress zip: " + lib.path);
                         var zipfile = new ZipInputStream(File.OpenRead(lib.path));
                         ZipEntry theEntry;
@@ -207,7 +232,7 @@ namespace MTMCL.Threads
                 Failed?.Invoke();
                 return;
             }
-            
+
             if (!File.Exists(_LaunchOptions.JavaPath))
             {
                 OnLogged?.Invoke(Logger.HelpLog("error occurred: no java is found"));
@@ -216,7 +241,8 @@ namespace MTMCL.Threads
                 Failed?.Invoke();
                 return;
             }
-            try {
+            try
+            {
                 /*if (!result.Success)
             {
                 switch (result.ErrorType)
@@ -243,23 +269,26 @@ namespace MTMCL.Threads
                 process.EnableRaisingEvents = true;
                 process.Start();
                 process.BeginErrorReadLine();
-                process.ErrorDataReceived += (sender,e) => {
+                process.ErrorDataReceived += (sender, e) =>
+                {
                     if (e.Data == null) return;
                     OnLogged?.Invoke(e.Data);
                 };
                 process.BeginOutputReadLine();
-                process.OutputDataReceived += (sender, e) => {
+                process.OutputDataReceived += (sender, e) =>
+                {
                     if (e.Data == null) return;
                     OnLogged?.Invoke(e.Data);
                 };
                 await System.Threading.Tasks.Task.Factory.StartNew(process.WaitForExit);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Logger.log(e);
             }
 
         }
-        private void Download(LibraryUniversal file)
+        private void Download (LibraryUniversal file)
         {
             WebClient _downer = new WebClient();
             try
@@ -275,7 +304,8 @@ namespace MTMCL.Threads
                     {
                         url = Resources.UrlReplacer.toGoodLibUrl(file.url);
                     }
-                    else {
+                    else
+                    {
                         url = Resources.UrlReplacer.getForgeMaven(file.url) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                     }
                 }
@@ -303,13 +333,14 @@ namespace MTMCL.Threads
                         {
                             url = Resources.UrlReplacer.toGoodLibUrl(file.url, (MeCore.Config.DownloadSource + 1) & 1);
                         }
-                        else {
+                        else
+                        {
                             url = Resources.UrlReplacer.getForgeMaven(file.url, (MeCore.Config.DownloadSource + 1) & 1) + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                         }
                     }
                     else
                     {
-                        url = url + file.path.Remove(0,MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
+                        url = url + file.path.Remove(0, MeCore.Config.MCPath.Length + 11).Replace("\\", "/");
                     }
                     Logger.log(url);
                     _downer.DownloadFile(Resources.UrlReplacer.toGoodLibUrl(url), file.path);
@@ -317,7 +348,7 @@ namespace MTMCL.Threads
                 catch (WebException exception)
                 {
                     OnLogged?.Invoke(Logger.HelpLog("failed to download library: " + file.name));
-                    MeCore.Dispatcher.Invoke(new Action(()=> MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), exception.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                    MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), exception.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                     return;
                 }
             }
@@ -326,7 +357,7 @@ namespace MTMCL.Threads
         #region IDisposable Support
         private bool disposedValue = false; // 偵測多餘的呼叫
 
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Dispose (bool disposing)
         {
             if (!disposedValue)
             {
@@ -350,7 +381,7 @@ namespace MTMCL.Threads
         // }
 
         // 加入這個程式碼的目的在正確實作可處置的模式。
-        public void Dispose()
+        public void Dispose ()
         {
             // 請勿變更這個程式碼。請將清除程式碼放入上方的 Dispose(bool disposing) 中。
             Dispose(true);

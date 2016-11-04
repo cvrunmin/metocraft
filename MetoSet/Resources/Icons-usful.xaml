@@ -67,6 +67,11 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
         <Path Width="33" Height="14" Canvas.Left="23.5" Canvas.Top="24.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 24,25C 29.6667,26.6667 35.3333,28.3333 40.6667,30.5C 46,32.6667 51,35.3333 56,38"/>
         <Path Width="6" Height="19" Canvas.Left="46.5" Canvas.Top="32.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 47,33C 48,35.6667 49,38.3333 49.8333,41.3333C 50.6667,44.3333 51.3333,47.6667 51.6667,49.3333L 52,51"/>
     </Canvas>
+    <Canvas x:Key="user_unknown" Width="125" Height="125" Clip="F1 M 0,0L 125,0L 125,125L 0, 125L 0,0">
+        <Rectangle Fill="{DynamicResource AccentColorBrush}" Width="125" Height="125"/>
+        <Rectangle Stroke="White" StrokeThickness="5" Canvas.Left="45" Canvas.Top="35" Width="35" Height="35"/>
+        <Path Stroke="White" StrokeThickness="5" StrokeStartLineCap="Square" Data="M90,100 L90,70 L35,70 L35,100 "/>
+    </Canvas>
     <Canvas x:Key="appbar_filter" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
         <Path Width="38" Height="41.1667" Canvas.Left="19" Canvas.Top="20.5833" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 34.8333,61.75L 34.8333,42.75L 19,20.5833L 57,20.5833L 41.1667,42.75L 41.1667,58.5833L 34.8333,61.75 Z "/>
     </Canvas>

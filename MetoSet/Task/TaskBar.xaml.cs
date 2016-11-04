@@ -44,12 +44,14 @@ namespace MTMCL.Task
         {
             InitializeComponent();
             _task = task;
-            _task.Start();
+            if(_task.ThreadState == System.Threading.ThreadState.Unstarted)
+                _task.Start();
         }
         public TaskListBar setThread(Thread task)
         {
             _task = task;
-            _task.Start();
+            if (_task.ThreadState == System.Threading.ThreadState.Unstarted)
+                _task.Start();
             return this;
         }
         public TaskListBar setThread(MTMCLThread task)

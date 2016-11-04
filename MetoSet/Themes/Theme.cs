@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace MTMCL.Themes
 {
-    internal class Theme
+    internal class Theme : IEquatable<Theme>
     {
         public virtual System.Windows.Media.ImageSource Image { get; private set; }
         public virtual string ImageSource { get; private set; }
@@ -18,12 +18,12 @@ namespace MTMCL.Themes
         internal bool isTmp { get; set; }
         private string defaultPath => Path.Combine(MeCore.DataDirectory, "Themes", Name + ".mtheme");
 
-        public void EraseMTMCLTheme() { EraseMTMCLTheme(defaultPath); }
-        public void EraseMTMCLTheme(string path)
+        public void EraseMTMCLTheme () { EraseMTMCLTheme(defaultPath); }
+        public void EraseMTMCLTheme (string path)
         {
-            File.Delete(path);
+            if(File.Exists(path))File.Delete(path);
         }
-        public void EraseMTMCLThemePack() { EraseMTMCLTheme(defaultPath+"pack"); }
+        public void EraseMTMCLThemePack () { EraseMTMCLTheme(defaultPath + "pack"); }
         public void SaveMTMCLTheme () { SaveMTMCLTheme(defaultPath); }
         public void SaveMTMCLTheme (string path)
         {
@@ -52,7 +52,7 @@ namespace MTMCL.Themes
             using (var jr = new Newtonsoft.Json.JsonTextReader(reader))
             {
                 try
-                {                   
+                {
                     ThemeInfo info = Newtonsoft.Json.JsonSerializer.Create().Deserialize<ThemeInfo>(jr);
                     Theme theme = new Theme();
                     theme.ImageSource = info.Background;
@@ -62,7 +62,8 @@ namespace MTMCL.Themes
                         {
                             theme.Image = new BitmapImage(new Uri(info.Background));
                         }
-                        else { 
+                        else
+                        {
                             using (var ms = new MemoryStream())
                             {
                                 Image img = System.Drawing.Image.FromFile(info.Background);
@@ -81,8 +82,8 @@ namespace MTMCL.Themes
                     theme.AccentName = info.AccentName;
                     int hc = Convert.ToInt32(info.HighlightColor, 16),
                         ac = Convert.ToInt32(info.AccentColor, 16);
-                    System.Windows.Media.Color colorh = System.Windows.Media.Color.FromRgb((byte)((hc >> 16) & 255), (byte)((hc >> 8) & 255), (byte)(hc & 255)),
-                        colora = System.Windows.Media.Color.FromRgb((byte)((ac >> 16) & 255), (byte)((ac >> 8) & 255), (byte)(ac & 255));
+                    System.Windows.Media.Color colorh = System.Windows.Media.Color.FromRgb((byte) ((hc >> 16) & 255), (byte) ((hc >> 8) & 255), (byte) (hc & 255)),
+                        colora = System.Windows.Media.Color.FromRgb((byte) ((ac >> 16) & 255), (byte) ((ac >> 8) & 255), (byte) (ac & 255));
                     theme.Accent = MahApps.Metro.ThemeManager.GetAccent(theme.AccentName) ?? new MahApps.Metro.Accent() { Resources = Accents.AccentHelper.createResourceDictionary(colorh, colora) };
                     theme.isTmp = info.isTmp;
                     return theme;
@@ -94,7 +95,7 @@ namespace MTMCL.Themes
                 }
             }
         }
-        public void PackMTMCLTheme() { PackMTMCLTheme(defaultPath+"pack"); }
+        public void PackMTMCLTheme () { PackMTMCLTheme(defaultPath + "pack"); }
         public void PackMTMCLTheme (string path)
         {
             if (!Directory.Exists(Path.GetDirectoryName(path))) Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -114,14 +115,11 @@ namespace MTMCL.Themes
                         StreamUtils.Copy(streamReader, zos, buffer);
                     }
                     zos.CloseEntry();
-                }
-                //if (!File.Exists(defaultPath))
-                //{
                     string tmp = ImageSource;
                     ImageSource = "Background/" + Path.GetFileName(ImageSource);
                     SaveMTMCLTheme();
                     ImageSource = tmp;
-                //}
+                }
                 var info1 = new FileInfo(defaultPath);
                 var zip1 = new ZipEntry(ZipEntry.CleanName(Path.GetFileName(defaultPath)));
                 zip1.DateTime = DateTime.Now;
@@ -204,14 +202,14 @@ namespace MTMCL.Themes
                         // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
                         // of the file, but does not waste memory.
                         // The "using" will close the stream even if an exception occurs.
-                        
+
                         using (var stream = new MemoryStream())
                         {
-                            
-                                StreamUtils.Copy(zipStream, stream, buffer);
+
+                            StreamUtils.Copy(zipStream, stream, buffer);
                             stream.Position = 0;
                             if (!imgFound & System.Text.RegularExpressions.Regex.IsMatch(entryFileName, "\\w+\\/+\\w+(.png|.jpg|.jpeg|.jpe|.jfif|.tif|.tiff|.bmp|.dib|.gif)", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
-                                {
+                            {
                                 try
                                 {
                                     BitmapImage bi = new BitmapImage();
@@ -222,25 +220,30 @@ namespace MTMCL.Themes
                                     theme.Image = bi;
                                     imgFound = true;
                                 }
-                                catch(Exception e) { Logger.log(e); }
-                                }
-                                else if (System.Text.RegularExpressions.Regex.IsMatch(entryFileName, "\\w+.mtheme", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                                catch (Exception e) { Logger.log(e); }
+                            }
+                            else if (System.Text.RegularExpressions.Regex.IsMatch(entryFileName, "\\w+.mtheme", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                            {
+                                Theme tmpt = LoadMTMCLTheme(new StreamReader(stream), true);
+                                theme.Accent = tmpt.Accent;
+                                theme.AccentName = tmpt.AccentName;
+                                theme.Name = tmpt.Name;
+                                theme.ImageSource = tmpt.ImageSource;
+                                if (theme.ImageSource.StartsWith("pack://application:,,,/"))
                                 {
-                                    Theme tmpt = LoadMTMCLTheme(new StreamReader(stream), true);
-                                    theme.Accent = tmpt.Accent;
-                                    theme.AccentName = tmpt.AccentName;
-                                    theme.Name = tmpt.Name;
-                                    theme.ImageSource = tmpt.ImageSource;
-                                    tmpt = null;
+                                    theme.Image = new BitmapImage(new Uri(theme.ImageSource));
                                 }
-                            
+                                tmpt = null;
+                            }
+
 
                         }
                     }
                 }
                 return theme;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Logger.log(e);
             }
             finally
@@ -257,13 +260,22 @@ namespace MTMCL.Themes
         {
             //try {
             var properties = GetType().GetProperties(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                var property = GetType().GetProperty(type, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                if (property != null)
-                {
-                    property.SetValue(this, value, null);
-                }
+            var property = GetType().GetProperty(type, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (property != null)
+            {
+                property.SetValue(this, value, null);
+            }
             //} catch { }
             return this;
+        }
+
+        public Theme Clone () {
+            return new Theme() { Accent = Accent, AccentName = AccentName, Image=Image, ImageSource=ImageSource, Name = Name,isTmp = isTmp};
+        }
+
+        public bool Equals (Theme other)
+        {
+            return Accent.Equals(other.Accent) & AccentName.Equals(other.AccentName) & Name.Equals(other.Name) & Image.Equals(other.Image) & ImageSource.Equals(other.ImageSource);
         }
     }
     internal class DefaultTheme : Theme
@@ -278,8 +290,10 @@ namespace MTMCL.Themes
         public override string Name
         { get { return "Default"; } }
     }
-    internal class ThemeHelper {
-        internal static Theme NormalizeTheme (DefaultTheme theme) {
+    internal class ThemeHelper
+    {
+        internal static Theme NormalizeTheme (DefaultTheme theme)
+        {
             Theme t = new Theme();
             return t.MakeChanges("Image", theme.Image).MakeChanges("ImageSource", theme.ImageSource).MakeChanges("Name", theme.Name).MakeChanges("Accent", theme.Accent).MakeChanges("AccentName", theme.AccentName);
         }
@@ -302,7 +316,7 @@ namespace MTMCL.Themes
         [DataMember]
         [Newtonsoft.Json.JsonProperty(PropertyName = "background")]
         public string Background { get; set; }
-        [Newtonsoft.Json.JsonProperty(PropertyName = "tmp",DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.IgnoreAndPopulate)]
+        [Newtonsoft.Json.JsonProperty(PropertyName = "tmp", DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.IgnoreAndPopulate)]
         public bool isTmp { get; set; }
     }
 }

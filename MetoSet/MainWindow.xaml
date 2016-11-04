@@ -38,8 +38,48 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
                 <ResourceDictionary Source="ButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="OnClick1">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridMa">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridHome">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="gridHome">
+                    <SplineThicknessKeyFrame KeyTime="0" Value="0,410,0,-410"/>
+                    <SplineThicknessKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                </ThicknessAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridMa">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Collapsed}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="OnClick_Copy1">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridMa">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridHome">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="gridHome">
+                    <SplineThicknessKeyFrame KeyTime="0" Value="0"/>
+                    <SplineThicknessKeyFrame KeyTime="0:0:0.15" Value="0,410,0,-410"/>
+                </ThicknessAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridMa">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
+    <metro:MetroWindow.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="butHome">
+
+            <BeginStoryboard Storyboard="{StaticResource OnClick1}"/>
+        </EventTrigger>
+    </metro:MetroWindow.Triggers>
     <Grid>
         <Grid x:Name="gridParent" Margin="0">
             <Grid.Background>
@@ -190,55 +230,55 @@
                 <Grid x:Name="gridOthers" Margin="30,0,30,30" Visibility="Collapsed"/>
             </Grid>
             <Grid x:Name="gridHome" Visibility="Visible" Opacity="0" Margin="0,410,0,-410">
-                <Grid Height="30" VerticalAlignment="Bottom">
-                    <metro:Tile Width="30" Height="30" Margin="0" HorizontalAlignment="Right" Click="butPlayQuick_Click">
-                        <metro:Tile.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{DynamicResource QuickPlay}" Icon="{DynamicResource appbar_control_fastforward_variant}" Click="butPlayQuick_Click"/>
-                                <MenuItem Header="{DynamicResource Play}" Icon="{DynamicResource appbar_control_play}" Click="quickbutPlay_Click"/>
-                                <MenuItem Header="Gradle" Icon="{DynamicResource appbar_language_java}" Click="quickbutGradle_Click"/>
-                            </ContextMenu>
-                        </metro:Tile.ContextMenu>
-                        <Rectangle Height="20" Width="30">
-                            <Rectangle.Fill>
-                                <VisualBrush Visual="{StaticResource appbar_control_fastforward_variant}" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </metro:Tile>
-                    <metro:Tile Width="30" Height="30" Margin="0,0,30,0" Background="#CCC16100" Click="quickbutTask_Click" HorizontalAlignment="Right">
-                        <metro:Tile.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{DynamicResource TaskTitle}" Icon="{DynamicResource appbar_list}" Click="quickbutTask_Click"/>
-                                <MenuItem Header="{DynamicResource Notice}" Icon="{DynamicResource appbar_notification_above}" Click="quickbutNotice_Click"/>
-                            </ContextMenu>
-                        </metro:Tile.ContextMenu>
-                        <Rectangle Height="30" Width="30">
-                            <Rectangle.Fill>
-                                <VisualBrush Visual="{StaticResource appbar_list}" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </metro:Tile>
-                    <metro:Tile Width="30" Height="30" Margin="0,0,60,0" Click="quickbutSetting_Click" HorizontalAlignment="Right">
-                        <metro:Tile.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{DynamicResource Setting}" Icon="{DynamicResource appbar_settings}" Click="quickbutSetting_Click"/>
-                                <MenuItem Header="{DynamicResource Download}" Icon="{DynamicResource appbar_disk_download}" Click="quickbutDL_Click"/>
-                            </ContextMenu>
-                        </metro:Tile.ContextMenu>
-                        <Rectangle Height="30" Width="30">
-                            <Rectangle.Fill>
-                                <VisualBrush Visual="{StaticResource appbar_settings}" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </metro:Tile>
+                <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="214" MaxHeight="160">
+                    <ListBox x:Name="panelUsers" SelectedItem="{Binding SelectedAuth}">
+                        <ListBox.Resources>
+                            <local:SavedAuth x:Key="auth" DisplayName="cvrunmin" AuthType="Online" UserType="mojang"/>
+                        </ListBox.Resources>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="200" Height="50" d:DataContext="{StaticResource auth}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse x:Name="ellipse" Margin="0" StrokeThickness="0">
+                                        <Ellipse.Fill>
+                                            <VisualBrush Visual="{DynamicResource user_unknown}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Label Grid.Column="1" Content="{Binding DisplayName}" VerticalContentAlignment="Center" FontSize="21.333" Padding="10,5,5,5"/>
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding UserType}" Value="mojang">
+                                        <Setter TargetName="ellipse" Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush ImageSource="Resources/mojang.png"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+                <Ellipse StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="125" Height="125" Margin="0,0,0,150">
+                    <Ellipse.Fill>
+                        <VisualBrush Visual="{StaticResource user_unknown}" Stretch="Uniform"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Label Content="Label" Margin="0,25,0,0" VerticalAlignment="Center" FontSize="21.333" HorizontalAlignment="Center"/>
+                <Grid Height="80" Margin="0,0,0,100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="200" DataContext="{Binding SelectedAuth}">
+                    <Button x:Name="butLogin" Content="{DynamicResource Login}" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                 </Grid>
             </Grid>
-            <metro:Tile x:Name="butHome" HorizontalAlignment="Left" Margin="0,379,0,0" Width="30" Padding="0" Height="30" Click="butHome_Click" Visibility="Collapsed">
-                <Rectangle Fill="Black" StrokeThickness="0" Width="20" Height="20">
+            <metro:Tile x:Name="butHome" HorizontalAlignment="Right" Margin="0,379,0,0" Width="30" Padding="0" Height="30" Click="butHome_Click" Visibility="Collapsed">
+                <Rectangle Fill="Black" StrokeThickness="0" Width="20" Height="15">
                     <Rectangle.OpacityMask>
-                        <VisualBrush Visual="{StaticResource appbar_os_windows_8}"/>
+                        <VisualBrush Visual="{StaticResource appbar_control_fastforward_variant}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
+
             </metro:Tile>
             <Grid x:Name="gridLoadingScreen" Margin="0" Visibility="Collapsed">
                 <Rectangle HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Fill="{DynamicResource BlackBrush}">
@@ -248,7 +288,7 @@
                 </Rectangle>
             </Grid>
             <Grid x:Name="gridNoticeBalloon" HorizontalAlignment="Right" Width="250">
-                <WrapPanel x:Name="panelBalloon"/>
+                <StackPanel x:Name="panelBalloon"/>
             </Grid>
         </Grid>
     </Grid>

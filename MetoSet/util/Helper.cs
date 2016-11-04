@@ -12,6 +12,11 @@ using System.Windows;
 using System.Reflection;
 using System.Resources;
 using System.Linq;
+using MTMCL.Launch;
+using MTMCL.Task;
+using MTMCL.Threads;
+using MTMCL.Lang;
+using MTMCL.Notice;
 
 namespace MTMCL.util
 {
@@ -262,9 +267,16 @@ namespace MTMCL.util
                 message.AppendLine(iex.StackTrace);
             }
             message.AppendLine("\n\n-----------------MTMCL LOG----------------------\n");
-            var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
-            message.AppendLine(sr.ReadToEnd());
-            sr.Close();
+            try
+            {
+                var sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "mtmcl.log");
+                message.AppendLine(sr.ReadToEnd());
+                sr.Close();
+            }
+            catch (IOException)
+            {
+                message.AppendLine("unable to read log");
+            }
             return message.ToString();
         }
         public static char[] RandomizeABCNO(int? seed = null)
@@ -520,6 +532,127 @@ namespace MTMCL.util
         }
     }
 
+    public static class LaunchGameHelper {
+
+        public static Tuple<LaunchGameInfo, Tuple<string, TaskListBar>, NoticeBalloon> LaunchGame (LaunchGameInfo options, LaunchMode mode)
+        {
+            if (options != null)
+            {
+                options.SetMode(mode);
+                string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
+                if (mode is BMCLLaunchMode)
+                {
+                    uri = "pack://application:,,,/Resources/play-bmcl-banner.jpg";
+                }
+                if (mode is BakaXLLaunchMode)
+                {
+                    uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
+                }
+                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri)) };
+                var task = new LaunchMCThread(options);
+                task.StateChange += delegate (string state)
+                {
+                    MeCore.Dispatcher.Invoke(new Action(() => gui.setTaskStatus(state)));
+                };
+                task.TaskCountTime += delegate
+                {
+                    if(MeCore.MainWindow != null)
+                      MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.butPlayQuick.IsEnabled = false));
+                    MeCore.Dispatcher.Invoke(new Action(() => gui.countTime()));
+                };
+                task.GameExit += delegate
+                {
+                    if (MeCore.MainWindow != null)
+                        MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.butPlayQuick.IsEnabled = true));
+                    MeCore.Dispatcher.Invoke(new Action(() => gui.stopCountTime().noticeFinished()));
+                };
+                task.OnLogged += delegate (string s) {
+                    MeCore.Dispatcher.Invoke(new Action(() => gui.log(s)));
+                };
+                task.GameCrash += delegate (string content, string path)
+                {
+                    //new MCCrash(content, path).Show();
+                };
+                task.OnAuthUpdate += delegate (Launch.Login.AuthInfo info)
+                {
+                    try
+                    {
+                        MeCore.Config.SavedAuths[info.DisplayName].AccessToken = info.Session.ToString();
+                    }
+                    catch (Exception) { }
+                };
+                task.Failed += () => {
+                    MeCore.Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
+                };
+                gui = gui.setTask(string.Format(LangManager.GetLangFromResource("TaskLaunch"), options.Version.id)).setThread(task).setDetectAlive(false);
+                var nb = new NoticeBalloon("MTMCL", string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), string.Format(LangManager.GetLangFromResource("TaskLaunch"), options.Version.id)));
+                if (MeCore.MainWindow != null)
+                {
+                    MeCore.MainWindow.addTask("game", gui);
+                    MeCore.MainWindow.addBalloonNotice(nb);
+                }
+                return new Tuple<LaunchGameInfo, Tuple<string, TaskListBar>, NoticeBalloon>(options,new Tuple<string, TaskListBar>("game",gui), nb);
+            }
+            return null;
+        }
+
+        public static Tuple<LaunchGameInfo, Tuple<string, TaskListBar>, NoticeBalloon> QuickLaunch () {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.LastPlayVer))
+                {
+                    VersionJson version = VersionReader.GetFurtherVersion(MeCore.Config.MCPath, MeCore.Config.LastPlayVer);
+                    if (version != null)
+                    {
+                        Launch.Login.IAuth auth;
+                        if (string.IsNullOrWhiteSpace(MeCore.Config.DefaultAuth))
+                        {
+                            ACSelect ac = new ACSelect();
+                            ac.ShowDialog();
+                            auth = ac.auth;
+                        }
+                        else
+                        {
+                            SavedAuth dauth;
+                            MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
+                            auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = dauth.AccessToken, UUID = dauth.UUID, UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
+                        }
+                        if (auth != null)
+                        {
+                            LaunchGameInfo option = LaunchGameInfo.CreateInfo(MeCore.Config.MCPath, auth, version, MeCore.Config.Javaw, (int) MeCore.Config.Javaxmx, CreateServerInfo());
+                            return LaunchGame(option, LaunchMode.GetMode(MeCore.Config.LastLaunchMode));
+                        }
+                    }
+                }
+            }
+            catch { }
+            return null;
+        }
+        public static Launch.ServerInfo CreateServerInfo ()
+        {
+            if (MeCore.IsServerDedicated)
+            {
+                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ServerIP))
+                {
+                    if (MeCore.Config.Server.ServerIP.IndexOf(':') != -1)
+                    {
+                        ushort port = 25565;
+                        if (!ushort.TryParse(MeCore.Config.Server.ServerIP.Substring(MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'), out port))
+                        {
+                            port = 25565;
+                        }
+                        return new Launch.ServerInfo
+                        {
+                            Ip = MeCore.Config.Server.ServerIP.Substring(0, MeCore.Config.Server.ServerIP.IndexOf(':')).Trim(':'),
+                            Port = port
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
     internal sealed class ImageConverter : IValueConverter
     {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture)
@@ -596,6 +729,46 @@ namespace MTMCL.util
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
+        }
+    }
+
+    internal sealed class VersionComparer : IComparer
+    {
+        public bool Descending { get; set; }
+        public int Compare (object x, object y)
+        {
+            if (x is string & y is string) return Compare(x as string, y as string);
+            if (x is Forge.ForgeMajorVersions & y is Forge.ForgeMajorVersions)
+                return Compare((x as Forge.ForgeMajorVersions).Version, (y as Forge.ForgeMajorVersions).Version);
+            return Comparer.Default.Compare(x, y);
+        }
+
+        public int Compare (string x, string y)
+        {
+            if (x.Equals(y)) return 0;
+            var ax = x.Split('.');
+            var ay = y.Split('.');
+            for (int i=0;i< ax.Length | i< ay.Length;i++) {
+                if (ax.Length <= i) return Descending ? 1 : -1;
+                if (ay.Length <= i) return Descending ? -1 : 1;
+                var rx = System.Text.RegularExpressions.Regex.Match(ax[i], @"(\d+)(_pre\d*)?");
+                var ry = System.Text.RegularExpressions.Regex.Match(ay[i], @"(\d+)(_pre\d*)?");
+                if (rx.Success & !string.IsNullOrWhiteSpace(rx.Groups[2].Value))
+                {
+                    if (int.Parse(rx.Groups[1].Value) > int.Parse(ry.Groups[1].Value))
+                        return Descending ? -1 : 1;
+                    else return Descending ? 1 : -1;
+                }
+                if (ry.Success & !string.IsNullOrWhiteSpace(ry.Groups[2].Value)) {
+                    if (int.Parse(ry.Groups[1].Value) > int.Parse(rx.Groups[1].Value))
+                        return Descending ? 1 : -1;
+                    else return Descending ? -1 : 1;
+                }
+                short ix = Convert.ToInt16(ax[i]), iy = Convert.ToInt16(ay[i]);
+                if (ix < iy) return Descending ? 1 : -1;
+                if (ix > iy) return Descending ? -1 : 1;
+            }
+            return string.Compare(x, y);
         }
     }
 }

@@ -164,7 +164,7 @@ namespace MTMCL
             }
             else
             {
-                Config.SavedAuth dauth;
+                SavedAuth dauth;
                 MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
                 if (dauth == null) {
                     ACSelect ac = new ACSelect();
@@ -368,9 +368,9 @@ namespace MTMCL
             MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")));
         }
 
-        private void butGoDLMC_Click(object sender, RoutedEventArgs e)
+        private async void butGoDLMC_Click (object sender, RoutedEventArgs e)
         {
-            MeCore.MainWindow.ChangePage("download");
+            await MeCore.MainWindow.ChangePage("download");
         }
 
         private async void butRDLAI_Click(object sender, RoutedEventArgs e)

@@ -18,7 +18,7 @@
             <util:ImageConverter x:Key="ImageConverter" />
         </ResourceDictionary>
     </Grid.Resources>
-    <ListBox x:Name="listRemoteVer" Margin="0,40,0,0" Visibility="Collapsed">
+    <ListBox x:Name="listRemoteVer" Margin="0,40,0,0" Visibility="Visible">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Grid Height="140" Width="215">
@@ -134,7 +134,7 @@
         <Label Content="{DynamicResource RVerFail1}" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label Content="{DynamicResource RVerFail2}" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top"/>
     </Grid>
-    <Grid x:Name="gridMCRing" Margin="0,40,0,0">
+    <Grid x:Name="gridMCRing" Margin="0,40,0,0" Visibility="Collapsed">
         <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,80" Width="70" Height="70">
             <Custom:ProgressRing Height="70" Width="70" VerticalAlignment="Top"/>
             <Rectangle Fill="Black" Height="40" VerticalAlignment="Top" HorizontalAlignment="Center" StrokeThickness="0" Width="15" Canvas.Left="28" Canvas.Top="15">

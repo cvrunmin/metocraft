@@ -136,7 +136,7 @@
         <TextBlock>
             <Run Text="{DynamicResource Download}"/>
             <Run Text="{DynamicResource DLForge}"/>
-            <Run Text="{Binding mcversion}"/>
+            <Run Text="{Binding mcversion, ElementName=grid, Mode=OneWay}"/>
         </TextBlock>
     </Label>
 </Grid>

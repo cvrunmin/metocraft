@@ -138,7 +138,7 @@ namespace MTMCL
             }
             else
             {
-                Config.SavedAuth dauth;
+                SavedAuth dauth;
                 MeCore.Config.SavedAuths.TryGetValue(MeCore.Config.DefaultAuth, out dauth);
                 if (dauth == null)
                 {

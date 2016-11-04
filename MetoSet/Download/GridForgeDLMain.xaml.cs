@@ -78,7 +78,7 @@ namespace MTMCL
         }
         async void ForgeVer_ForgePageReadyEvent ()
         {
-            var fl = _forgeVer.GetMCVersionsAvailable();
+            var fl = _forgeVer.GetMCVersionsAvailable_();
             if (fl == null)
             {
                 Dispatcher.Invoke(new Action(() => {
@@ -106,17 +106,19 @@ namespace MTMCL
                 listForge.Visibility = Visibility.Visible;
                 butReloadForge.SetLocalizedContent("Reload");
                 butReloadForge.IsEnabled = true;
+                ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(listForge.ItemsSource);
+                view.CustomSort = new VersionComparer() { Descending = true } ;
             }));
             await TaskEx.Delay(3000);
             var verlist = _forgeVer.GetVersionBranch();
         }
-
+        
         private void butForges_Click (object sender, RoutedEventArgs e)
         {
             if (sender is Button)
-                if (((Button) sender).DataContext is string) {
+                if (((Button) sender).DataContext is ForgeMajorVersions) {
                     MeCore.MainWindow.gridOthers.Children.Clear();
-                    MeCore.MainWindow.gridOthers.Children.Add(new GridForgeDLMinor(this, ((Button) sender).DataContext as string));
+                    MeCore.MainWindow.gridOthers.Children.Add(new GridForgeDLMinor(this, (((Button) sender).DataContext as ForgeMajorVersions).Version));
                     var ani = new DoubleAnimationUsingKeyFrames();
                     ani.KeyFrames.Add(new LinearDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
                     ani.KeyFrames.Add(new LinearDoubleKeyFrame(1, TimeSpan.FromSeconds(0.2)));

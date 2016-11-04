@@ -45,9 +45,18 @@ namespace MTMCL.Task
             foreach (var item in MeCore.MainWindow.taskdict.Values)
             {
                 item.Click += TaskBar_Click;
-                panelTask.Children.Add(item);
+                try
+                {
+                    panelTask.Children.Add(item);
+                }
+                catch (Exception e)
+                {
+                    int hr = (int) e.GetType().GetProperty("HResult", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(e,null);
+                    if (!(hr == -2146233079))
+                    throw;
+                }
             }
-            if (MeCore.MainWindow.taskdict.Count == 0) gridNullth.Visibility = Visibility.Visible;
+            if (MeCore.MainWindow.taskdict.Count == 0 | panelTask.Children.Count == 0) gridNullth.Visibility = Visibility.Visible;
         }
         private void TaskBar_Click(object sender, RoutedEventArgs e)
         {

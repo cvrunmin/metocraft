@@ -130,6 +130,8 @@
     <s:String x:Key="ApplyFilter">套用筛选</s:String>
     <s:String x:Key="RecommendShow">显示推荐版本</s:String>
     <s:String x:Key="LatestShow">显示最新版本</s:String>
+    <s:String x:Key="RecommendVer">推荐版本</s:String>
+    <s:String x:Key="LatestVer">最新版本</s:String>
     <s:String x:Key="TaglessShow">显示无卷标版本</s:String>
     <s:String x:Key="HiddenVersion">隐藏版本</s:String>
     <s:String x:Key="SelectAll">全选</s:String>

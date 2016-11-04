@@ -13,6 +13,23 @@
         <Label Content="{DynamicResource GuideFinish}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="21.333"/>
         <Button x:Name="butOK" Content="{DynamicResource Next}" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="162" Style="{StaticResource AccentedSquareButtonStyle}" Custom:ButtonHelper.PreserveTextCase="True" Click="butOK_Click" FontSize="16"/>
         <Button x:Name="butBack" Content="{DynamicResource Back}" Margin="0,0,177,10" Style="{StaticResource AccentedSquareButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="162" Custom:ButtonHelper.PreserveTextCase="True" Click="butBack_Click" FontSize="16"/>
+        <Custom:Tile x:Name="butPlay" Height="105" Width="215" Title="{DynamicResource Play}" Background="#CC03A9F4" Margin="10,52,0,0" Count="" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+            <Rectangle Height="50" Width="50" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource appbar_control_play}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Custom:Tile>
+        <Custom:Tile x:Name="butHelp" Title="{DynamicResource Help}" Margin="10,208,0,0" Width="215" Height="105" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Rectangle Height="50" Width="20" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource appbar_information}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Custom:Tile>
+        <Label Content="{DynamicResource GuideUsePlay}" HorizontalAlignment="Left" Margin="230,128,0,0" VerticalAlignment="Top"/>
+        <Label Content="{DynamicResource GuideUseHelp}" HorizontalAlignment="Left" Margin="230,284,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>

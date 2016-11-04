@@ -5,7 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MTMCL"
     xmlns:util="clr-namespace:MTMCL.util"
-      xmlns:Versions="clr-namespace:MTMCL.Versions" x:Class="MTMCL.GridForgeDLMain"
+      xmlns:Versions="clr-namespace:MTMCL.Versions"
+    xmlns:Json="clr-namespace:MTMCL.JsonClass"
+    xmlns:Forge="clr-namespace:MTMCL.Forge"
+    x:Class="MTMCL.GridForgeDLMain"
     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
      d:DesignHeight="380" d:DesignWidth="675" Initialized="Grid_Initialized">
@@ -20,16 +23,112 @@
     <ListBox x:Name="listForge" Margin="0,40,0,0" Visibility="Visible">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <Button Height="140" Width="215" Background="#00DDDDDD" BorderBrush="#00CCCCCC" Padding="0" Click="butForges_Click">
-                    <Grid>
-                        <Grid Margin="0,0,0,20">
-                            <Image Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0" Source="/MTMCL;component/Resources/remote-forge-multi.png"/>
+                
+                    <Grid Height="140" Width="215" Background="#00DDDDDD" d:DataContext="{DynamicResource ver}">
+                    <Grid.Resources>
+                        <Forge:ForgeMajorVersions x:Key="ver" Version="1.7.10">
+                            <Forge:ForgeMajorVersions.Latest>
+                                <Json:ForgeVersion version="1.7.10-10.12.1.1024"/>
+                            </Forge:ForgeMajorVersions.Latest>
+                        </Forge:ForgeMajorVersions>
+                    </Grid.Resources>
+                        <Grid>
+                            <Grid Margin="0,0,0,20">
+                                <Image x:Name="imgType" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0" Source="/MTMCL;component/Resources/remote-forge-multi.png"/>
+                            <!--<Image Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10,100,60" Source="/MTMCL;component/Resources/remote-forge-multi.png"/>-->
+                        
+                            <Label x:Name="lbltype" Margin="82,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Collapsed" Opacity="0">
+                                <TextBlock TextWrapping="WrapWithOverflow">
+                                <Run Text="{DynamicResource RecommendVer}"/>
+                                <Run Text=":"/>
+                                    <LineBreak/>
+                                <Run Text="{Binding Recommended.version, FallbackValue=N/A, TargetNullValue=N/A}"/>
+                                </TextBlock>
+                            </Label>
+                            <Label x:Name="lblRelTime" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="82,45,5,0" Opacity="0" Visibility="Collapsed">
+                                <TextBlock>
+                                <Run Text="{DynamicResource LatestVer}"/>
+                                <Run Text=":"/>
+                                    <LineBreak/>
+                                <Run Text="{Binding Latest.version, FallbackValue=N/A, TargetNullValue=N/A}"/>
+                                </TextBlock>
+                            </Label>
+                            <Button x:Name="butDL" Content="{DynamicResource Download}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Opacity="0" Visibility="Collapsed" Click="butForges_Click"/>
                         </Grid>
-                        <Label HorizontalAlignment="Stretch" Height="20" Margin="0" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0">
-                            <TextBlock Text="{Binding}"/>
-                        </Label>
+                            <Label HorizontalAlignment="Stretch" Height="20" Margin="0" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0">
+                                <TextBlock Text="{Binding Version}"/>
+                            </Label>
+                        </Grid>
                     </Grid>
-                </Button>
+
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetName="imgType" Storyboard.TargetProperty="Margin" To="0,10,100,60">
+                                        <ThicknessAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </ThicknessAnimation.EasingFunction>
+                                    </ThicknessAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lbltype" Storyboard.TargetProperty="Opacity" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lblRelTime" Storyboard.TargetProperty="Opacity" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="butDL" Storyboard.TargetProperty="Opacity" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetName="imgType" Storyboard.TargetProperty="Margin" To="0,10,0,10">
+                                        <ThicknessAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </ThicknessAnimation.EasingFunction>
+                                    </ThicknessAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lbltype" Storyboard.TargetProperty="Opacity" To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="lblRelTime" Storyboard.TargetProperty="Opacity" To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="butDL" Storyboard.TargetProperty="Opacity" To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="9"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                        <DataTrigger.Setters>
+                            <Setter TargetName="lbltype" Property="Visibility" Value="{x:Static Visibility.Visible}"/>
+                            <Setter TargetName="lblRelTime" Property="Visibility" Value="{x:Static Visibility.Visible}"/>
+                            <Setter TargetName="butDL" Property="Visibility" Value="{x:Static Visibility.Visible}"/>
+                        </DataTrigger.Setters>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="False">
+                        <DataTrigger.Setters>
+                            <Setter TargetName="lbltype" Property="Visibility" Value="{x:Static Visibility.Collapsed}"/>
+                            <Setter TargetName="lblRelTime" Property="Visibility" Value="{x:Static Visibility.Collapsed}"/>
+                            <Setter TargetName="butDL" Property="Visibility" Value="{x:Static Visibility.Collapsed}"/>
+                        </DataTrigger.Setters>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
             </DataTemplate>
         </ListBox.ItemTemplate>
         <ListBox.ItemsPanel>

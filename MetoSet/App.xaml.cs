@@ -33,10 +33,7 @@ namespace MTMCL
             {
                 forceNonDedicate = true;
             }
-            if (e.Args.Length == 0)
-                Logger.debug = false;
-            else
-                if (Array.IndexOf(e.Args, "-Debug") != -1)
+            if (Array.IndexOf(e.Args, "-Debug") != -1)
                 Logger.debug = true;
 #if DEBUG
             Logger.debug = true;
@@ -57,14 +54,6 @@ namespace MTMCL
                     {
                         DoUpdate(e.Args[index + 1]);
                     }
-                    else
-                    {
-                        DoUpdate();
-                    }
-                }
-                else
-                {
-                    DoUpdate();
                 }
             }
             if (Array.IndexOf(e.Args, "-UpdateReplace") != -1)
@@ -97,8 +86,81 @@ namespace MTMCL
                     }
                 }
             }
-            WebRequest.DefaultWebProxy = null;  //禁用默认代理
+            Tuple<Launch.LaunchGameInfo, Tuple<string, MTMCL.Task.TaskListBar>, Notice.NoticeBalloon> a = null;
+            if (Array.IndexOf(e.Args, "-QuickLaunch") != -1) {
+                var index = Array.IndexOf(e.Args, "-QuickLaunch");
+                var version = "";
+                var auths = "";
+                //var jvm = "";
+                if (index < e.Args.Length - 1) {
+                    for (int i = 1; i < e.Args.Length - index; i++)
+                    {
+                        var arg = e.Args[index + i];
+                        if (!arg.StartsWith("-"))
+                        {
+                            var matches = System.Text.RegularExpressions.Regex.Match(arg, "(\\w+)=([\\w\\d\\s\\.\"'-]+)");
+                            switch (matches.Groups[1].Value) {
+                                case "version":
+                                    version = matches.Groups[2].Value;
+                                    break;
+                                case "auth":
+                                    auths = matches.Groups[2].Value;
+                                    break;
+                                //case "jvm":
+                                //    jvm = matches.Groups[2].Value;
+                                //    break;
+                            }
+                        }
+                        else break;
+                    }
+                }
+                bool flag = string.IsNullOrWhiteSpace(version), flag1 = string.IsNullOrWhiteSpace(auths)/*, flag2 = string.IsNullOrWhiteSpace(jvm)*/;
+                if (flag & flag1)
+                {
+                    a = util.LaunchGameHelper.QuickLaunch();
+                    goto last;
+                }
+                else
+                {
+                    if (flag) version = MeCore.Config.LastPlayVer;
+                    if (flag1) auths = MeCore.Config.DefaultAuth;
+                    //if (flag2) jvm = MeCore.Config.ExtraJvmArg;
+                    var ver = Versions.VersionReader.GetVersion(MeCore.Config.MCPath, version);
+                    if (ver == null) goto last;
+                    Launch.Login.IAuth auth;
+                    if (string.IsNullOrWhiteSpace(auths))
+                    {
+                        ACSelect ac = new ACSelect();
+                        ac.ShowDialog();
+                        auth = ac.auth;
+                    }
+                    else
+                    {
+                        SavedAuth dauth;
+                        MeCore.Config.SavedAuths.TryGetValue(auths, out dauth);
+                        if (dauth == null)
+                        {
+                            ACSelect ac = new ACSelect();
+                            ac.ShowDialog();
+                            auth = ac.auth;
+                        }
+                        else auth = dauth.AuthType.Equals("Yggdrasil") ? new Launch.Login.YggdrasilRefreshAuth(dauth.AccessToken) : new Launch.Login.AuthWarpper(new Launch.Login.AuthInfo { DisplayName = MeCore.Config.DefaultAuth, Session = dauth.AccessToken, UUID = dauth.UUID, UserType = dauth.UserType, Prop = dauth.Properies }) as Launch.Login.IAuth;
+                    }
+
+                    var option = Launch.LaunchGameInfo.CreateInfo(MeCore.Config.MCPath, auth, ver, MeCore.Config.Javaw, (int) MeCore.Config.Javaxmx);
+                    a = util.LaunchGameHelper.LaunchGame(option, Launch.LaunchMode.GetMode(MeCore.Config.LastLaunchMode));
+                }
+            }
+            last:
+            WebRequest.DefaultWebProxy = null;
             base.OnStartup(e);
+            if (a != null) {
+                if (MeCore.MainWindow != null)
+                {
+                    MeCore.MainWindow.addTask(a.Item2.Item1, a.Item2.Item2);
+                    MeCore.MainWindow.addBalloonNotice(a.Item3);
+                }
+            }
         }
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
