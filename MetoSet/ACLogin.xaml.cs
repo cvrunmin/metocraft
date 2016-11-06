@@ -55,6 +55,7 @@ namespace MTMCL
                 MeCore.Config.username = txtBoxUN.Text;
                 MeCore.Config.Save(null);
             }
+            DialogResult = true;
             Close();
         }
 
@@ -90,11 +91,13 @@ namespace MTMCL
             {
                 MeCore.Config.QuickChange("password", "");
             }
+            DialogResult = true;
             Close();
         }
 
         private void butClose_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
             Close();
         }
         private void CreateCustomAuth() {

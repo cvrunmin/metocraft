@@ -53,26 +53,56 @@ namespace MTMCL
 
         private void butPlayQuick_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var ani1 = new ThicknessAnimationUsingKeyFrames();
+            /*var ani1 = new ThicknessAnimationUsingKeyFrames();
             //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
             ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -105, 0, 210), TimeSpan.FromSeconds(0.25), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
             //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
-            butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
+            butPlayQuick_b.BeginAnimation(MarginProperty, ani2);*/
         }
 
         private void butPlayQuick_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var ani1 = new ThicknessAnimationUsingKeyFrames();
+            /*var ani1 = new ThicknessAnimationUsingKeyFrames();
             //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -75, 0, 175), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             var ani2 = new ThicknessAnimationUsingKeyFrames();
             //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 25, 0, 75), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.15)), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
             ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)), new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 9 }));
             butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
-            butPlayQuick_b.BeginAnimation(MarginProperty, ani2);
+            butPlayQuick_b.BeginAnimation(MarginProperty, ani2);*/
+        }
+
+        private void butPlayQuick_IsEnabledChanged (object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (butPlayQuick.IsEnabled)
+            {
+                var ani1 = new ThicknessAnimationUsingKeyFrames();
+                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani2 = new ThicknessAnimationUsingKeyFrames();
+                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -105, 0, 210), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani3 = new ThicknessAnimationUsingKeyFrames();
+                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
+                butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
+                butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
+            }
+            else
+            {
+                var ani1 = new ThicknessAnimationUsingKeyFrames();
+                //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
+                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani2 = new ThicknessAnimationUsingKeyFrames();
+                //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
+                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
+                var ani3 = new ThicknessAnimationUsingKeyFrames();
+                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 210, 0, -105), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
+                butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
+                butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
+                butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
+            }
         }
 
         private async void butSetting_Click(object sender, RoutedEventArgs e)
@@ -227,35 +257,6 @@ namespace MTMCL
             if (_LaunchOptions != null)
             {
                 _LaunchOptions = util.LaunchGameHelper.LaunchGame(_LaunchOptions, mode).Item1;
-            }
-        }
-        private void butPlayQuick_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (butPlayQuick.IsEnabled)
-            {
-                var ani1 = new ThicknessAnimationUsingKeyFrames();
-                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
-                var ani2 = new ThicknessAnimationUsingKeyFrames();
-                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -105, 0, 210), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
-                var ani3 = new ThicknessAnimationUsingKeyFrames();
-                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
-                butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
-                butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
-                butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
-            }
-            else
-            {
-                var ani1 = new ThicknessAnimationUsingKeyFrames();
-                //ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, -25, 0, 125), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn}));
-                ani1.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 105, 0, 0), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
-                var ani2 = new ThicknessAnimationUsingKeyFrames();
-                //ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 75, 0, 25), TimeSpan.FromSeconds(0.15), new QuarticEase() { EasingMode = EasingMode.EaseIn }));
-                ani2.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 0, 0, 105), TimeSpan.FromSeconds(0.25), new QuarticEase() { EasingMode = EasingMode.EaseInOut }));
-                var ani3 = new ThicknessAnimationUsingKeyFrames();
-                ani3.KeyFrames.Add(new EasingThicknessKeyFrame(new Thickness(0, 210, 0, -105), TimeSpan.FromSeconds(0.25), new CubicEase() { EasingMode = EasingMode.EaseInOut }));
-                butPlayQuick_a.BeginAnimation(MarginProperty, ani1);
-                butPlayQuick_c.BeginAnimation(MarginProperty, ani2);
-                butPlayQuick_b.BeginAnimation(MarginProperty, ani3);
             }
         }
 
@@ -607,7 +608,7 @@ namespace MTMCL
                         System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
                         dialog.FullOpen = true;
                         dialog.AnyColor = true;
-                        dialog.ShowDialog();
+                        if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
                         tile.Background = new SolidColorBrush(Color.FromArgb(0xCC, dialog.Color.R, dialog.Color.G, dialog.Color.B));
                         MeCore.TileColor.QuickChange(tile.Name, Convert.ToString(dialog.Color.ToArgb() & 0xFFFFFF,16));
                     }

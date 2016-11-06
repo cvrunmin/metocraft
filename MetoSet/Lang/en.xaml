@@ -75,6 +75,7 @@
     <s:String x:Key="DLSrc">Download Source</s:String>
     <s:String x:Key="UdtSrc">Update Source</s:String>
     <s:String x:Key="BG">Background</s:String>
+    <s:String x:Key="BGConfig">Select Background...</s:String>
     <s:String x:Key="Color">Color</s:String>
     <s:String x:Key="ColorMirror">Reverse Color</s:String>
     <s:String x:Key="ExpandTaskTitle">Expand task gui on opening launcher</s:String>
@@ -224,7 +225,7 @@
     <s:String x:Key="InheritWF">Inherited from Forge</s:String>
     <s:String x:Key="InheritVer">Inherited Version</s:String>
     <!--/Install-->
-    <s:String x:Key="Server">Didicated Launcher Setting</s:String>
+    <s:String x:Key="Server">Dedicated Launcher Setting</s:String>
     <!-- Other -->
     <s:String x:Key="FoundAssetsModify">Found modified assets. Syncing assets</s:String>
     <s:String x:Key="SyncAssetsFinish">Assets synced. Please restart the client if they are not working</s:String>

@@ -43,7 +43,9 @@ namespace MTMCL
         static public void stop (bool logclose = true)
         {
             swlog.Close();
-            if (debug&logclose) frmLog.Close();
+            if (logclose) {
+                if (debug) frmLog.Close();
+            }
         }
 
         static private string writeInfo (LogType type = LogType.Info)

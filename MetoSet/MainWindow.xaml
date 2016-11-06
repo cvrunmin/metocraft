@@ -72,12 +72,126 @@
                     <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Visible}"/>
                 </ObjectAnimationUsingKeyFrames>
             </Storyboard>
+            <Storyboard x:Key="butPlayQuick_MouseEnter">
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_a">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0,0,0,105">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,-105,0,210">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_b">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0,105,0,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,0,0,105">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="butPlayQuick_MouseLeave">
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_a">
+                    <SplineThicknessKeyFrame KeyTime="0" Value="0,-105,0,210"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,0,0,105">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_b">
+                    <SplineThicknessKeyFrame KeyTime="0" Value="0,0,0,105"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,105,0,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="butPlayQuick_GameInProcess">
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_a">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0,0,0,105">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,105,0,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_b">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0,105,0,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,210,0,-105">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_c">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0,-105,0,210">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,0,0,105">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="butPlayQuick_GameExited">
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_a">
+                    <SplineThicknessKeyFrame KeyTime="0" Value="0,105,0,0"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,0,0,105">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_b">
+                    <SplineThicknessKeyFrame KeyTime="0" Value="0,210,0,-105"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,105,0,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_c">
+                    <SplineThicknessKeyFrame KeyTime="0" Value="0,0,0,105"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="0,-105,0,210">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <ExponentialEase EasingMode="EaseInOut" Exponent="5"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
     <metro:MetroWindow.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="butHome">
 
-            <BeginStoryboard Storyboard="{StaticResource OnClick1}"/>
+            <BeginStoryboard x:Name="OnClick1_BeginStoryboard" Storyboard="{StaticResource OnClick1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="butPlayQuick">
+            <BeginStoryboard x:Name="butPlayQuick_MouseEnter_BeginStoryboard" Storyboard="{StaticResource butPlayQuick_MouseEnter}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="butPlayQuick">
+            <BeginStoryboard x:Name="butPlayQuick_MouseLeave_BeginStoryboard" Storyboard="{StaticResource butPlayQuick_MouseLeave}"/>
         </EventTrigger>
     </metro:MetroWindow.Triggers>
     <Grid>

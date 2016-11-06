@@ -83,6 +83,11 @@ namespace MTMCL.Threads
             using (new Assets.Assets(_LaunchOptions.Version)) { }
             //await TaskEx.Delay(1000);
             Dictionary<string, string> args = new Dictionary<string, string>();
+            if (_LaunchOptions.Auth == null) {
+                OnLogged?.Invoke(Logger.HelpLog("error occurred: null authenticater"));
+                Failed?.Invoke();
+                return;
+            }
             Launch.Login.AuthInfo ai = _LaunchOptions.Auth.Login();
         login:
             if (!ai.Pass | !string.IsNullOrWhiteSpace(ai.ErrorMsg))
@@ -92,10 +97,12 @@ namespace MTMCL.Threads
                     try
                     {
                         ACLogin ac = new ACLogin();
-                        ac.ShowDialog();
-                        if (ac.auth != null)
-                            ai = ac.auth.Login();
-                        goto login;
+                        if ((bool) ac.ShowDialog())
+                        {
+                            if (ac.auth != null)
+                                ai = ac.auth.Login();
+                            goto login;
+                        }
                     }
                     catch (Exception e)
                     {
@@ -106,8 +113,11 @@ namespace MTMCL.Threads
                             ACLogin ac = new ACLogin();
                             MeCore.Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() => {
                                 ac.ShowDialog();
-                                if (ac.auth != null)
-                                    ai = ac.auth.Login();
+                                if ((bool) ac.ShowDialog())
+                                {
+                                    if (ac.auth != null)
+                                        ai = ac.auth.Login();
+                                }
                             }));
                         }
                     }
