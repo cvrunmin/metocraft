@@ -23,6 +23,9 @@ namespace MTMCL.Update
         public class Version {
             [DataMember]
             public string version;
+            [JsonProperty("backup-url")]
+            [DataMember(Name = "backup-url")]
+            public string backup_url;
             [DataMember]
             public string url;
             [DataMember]

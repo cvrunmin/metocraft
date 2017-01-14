@@ -19,7 +19,7 @@ namespace MTMCL
         static public bool LogReadOnly = false;
         static readonly Report.WinLog frmLog = new Report.WinLog();
         static StreamWriter swlog;
-        internal static bool loaded;
+        internal static bool loaded, closed = false;
 
         static public void start (FileMode mode = FileMode.Create, bool logshow = true)
         {
@@ -29,6 +29,7 @@ namespace MTMCL
                 swlog.Flush();
                 swlog.AutoFlush = true;
                 loaded = true;
+                closed = false;
             }
             catch (UnauthorizedAccessException)
             {
@@ -46,6 +47,7 @@ namespace MTMCL
             if (logclose) {
                 if (debug) frmLog.Close();
             }
+            closed = true;
         }
 
         static private string writeInfo (LogType type = LogType.Info)
@@ -70,24 +72,24 @@ namespace MTMCL
         }
         static private void write (string str, LogType type = LogType.Info)
         {
-            if (LogReadOnly) return;
-            str = writeInfo(type) + str;
-            swlog.WriteLine(str);
-            if (debug) frmLog.WriteLine(str);
+            HelpWrite(str, type);
         }
         static private string HelpWrite (string str, LogType type = LogType.Info)
         {
             string a = writeInfo(type) + str;
-            if (LogReadOnly) return a;
-            swlog.WriteLine(a);
-            if (debug) frmLog.WriteLine(a);
+            if (!LogReadOnly & !closed)
+            {
+                swlog.WriteLine(a);
+                if (debug) frmLog.WriteLine(a);
+            }
             return a;
         }
         static private void write (Stream s, LogType type = LogType.Info)
         {
-            if (LogReadOnly) return;
-            StreamReader sr = new StreamReader(s);
-            write(sr.ReadToEnd(), type);
+            HelpWrite(s, type);
+        }
+        static private string HelpWrite (Stream s, LogType type = LogType.Info) {
+            return HelpWrite(new StreamReader(s).ReadToEnd(), type);
         }
 
 

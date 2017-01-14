@@ -9,16 +9,22 @@ using System.Threading.Tasks;
 
 namespace MTMCL.Update
 {
+    public class CheckUpdateFinishEventArgs : EventArgs {
+        public bool UpdateAvailable { get; set; }
+        public string UpdateAddress { get; set; }
+        public string UpdateInfo { get; set; }
+        public int UpdateBuild { get; set; }
+    }
     public class Updater
     {
-        public delegate void CheckFinishEventHandler(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild);
+        public delegate void CheckFinishEventHandler(object sender, CheckUpdateFinishEventArgs e);
 
         public event CheckFinishEventHandler CheckFinishEvent;
 
         protected virtual void OnCheckFinishEvent(bool hasupdate, string updateaddr, string updateinfo, int updateBuild)
         {
             CheckFinishEventHandler handler = CheckFinishEvent;
-            if (handler != null) MeCore.Invoke(new Action(() => handler(hasupdate, updateaddr, updateinfo, updateBuild)));
+            if (handler != null) MeCore.Invoke(new Action(() => handler(this, new CheckUpdateFinishEventArgs() { UpdateAvailable = hasupdate, UpdateAddress = updateaddr, UpdateInfo = updateinfo, UpdateBuild = updateBuild })));
         }
         private const string CheckFile = @"http://cvronmin.github.io/mtmcl-version.json";
         private const string CheckFile2 = @"http://cvrunmin.coding.me/cvrunmin/mtmcl-version.json";

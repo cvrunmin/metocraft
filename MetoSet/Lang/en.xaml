@@ -86,6 +86,7 @@
     <s:String x:Key="Theme">Theme</s:String>
     <s:String x:Key="Themes">Themes</s:String>
     <s:String x:Key="PackTheme">Pack Theme</s:String>
+    <s:String x:Key="CaplockOn">Caps lock is on</s:String>
     <!-- /Settings.xaml -->
     <!-- Play -->
     <s:String x:Key="PlayEnvir">Environment</s:String>

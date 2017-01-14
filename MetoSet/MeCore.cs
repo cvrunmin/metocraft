@@ -118,9 +118,9 @@ namespace MTMCL
                 updateChecker.CheckFinishEvent += UpdateCheckerOnCheckFinishEvent;
             }
         }
-        private static async void UpdateCheckerOnCheckFinishEvent(bool hasUpdate, string updateAddr, string updateinfo, int updateBuild)
+        private static async void UpdateCheckerOnCheckFinishEvent(object sender, Update.CheckUpdateFinishEventArgs e)
         {
-            if (hasUpdate)
+            if (e.UpdateAvailable)
             {
                 if (MainWindow != null)
                 {
@@ -130,7 +130,7 @@ namespace MTMCL
                         await System.Threading.Tasks.TaskEx.Delay(100);
                         goto dddd;
                     }
-                    MessageDialogResult result = await MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("UpdateFound"), updateinfo, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings { AffirmativeButtonText = LangManager.GetLangFromResource("UpdateAccept"), NegativeButtonText = LangManager.GetLangFromResource("UpdateDeny") });
+                    MessageDialogResult result = await MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("UpdateFound"), e.UpdateInfo, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings { AffirmativeButtonText = LangManager.GetLangFromResource("UpdateAccept"), NegativeButtonText = LangManager.GetLangFromResource("UpdateDeny") });
                     if (result == MessageDialogResult.Affirmative)
                     {
                         MainWindow.gridMain.Visibility = Visibility.Collapsed;
@@ -140,7 +140,7 @@ namespace MTMCL
                         MainWindow.gridOthers.Visibility = Visibility.Visible;
                         MainWindow.gridOthers.Margin = new Thickness(0);
                         await System.Threading.Tasks.TaskEx.Delay(500);
-                        MainWindow.gridOthers.Children.Add(new Update.Update(updateBuild, updateAddr));
+                        MainWindow.gridOthers.Children.Add(new Update.Update(e.UpdateBuild, e.UpdateAddress));
                     }
                 }
             }

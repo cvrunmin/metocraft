@@ -2,7 +2,7 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:s="clr-namespace:System;assembly=mscorlib">
 
-	<s:String x:Key="DisplayName">繁體中文</s:String>
+    <s:String x:Key="DisplayName">繁體中文</s:String>
 	<s:String x:Key="LangName">zh-CHT</s:String>
 	<s:String x:Key="Start">開始</s:String>
 	<s:String x:Key="Play">遊玩</s:String>
@@ -86,7 +86,8 @@
 	<s:String x:Key="Theme">主題</s:String>
 	<s:String x:Key="Themes">主題</s:String>
 	<s:String x:Key="PackTheme">打包主題</s:String>
-	<!-- /Settings.xaml -->
+    <s:String x:Key="CaplockOn">已開啟大寫</s:String>
+    <!-- /Settings.xaml -->
 	<!-- Play -->
 	<s:String x:Key="PlayEnvir">環境</s:String>
 	<s:String x:Key="PlayVer">版本</s:String>

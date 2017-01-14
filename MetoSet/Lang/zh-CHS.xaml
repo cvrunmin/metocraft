@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:s="clr-namespace:System;assembly=mscorlib"> 
-  
-	<s:String x:Key="DisplayName">简体中文</s:String>
+					xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="DisplayName">简体中文</s:String>
 	<s:String x:Key="LangName">zh-CHS</s:String>
 	<s:String x:Key="Start">开始</s:String>
 	<s:String x:Key="Play">游玩</s:String>
@@ -86,7 +85,8 @@
 	<s:String x:Key="Theme">主题</s:String>
 	<s:String x:Key="Themes">主题</s:String>
 	<s:String x:Key="PackTheme">打包主题</s:String>
-	<!-- /Settings.xaml -->
+    <s:String x:Key="CaplockOn">已开启大写</s:String>
+    <!-- /Settings.xaml -->
 	<!-- Play -->
 	<s:String x:Key="PlayEnvir">环境</s:String>
 	<s:String x:Key="PlayVer">版本</s:String>

@@ -105,7 +105,7 @@
                                                     <ImageBrush x:Name="brush" TileMode="Tile" ImageSource="{Binding Image, Mode=OneWay}"/>
                                                 </Grid.Background>
                                             </Grid>
-                                            <Canvas x:Name="canvaColor" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0">
+                                            <Canvas x:Name="canvaColor" Height="10" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10,0">
                                                 <Canvas.Background>
                                                     <SolidColorBrush Color="{Binding Accent, ConverterParameter=AccentColor, Converter={StaticResource ColorFromAccentConverter}, Mode=Default}"/>
                                                 </Canvas.Background>
