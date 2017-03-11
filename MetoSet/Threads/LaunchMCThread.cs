@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 
 namespace MTMCL.Threads
@@ -96,24 +97,45 @@ namespace MTMCL.Threads
                 {
                     try
                     {
-                        ACLogin ac = new ACLogin();
-                        if ((bool) ac.ShowDialog())
+                        MeCore.Dispatcher.BeginInvoke(new System.Windows.Forms.MethodInvoker(() => {
+
+                            ACLogin ac = new ACLogin();
+                            if ((bool)ac.ShowDialog())
+                            {
+                                if (ac.auth != null)
+                                    ai = ac.auth.Login();
+                                //goto login;
+                            }
+                        })).Wait();
+                        goto login;
+                    }
+                    catch (XamlParseException e) {
+                        int hr = (int)e.GetType().GetProperty("HResult", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(e, null);
+                        if (!(hr == -2146233087))
+                            throw;
+                        else
                         {
-                            if (ac.auth != null)
-                                ai = ac.auth.Login();
-                            goto login;
+                            ACLogin ac = new ACLogin();
+                            MeCore.Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() => {
+                                ac.ShowDialog();
+                                if ((bool)ac.ShowDialog())
+                                {
+                                    if (ac.auth != null)
+                                        ai = ac.auth.Login();
+                                }
+                            }));
                         }
                     }
                     catch (Exception e)
                     {
-                        int hr = (int) e.GetType().GetProperty("HResult", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(e, null);
+                        int hr = (int)e.GetType().GetProperty("HResult", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(e, null);
                         if (!(hr == -2146233087))
                             throw;
                         else {
                             ACLogin ac = new ACLogin();
                             MeCore.Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(() => {
                                 ac.ShowDialog();
-                                if ((bool) ac.ShowDialog())
+                                if ((bool)ac.ShowDialog())
                                 {
                                     if (ac.auth != null)
                                         ai = ac.auth.Login();
