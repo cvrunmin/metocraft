@@ -16,7 +16,7 @@ namespace MTMCL.Guide
 
         private void Page_Initialized(object sender, EventArgs e)
         {
-            lblInfo.AddContentFromSpecficString(Lang.LangManager.GetLangFromResource("FastText"));
+            lblInfo.AddContentFromSpecficString(Lang.LangManager.GetLocalized("FastText"));
         }
 
         private void butBack_Click(object sender, System.Windows.RoutedEventArgs e)

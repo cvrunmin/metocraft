@@ -96,10 +96,10 @@ namespace MTMCL.Setting
             pi.uri = new Uri(uri);
             var menu = new ContextMenu();
             var b1 = new MenuItem();
-            b1.Header = Lang.LangManager.GetLangFromResource("Select");
+            b1.Header = Lang.LangManager.GetLocalized("Select");
             b1.Click += MenuItemSelect_Click;
             var b2 = new MenuItem();
-            b2.Header = Lang.LangManager.GetLangFromResource("Preview");
+            b2.Header = Lang.LangManager.GetLocalized("Preview");
             b2.Click += MenuItemPreview_Click;
             menu.Items.Add(b1);
             menu.Items.Add(b2);

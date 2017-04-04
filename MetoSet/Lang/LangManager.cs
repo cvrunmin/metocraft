@@ -23,7 +23,7 @@ namespace MTMCL.Lang
         static public void Clear() {
             Languages.Clear();
         }
-        static public string GetLangFromResource(string key)
+        static public string GetLocalized(string key)
         {
             if (Application.Current.Resources.Contains(key))
                 return Application.Current.Resources[key] as string;

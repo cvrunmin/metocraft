@@ -243,6 +243,32 @@ namespace MTMCL.util
 
         }
 
+        public static string FromSpecficString(this string spstring)
+        {
+            string[] strings = spstring.Split('[', ']');
+            StringBuilder st = new StringBuilder();
+            for (int i = 0; i < strings.Length; i++)
+            {
+                switch (strings[i])
+                {
+                    case "/bold/":
+                        break;
+                    case "/newline/":
+                    case "/n/":
+                        st.AppendLine();
+                        break;
+                    case "/paragraph/":
+                    case "/p/":
+                        st.AppendLine().AppendLine();
+                        break;
+                    default:
+                        st.Append(strings[i]);
+                        break;
+                }
+            }
+            return st.ToString();
+        }
+
         public static string ToWellKnownExceptionString(this Exception ex) {
             var message = new StringBuilder();
             message.AppendLine("MTMCL, version " + MeCore.version);
@@ -357,6 +383,33 @@ namespace MTMCL.util
                 result.Add(pair.Value, pair.Key);
             }
             return result;
+        }
+
+        public static string GetCorrespondingJava(int javaver)
+        {
+            switch (javaver)
+            {
+                case 53:
+                    return "Java SE 9";
+                case 52:
+                    return "Java SE 8";
+                case 51:
+                    return "Java SE 7";
+                case 50:
+                    return "Java SE 6.0";
+                case 49:
+                    return "Java SE 5.0";
+                case 48:
+                    return "JDK 1.4";
+                case 47:
+                    return "JDK 1.3";
+                case 46:
+                    return "JDK 1.2";
+                case 45:
+                    return "JDK 1.1";
+                default:
+                    return "";
+            }
         }
     }
     public static class LibraryHelper
@@ -584,8 +637,8 @@ namespace MTMCL.util
                 task.Failed += () => {
                     MeCore.Dispatcher.Invoke(new Action(() => gui.noticeFailed()));
                 };
-                gui = gui.setTask(string.Format(LangManager.GetLangFromResource("TaskLaunch"), options.Version.id)).setThread(task).setDetectAlive(false);
-                var nb = new NoticeBalloon("MTMCL", string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), string.Format(LangManager.GetLangFromResource("TaskLaunch"), options.Version.id)));
+                gui = gui.setTask(string.Format(LangManager.GetLocalized("TaskLaunch"), options.Version.id)).setThread(task).setDetectAlive(false);
+                var nb = new NoticeBalloon("MTMCL", string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), string.Format(LangManager.GetLocalized("TaskLaunch"), options.Version.id)));
                 if (MeCore.MainWindow != null)
                 {
                     MeCore.MainWindow.addTask("game", gui);

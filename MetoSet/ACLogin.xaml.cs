@@ -182,7 +182,7 @@ namespace MTMCL
                     gridCustomAuth.Children.Add(butlogin);
                     gridMain.Children.Add(gridCustomAuth);
                     ButtonMenu butcustomauth = new ButtonMenu();
-                    butcustomauth.Content = string.Format(Lang.LangManager.GetLangFromResource("Online"), item.Name);
+                    butcustomauth.Content = string.Format(Lang.LangManager.GetLocalized("Online"), item.Name);
                     butcustomauth.MenuImage = new BitmapImage(new Uri("pack://application:,,,/Resources/others.png"));
                     butcustomauth.FontSize = 16;
                     butcustomauth.Margin = new Thickness(0, 60 * (i + 1), -17, 0);

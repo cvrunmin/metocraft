@@ -263,7 +263,7 @@ namespace MTMCL
                     }
                 }
             }));
-            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskDLAssets")));
+            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskDLAssets")));
         }
         private void butRDLAsset_Click(object sender, RoutedEventArgs e)
         {
@@ -339,7 +339,7 @@ namespace MTMCL
                     }
                 }
             }));
-            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")));
+            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskRDLAssets")));
         }
         private async void butRDLAI_Click(object sender, RoutedEventArgs e)
         {
@@ -383,7 +383,7 @@ namespace MTMCL
             else
             {
                 if (!System.Text.RegularExpressions.Regex.Match(mcversion.inheritsFrom, @"\d+\.\d+\.\d*").Success) {
-                    await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("Oops"),string.Format(LangManager.GetLangFromResource("FormatFaultSolve"), mcversion.inheritsFrom));
+                    await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLocalized("Oops"),string.Format(LangManager.GetLocalized("FormatFaultSolve"), mcversion.inheritsFrom));
                     return;
                 }
                 Grid dl = await MeCore.MainWindow.ChangePage("download");

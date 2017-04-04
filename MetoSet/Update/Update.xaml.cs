@@ -37,7 +37,7 @@ namespace MTMCL.Update
         {
             _client.Dispose();
             App.AboutToExit();
-            lblProcess.Content = Lang.LangManager.GetLangFromResource("Restarting");
+            lblProcess.Content = Lang.LangManager.GetLocalized("Restarting");
             await TaskEx.Delay(1500);
             //Process.Start("MTMCL." + _build + ".exe", "-Update");
             if (asyncCompletedEventArgs.Error != null) {
@@ -58,7 +58,7 @@ namespace MTMCL.Update
 
         private void ClientOnDownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs downloadProgressChangedEventArgs)
         {
-            lblProcess.Content = string.Format(Lang.LangManager.GetLangFromResource("TaskUpdating"), downloadProgressChangedEventArgs.ProgressPercentage.ToString(System.Globalization.CultureInfo.InvariantCulture) + "%");
+            lblProcess.Content = string.Format(Lang.LangManager.GetLocalized("TaskUpdating"), downloadProgressChangedEventArgs.ProgressPercentage.ToString(System.Globalization.CultureInfo.InvariantCulture) + "%");
         }
 
         #region IDisposable Support

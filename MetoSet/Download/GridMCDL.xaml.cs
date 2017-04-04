@@ -129,7 +129,7 @@ namespace MTMCL
                     {
                         gridMCRing.Visibility = Visibility.Collapsed;
                         gridMCRFail.Visibility = Visibility.Visible;
-                        Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                        Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLocalized("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                         butReloadMC.SetLocalizedContent("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -140,7 +140,7 @@ namespace MTMCL
                     {
                         gridMCRing.Visibility = Visibility.Collapsed;
                         gridMCRFail.Visibility = Visibility.Visible;
-                        MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLangFromResource("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) });
+                        MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), LangManager.GetLocalized("RemoteVerFailedTimeout"), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) });
                         butReloadMC.SetLocalizedContent("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -151,7 +151,7 @@ namespace MTMCL
                     {
                         gridMCRing.Visibility = Visibility.Collapsed;
                         gridMCRFail.Visibility = Visibility.Visible;
-                        MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat")), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) });
+                        MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat")), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) });
                         butReloadMC.SetLocalizedContent("Reload");
                         butReloadMC.IsEnabled = true;
                     }));
@@ -163,7 +163,7 @@ namespace MTMCL
         {
             if (ver == null)
             {
-                MessageBox.Show(LangManager.GetLangFromResource("RemoteVerErrorNoVersionSelect"));
+                MessageBox.Show(LangManager.GetLocalized("RemoteVerErrorNoVersionSelect"));
                 return;
             }
                 TaskListBar taskbar = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
@@ -254,13 +254,13 @@ namespace MTMCL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                            Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                             taskbar.noticeFailed();
                         }));
                     }
                 }));
-                MeCore.MainWindow.addTask("dl-mcclient-" + ver.id, taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false));
-                MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskDLMC"))));
+                MeCore.MainWindow.addTask("dl-mcclient-" + ver.id, taskbar.setThread(task).setTask(LangManager.GetLocalized("TaskDLMC")).setDetectAlive(false));
+                MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLocalized("Download"), string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskDLMC"))));
             
         }
 
@@ -294,7 +294,7 @@ namespace MTMCL
             {
                 RemoteVerType rv = list.Single(ver => ver.id.Equals(version));
                 if (rv != null) {
-                    var result = await MeCore.MainWindow.ShowMessageAsync("", string.Format(LangManager.GetLangFromResource("DownloadConfirm"), "Minecraft " + rv.id),MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = LangManager.GetLangFromResource("Yes"), NegativeButtonText = LangManager.GetLangFromResource("No")});
+                    var result = await MeCore.MainWindow.ShowMessageAsync("", string.Format(LangManager.GetLocalized("DownloadConfirm"), "Minecraft " + rv.id),MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = LangManager.GetLocalized("Yes"), NegativeButtonText = LangManager.GetLocalized("No")});
                     if (result == MessageDialogResult.Affirmative)
                     {
                         downloadVVer(rv);
@@ -302,12 +302,12 @@ namespace MTMCL
                     }
                     return false;
                 }
-                await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("Oops"), LangManager.GetLangFromResource("NoVersionFound1"));
+                await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLocalized("Oops"), LangManager.GetLocalized("NoVersionFound1"));
                 return false;
             }
             catch (Exception)
             {
-                await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("Oops"), LangManager.GetLangFromResource("NoVersionFound1"));
+                await MeCore.MainWindow.ShowMessageAsync(LangManager.GetLocalized("Oops"), LangManager.GetLocalized("NoVersionFound1"));
                 return false;
             }
         }

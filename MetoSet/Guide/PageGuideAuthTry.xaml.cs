@@ -41,14 +41,14 @@ namespace MTMCL.Guide
                 }
                 else
                 {
-                    lblName.Content = Lang.LangManager.GetLangFromResource("Error");
-                    lblUUID.Content = Lang.LangManager.GetLangFromResource("Error");
+                    lblName.Content = Lang.LangManager.GetLocalized("Error");
+                    lblUUID.Content = Lang.LangManager.GetLocalized("Error");
                 }
             }
             else
             {
-                lblName.Content = Lang.LangManager.GetLangFromResource("Error");
-                lblUUID.Content = Lang.LangManager.GetLangFromResource("Error");
+                lblName.Content = Lang.LangManager.GetLocalized("Error");
+                lblUUID.Content = Lang.LangManager.GetLocalized("Error");
             }
         }
 

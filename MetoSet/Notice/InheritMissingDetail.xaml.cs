@@ -56,7 +56,7 @@ namespace MTMCL.Notice
                 foreach(var vals in items.Value) {
                     sb.AppendLine(vals);
                 }
-                grid.Children.Add(new Label() { Content =  string.Format(Lang.LangManager.GetLangFromResource("InheritVerMissFormat"), items.Key) + "\n" + sb.ToString()});
+                grid.Children.Add(new Label() { Content =  string.Format(Lang.LangManager.GetLocalized("InheritVerMissFormat"), items.Key) + "\n" + sb.ToString()});
                 gridDetaila.Children.Add(grid);
             }
         }

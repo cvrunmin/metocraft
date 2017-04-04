@@ -71,29 +71,29 @@ namespace MTMCL
                         }
                         downer.DownloadProgressChanged += delegate (object sender1, DownloadProgressChangedEventArgs e1)
                         {
-                            MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLModPack"), e1.ProgressPercentage))));
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLocalized("SubTaskDLModPack"), e1.ProgressPercentage))));
                         };
                         downer.DownloadFileCompleted += delegate (object sender1, AsyncCompletedEventArgs e1)
                         {
-                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskExtractModPack"))));
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("SubTaskExtractModPack"))));
                             new Threads.ModPackProcesser().install(filename);
                             File.Delete(filename);
-                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
+                            MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("TaskFinish"))));
                             task.noticeFinished();
                         };
-                        MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLModPack"), 0))));
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLocalized("SubTaskDLModPack"), 0))));
                         downer.DownloadFileAsync(url, filename);
                     }));
                 }
                 catch (Exception ex)
                 {
-                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg"))})));
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFail"))));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg"))})));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("TaskFail"))));
                     task.noticeFailed();
                 }
             }));
-            MeCore.MainWindow.addTask("dl-modpack", task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskDLModPack")).setDetectAlive(false));
-            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskDLModPack"))));
+            MeCore.MainWindow.addTask("dl-modpack", task.setThread(thDL).setTask(LangManager.GetLocalized("TaskDLModPack")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLocalized("Download"), string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskDLModPack"))));
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)

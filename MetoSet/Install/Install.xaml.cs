@@ -42,20 +42,20 @@ namespace MTMCL.Install
                 {
                     string a = "";
                     Dispatcher.Invoke(new Action(() => a = txtPathF.Text));
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("SubTaskInstallForge"))));
                     new ForgeInstaller().install(a);
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("TaskFinish"))));
                     task.noticeFinished();
                 }
                 catch (Exception ex)
                 {
-                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                     Logger.log(ex);
                     task.noticeFailed();
                 }
             }));
-            MeCore.MainWindow.addTask("instl-forgeclient", task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false));
-            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskInstallForge"))));
+            MeCore.MainWindow.addTask("instl-forgeclient", task.setThread(thDL).setTask(LangManager.GetLocalized("TaskInstallForge")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLocalized("Download"), string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskInstallForge"))));
         }
 
         private void butBF_Click(object sender, RoutedEventArgs e)
@@ -76,20 +76,20 @@ namespace MTMCL.Install
                     string a = "", b = "";
                     bool c = false;
                     Dispatcher.Invoke(new Action(() => { a = txtPathLL.Text; b = comboIVer.SelectedItem as string; c = (bool)toggleWF.IsChecked; }));
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskInstallMod"), "LiteLoader"))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLocalized("SubTaskInstallMod"), "LiteLoader"))));
                     new LiteLoaderInstaller(c, b).install(a);
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("TaskFinish"))));
                     task.noticeFinished();
                 }
                 catch (Exception ex)
                 {
-                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                    MeCore.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                     Logger.log(ex);
                     task.noticeFailed();
                 }
             }));
-            MeCore.MainWindow.addTask("instl-liteloader", task.setThread(thDL).setTask(string.Format(LangManager.GetLangFromResource("TaskInstallMod"), "LiteLoader")).setDetectAlive(false));
-            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), string.Format(LangManager.GetLangFromResource("TaskInstallMod"), "LiteLoader"))));
+            MeCore.MainWindow.addTask("instl-liteloader", task.setThread(thDL).setTask(string.Format(LangManager.GetLocalized("TaskInstallMod"), "LiteLoader")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLocalized("Download"), string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), string.Format(LangManager.GetLocalized("TaskInstallMod"), "LiteLoader"))));
         }
 
         private void butBLL_Click(object sender, RoutedEventArgs e)

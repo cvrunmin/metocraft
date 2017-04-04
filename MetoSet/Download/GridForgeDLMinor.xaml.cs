@@ -74,7 +74,7 @@ namespace MTMCL
         {
             if (ver == null)
             {
-                MessageBox.Show(LangManager.GetLangFromResource("RemoteVerErrorNoVersionSelect"));
+                MessageBox.Show(LangManager.GetLocalized("RemoteVerErrorNoVersionSelect"));
                 return;
             }
                 TaskListBar taskbar = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
@@ -165,13 +165,13 @@ namespace MTMCL
                     {
                         Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                         {
-                            Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                            Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
                             taskbar.noticeFailed();
                         }));
                     }
                 }));
-                MeCore.MainWindow.addTask("dl-mcclient-" + ver.id, taskbar.setThread(task).setTask(LangManager.GetLangFromResource("TaskDLMC")).setDetectAlive(false));
-                MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskDLMC"))));
+                MeCore.MainWindow.addTask("dl-mcclient-" + ver.id, taskbar.setThread(task).setTask(LangManager.GetLocalized("TaskDLMC")).setDetectAlive(false));
+                MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLocalized("Download"), string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskDLMC"))));
             
         }
         private void DownloadForge (ForgeVersion ver)
@@ -193,19 +193,19 @@ namespace MTMCL
                 }
                 downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
                 {
-                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), e.ProgressPercentage))));
+                    MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLocalized("SubTaskDLForge"), e.ProgressPercentage))));
                 };
                 downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                 {
                     try
                     {
                         task.log(Logger.HelpLog("Trying to install forge"));
-                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("SubTaskInstallForge"))));
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("SubTaskInstallForge"))));
                         if (universalInstead) new ForgeInstaller().installOld(filename, ver.mcversion, "forge-" + ver.mcversion + "-" + ver.version + (!string.IsNullOrWhiteSpace(ver.branch) ? "-" + ver.branch : ""));
                         else new ForgeInstaller().install(filename);
                         File.Delete(filename);
                         task.log(Logger.HelpLog("Installation finished"));
-                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLangFromResource("TaskFinish"))));
+                        MeCore.Invoke(new Action(() => task.setTaskStatus(LangManager.GetLocalized("TaskFinish"))));
                         task.noticeFinished();
                     }
                     catch (Exception ex)
@@ -216,11 +216,11 @@ namespace MTMCL
                     }
                 };
                 task.log(Logger.HelpLog("Start downloading forge installer"));
-                MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLangFromResource("SubTaskDLForge"), "0"))));
+                MeCore.Invoke(new Action(() => task.setTaskStatus(string.Format(LangManager.GetLocalized("SubTaskDLForge"), "0"))));
                 downer.DownloadFileAsync(url, filename);
             }));
-            MeCore.MainWindow.addTask("dl-instl-forgeclient-" + ver, task.setThread(thDL).setTask(LangManager.GetLangFromResource("TaskInstallForge")).setDetectAlive(false));
-            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLangFromResource("Download"), string.Format(LangManager.GetLangFromResource("BalloonNoticeSTTaskFormat"), LangManager.GetLangFromResource("TaskInstallMC"))));
+            MeCore.MainWindow.addTask("dl-instl-forgeclient-" + ver, task.setThread(thDL).setTask(LangManager.GetLocalized("TaskInstallForge")).setDetectAlive(false));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLocalized("Download"), string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskInstallMC"))));
         }
         private void butDL_Click(object sender, RoutedEventArgs e)
         {

@@ -286,7 +286,7 @@ namespace MTMCL
                     }
                 }
             }));
-            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskDLAssets")));
+            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskDLAssets")));
         }
         private void butRDLAsset_Click(object sender, RoutedEventArgs e)
         {
@@ -365,7 +365,7 @@ namespace MTMCL
                     }
                 }
             }));
-            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLangFromResource("TaskRDLAssets")));
+            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskRDLAssets")));
         }
 
         private async void butGoDLMC_Click (object sender, RoutedEventArgs e)

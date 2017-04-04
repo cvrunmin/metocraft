@@ -41,8 +41,15 @@
                         <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
                         <metro:ToggleSwitch x:Name="toggleLL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,231,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmLL}" IsCheckedChanged="toggleLL_IsCheckedChanged"/>
                         <metro:ToggleSwitch x:Name="toggleModded" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,292,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmModded}" IsCheckedChanged="toggleModded_IsCheckedChanged"/>
-                        <Label Content="{DynamicResource AuthUsed}" HorizontalAlignment="Left" Margin="0,358,0,0" VerticalAlignment="Top" FontSize="16"/>
-                        <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="0,393,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click"/>
+                        <Grid Margin="0,358,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5px"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{DynamicResource AuthUsed}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+                            <Button x:Name="butAuth" Content="{DynamicResource Select}" HorizontalAlignment="Left" Margin="2,2,0,0" VerticalAlignment="Top" Width="75" Click="butAuth_Click" Grid.Column="2"/>
+                        </Grid>
                         <Button x:Name="butJavawBrowse" Content="{DynamicResource Browse}" HorizontalAlignment="Left" Margin="375,144,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="butJavawBrowse_Click"/>
                         <Rectangle x:Name="rectJPState" Fill="#FF009900" HorizontalAlignment="Left" Height="26" Margin="450,144,0,0" VerticalAlignment="Top" Width="26" ToolTip="sdgdgs">
                             <Rectangle.OpacityMask>

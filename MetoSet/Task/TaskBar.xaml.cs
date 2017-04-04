@@ -89,19 +89,19 @@ namespace MTMCL.Task
         }
         public void noticeFinished()
         {
-            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLangFromResource("TaskFinish"))));
+            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLocalized("TaskFinish"))));
             finished = true;
         }
         public void noticeFailed()
         {
-            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLangFromResource("TaskFail"))));
+            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLocalized("TaskFail"))));
             finished = true;
         }
         [SecurityPermission(SecurityAction.Demand, ControlThread = true)]
         public void noticeExisted()
         {
             _task.Abort();
-            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLangFromResource("TaskExist"))));
+            Dispatcher.Invoke(new Action(() => setTaskStatus(Lang.LangManager.GetLocalized("TaskExist"))));
             finished = true;
         }
         public void noticeNotFinish()

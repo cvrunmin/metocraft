@@ -20,7 +20,7 @@
     <Label Content="{DynamicResource Log}" HorizontalAlignment="Left" Margin="0,81,0,0" VerticalAlignment="Top" FontSize="16" Background="{DynamicResource AccentColorBrush4}"/>
     <Label x:Name="lblName" Content="" HorizontalAlignment="Left" Margin="2,45,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource TaskName}" FontSize="16" Background="{DynamicResource AccentColorBrush4}"/>
     <Label x:Name="lblState" Content="" Margin="0,45,0,0" VerticalAlignment="Top" ContentStringFormat="{DynamicResource TaskState}" FontSize="16" Background="{DynamicResource AccentColorBrush4}" HorizontalAlignment="Right"/>
-    <ScrollViewer Margin="0,117,0,0" >
+    <ScrollViewer Margin="0,117,0,0" HorizontalScrollBarVisibility="Visible" >
         <TextBlock x:Name="listLog" Background="{DynamicResource AccentColorBrush3}"/>
     </ScrollViewer>
 </Grid>

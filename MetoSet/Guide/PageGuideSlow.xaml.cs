@@ -57,7 +57,7 @@ namespace MTMCL.Guide
                 {
                     rectMPState.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0));
                     rectMPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_warning"] };
-                    rectMPState.ToolTip = LangManager.GetLangFromResource("MCPath_NotExist");
+                    rectMPState.ToolTip = LangManager.GetLocalized("MCPath_NotExist");
                     ValidMC = false; CouldMC = true;
                     return;
                 }
@@ -65,7 +65,7 @@ namespace MTMCL.Guide
                 {
                     rectMPState.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0));
                     rectMPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_warning"] };
-                    rectMPState.ToolTip = LangManager.GetLangFromResource("MCPath_NotExist");
+                    rectMPState.ToolTip = LangManager.GetLocalized("MCPath_NotExist");
                     ValidMC = false; CouldMC = true;
                     return;
                 }
@@ -73,7 +73,7 @@ namespace MTMCL.Guide
                 {
                     rectMPState.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0));
                     rectMPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_warning"] };
-                    rectMPState.ToolTip = LangManager.GetLangFromResource("MCPath_NotValid");
+                    rectMPState.ToolTip = LangManager.GetLocalized("MCPath_NotValid");
                     ValidMC = false; CouldMC = true;
                     return;
                 }
@@ -86,7 +86,7 @@ namespace MTMCL.Guide
             {
                 rectMPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                 rectMPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
-                rectMPState.ToolTip = LangManager.GetLangFromResource("MCPath_Catched");
+                rectMPState.ToolTip = LangManager.GetLocalized("MCPath_Catched");
                 ValidMC = false; CouldMC = false;
             }
         }
@@ -117,7 +117,7 @@ namespace MTMCL.Guide
                 {
                     rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                     rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
-                    rectJPState.ToolTip = LangManager.GetLangFromResource("JavaPath_NotExist");
+                    rectJPState.ToolTip = LangManager.GetLocalized("JavaPath_NotExist");
                     return;
                 }
                 rectJPState.Fill = new SolidColorBrush(Color.FromRgb(0, 0x99, 0));
@@ -128,7 +128,7 @@ namespace MTMCL.Guide
             {
                 rectJPState.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                 rectJPState.OpacityMask = new VisualBrush() { Visual = (Visual)System.Windows.Application.Current.Resources["appbar_close"] };
-                rectJPState.ToolTip = LangManager.GetLangFromResource("JavaPath_Catched");
+                rectJPState.ToolTip = LangManager.GetLocalized("JavaPath_Catched");
             }
         }
 

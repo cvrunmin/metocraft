@@ -45,7 +45,7 @@ namespace MTMCL.Guide
             {
                 comboLang.Items.Add(lang);
             }
-            comboLang.SelectedItem = LangManager.GetLangFromResource("DisplayName");
+            comboLang.SelectedItem = LangManager.GetLocalized("DisplayName");
         }
 
         private void comboLang_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -54,7 +54,7 @@ namespace MTMCL.Guide
                 if (MeCore.Language.ContainsKey(comboLang.SelectedItem as string))
                 {
                     LangManager.UseLanguage(MeCore.Language[comboLang.SelectedItem as string] as string);
-                    MeCore.Config.QuickChange("Lang", LangManager.GetLangFromResource("LangName"));
+                    MeCore.Config.QuickChange("Lang", LangManager.GetLocalized("LangName"));
                 }
         }
     }

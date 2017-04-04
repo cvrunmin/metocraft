@@ -5,6 +5,8 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Collections;
 using MTMCL.util;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MTMCL
 {
@@ -40,6 +42,7 @@ namespace MTMCL
             {
                 frmLog.Show();
             }
+            LastLog.Clear();
         }
         static public void stop (bool logclose = true)
         {
@@ -57,19 +60,18 @@ namespace MTMCL
                 case LogType.Error:
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[ERROR]");
                 case LogType.Info:
+                default:
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[INFO]");
                 case LogType.Crash:
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[CRASH]");
                 case LogType.Exception:
+                case LogType.Warning:
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[WARN]");
                 case LogType.Game:
                     return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[GAME]");
-                case LogType.Warning:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[WARN]");
-                default:
-                    return (DateTime.Now.ToString(CultureInfo.InvariantCulture) + "[INFO]");
             }
         }
+        public static readonly Dictionary<LogType, List<string>> LastLog = new Dictionary<LogType, List<string>>();
         static private void write (string str, LogType type = LogType.Info)
         {
             HelpWrite(str, type);
@@ -77,11 +79,14 @@ namespace MTMCL
         static private string HelpWrite (string str, LogType type = LogType.Info)
         {
             string a = writeInfo(type) + str;
-            if (!LogReadOnly & !closed)
+            if (!LogReadOnly && !closed)
             {
                 swlog.WriteLine(a);
                 if (debug) frmLog.WriteLine(a);
             }
+            if (LastLog.ContainsKey(type))
+                LastLog[type].Add(a);
+            else LastLog.Add(type, new List<string>() { a });
             return a;
         }
         static private void write (Stream s, LogType type = LogType.Info)

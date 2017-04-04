@@ -151,7 +151,7 @@ namespace MTMCL.Versions
                         }
                     }
                 }
-                if(err.Count > 0) MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.InheritMissingBar(string.Format(LangManager.GetLangFromResource("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), err))));
+                if(err.Count > 0) MeCore.Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.InheritMissingBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), err))));
                 return list.ToArray();
             }
             catch (Exception e)

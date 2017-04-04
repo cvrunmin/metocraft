@@ -130,7 +130,7 @@ namespace MTMCL
                         await System.Threading.Tasks.TaskEx.Delay(100);
                         goto dddd;
                     }
-                    MessageDialogResult result = await MainWindow.ShowMessageAsync(LangManager.GetLangFromResource("UpdateFound"), e.UpdateInfo, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings { AffirmativeButtonText = LangManager.GetLangFromResource("UpdateAccept"), NegativeButtonText = LangManager.GetLangFromResource("UpdateDeny") });
+                    MessageDialogResult result = await MainWindow.ShowMessageAsync(LangManager.GetLocalized("UpdateFound"), e.UpdateInfo, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings { AffirmativeButtonText = LangManager.GetLocalized("UpdateAccept"), NegativeButtonText = LangManager.GetLocalized("UpdateDeny") });
                     if (result == MessageDialogResult.Affirmative)
                     {
                         MainWindow.gridMain.Visibility = Visibility.Collapsed;
