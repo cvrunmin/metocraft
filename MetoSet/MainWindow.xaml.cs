@@ -38,6 +38,7 @@ namespace MTMCL
                 //new Guide.GuideWindow(new Uri("Guide\\PageGuideLang.xaml", UriKind.Relative)).Show();
                 //Close();
             }
+            panelUsers.ItemsSource = MeCore.Config.SavedAuths.Values;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -179,7 +180,8 @@ namespace MTMCL
             return grid;
         }
         private void SwitchBetweenHomeAndMenu(bool toHome) {
-            gridMa.Visibility = Visibility.Visible;
+            BeginStoryboard(Resources[toHome ? "SwitchToHome" : "SwitchToMenu"] as Storyboard);
+            /*gridMa.Visibility = Visibility.Visible;
             var aniHome1 = new DoubleAnimation(toHome ? 1 : 0, TimeSpan.FromSeconds(0.15));
             var aniHome2 = new ThicknessAnimationUsingKeyFrames();
             aniHome2.KeyFrames.Add(new EasingThicknessKeyFrame(toHome ? new Thickness(0) : new Thickness(0, 410, 0, -410), TimeSpan.FromSeconds(0.15), new CubicEase() { EasingMode = EasingMode.EaseInOut}));
@@ -192,7 +194,7 @@ namespace MTMCL
             //gridMa.BeginAnimation(MarginProperty, aniMenu1);
             gridMa.BeginAnimation(OpacityProperty, aniMenu2);
             gridHome.BeginAnimation(OpacityProperty, aniHome1);
-            gridHome.BeginAnimation(MarginProperty, aniHome2);
+            gridHome.BeginAnimation(MarginProperty, aniHome2);*/
         }
         private async void butPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -664,5 +666,19 @@ namespace MTMCL
         }
 
         public SavedAuth SelectedAuth { get; set; }
+
+        private void panelUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((panelUsers.SelectedItem as SavedAuth)?.AuthType?.Equals("Yggdrasil") == true)
+            {
+                txtPW.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                txtPW.Visibility = Visibility.Collapsed;
+            }
+
+            lblUser.Content = (panelUsers.SelectedItem as SavedAuth)?.DisplayName;
+        }
     }
 }

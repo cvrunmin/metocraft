@@ -182,7 +182,7 @@
 	<s:String x:Key="Email">電郵</s:String>
 	<s:String x:Key="MCBBSThread">MCBBS帖子</s:String>
 	<s:String x:Key="NoVersionFound1">找不到Minecraft版本</s:String>
-	<s:String x:Key="NoVersionFound2">不知為何核心們長得不像一個Minecraft核心</s:String>
+	<s:String x:Key="NoVersionFound2">這是一個好時機去找下一個Minecraft核心！</s:String>
 	<s:String x:Key="UnableAI1">找不到Assets列表</s:String>
 	<s:String x:Key="UnableAI2">且無法下載</s:String>
 	<s:String x:Key="RVerFail1">無法刷新版本列表</s:String>

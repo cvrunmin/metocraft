@@ -180,7 +180,7 @@
 	<s:String x:Key="Email">电邮</s:String>
 	<s:String x:Key="MCBBSThread">MCBBS帖子</s:String>
 	<s:String x:Key="NoVersionFound1">找不到Minecraft版本</s:String>
-	<s:String x:Key="NoVersionFound2">不知为何核心们长得不像一个Minecraft核心</s:String>
+    <s:String x:Key="NoVersionFound2">这是一个好时机去找下一个Minecraft核心！</s:String>
 	<s:String x:Key="UnableAI1">找不到Assets列表</s:String>
 	<s:String x:Key="UnableAI2">且无法下载</s:String>
 	<s:String x:Key="RVerFail1">无法刷新版本列表</s:String>

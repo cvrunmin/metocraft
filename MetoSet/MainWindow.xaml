@@ -38,39 +38,142 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
                 <ResourceDictionary Source="ButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Storyboard x:Key="OnClick1">
+            <Storyboard x:Key="SwitchToHome">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="gridMa">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0.75">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0.75">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0.75">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="gridMa">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0.75">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0.75">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0.75">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridMa">
-                    <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridHome">
-                    <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
-                </DoubleAnimationUsingKeyFrames>
-                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="gridHome">
-                    <SplineThicknessKeyFrame KeyTime="0" Value="0,410,0,-410"/>
-                    <SplineThicknessKeyFrame KeyTime="0:0:0.15" Value="0"/>
-                </ThicknessAnimationUsingKeyFrames>
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridMa">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Collapsed}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="{x:Static Visibility.Collapsed}"/>
                 </ObjectAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="gridHome">
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.4" Value="0,410,0,-410">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseInOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.8" Value="0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseInOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridHome">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CircleEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
             </Storyboard>
-            <Storyboard x:Key="OnClick_Copy1">
+            <Storyboard x:Key="SwitchToMenu">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridMa">
                     <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuadraticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridHome">
-                    <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="gridHome">
-                    <SplineThicknessKeyFrame KeyTime="0" Value="0"/>
-                    <SplineThicknessKeyFrame KeyTime="0:0:0.15" Value="0,410,0,-410"/>
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseInOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.3" Value="0,410,0,-410">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseInOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
                 </ThicknessAnimationUsingKeyFrames>
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridMa">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                 </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="gridMa">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0.75"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.75"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuadraticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="gridMa">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0.75"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.75"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <QuadraticEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="butPlayQuick_MouseEnter">
                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="butPlayQuick_a">
@@ -183,10 +286,6 @@
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
     <metro:MetroWindow.Triggers>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="butHome">
-
-            <BeginStoryboard x:Name="OnClick1_BeginStoryboard" Storyboard="{StaticResource OnClick1}"/>
-        </EventTrigger>
         <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="butPlayQuick">
             <BeginStoryboard x:Name="butPlayQuick_MouseEnter_BeginStoryboard" Storyboard="{StaticResource butPlayQuick_MouseEnter}"/>
         </EventTrigger>
@@ -204,7 +303,15 @@
                     <ImageBrush ImageSource="Resources/bg.png" TileMode="Tile" Stretch="UniformToFill"/>
                 </Grid.Background>
             </Grid>
-            <Grid x:Name="gridMa">
+            <Grid x:Name="gridMa" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
                 <Grid x:Name="gridMain" Margin="0" Background="{DynamicResource AccentColorBrush4}">
                     <Label x:Name="lblWelcome" Content="{DynamicResource Start}" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
                     <Grid x:Name="gridMenu" Margin="40,44,40,40" Width="655" Height="325">
@@ -343,25 +450,34 @@
                 </Grid>
                 <Grid x:Name="gridOthers" Margin="30,0,30,30" Visibility="Collapsed"/>
             </Grid>
-            <Grid x:Name="gridHome" Visibility="Visible" Opacity="0" Margin="0,410,0,-410">
+            <Grid x:Name="gridHome" Visibility="Visible" Margin="0,410,0,-410" Opacity="0">
                 <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="214" MaxHeight="160">
-                    <ListBox x:Name="panelUsers" SelectedItem="{Binding SelectedAuth}" Background="{x:Null}">
+                    <ListBox x:Name="panelUsers" SelectedItem="{Binding SelectedAuth}" Background="{x:Null}" SelectionChanged="panelUsers_SelectionChanged">
                         <ListBox.Resources>
                             <local:SavedAuth x:Key="auth" DisplayName="cvrunmin" AuthType="Online" UserType="mojang"/>
                         </ListBox.Resources>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Width="200" Height="50" d:DataContext="{StaticResource auth}">
+                                <Grid Width="200" Height="36" d:DataContext="{StaticResource auth}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="36"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Ellipse x:Name="ellipse" Margin="0" StrokeThickness="0">
                                         <Ellipse.Fill>
-                                            <VisualBrush Visual="{DynamicResource user_unknown}"/>
+                                            <VisualBrush Visual="{DynamicResource user_unknown}">
+                                                <VisualBrush.RelativeTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                        <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </VisualBrush.RelativeTransform>
+                                            </VisualBrush>
                                         </Ellipse.Fill>
                                     </Ellipse>
-                                    <Label Grid.Column="1" Content="{Binding DisplayName}" VerticalContentAlignment="Center" FontSize="21.333" Padding="10,5,5,5"/>
+                                    <Label Grid.Column="1" Content="{Binding DisplayName}" VerticalContentAlignment="Center" FontSize="16" Padding="10,5,5,5"/>
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding UserType}" Value="mojang">
@@ -381,12 +497,12 @@
                         <VisualBrush Visual="{StaticResource user_unknown}" Stretch="Uniform"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <Label Content="Label" Margin="0,25,0,0" VerticalAlignment="Center" FontSize="21.333" HorizontalAlignment="Center"/>
+                <Label x:Name="lblUser" Content="Label" Margin="0,25,0,0" VerticalAlignment="Center" FontSize="21.333" HorizontalAlignment="Center"/>
                 <Grid Height="120" Margin="0,0,0,60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="200" DataContext="{Binding SelectedAuth}">
                     <StackPanel Margin="10,10,10,0" Orientation="Vertical" VerticalAlignment="Top">
                         <TextBox x:Name="txtBoxUN" Height="23" TextWrapping="Wrap" metro:TextBoxHelper.Watermark="{DynamicResource UName}"/>
                         <PasswordBox x:Name="txtPW" metro:TextBoxHelper.Watermark="{DynamicResource PW}" metro:PasswordBoxHelper.CapsLockWarningToolTip="{DynamicResource CaplockOn}"/>
-                        <Button x:Name="butLogin" Content="{DynamicResource Login}" HorizontalAlignment="Center" d:LayoutOverrides="LeftMargin, RightMargin"/>
+                        <metro:SplitButton x:Name="butLogin" HorizontalAlignment="Center" d:LayoutOverrides="LeftMargin, RightMargin" Style="{DynamicResource SplitLoginButtonStyle}"/>
                     </StackPanel>
                 </Grid>
             </Grid>
