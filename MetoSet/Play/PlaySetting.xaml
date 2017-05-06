@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:MTMCL"
+      xmlns:utils="clr-namespace:Wpf.Util"
       xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Name="grid" x:Class="MTMCL.PlaySetting"
       mc:Ignorable="d" 
       d:DesignHeight="380" d:DesignWidth="675" Initialized="grid_Initialized" Loaded="grid_Loaded">
@@ -25,7 +25,7 @@
     <Label x:Name="lblTitle" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Top" FontSize="21.333">
         <TextBlock><Run Text="{DynamicResource Play}"/><Run Text=" "/><Run Text="{Binding id}"/></TextBlock>
     </Label>
-    <Grid HorizontalAlignment="Left" Margin="0,45,0,0" Width="238">
+    <Grid HorizontalAlignment="Left" Margin="0,45,0,0" Width="238" Background="{DynamicResource AccentColorBrush4}">
         <Label Content="{Binding id, FallbackValue=unknown}" ContentStringFormat="{DynamicResource VersionNew}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" >
             <TextBlock><Run Text="{DynamicResource Type}"/><Run Text=":"/><Run Text=" "/><Run Text="{Binding type, FallbackValue=unknown}"/></TextBlock>
@@ -41,25 +41,25 @@
         </Label>
     </Grid>
     <TabControl x:Name="tabs" Margin="238,45,0,0">
-        <TabItem x:Name="tabLib" Header="{DynamicResource Libs}" Custom:ControlsHelper.HeaderFontSize="16">
+        <TabItem x:Name="tabLib" Header="{DynamicResource Libs}" Custom:ControlsHelper.HeaderFontSize="16" Background="Transparent">
             <Grid Background="#7FFFFFFF">
                 <ListView x:Name="listLib" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding Lib}" Header="{DynamicResource DLLib}" Width="320"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding Exist}" Header="{DynamicResource Exist}" Width="75"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Exist}" Header="{DynamicResource Exist}" utils:GridViewSort.PropertyName="Exist" Width="75"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </Grid>
         </TabItem>
-        <TabItem x:Name="tabAssets" Header="{DynamicResource Assets}" Custom:ControlsHelper.HeaderFontSize="16">
+        <TabItem x:Name="tabAssets" Header="{DynamicResource Assets}" Custom:ControlsHelper.HeaderFontSize="16" Background="Transparent">
             <Grid Background="#7FFFFFFF">
-                <ListView x:Name="listAsset" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
+                <ListView x:Name="listAsset" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding Assets}" Header="{DynamicResource Assets}" Width="320"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding Exist}" Header="{DynamicResource Exist}" Width="75"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Exist}" Header="{DynamicResource Exist}" utils:GridViewSort.PropertyName="Exist" Width="75"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -84,7 +84,7 @@
                 </Grid>
             </Grid>
         </TabItem>
-        <TabItem Header="{DynamicResource Others}" Custom:ControlsHelper.HeaderFontSize="16">
+        <TabItem Header="{DynamicResource Others}" Custom:ControlsHelper.HeaderFontSize="16" Background="Transparent">
             <Grid Background="#7FFFFFFF">
                 <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16">
                     <TextBlock>
@@ -93,13 +93,20 @@
                     </TextBlock>
                 </Label>
                 <Button x:Name="butPlay" Content="{DynamicResource PlayPlay}" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Click="butPlay_Click"/>
-                <Button x:Name="butDLAssets" Content="{DynamicResource DDLAssets}" HorizontalAlignment="Left" Margin="0,68,0,0" VerticalAlignment="Top" Click="butDLAssets_Click">
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{DynamicResource ReDownload}" ToolTip="{DynamicResource ReDLTooltip}" Click="butRDLAsset_Click"/>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
+                <Grid Margin="0,68,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="butDLAssets" Content="{DynamicResource DDLAssets}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butDLAssets_Click">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{DynamicResource ReDownload}" ToolTip="{DynamicResource ReDLTooltip}" Click="butRDLAsset_Click"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="butDLAssetsSelected" Content="..." HorizontalAlignment="Left" VerticalAlignment="Top" Click="butDLAssetsSelected_Click" Grid.Column="1"/>
+                </Grid>
                 <Grid x:Name="gridMissInherit" Height="100" Margin="0,101,0,0" VerticalAlignment="Top" Visibility="Collapsed">
                     <Label Content="{Binding inheritsFrom,FallbackValue=None,TargetNullValue=None}" ContentStringFormat="{DynamicResource InheritVerMissFormat2}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                     <Button x:Name="butDLtoFix" Content="{DynamicResource Download}" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Click="butDLInherit_Click"/>

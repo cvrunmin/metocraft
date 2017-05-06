@@ -17,6 +17,8 @@
     <s:String x:Key="Save">Save</s:String>
     <s:String x:Key="Reload">Reload</s:String>
     <s:String x:Key="Close">Close</s:String>
+    <s:String x:Key="Confirm">Confirm</s:String>
+    <s:String x:Key="Cancel">Cancel</s:String>
     <s:String x:Key="Restart">Restart</s:String>
     <s:String x:Key="Back">Back</s:String>
     <s:String x:Key="Next">Next</s:String>

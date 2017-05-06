@@ -21,7 +21,9 @@ namespace MTMCL.Task
         bool detectAlive = true;
         Thread _task;
         Process _subTask;
+        [Obsolete("Use Icon instead")]
         public ImageSource ImgSrc { get; set; }
+        public Visual Icon { get; set; }
         int hr = 0, min = 0, sec = 0;
         public string TaskName { get; set; }
         public string TaskStatus { get; set; }
@@ -134,7 +136,7 @@ namespace MTMCL.Task
         {
             if (_task != null)
             {
-                if (!_task.IsAlive && ((_subTask == null) | (_subTask != null && _subTask.HasExited)) && needDetectAlive())
+                if (!_task.IsAlive && ((_subTask == null) || (_subTask != null && _subTask.HasExited)) && needDetectAlive())
                 {
                     stopCountTime().noticeFinished();
                 }
@@ -175,6 +177,7 @@ namespace MTMCL.Task
                     if(_subTask != null)
                         _subTask.Dispose();
                     ImgSrc = null;
+                    Icon = null;
                     Log = null;
                 }
 

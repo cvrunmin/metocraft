@@ -15,6 +15,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ToggleSwitch.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <util:ColorFromAccentConverter x:Key="ColorFromAccentConverter"/>
@@ -39,8 +40,8 @@
                         <TextBox x:Name="comboJava" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" Width="375" TextChanged="comboJava_SelectionChanged"/>
                         <Label Content="{DynamicResource ExArg}" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="16"/>
                         <TextBox x:Name="txtboxArg" HorizontalAlignment="Left" Height="23" Margin="0,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" TextChanged="txtboxArg_TextChanged"/>
-                        <metro:ToggleSwitch x:Name="toggleLL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,231,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmLL}" IsCheckedChanged="toggleLL_IsCheckedChanged"/>
-                        <metro:ToggleSwitch x:Name="toggleModded" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,292,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmModded}" IsCheckedChanged="toggleModded_IsCheckedChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleLL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,231,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmLL}" IsCheckedChanged="toggleLL_IsCheckedChanged" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" metro:ControlsHelper.HeaderFontSize="16"/>
+                        <metro:ToggleSwitch x:Name="toggleModded" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,292,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource jvmModded}" IsCheckedChanged="toggleModded_IsCheckedChanged" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" metro:ControlsHelper.HeaderFontSize="16"/>
                         <Grid Margin="0,358,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -71,7 +72,7 @@
                         <ComboBoxItem Content="GitHub" HorizontalAlignment="Left" Width="346"/>
                         <ComboBoxItem Content="Coding" HorizontalAlignment="Left" Width="346"/>
                     </ComboBox>
-                    <metro:ToggleSwitch x:Name="toggleTryOnce" HorizontalAlignment="Left" Margin="2,133,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource DLTryOnce}" IsCheckedChanged="toggleTryOnce_IsCheckedChanged"/>
+                    <metro:ToggleSwitch x:Name="toggleTryOnce" HorizontalAlignment="Left" Margin="2,133,0,0" VerticalAlignment="Top" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource DLTryOnce}" IsCheckedChanged="toggleTryOnce_IsCheckedChanged" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" metro:ControlsHelper.HeaderFontSize="16"/>
 
                 </Grid>
             </TabItem>
@@ -80,8 +81,8 @@
                     <Grid Background="{DynamicResource AccentColorBrush3}">
                         <Label Content="{DynamicResource Language}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
                         <ComboBox x:Name="comboLang" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Width="350" SelectionChanged="comboLang_SelectionChanged"/>
-                        <metro:ToggleSwitch x:Name="toggleReverse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,66,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource ColorMirror}" IsCheckedChanged="toggleReverse_IsCheckedChanged"/>
-                        <metro:ToggleSwitch x:Name="toggleLatest" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,132,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource SearchLatest}" IsCheckedChanged="toggleLatest_IsCheckedChanged"/>
+                        <metro:ToggleSwitch x:Name="toggleReverse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,66,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource ColorMirror}" IsCheckedChanged="toggleReverse_IsCheckedChanged" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" metro:ControlsHelper.HeaderFontSize="16"/>
+                        <metro:ToggleSwitch x:Name="toggleLatest" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,132,0,0" OffLabel="{DynamicResource Off}" OnLabel="{DynamicResource On}" Header="{DynamicResource SearchLatest}" IsCheckedChanged="toggleLatest_IsCheckedChanged" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" metro:ControlsHelper.HeaderFontSize="16"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>

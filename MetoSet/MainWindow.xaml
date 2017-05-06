@@ -327,7 +327,7 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </metro:Tile>
-                        <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="215" Height="105" Background="#CCFB8C00" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="" Style="{StaticResource RenewTile}" TitleFontSize="20">
+                        <metro:Tile x:Name="butTask" Title="{DynamicResource TaskTitle}" Margin="0" Width="215" Height="105" Background="#CCFB8C00" HorizontalAlignment="Left" VerticalAlignment="Top" Click="butTask_Click" Count="" Style="{StaticResource RenewTile}">
                             <metro:Tile.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="{DynamicResource ColorConfig}" Click="MenuChangeColor_Click"/>

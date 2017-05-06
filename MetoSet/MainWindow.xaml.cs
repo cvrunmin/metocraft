@@ -302,12 +302,12 @@ namespace MTMCL
             task.Margin = new Thickness(0);
             taskdict.Add(identifier, task);
             OnTaskAdded?.Invoke(task);
-            butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
+            butTask.Count = taskdict.Any(n => !n.Value.isFinished()) ? taskdict.Count(n => !n.Value.isFinished()).ToString() : "";
         }
         public void removeTask(string s, TaskListBar task)
         {
             taskdict.Remove(s);
-            butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
+            butTask.Count = taskdict.Any(n => !n.Value.isFinished()) ? taskdict.Count(n => !n.Value.isFinished()).ToString() : "";
         }
 
         private async void butTask_Click(object sender, RoutedEventArgs e)
@@ -316,25 +316,7 @@ namespace MTMCL
         }
         private void timer_Tick(object sender, EventArgs e)
         {
-            butTask.Count = taskdict.Where(n => !n.Value.isFinished()).Count() > 0 ? taskdict.Where(n => !n.Value.isFinished()).Count().ToString() : "";
-            /*if (taskdict.Count != 0)
-            {
-                Dictionary<string, TaskListBar> deletable = new Dictionary<string, TaskListBar>();
-                foreach (var task in taskdict)
-                {
-                    if (task.Value.isFinished())
-                    {
-                        deletable.Add(task.Key, task.Value);
-                    }
-                }
-                if (deletable.Count != 0)
-                {
-                    foreach (var task in deletable)
-                    {
-                        removeTask(task.Key, task.Value);
-                    }
-                }
-            }*/
+            butTask.Count = taskdict.Any(n => !n.Value.isFinished()) ? taskdict.Count(n => !n.Value.isFinished()).ToString() : "";
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -343,14 +325,16 @@ namespace MTMCL
             {
                 LoadServerDeDicatedVersion();
             }
-            timer = new System.Windows.Forms.Timer();
-            timer.Enabled = true;
-            timer.Interval = 1000;
+            timer = new System.Windows.Forms.Timer()
+            {
+                Enabled = true,
+                Interval = 1000
+            };
             timer.Tick += new EventHandler(timer_Tick);
             if (string.IsNullOrWhiteSpace(MeCore.Config.Theme)) MeCore.Config.Theme = "Custom";
             if (MeCore.Config.Theme.Equals("Custom"))
             {
-                if (MeCore.themes.Where(t => t.Name.Equals("Custom")).Count() == 0)
+                if (!MeCore.themes.Any(t => t.Name.Equals("Custom")))
                 {
                     var theme = new Themes.Theme();
                     var s = MeCore.Config.Background;
@@ -497,9 +481,9 @@ namespace MTMCL
             if (theme == null) return;
             var image = theme.Image;
             var accent = theme.Accent;
-            if (theme is Themes.DefaultTheme) {
-                image = ((Themes.DefaultTheme) theme).Image;
-                accent = ((Themes.DefaultTheme) theme).Accent;
+            if (theme is Themes.DefaultTheme defaulted) {
+                image = defaulted.Image;
+                accent = defaulted.Accent;
             }
                 MeCore.MainWindow.gridBG.Opacity = 0;
                 MeCore.MainWindow.gridBG.Background = new ImageBrush
@@ -600,22 +584,18 @@ namespace MTMCL
 
         private void MenuChangeColor_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is MenuItem)
+            if (sender is MenuItem item && item.Parent is ContextMenu menu && menu.PlacementTarget is MahApps.Metro.Controls.Tile tile)
             {
-                if (((MenuItem)sender).Parent is ContextMenu)
+                System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog()
                 {
-                    if (((ContextMenu)((MenuItem)sender).Parent).PlacementTarget is MahApps.Metro.Controls.Tile)
-                    {
-                        var tile = (MahApps.Metro.Controls.Tile)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget;
-                        System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
-                        dialog.FullOpen = true;
-                        dialog.AnyColor = true;
-                        if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
-                        tile.Background = new SolidColorBrush(Color.FromArgb(0xCC, dialog.Color.R, dialog.Color.G, dialog.Color.B));
-                        MeCore.TileColor.QuickChange(tile.Name, Convert.ToString(dialog.Color.ToArgb() & 0xFFFFFF,16));
-                    }
-                }
+                    FullOpen = true,
+                    AnyColor = true
+                };
+                if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+                tile.Background = new SolidColorBrush(Color.FromArgb(0xCC, dialog.Color.R, dialog.Color.G, dialog.Color.B));
+                MeCore.TileColor.QuickChange(tile.Name, Convert.ToString(dialog.Color.ToArgb() & 0xFFFFFF, 16));
             }
+
         }
 
         #region IDisposable Support
@@ -659,8 +639,8 @@ namespace MTMCL
 
         private void MetroWindow_Closing (object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (MeCore.themes.Exists(t => t.Name.Equals("Custom") & t.isTmp)) {
-                MeCore.themes.Find(t => t.Name.Equals("Custom") & t.isTmp).SaveMTMCLTheme();
+            if (MeCore.themes.Exists(t => t.Name.Equals("Custom") && t.isTmp)) {
+                MeCore.themes.Find(t => t.Name.Equals("Custom") && t.isTmp).SaveMTMCLTheme();
             }
             App.AboutToExit();
         }

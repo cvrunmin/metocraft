@@ -56,7 +56,7 @@ namespace MTMCL.Assets
                     List<string> failed = new List<string>();
                     foreach (KeyValuePair<string, AssetsEntity> entity in obj)
                     {
-                        string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                        string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.Hash.Substring(0, 2) + "\\" + entity.Value.Hash;
                         if (MeCore.IsServerDedicated)
                         {
                             if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
@@ -72,7 +72,7 @@ namespace MTMCL.Assets
                         }
                         try
                         {
-                            if (!FileHelper.IfFileVaild(file, entity.Value.size))
+                            if (!FileHelper.IfFileVaild(file, entity.Value.Size))
                             {
                                 failed.Add(file);
                                 _init = false;

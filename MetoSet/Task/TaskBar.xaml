@@ -56,9 +56,14 @@
         <ImageBrush ImageSource="{Binding ImgSrc, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}" Stretch="UniformToFill"/>
     </Button.Background>
     <Grid Margin="0" Width="661" Height="75">
-        <Label x:Name="lblTaskName" FontSize="13.333" FontWeight="Bold" HorizontalAlignment="Left" Width="395">
+        <Label x:Name="lblTaskName" FontSize="13.333" FontWeight="Bold" HorizontalAlignment="Left" Width="395" Margin="75,0,0,0">
             <AccessText Text="" FontSize="21.333" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
         </Label>
         <Label x:Name="lblTaskStatus" Content="" Margin="0,30,0,0" HorizontalContentAlignment="Right" FontSize="21.333" FontWeight="Bold" HorizontalAlignment="Right" Width="325"/>
+        <Rectangle HorizontalAlignment="Left" Margin="7.5,7.5,0,7.5" Width="60" Fill="{DynamicResource BlackBrush}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaskListBar}}}" Stretch="None"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
     </Grid>
 </Button>

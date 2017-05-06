@@ -75,4 +75,43 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <Canvas x:Key="appbar_filter" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
         <Path Width="38" Height="41.1667" Canvas.Left="19" Canvas.Top="20.5833" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 34.8333,61.75L 34.8333,42.75L 19,20.5833L 57,20.5833L 41.1667,42.75L 41.1667,58.5833L 34.8333,61.75 Z "/>
     </Canvas>
+    <Canvas x:Key="task_play_mc_icon" Width="60" Height="60" Clip="F1 M 0,0L 60,0L 60,60L 0,60L 0,0">
+        <Path Stroke="{DynamicResource BlackBrush}" Data="m29.81251,0.93749l24.91071,12.45537l0,33.21429l-24.91071,12.45536l-24.91072,-12.45536l0,-33.21429l24.91072,-12.45537z" StrokeThickness="1.5"/>
+        <Line Stroke="{DynamicResource BlackBrush}" StrokeThickness="1.5" X1="5.06249" Y1="13.875" X2="30.0625" Y2="23.125"/>
+        <Line Stroke="{DynamicResource BlackBrush}" StrokeThickness="1.5" X1="29.5625" Y1="23.0625" X2="54.5625" Y2="14.0625"/>
+        <Line Stroke="{DynamicResource BlackBrush}" StrokeThickness="1.5" X1="30" Y1="23.24998" X2="30" Y2="59.10568"/>
+    </Canvas>
+    <Canvas x:Key="task_play_mc_bmcl_icon" Width="60" Height="60" Clip="F1 M 0,0L 60,0L 60,60L 0,60L 0,0">
+        <Rectangle Fill="{DynamicResource BlackBrush}" Width="60" Height="60">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource task_play_mc_icon}" Stretch="None"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <Rectangle Stroke="{DynamicResource BlackBrush}" Height="25.12641" Width="25.12641" Canvas.Top="33.49855" Canvas.Left="33.62355"/>
+        <Rectangle Stroke="{DynamicResource BlackBrush}" Height="5.74318" Width="5.74318" Canvas.Top="39.60068" Canvas.Left="36.13619"/>
+        <Rectangle Stroke="{DynamicResource BlackBrush}" Height="5.74318" Width="5.74318" Canvas.Top="39.60068" Canvas.Left="50.49414"/>
+        <Rectangle Stroke="{DynamicResource BlackBrush}" Height="2.39299" Width="2.39299" Canvas.Top="50.2493" Canvas.Left="46.84483"/>
+    </Canvas>
+    <Canvas x:Key="task_play_mc_bakaxl_icon" Width="60" Height="60" Clip="F1 M 0,0L 60,0L 60,60L 0,60L 0,0">
+        <Rectangle Fill="{DynamicResource BlackBrush}" Width="60" Height="60">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource task_play_mc_icon}" Stretch="None"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <Ellipse Height="25.50788" Width="25.50788" Canvas.Left="33.12596" Canvas.Top="33.31352" Stroke="{DynamicResource BlackBrush}"/>
+        <TextBlock FontFamily="Helvetica, Arial, sans-serif" FontWeight="Normal" FontStyle="Normal" FontSize="24" Text="9" Canvas.Left="39.81553" Canvas.Top="32.53261" Foreground="{DynamicResource BlackBrush}"/>
+    </Canvas>
+    <Canvas x:Key="task_download_icon" Width="60" Height="60" Clip="F1 M 0,0L 60,0L 60,60L 0,60L 0,0">
+        <Path Stroke="{DynamicResource BlackBrush}" StrokeThickness="1.5" Data="m30,19.07582l16.97323,8.48662l0,22.63098l-16.97323,8.48662l-16.97323,-8.48662l0,-22.63098l16.97323,-8.48662z"/>
+        <Line Stroke="{DynamicResource BlackBrush}" StrokeThickness="1.5" X1="13.18748" Y1="28.00292" X2="30.4375" Y2="34.38542"/>
+        <Line Stroke="{DynamicResource BlackBrush}" StrokeThickness="1.5" X1="29.875" Y1="34.44041" X2="47.18805" Y2="27.56525"/>
+        <Line Stroke="{DynamicResource BlackBrush}" StrokeThickness="1.5" X1="30.12501" Y1="34.0655" X2="30.12501" Y2="58.04685"/>
+        <Path Data="m24.00588,7.76295l5.61191,11.01398l-16.64193,8.47949l-5.61191,-11.01398l16.64193,-8.47949z" StrokeThickness="1.5" Stroke="{DynamicResource BlackBrush}"/>
+        <Path Data="m30.48729,18.33947l5.61191,-11.01398l16.64193,8.47949l-5.61191,11.01398l-16.64193,-8.47949z" StrokeThickness="1.5" Stroke="{DynamicResource BlackBrush}"/>
+        <Path Data="m46.99848,27.47194l4.7348,11.41854l-17.2532,7.15419l-4.7348,-11.41854l17.2532,-7.15419z" StrokeThickness="1.5" Stroke="{DynamicResource BlackBrush}"/>
+        <Path Data="m8.28419,39.51239l4.54225,-11.49649l17.37099,6.86326l-4.54225,11.49649l-17.37099,-6.86326z" StrokeThickness="1.5" Stroke="{DynamicResource BlackBrush}"/>
+        <Line Y2="28.35479" X2="29.83334" Y1="6.29293" X1="29.83334" StrokeThickness="1.5" Stroke="{DynamicResource BlackBrush}"/>
+        <Line Stroke="{DynamicResource BlackBrush}" Y2="28.87506" X2="30.24999" Y1="23.58368" X1="25.91689" StrokeThickness="1.5"/>
+        <Line Y2="23.37487" X2="35.37471" Y1="28.79157" X1="29.20837" StrokeThickness="1.5" Stroke="{DynamicResource BlackBrush}"/>
+    </Canvas>
 </ResourceDictionary>

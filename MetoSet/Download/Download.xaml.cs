@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
@@ -48,7 +49,7 @@ namespace MTMCL
         
         private void butDLPack_Click(object sender, RoutedEventArgs e)
         {
-            TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
+            TaskListBar task = new TaskListBar() { /*ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")),*/ Icon = Application.Current.Resources["task_download_icon"] as Visual };
             var thDL = new Thread(new ThreadStart(delegate
             {
                 try

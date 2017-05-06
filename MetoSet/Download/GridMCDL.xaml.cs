@@ -159,14 +159,14 @@ namespace MTMCL
             });
             readthread.Start();
         }
-        private void downloadVVer(RemoteVerType ver)
+        private void DownloadMinecraft(RemoteVerType ver)
         {
             if (ver == null)
             {
                 MessageBox.Show(LangManager.GetLocalized("RemoteVerErrorNoVersionSelect"));
                 return;
             }
-                TaskListBar taskbar = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
+                TaskListBar taskbar = new TaskListBar() { /*ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg"))*/ Icon = Application.Current.Resources["task_download_icon"] as Visual };
                 var task = new Thread(new ThreadStart(async delegate
                 {
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(async delegate
@@ -187,76 +187,71 @@ namespace MTMCL
                             downpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
                         }
                     }
-                    var downer = new WebClient();
-                    downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
-                    var downurl = new StringBuilder(MTMCL.Resources.UrlReplacer.getDownloadUrl());
-                    downurl.Append(@"versions\");
-                    downurl.Append(selectver).Append("\\");
-                    downurl.Append(selectver).Append(".jar");
+                    using (var downer = new WebClient())
+                    {
+                        downer.Headers.Add("User-Agent", "MTMCL" + MeCore.version);
+                        var downurl = new StringBuilder(MTMCL.Resources.UrlReplacer.getDownloadUrl());
+                        downurl.Append(@"versions\");
+                        downurl.Append(selectver).Append("\\");
+                        downurl.Append(selectver).Append(".jar");
 #if DEBUG
-                    MessageBox.Show(downpath + "\n" + downurl);
+                        MessageBox.Show(downpath + "\n" + downurl);
 #endif
-                    if (!Directory.Exists(Path.GetDirectoryName(downpath.ToString())))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(downpath.ToString()));
-                    }
-                    string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
-                    if (!string.IsNullOrWhiteSpace(ver.url) & MeCore.Config.DownloadSource == 0)
-                    {
-                        downjsonfile = ver.url;
-                    }
-                    string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
-                    try
-                    {
-                        downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
+                        if (!Directory.Exists(Path.GetDirectoryName(downpath.ToString())))
                         {
-                            taskbar.log(Logger.HelpLog("Success to download client file."));
-                            taskbar.noticeFinished();
-                        };
-                        downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
+                            Directory.CreateDirectory(Path.GetDirectoryName(downpath.ToString()));
+                        }
+                        string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
+                        if (!string.IsNullOrWhiteSpace(ver.url) & MeCore.Config.DownloadSource == 0)
                         {
-                            Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
-                        };
-                        taskbar.log(Logger.HelpLog("Start download file from url " + downjsonfile));
+                            downjsonfile = ver.url;
+                        }
+                        string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
                         try
                         {
-                            downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                        }
-                        catch (Exception)
-                        {
-                            taskbar.noticeFailed();
-                            return;
-                        }
-                        taskbar.log(Logger.HelpLog("Finish downloading file " + downjsonfile));
-                        await TaskEx.Delay(TimeSpan.FromMilliseconds(500));
-                        taskbar.log(Logger.HelpLog(string.Format("Start reading json of version {0} for further downloading", selectver)));
-                        var sr = new StreamReader(downjsonpath);
-                        VersionJson verjson = JsonConvert.DeserializeObject<VersionJson>(sr.ReadToEnd());
-                        sr.Close();
-                        var sw = new StreamWriter(downjsonpath);
-                        sw.Write(JsonConvert.SerializeObject(verjson.Simplify(), Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
-                        sw.Close();
-                        if (verjson.downloads != null)
-                        {
-                            if (verjson.downloads.client != null)
+                            downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
                             {
-                                if (verjson.downloads.client.url != null)
-                                {
-                                    downurl.Clear().Append(verjson.downloads.client.url);
-                                }
+                                taskbar.log(Logger.HelpLog("Success to download client file."));
+                                taskbar.noticeFinished();
+                            };
+                            downer.DownloadProgressChanged += delegate (object sender, DownloadProgressChangedEventArgs e)
+                            {
+                                Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
+                            };
+                            taskbar.log(Logger.HelpLog("Start download file from url " + downjsonfile));
+                            try
+                            {
+                                downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
                             }
-
+                            catch (Exception)
+                            {
+                                taskbar.noticeFailed();
+                                return;
+                            }
+                            taskbar.log(Logger.HelpLog("Finish downloading file " + downjsonfile));
+                            await TaskEx.Delay(TimeSpan.FromMilliseconds(500));
+                            taskbar.log(Logger.HelpLog(string.Format("Start reading json of version {0} for further downloading", selectver)));
+                            var sr = new StreamReader(downjsonpath);
+                            VersionJson verjson = JsonConvert.DeserializeObject<VersionJson>(sr.ReadToEnd());
+                            sr.Close();
+                            var sw = new StreamWriter(downjsonpath);
+                            sw.Write(JsonConvert.SerializeObject(verjson.Simplify(), Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
+                            sw.Close();
+                            if (verjson.downloads?.client?.url != null)
+                            {
+                                 downurl.Clear().Append(verjson.downloads.client.url);
+                            }
+                            taskbar.log(Logger.HelpLog("Start download file from url " + downurl.ToString()));
+                            downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
                         }
-                        taskbar.log(Logger.HelpLog("Start download file from url " + downurl.ToString()));
-                        downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
-                    }
-                    catch (Exception ex)
-                    {
-                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                        catch (Exception ex)
                         {
-                            Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
-                            taskbar.noticeFailed();
-                        }));
+                            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
+                            {
+                                Dispatcher.Invoke(new Action(() => MeCore.MainWindow.addNotice(new Notice.CrashErrorBar(string.Format(LangManager.GetLocalized("ErrorNameFormat"), DateTime.Now.ToLongTimeString()), ex.ToWellKnownExceptionString()) { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/error-banner.jpg")) })));
+                                taskbar.noticeFailed();
+                            }));
+                        }
                     }
                 }));
                 MeCore.MainWindow.addTask("dl-mcclient-" + ver.id, taskbar.setThread(task).setTask(LangManager.GetLocalized("TaskDLMC")).setDetectAlive(false));
@@ -266,9 +261,8 @@ namespace MTMCL
 
         private void butDL_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button)
-                if (((Button)sender).DataContext is RemoteVerType)
-                    downloadVVer((RemoteVerType)((Button)sender).DataContext);
+            if (sender is Button button && button.DataContext is RemoteVerType version)
+                    DownloadMinecraft(version);
         }
 
         private void filter_Click(object sender, RoutedEventArgs e)
@@ -297,7 +291,7 @@ namespace MTMCL
                     var result = await MeCore.MainWindow.ShowMessageAsync("", string.Format(LangManager.GetLocalized("DownloadConfirm"), "Minecraft " + rv.id),MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = LangManager.GetLocalized("Yes"), NegativeButtonText = LangManager.GetLocalized("No")});
                     if (result == MessageDialogResult.Affirmative)
                     {
-                        downloadVVer(rv);
+                        DownloadMinecraft(rv);
                         return true;
                     }
                     return false;

@@ -23,6 +23,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using static MTMCL.util.FileHelper;
 
 namespace MTMCL
 {
@@ -38,7 +39,7 @@ namespace MTMCL
             InitializeComponent();
         }
 
-        public PlaySetting(PlayNew parent, Versions.VersionJson mcver) : this() {
+        public PlaySetting(PlayNew parent, VersionJson mcver) : this() {
             this.parent = parent;
             mcversion = mcver;
             DataContext = mcversion;
@@ -77,32 +78,14 @@ namespace MTMCL
                     gridNoIndex.Visibility = Visibility.Collapsed;
                     gridRefreshing.Visibility = Visibility.Visible;
                 }));
-                VersionJson _version = mcversion;
-                string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.assets + ".json";
-                if (MeCore.IsServerDedicated)
-                {
-                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                    {
-                        indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                    }
-                }
-                if (!File.Exists(indexpath))
-                {
-                    FileHelper.CreateDirectoryForFile(indexpath);
-                    string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
-                    StreamWriter sw = new StreamWriter(indexpath);
-                    sw.Write(result);
-                    sw.Close();
-                }
-                var sr = new StreamReader(indexpath);
-                AssetIndex assets = JsonConvert.DeserializeObject<AssetIndex>(sr.ReadToEnd());
-                Logger.log(assets.objects.Count.ToString(CultureInfo.InvariantCulture), " assets in total");
+                var assets = GetAssetsIndexObject(null);
+                Logger.log(assets.Count.ToString(CultureInfo.InvariantCulture), " assets in total");
                 var dt = new DataTable();
                 dt.Columns.Add("Assets");
                 dt.Columns.Add("Exist");
-                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
+                foreach (KeyValuePair<string, AssetsEntity> entity in assets)
                 {
-                    dt.Rows.Add(entity.Key, assetExist(entity));
+                    dt.Rows.Add(entity.Key, AssetsExist(entity));
                 }
                 Dispatcher.Invoke(new Action(() => listAsset.DataContext = dt));
                 Dispatcher.Invoke(new Action(() => gridRefreshing.Visibility = Visibility.Collapsed));
@@ -115,18 +98,7 @@ namespace MTMCL
                 }));
             }
         }
-        private bool assetExist(KeyValuePair<string, AssetsEntity> entity)
-        {
-            string path = MeCore.Config.MCPath;
-            if (MeCore.IsServerDedicated)
-            {
-                if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                {
-                    path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                }
-            }
-            return File.Exists(path + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + @"\" + entity.Value.hash);
-        }
+
         private void butPlay_Click(object sender, RoutedEventArgs e)
         {
             Launch.Login.IAuth auth;
@@ -188,41 +160,26 @@ namespace MTMCL
             TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
             var thGet = new Thread(new ThreadStart(delegate
             {
-                WebClient _downer = new WebClient();
-                VersionJson _version = null;
-                do
-                {
-                    Dispatcher.Invoke(new Action(() => _version = mcversion));
-                } while (_version == null);
-                string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.assets + ".json";
-                if (MeCore.IsServerDedicated)
-                {
-                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                    {
-                        indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                    }
-                }
-                if (!File.Exists(indexpath))
-                {
-                    task.log(Logger.HelpLog("Assets Index is missing, try downloading"));
-                    FileHelper.CreateDirectoryForFile(indexpath);
-                    string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
-                    StreamWriter sw = new StreamWriter(indexpath);
-                    sw.Write(result);
-                    sw.Close();
-                }
-                var sr = new StreamReader(indexpath);
-                AssetIndex assets = JsonConvert.DeserializeObject<AssetIndex>(sr.ReadToEnd());
+                DownloadAssets(task, GetAssetsIndexObject(task));
+            }));
+            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskDLAssets")));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon("MTMCL", string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskDLAssets"))));
+        }
+
+        private void DownloadAssets(TaskListBar task, Dictionary<string, AssetsEntity> dlList, bool force = false)
+        {
+            using (WebClient _downer = new WebClient())
+            {
                 int i = 0;
-                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
+                foreach (KeyValuePair<string, AssetsEntity> entity in dlList)
                 {
                     i++;
                     Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                     {
-                        task.setTaskStatus((((float)i) / assets.objects.Count * 100).ToString() + "%");
+                        task.setTaskStatus((((float)i) / dlList.Count * 100).ToString() + "%");
                     }));
-                    string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
-                    string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
+                    string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.Hash.Substring(0, 2) + "/" + entity.Value.Hash;
+                    string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.Hash.Substring(0, 2) + "\\" + entity.Value.Hash;
                     if (MeCore.IsServerDedicated)
                     {
                         if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
@@ -233,23 +190,26 @@ namespace MTMCL
                     FileHelper.CreateDirectoryForFile(file);
                     try
                     {
-                        if (FileHelper.IfFileVaild(file, entity.Value.size))
+                        if (FileHelper.IfFileVaild(file, entity.Value.Size))
                         {
-                            task.log(Logger.HelpLog(string.Format("{0} exists, skip it", entity.Key)));
-                            continue;
+                            if (force) {
+                                task.log(Logger.HelpLog(string.Format("{0} exists, delete it", entity.Key)));
+                                File.Delete(file);
+                            }
+                            else
+                            {
+                                task.log(Logger.HelpLog(string.Format("{0} exists, skip it", entity.Key)));
+                                continue;
+                            }
                         }
-                        //Downloader.DownloadFileAsync(new Uri(Url), File,Url);
                         task.log(Logger.HelpLog(string.Format("Start downloading {0}", entity.Key)));
                         _downer.DownloadFile(new Uri(url), file);
-                        task.log(Logger.HelpLog(string.Format("Finish downloading {0}, Progress {1}", entity.Key, i.ToString(CultureInfo.InvariantCulture) + "/" + assets.objects.Count.ToString(CultureInfo.InvariantCulture))));
-                        //Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
-                        if (i == assets.objects.Count)
+                        task.log(Logger.HelpLog(string.Format("Finish downloading {0}, Progress {1}", entity.Key, i.ToString(CultureInfo.InvariantCulture) + "/" + dlList.Count.ToString(CultureInfo.InvariantCulture))));
+                        if (i == dlList.Count)
                         {
                             Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
                             {
                                 task.log(Logger.HelpLog("Finish downloading assets"));
-                                //Logger.log("assets下载完毕");
-                                //MeCore.NIcon.ShowBalloonTip(3000, LangManager.GetLangFromResource("SyncAssetsFinish"));
                             }));
                         }
                     }
@@ -262,84 +222,45 @@ namespace MTMCL
                         }));
                     }
                 }
-            }));
-            MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskDLAssets")));
+            }
         }
+
+        private Dictionary<string, AssetsEntity> GetAssetsIndexObject(TaskListBar task)
+        {            
+            VersionJson _version = null;
+            do
+            {
+                Dispatcher.Invoke(new Action(() => _version = mcversion));
+            } while (_version == null);
+            string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.assets + ".json";
+            if (MeCore.IsServerDedicated && !string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+                {
+                    indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+                }
+            if (!File.Exists(indexpath))
+            {
+                task?.log(Logger.HelpLog("Assets Index is missing, try downloading"));
+                FileHelper.CreateDirectoryForFile(indexpath);
+                string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
+                StreamWriter sw = new StreamWriter(indexpath);
+                sw.Write(result);
+                sw.Close();
+            }
+            var sr = new StreamReader(indexpath);
+            AssetIndex assets = JsonConvert.DeserializeObject<AssetIndex>(sr.ReadToEnd());
+            sr.Dispose();
+            return assets.objects;
+        }
+
         private void butRDLAsset_Click(object sender, RoutedEventArgs e)
         {
             TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
             var thGet = new Thread(new ThreadStart(delegate
             {
-                WebClient _downer = new WebClient();
-                VersionJson _version = mcversion;
-                string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.assets + ".json";
-                if (MeCore.IsServerDedicated)
-                {
-                    if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                    {
-                        indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                    }
-                }
-                if (!File.Exists(indexpath))
-                {
-                    task.log(Logger.HelpLog("Assets Index is missing, try downloading"));
-                    FileHelper.CreateDirectoryForFile(indexpath);
-                    string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
-                    StreamWriter sw = new StreamWriter(indexpath);
-                    sw.Write(result);
-                    sw.Close();
-                }
-                var sr = new StreamReader(indexpath);
-                AssetIndex assets = JsonConvert.DeserializeObject<AssetIndex>(sr.ReadToEnd());
-                int i = 0;
-                foreach (KeyValuePair<string, AssetsEntity> entity in assets.objects)
-                {
-                    i++;
-                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                    {
-                        task.setTaskStatus((float)i / assets.objects.Count * 100 + "%");
-                    }));
-                    string url = MTMCL.Resources.UrlReplacer.getResourceUrl() + entity.Value.hash.Substring(0, 2) + "/" + entity.Value.hash;
-                    string file = MeCore.Config.MCPath + @"\assets\objects\" + entity.Value.hash.Substring(0, 2) + "\\" + entity.Value.hash;
-                    if (MeCore.IsServerDedicated)
-                    {
-                        if (!string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                        {
-                            file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                        }
-                    }
-                    FileHelper.CreateDirectoryForFile(file);
-                    try
-                    {
-                        if (FileHelper.IfFileVaild(file, entity.Value.size))
-                        {
-                            task.log(Logger.HelpLog(string.Format("{0} exists, delete it", entity.Key)));
-                            File.Delete(file);
-                        }
-                        task.log(Logger.HelpLog(string.Format("Start downloading {0}", entity.Key)));
-                        _downer.DownloadFile(new Uri(url), file);
-                        task.log(Logger.HelpLog(string.Format("Finish downloading {0}, Progress {1}", entity.Key, i.ToString(CultureInfo.InvariantCulture) + "/" + assets.objects.Count.ToString(CultureInfo.InvariantCulture))));
-                        //Logger.log(i.ToString(CultureInfo.InvariantCulture), "/", assets.objects.Count.ToString(CultureInfo.InvariantCulture), file.Substring(MeCore.Config.MCPath.Length), "下载完毕");
-                        if (i == assets.objects.Count)
-                        {
-                            Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                            {
-                                task.log(Logger.HelpLog("Finish redownloading assets"));
-                                //Logger.log("assets重新下载完毕");
-                            }));
-                        }
-                    }
-                    catch (WebException ex)
-                    {
-                        Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate
-                        {
-                            Logger.log(ex.Response.ResponseUri.ToString());
-                            Logger.error(ex);
-                        }));
-                    }
-                }
+                DownloadAssets(task, GetAssetsIndexObject(task),true);
             }));
             MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskRDLAssets")));
+            MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon("MTMCL", string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskRDLAssets"))));
         }
         private async void butRDLAI_Click(object sender, RoutedEventArgs e)
         {
@@ -393,6 +314,26 @@ namespace MTMCL
                     await download.DirectDownloadMC(mcversion.inheritsFrom);
                 }
             }
+        }
+
+        private async void butDLAssetsSelected_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AssetsSelectDialog() { AssetsObjects = GetAssetsIndexObject(null) };
+            dialog.Height = 280;
+            dialog.listAsset.ItemsSource = dialog.PackedAssetsObjects;
+            dialog.OnClosing += async (sender1, e1) => {
+                await MeCore.MainWindow.HideMetroDialogAsync(dialog);
+                if (e1.IsOk) {
+                    TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
+                    var thGet = new Thread(new ThreadStart(delegate
+                    {
+                        DownloadAssets(task, e1.SelectedEntities.ToDictionary(pair=> pair.Key, pair=> (Assets.AssetsEntity)pair.Value));
+                    }));
+                    MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskDLAssets")));
+                    MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon("MTMCL", string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskDLAssets"))));
+                }
+            };
+            await MeCore.MainWindow.ShowMetroDialogAsync(dialog);
         }
     }
 }

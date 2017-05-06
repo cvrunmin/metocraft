@@ -1,0 +1,108 @@
+﻿<Dialog:CustomDialog
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTMCL"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                     xmlns:utils="clr-namespace:Wpf.Util"
+             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" xmlns:util="clr-namespace:MTMCL.util" x:Name="customDialog" x:Class="MTMCL.AssetsSelectDialog"
+             mc:Ignorable="d" 
+                     Title="Select assets to download"
+             d:DesignHeight="300" d:DesignWidth="675" Style="{DynamicResource CustomDialogStyle}">
+    <Dialog:CustomDialog.Resources>
+        <util:ValuesValueFromPairConverter x:Key="ValuesValueFromPairConverter"/>
+        <Style TargetType="{x:Type Dialog:BaseMetroDialog}"
+        x:Key="CustomDialogStyle"
+        BasedOn="{StaticResource {x:Type Dialog:BaseMetroDialog}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Dialog:BaseMetroDialog}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="DialogShownStoryboard">
+                                <DoubleAnimation AccelerationRatio=".9"
+                                            BeginTime="0:0:0"
+                                            Duration="0:0:0.2"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1" />
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <Grid Background="{TemplateBinding Background}">
+                            <Border FocusVisualStyle="{x:Null}"
+                            Focusable="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <ContentPresenter Grid.Row="0"
+                                                Content="{TemplateBinding DialogTop}" />
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10*" />
+                                            <ColumnDefinition Width="80*" />
+                                            <ColumnDefinition Width="10*" />
+                                        </Grid.ColumnDefinitions>
+                                        <!--  Content area  -->
+                                        <Grid Grid.Column="1"
+                                        Margin="0 10 0 0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0"
+                                                FontSize="{DynamicResource DialogTitleFontSize}"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Text="{TemplateBinding Title}"
+                                                TextWrapping="Wrap" />
+                                            <ContentPresenter Grid.Row="1"
+                                                        Content="{TemplateBinding Content}" />
+                                        </Grid>
+                                    </Grid>
+                                    <ContentPresenter Grid.Row="2"
+                                                Content="{TemplateBinding DialogBottom}" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource DialogShownStoryboard}" />
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Dialog:CustomDialog.Resources>
+    <Dialog:CustomDialog.DialogBottom>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5px"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10px"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="butOk" Grid.Column="1" Content="{DynamicResource Confirm}" Click="butOk_Click"/>
+            <Button x:Name="butCancel" Grid.Column="3" Content="{DynamicResource Cancel}" Click="butCancel_Click"/>
+        </Grid>
+    </Dialog:CustomDialog.DialogBottom>
+    <Grid>
+        <ListView x:Name="listAsset" ItemsSource="{Binding PackedAssetsObjects, ElementName=customDialog, IsAsync=True}" IsSynchronizedWithCurrentItem="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" IsTextSearchEnabled="True" SelectionChanged="listAsset_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Tag="{Binding Value, ConverterParameter=Hash, Converter={StaticResource ValuesValueFromPairConverter}, IsAsync=True}" IsChecked="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Value, ConverterParameter=Assets, Converter={StaticResource ValuesValueFromPairConverter}, IsAsync=True}" Header="{DynamicResource Assets}" Width="320"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Value, ConverterParameter=Exist, Converter={StaticResource ValuesValueFromPairConverter}, IsAsync=True}" Header="{DynamicResource Exist}" utils:GridViewSort.PropertyName="Exist" Width="75"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Dialog:CustomDialog>

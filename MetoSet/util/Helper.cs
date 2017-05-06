@@ -17,6 +17,8 @@ using MTMCL.Task;
 using MTMCL.Threads;
 using MTMCL.Lang;
 using MTMCL.Notice;
+using MTMCL.Assets;
+using System.Windows.Media;
 
 namespace MTMCL.util
 {
@@ -184,6 +186,15 @@ namespace MTMCL.util
             }
         }
 
+        public static bool AssetsExist(KeyValuePair<string, AssetsEntity> entity)
+        {
+            string path = MeCore.Config.MCPath;
+            if (MeCore.IsServerDedicated && !string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
+            {
+                path = path.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+            }
+            return File.Exists(path + @"\assets\objects\" + entity.Value.Hash.Substring(0, 2) + @"\" + entity.Value.Hash);
+        }
     }
     public static class TimeHelper
     {
@@ -592,16 +603,18 @@ namespace MTMCL.util
             if (options != null)
             {
                 options.SetMode(mode);
-                string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
+                //string uri = "pack://application:,,,/Resources/play-normal-banner.jpg";
+                TaskListBar gui = new TaskListBar() { /*ImgSrc = new BitmapImage(new Uri(uri)),*/ Icon = Application.Current.Resources["task_play_mc_icon"] as Visual };
                 if (mode is BMCLLaunchMode)
                 {
-                    uri = "pack://application:,,,/Resources/play-bmcl-banner.jpg";
+                    //uri = "pack://application:,,,/Resources/play-bmcl-banner.jpg";
+                    gui.Icon = Application.Current.Resources["task_play_mc_bmcl_icon"] as Visual;
                 }
                 if (mode is BakaXLLaunchMode)
                 {
-                    uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
+                    //uri = "pack://application:,,,/Resources/play-bakaxl-banner.jpg";
+                    gui.Icon = Application.Current.Resources["task_play_mc_bakaxl_icon"] as Visual;
                 }
-                TaskListBar gui = new TaskListBar() { ImgSrc = new BitmapImage(new Uri(uri)) };
                 var task = new LaunchMCThread(options);
                 task.StateChange += delegate (string state)
                 {
@@ -785,13 +798,42 @@ namespace MTMCL.util
         }
     }
 
+    internal sealed class ValuesValueFromPairConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var obj = value;
+            if (value is KeyValuePair<object, object> pair)
+            {
+                obj = pair;
+            }
+            try
+            {
+                var b = obj.GetType().GetProperty((string)parameter, BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+                if (b != null) return b.GetValue(obj, null);
+                var a = obj.GetType().GetField((string)parameter, BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+                if (a != null) return a.GetValue(obj);
+                return DependencyProperty.UnsetValue;
+            }
+            catch (Exception)
+            {
+                return DependencyProperty.UnsetValue;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     internal sealed class VersionComparer : IComparer
     {
         public bool Descending { get; set; }
         public int Compare (object x, object y)
         {
-            if (x is string & y is string) return Compare(x as string, y as string);
-            if (x is Forge.ForgeMajorVersions & y is Forge.ForgeMajorVersions)
+            if (x is string && y is string) return Compare(x as string, y as string);
+            if (x is Forge.ForgeMajorVersions && y is Forge.ForgeMajorVersions)
                 return Compare((x as Forge.ForgeMajorVersions).Version, (y as Forge.ForgeMajorVersions).Version);
             return Comparer.Default.Compare(x, y);
         }
@@ -801,18 +843,18 @@ namespace MTMCL.util
             if (x.Equals(y)) return 0;
             var ax = x.Split('.');
             var ay = y.Split('.');
-            for (int i=0;i< ax.Length | i< ay.Length;i++) {
+            for (int i=0;i< ax.Length || i< ay.Length;i++) {
                 if (ax.Length <= i) return Descending ? 1 : -1;
                 if (ay.Length <= i) return Descending ? -1 : 1;
                 var rx = System.Text.RegularExpressions.Regex.Match(ax[i], @"(\d+)(_pre\d*)?");
                 var ry = System.Text.RegularExpressions.Regex.Match(ay[i], @"(\d+)(_pre\d*)?");
-                if (rx.Success & !string.IsNullOrWhiteSpace(rx.Groups[2].Value))
+                if (rx.Success && !string.IsNullOrWhiteSpace(rx.Groups[2].Value))
                 {
                     if (int.Parse(rx.Groups[1].Value) > int.Parse(ry.Groups[1].Value))
                         return Descending ? -1 : 1;
                     else return Descending ? 1 : -1;
                 }
-                if (ry.Success & !string.IsNullOrWhiteSpace(ry.Groups[2].Value)) {
+                if (ry.Success && !string.IsNullOrWhiteSpace(ry.Groups[2].Value)) {
                     if (int.Parse(ry.Groups[1].Value) > int.Parse(rx.Groups[1].Value))
                         return Descending ? 1 : -1;
                     else return Descending ? -1 : 1;

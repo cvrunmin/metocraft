@@ -32,8 +32,8 @@ namespace MTMCL.Task
         public TaskDetail(Grid parent, TaskListBar task) : this() {
             this.parent = parent;
             this.task = task;
-            string uri = ((BitmapImage)task.ImgSrc).UriSource.OriginalString;
-            ImgSrc = new BitmapImage(new Uri(uri.Replace("-banner", "")));
+            /*string uri = ((BitmapImage)task.ImgSrc).UriSource.OriginalString;
+            ImgSrc = new BitmapImage(new Uri(uri.Replace("-banner", "")));*/
             lblName.Content = task.TaskName;
             lblState.Content = task.TaskStatus;
             task.OnLogUpdate += TaskBarLogUpdate;
