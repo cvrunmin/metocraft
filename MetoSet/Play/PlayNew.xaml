@@ -33,7 +33,7 @@
                     <Grid Margin="0,0,0,20">
                         <Image x:Name="imgType" Source="{Binding type, ConverterParameter=pack://application:\,\,\,/Resources/remote-mc-\{0\}.png, Converter={StaticResource ImageConverter}, FallbackValue=pack://application:\,\,\,/Resources/remote-unknown.png}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10">
                             <Image.Effect>
-                                <effect:GrayscaleEffect x:Name="grayscale" DesaturationFactor="{Binding errored, Converter={StaticResource InvertBoolConverter}}"/>
+                                <effect:GrayscaleEffect x:Name="grayscale" DesaturationFactor="{Binding Error, Converter={StaticResource InvertBoolConverter}}"/>
                             </Image.Effect>
                         </Image>
                         <!--<Image Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,10,100,60" Source="/MTMCL;component/Resources/remote-unknown.png"/>

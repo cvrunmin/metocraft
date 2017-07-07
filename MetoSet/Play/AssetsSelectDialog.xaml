@@ -86,6 +86,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="butOk" Grid.Column="1" Content="{DynamicResource Confirm}" Click="butOk_Click"/>
             <Button x:Name="butCancel" Grid.Column="3" Content="{DynamicResource Cancel}" Click="butCancel_Click"/>
+            <CheckBox x:Name="chkboxForce" Content="Redownload existing resources" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
     </Dialog:CustomDialog.DialogBottom>
     <Grid>
@@ -99,7 +100,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Value, ConverterParameter=Assets, Converter={StaticResource ValuesValueFromPairConverter}, IsAsync=True}" Header="{DynamicResource Assets}" Width="320"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Value, ConverterParameter=Assets, Converter={StaticResource ValuesValueFromPairConverter}, IsAsync=True}" Header="{DynamicResource Assets}" Width="320" utils:GridViewSort.PropertyName="Value" utils:GridViewSort.AutoSort="True"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Value, ConverterParameter=Exist, Converter={StaticResource ValuesValueFromPairConverter}, IsAsync=True}" Header="{DynamicResource Exist}" utils:GridViewSort.PropertyName="Exist" Width="75"/>
                 </GridView>
             </ListView.View>

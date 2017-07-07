@@ -86,24 +86,7 @@ namespace MTMCL.util
             }
         }
 
-        static public bool IfFileVaild(string Path, long Length = -1)
-        {
-            if (!File.Exists(Path))
-            {
-                return false;
-            }
-            if (new FileInfo(Path).Length == 0)
-            {
-                return false;
-            }
-            if (Length != -1)
-            {
-                if (new FileInfo(Path).Length != Length)
-                    return false;
-            }
-            return true;
-        }
-        static public bool IfFileVaild(string Path, long Length, string sha1)
+        static public bool IfFileVaild(string Path, long Length = -1, string sha1 = "")
         {
             if (!File.Exists(Path))
             {

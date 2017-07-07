@@ -43,7 +43,7 @@ namespace MTMCL
             this.parent = parent;
             mcversion = mcver;
             DataContext = mcversion;
-            if (mcversion.errored)
+            if (mcversion.Error)
             {
                 tabAssets.Visibility = Visibility.Collapsed;
                 tabLib.Visibility = Visibility.Collapsed;
@@ -51,7 +51,7 @@ namespace MTMCL
                 butPlay.IsEnabled = false;
                 butDLAssets.IsEnabled = false;
                 gridMissInherit.Visibility = Visibility.Visible;
-                if (mcversion.baseErrored)
+                if (mcversion.BaseErrored)
                     butDLtoFix.Visibility = Visibility.Collapsed;
             }
         }
@@ -187,10 +187,10 @@ namespace MTMCL
                             file = file.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
                         }
                     }
-                    FileHelper.CreateDirectoryForFile(file);
+                    CreateDirectoryForFile(file);
                     try
                     {
-                        if (FileHelper.IfFileVaild(file, entity.Value.Size))
+                        if (IfFileVaild(file, entity.Value.Size, entity.Value.Hash))
                         {
                             if (force) {
                                 task.log(Logger.HelpLog(string.Format("{0} exists, delete it", entity.Key)));
@@ -226,21 +226,26 @@ namespace MTMCL
         }
 
         private Dictionary<string, AssetsEntity> GetAssetsIndexObject(TaskListBar task)
-        {            
+        {
             VersionJson _version = null;
             do
             {
-                Dispatcher.Invoke(new Action(() => _version = mcversion));
+            Dispatcher.BeginInvoke(new Action(() => _version = mcversion));
             } while (_version == null);
+            /*if (_version.assetIndex == null)
+            {
+                task?.log("Simplified version json read, redownloading full json");
+
+            }*/
             string indexpath = MeCore.Config.MCPath + "\\assets\\indexes\\" + _version.assets + ".json";
             if (MeCore.IsServerDedicated && !string.IsNullOrWhiteSpace(MeCore.Config.Server.ClientPath))
-                {
-                    indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
-                }
-            if (!File.Exists(indexpath))
             {
-                task?.log(Logger.HelpLog("Assets Index is missing, try downloading"));
-                FileHelper.CreateDirectoryForFile(indexpath);
+                indexpath = indexpath.Replace(MeCore.Config.MCPath, Path.Combine(MeCore.BaseDirectory, MeCore.Config.Server.ClientPath));
+            }
+            if (!IfFileVaild(indexpath, (_version.assetIndex?.size).Value, _version.assetIndex?.sha1))
+            {
+                task?.log(Logger.HelpLog("Assets Index is not valid, try downloading"));
+                CreateDirectoryForFile(indexpath);
                 string result = new WebClient().DownloadString(new Uri(MTMCL.Resources.UrlReplacer.getDownloadUrl() + "indexes/" + _version.assets + ".json"));
                 StreamWriter sw = new StreamWriter(indexpath);
                 sw.Write(result);
@@ -275,7 +280,7 @@ namespace MTMCL
 
         private async void grid_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!mcversion.errored)
+            if (!mcversion.Error)
             {
                 var dtlib = new DataTable();
                 dtlib.Columns.Add("Lib");
@@ -327,7 +332,7 @@ namespace MTMCL
                     TaskListBar task = new TaskListBar() { ImgSrc = new BitmapImage(new Uri("pack://application:,,,/Resources/download-banner.jpg")) };
                     var thGet = new Thread(new ThreadStart(delegate
                     {
-                        DownloadAssets(task, e1.SelectedEntities.ToDictionary(pair=> pair.Key, pair=> (Assets.AssetsEntity)pair.Value));
+                        DownloadAssets(task, e1.SelectedEntities.ToDictionary(pair=> pair.Key, pair=> (Assets.AssetsEntity)pair.Value), e1.ForceDownload);
                     }));
                     MeCore.MainWindow.addTask("dl-assets", task.setThread(thGet).setTask(LangManager.GetLocalized("TaskDLAssets")));
                     MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon("MTMCL", string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskDLAssets"))));

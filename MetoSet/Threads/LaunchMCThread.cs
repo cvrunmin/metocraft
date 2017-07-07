@@ -135,9 +135,9 @@ namespace MTMCL.Threads
             args.Add("auth_session", ai.Session.ToString().Replace("-", ""));
             args.Add("auth_player_name", ai.DisplayName);
             args.Add("version_name", _LaunchOptions.Version.id);
-            args.Add("game_directory", ".");
-            args.Add("game_assets", "assets");
-            args.Add("assets_root", "assets");
+            args.Add("game_directory", @"""" + Path.GetFullPath(_LaunchOptions.MCPath) + @"""");
+            args.Add("game_assets", @"""" + Path.Combine(_LaunchOptions.MCPath, "assets") + @"""");
+            args.Add("assets_root", @"""" + Path.Combine(_LaunchOptions.MCPath, "assets") + @"""");
             args.Add("assets_index_name", _LaunchOptions.Version.assets);
             args.Add("auth_uuid", ai.UUID.ToString().Replace("-", ""));
             args.Add("user_properties", ai.Prop);

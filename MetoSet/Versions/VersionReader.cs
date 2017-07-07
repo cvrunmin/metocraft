@@ -38,16 +38,16 @@ namespace MTMCL.Versions
                     shadow.jar = deep.jar;
                 }
                 shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray();
-                if (deep.errored)
+                if (deep.Error)
                 {
-                    shadow.errored = true;
-                    shadow.baseErrored = true;
+                    shadow.Error = true;
+                    shadow.BaseErrored = true;
                 }
             }
             else
             {
                 Logger.log(string.Format("Inherit version {0} doesn't have a valid base version {1}. Skip it.", shadow.id, shadow.inheritsFrom));
-                shadow.errored = true;
+                shadow.Error = true;
                 return shadow;
             }
             return shadow;
@@ -81,16 +81,16 @@ namespace MTMCL.Versions
                     shadow.jar = deep.jar;
                 }
                 shadow.libraries = shadow.libraries.Concat(deep.libraries).ToArray();
-                if (deep.errored)
+                if (deep.Error)
                 {
-                    shadow.errored = true;
-                    shadow.baseErrored = true;
+                    shadow.Error = true;
+                    shadow.BaseErrored = true;
                 }
             }
             else
             {
                 Logger.log(string.Format("Inherit version {0} doesn't have a valid base version {1}. Skip it.", shadow.id, shadow.inheritsFrom));
-                shadow.errored = true;
+                shadow.Error = true;
                 return shadow;
             }
             return shadow;
@@ -140,7 +140,7 @@ namespace MTMCL.Versions
                                 if (verj != null)
                                 {
                                     list.Add(verj);
-                                    if (verj.errored)
+                                    if (verj.Error)
                                     {
                                         if (!err.ContainsKey(verj.inheritsFrom))
                                             err.Add(verj.inheritsFrom, new List<string>());

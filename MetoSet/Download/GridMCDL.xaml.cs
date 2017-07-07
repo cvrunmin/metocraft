@@ -201,12 +201,16 @@ namespace MTMCL
                         {
                             Directory.CreateDirectory(Path.GetDirectoryName(downpath.ToString()));
                         }
-                        string downjsonfile = downurl.ToString().Substring(0, downurl.Length - 4) + ".json";
-                        if (!string.IsNullOrWhiteSpace(ver.url) & MeCore.Config.DownloadSource == 0)
-                        {
-                            downjsonfile = ver.url;
-                        }
-                        string downjsonpath = downpath.ToString().Substring(0, downpath.Length - 4) + ".json";
+                        string downjsonpath;
+                        DownloadJson(ver, downer, taskbar, out downjsonpath);
+                        await TaskEx.Delay(TimeSpan.FromMilliseconds(500));
+                        taskbar.log(Logger.HelpLog(string.Format("Start reading json of version {0} for further downloading", selectver)));
+                        var sr = new StreamReader(downjsonpath);
+                        VersionJson verjson = JsonConvert.DeserializeObject<VersionJson>(sr.ReadToEnd());
+                        sr.Close();
+                        var sw = new StreamWriter(downjsonpath);
+                        sw.Write(JsonConvert.SerializeObject(verjson, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
+                        sw.Close();
                         try
                         {
                             downer.DownloadFileCompleted += delegate (object sender, AsyncCompletedEventArgs e)
@@ -218,28 +222,10 @@ namespace MTMCL
                             {
                                 Dispatcher.Invoke(new Action(() => taskbar.setTaskStatus(e.ProgressPercentage + "%")));
                             };
-                            taskbar.log(Logger.HelpLog("Start download file from url " + downjsonfile));
-                            try
-                            {
-                                downer.DownloadFile(new Uri(downjsonfile), downjsonpath);
-                            }
-                            catch (Exception)
-                            {
-                                taskbar.noticeFailed();
-                                return;
-                            }
-                            taskbar.log(Logger.HelpLog("Finish downloading file " + downjsonfile));
-                            await TaskEx.Delay(TimeSpan.FromMilliseconds(500));
-                            taskbar.log(Logger.HelpLog(string.Format("Start reading json of version {0} for further downloading", selectver)));
-                            var sr = new StreamReader(downjsonpath);
-                            VersionJson verjson = JsonConvert.DeserializeObject<VersionJson>(sr.ReadToEnd());
-                            sr.Close();
-                            var sw = new StreamWriter(downjsonpath);
-                            sw.Write(JsonConvert.SerializeObject(verjson.Simplify(), Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
-                            sw.Close();
+                            
                             if (verjson.downloads?.client?.url != null)
                             {
-                                 downurl.Clear().Append(verjson.downloads.client.url);
+                                downurl.Clear().Append(verjson.downloads.client.url);
                             }
                             taskbar.log(Logger.HelpLog("Start download file from url " + downurl.ToString()));
                             downer.DownloadFileAsync(new Uri(downurl.ToString()), downpath.ToString());
@@ -257,6 +243,34 @@ namespace MTMCL
                 MeCore.MainWindow.addTask("dl-mcclient-" + ver.id, taskbar.setThread(task).setTask(LangManager.GetLocalized("TaskDLMC")).setDetectAlive(false));
                 MeCore.MainWindow.addBalloonNotice(new Notice.NoticeBalloon(LangManager.GetLocalized("Download"), string.Format(LangManager.GetLocalized("BalloonNoticeSTTaskFormat"), LangManager.GetLocalized("TaskDLMC"))));
             
+        }
+
+        internal static void DownloadJson(RemoteVerType selectver, WebClient downloader, TaskListBar taskbar, out string downjsonfile)
+        {
+            var downpath = new StringBuilder(MeCore.Config.MCPath + @"\versions\");
+            downpath.Append(selectver.id).Append("\\");
+            downpath.Append(selectver.id).Append(".json");
+            var downurl = new StringBuilder(MTMCL.Resources.UrlReplacer.getDownloadUrl());
+            downurl.Append(@"versions\");
+            downurl.Append(selectver.id).Append("\\");
+            downurl.Append(selectver.id).Append(".json");
+            downjsonfile = downurl.ToString();
+            if (!string.IsNullOrWhiteSpace(selectver.url) & MeCore.Config.DownloadSource == 0)
+            {
+                downjsonfile = selectver.url;
+            }
+            string downjsonpath = downpath.ToString();
+            taskbar.log(Logger.HelpLog("Start download file from url " + downjsonfile));
+            try
+            {
+                downloader.DownloadFile(new Uri(downjsonfile), downjsonpath);
+            }
+            catch (Exception)
+            {
+                taskbar.noticeFailed();
+                return;
+            }
+            taskbar.log(Logger.HelpLog("Finish downloading file " + downjsonfile));
         }
 
         private void butDL_Click(object sender, RoutedEventArgs e)

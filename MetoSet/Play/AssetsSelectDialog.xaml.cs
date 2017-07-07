@@ -33,8 +33,8 @@ namespace MTMCL
         private void butOk_Click(object sender, RoutedEventArgs e)
         {
             var a = listAsset.SelectedItems;
-            var b = (IList<KeyValuePair<string, Assets.PackedAssetsEntity>>)a;
-            OnClosing?.Invoke(this, new ClosingEventArgs(true, b.ToDictionary(pair=>pair.Key, pair=>pair.Value)));
+            var b = a.Cast<KeyValuePair<string, Assets.PackedAssetsEntity>>();
+            OnClosing?.Invoke(this, new ClosingEventArgs(true, b.ToDictionary(pair=>pair.Key, pair=>pair.Value), chkboxForce.IsChecked.Value));
         }
 
         private void butCancel_Click(object sender, RoutedEventArgs e)
@@ -44,11 +44,13 @@ namespace MTMCL
 
         public class ClosingEventArgs : EventArgs {
             public bool IsOk { get; private set; }
+            public bool ForceDownload { get; private set; }
             public Dictionary<string, Assets.PackedAssetsEntity> SelectedEntities { get; private set; }
-            public ClosingEventArgs(bool isok, Dictionary<string, Assets.PackedAssetsEntity> dict)
+            public ClosingEventArgs(bool isok, Dictionary<string, Assets.PackedAssetsEntity> dict, bool force = false)
             {
                 IsOk = isok;
                 SelectedEntities = dict;
+                ForceDownload = force;
             }
         }
 

@@ -23,11 +23,23 @@ namespace MTMCL.Report
         {
             InitializeComponent();
         }
+        object _obj = new object();
         public void WriteLine (string Log)
         {
-            sb.AppendLine(Log);
-            //textBlock.Text = sb.ToString();
-            Dispatcher.BeginInvoke(new System.Windows.Forms.MethodInvoker( delegate() { textBlock.Text = sb.ToString(); }));
+            lock (_obj)
+            {
+                try
+                {
+                    sb.AppendLine(Log);
+                    Dispatcher.Invoke(new System.Windows.Forms.MethodInvoker(delegate () { textBlock.Text = sb.ToString(); }));
+                }
+                catch (Exception)
+                {
+                    textBlock.Text = "Error occurred, ";
+                    System.Threading.Tasks.TaskEx.Delay(5000);
+                    Dispatcher.Invoke(new Action(() => textBlock.Text = sb.ToString()));
+                }
+            }
         }
     }
 }

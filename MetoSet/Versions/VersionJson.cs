@@ -103,10 +103,10 @@ namespace MTMCL.Versions
     {
         [IgnoreDataMember]
         [JsonIgnore]
-        public bool errored { get; set; }
+        public bool Error { get; set; }
         [IgnoreDataMember]
         [JsonIgnore]
-        public bool baseErrored { get; set; }
+        public bool BaseErrored { get; set; }
         [DataMember]
         public string assets{ get; set; }
         [DataMember]
